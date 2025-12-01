@@ -6,6 +6,9 @@
 \origin unavailable
 \textclass book
 \use_default_options true
+\begin_modules
+theorems-ams
+\end_modules
 \maintain_unincluded_children no
 \language english
 \language_package default
@@ -34,7 +37,16 @@
 \float_alignment class
 \paperfontsize default
 \spacing single
-\use_hyperref false
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
 \papersize default
 \use_geometry false
 \use_package amsmath 1
@@ -136,27 +148,791 @@ Positioning
 
 \begin_layout Chapter
 Context Ensemble Local Learning (CELL)
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:Context-Ensemble-Local"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To achieve speed recommendation we need to model the behavior of a vehicle driven by a human driver in response to speed recommendation set points.
+ Thus,
+ we need a modeling algorithm able to perform online learning and learn efficiently seeing a data point once while having transparent and explainable inner workings.
+ For that reason we explored the use of multiagent systems as a mean of solving supervised learning tasks in an online fashion as introduced 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "boesSelfAdaptiveContextLearning2015,fourezEnsembleMultiAgentSystem2022"
+literal "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
 In this chapter we present a continuous learning framework:
  CELL (Context Ensemble Local Learning).
- Our approach addresses online supervised learning through simple self-organization of multiple local experts paving the feature space.
+ Our approach addresses online supervised learning through simple self-organization of multiple local expert agents paving the feature space.
+ Each agent only has a local perspective on the function to approximate and acts locally to achieve its own objective which is becoming an expert local predictor.
+ By designing Contrary to previous works on this type of system 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "boesSelfAdaptiveContextLearning2015,fourezEnsembleMultiAgentSystem2022"
+literal "false"
+
+\end_inset
+
+,
+ we introduce novelties regarding the explainability while exploring new cooperation mechanisms between agents and new spatialization approaches.
 \end_layout
 
 \begin_layout Standard
 By leveraging the spatialization of local experts and the inherent transparency of the model,
  we derive unique informative explainability properties that provide valuable insights about the approximated function.
  Furthermore,
- we outline practical guidelines for scaling this approach to higher-dimensional input spaces.
+ we outline practical guidelines for scaling with the number of agents,
+ keeping a bounded computational complexity.
 \end_layout
 
 \begin_layout Section
-Multiagent Ensemble Learning with Orthotopes
+Background
+\end_layout
+
+\begin_layout Subsection
+Multi-Agent Learning
+\end_layout
+
+\begin_layout Standard
+Multi-agent systems (MAS) have gained popularity due to their ability to solve complex problems by breaking them down into simpler sub-problems that can be easily addressed by autonomous agents,
+ whether interconnected or not 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "dorri2018multi"
+literal "false"
+
+\end_inset
+
+.
+ The interaction rules between agents or with the environment are defined by the system designer to achieve a specific objective.
+ The use of MAS has proven effective in fields such as civil engineering 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SHAMSHIRBAND20132105"
+literal "false"
+
+\end_inset
+
+ or eletrical engineering,
+ particularly with issues related to smart grids 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "rohbogner2014design"
+literal "false"
+
+\end_inset
+
+.
+ In more recent years,
+ reinforcement learning has been seriously considered to bypass the phase of designing rules that define agent behavior.
+ Indeed,
+ in Multi-Agent Reinforcement Learning (MARL),
+ agents' behaviors are learned using reinforcement signals obtained by continuously interacting with an environment 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "canese2021multi"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In this chapter,
+ we present various iterations of CELL,
+ a MAS that combines both approaches to tackle online supervised learning problems.
+ Atomic agents of the system update using both reinforcement learning signals and cooperation rules.
+ Unlike MARL,
+ our approach requires fewer environment interactions and focuses on specialized agents collaborating within a supervised learning framework,
+ differing from MARL's dynamic interactions aiming to maximize cumulative rewards through adaptive strategies (
+\emph on
+competitive
+\emph default
+ or 
+\emph on
+cooperative
+\emph default
+) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "canese2021multi"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Ensemble Learning
+\end_layout
+
+\begin_layout Standard
+To achieve more accurate predictions and provide better approximations of nonlinear functions,
+ it is common to aggregate multiple models for making predictions.
+\end_layout
+
+\begin_layout Standard
+Ensemble learning is based on the emergence of collective intelligence within a set of weak learners.
+ A weak learner is a model whose performance is at least as good as a model making random predictions.
+ During the learning process,
+ a set of models (which may differ from one another) are trained in parallel or sequentially 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "polikarEnsembleLearning2012"
+literal "false"
+
+\end_inset
+
+.
+ The objective is to encourage diversity among the models so that they do not all capture the same patterns in the data 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "dietterichEnsembleMethodsMachine2000"
+literal "false"
+
+\end_inset
+
+.
+ An input is transmitted to all weak learners,
+ each of which makes a prediction proposal.
+ A heuristic is implemented to select one of the proposals or to weight each of them in order to construct the final prediction.
+ We distinguish several major approaches in ensemble learning which are Boosting,
+ Bagging and Stacking.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Add figure to compare bagging,
+ boosting and stacking
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In Bagging we train multiple models (usually homogeneous) in parallel on different subsets of the training data to introduce diversity,
+ reduce variance and improve stability.
+ Then the final prediction is obtained by averaging the predictions of the weak learners (regression) or by majority voting (classification).
+ Unlike Bagging,
+ in Boosting,
+ we train the models sequentially.
+ Each new model focuses on correcting the errors of the previous ones to reduce bias and improve accuracy.
+ Then we obtain the final prediction from a weighted average of the predictions of the all the weak learners.
+ Finally,
+ we have Stacking that falls under meta-learning.
+ We train in parallel a set of heterogeneous models and then we train a meta-model whose role will be to combine the predictions of each model to obtain the final output fo the system,
+ in order to capture complementary strengths of each learning algorithms involved in the learning process.
+\end_layout
+
+\begin_layout Standard
+The system we present in this chapter,
+ CELL,
+ falls withing the ensemble learning framework and we could label it as a Bagging approach because we consider a set of weak learners as a collection of self-organizing cooperative agents.
+ Each one of them is a local expert on the function to be approximated.
 \end_layout
 
 \begin_layout Section
-Kernel Spatialization
+oCELL:
+ MAS Ensemble Learning with Orthotopes
+\end_layout
+
+\begin_layout Standard
+In this section we describe the first variant of CELL that we name oCELL (orthotope CELL).
+ We explore context agent based systems composed of multiple autonomous agents with their own capabilities and only local knowledge of the environment.
+\end_layout
+
+\begin_layout Standard
+Our system is based on the Self-Adaptive Context Learning (SACL) paradigm 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "boesSelfAdaptiveContextLearning2015"
+literal "false"
+
+\end_inset
+
+.
+ During the learning phase,
+ observations are collected and sequentially provided to the Context agents,
+ which are updated and created on the go as needed.
+ A Context agent is activated upon receiving a new observation,
+ this is the spatialization component of the system.
+ Then,
+ the activated agents,
+ that are supposedly expert,
+ make suggestions about what the output value should be.
+ Feedback on the qulity of the suggestion is provided to the activated agent.
+ This feedback indicates whether the suggestion is good,
+ imprecise or bad.
+ Based on this feedback,
+ the concerned Context agent can determine if its suggestion has caused conflicts with other agents or if it has disrupted the cooperation of the group.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Insert description of subsequent section content
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Context Agents
+\end_layout
+
+\begin_layout Standard
+The main entities of oCELL are the Context agents.
+ A Context agent 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ is characterized by an activation function 
+\begin_inset Formula $\phi_{i}\left(x\right)$
+\end_inset
+
+ and a prediction function 
+\begin_inset Formula $f_{i}\left(x\right)$
+\end_inset
+
+ such as 
+\begin_inset Formula 
+\[
+\mathcal{A}_{i}=\left\{ \phi_{i}\left(x\right),f_{i}\left(x\right)\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Each Context agent can refine the parameters of its internal activation and prediction function to adapt to its local surroundings depending on reinforcement signals it receives.
+ To summarize,
+ a Context agent can be considered as a local expert to the function to be approximated with its activation function telling it 
+\emph on
+When
+\emph default
+ it should predict and with its prediction function telling it 
+\emph on
+What
+\emph default
+ to predict.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Insert description of subsequent section content
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Spatialization with Orthotopes
+\end_layout
+
+\begin_layout Standard
+As we need a transparent and interpretable system,
+ we chose to spatialize our Context agents using orthotopes.
+ the use of orthotopes allows us to precisely evaluate how agents have organized themselves feature-wise while also simplihying the shape change mechanisms required for self-organisation of Context agents.
+\end_layout
+
+\begin_layout Standard
+Learning with orthotopes (often referred to as hyper-rectangles in literature) is an approach already explored in literature for supervised learning 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "fourezEnsembleMultiAgentSystem2022,konstantinov2023interpretable"
+literal "false"
+
+\end_inset
+
+.
+ Usually,
+ these approaches aim to partition the feature space into orthotopes to then model locally the function to approximate.
+ For example,
+ in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "konstantinov2023interpretable"
+literal "false"
+
+\end_inset
+
+,
+ the authors leverage a gradient boosting approach to learn the bounds of the orthotopes with each corresponding to a very simple base model (constant value),
+ not suitable for online learning from a stream of data.
+\end_layout
+
+\begin_layout Standard
+In terms of spatialization of agents,
+ oCELL borrows a similar approach to 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "fourezEnsembleMultiAgentSystem2022"
+literal "false"
+
+\end_inset
+
+,
+ in which authors use SACL learning paradigm 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "boesSelfAdaptiveContextLearning2015"
+literal "false"
+
+\end_inset
+
+ to solve a classification task from a stream of data by progressively paving the feature space with context agents.
+ However,
+ unlike 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "fourezEnsembleMultiAgentSystem2022"
+literal "false"
+
+\end_inset
+
+,
+ we address issues specifically related to regression problems such as a need for a smoother spatialization of agents.
+\end_layout
+
+\begin_layout Standard
+In oCELL,
+ each Context agent activation function's parameters correspond to a 
+\begin_inset Formula $p$
+\end_inset
+
+-dimensional orthotope in the feature space.
+ This orthotope si defined for each feature dimension 
+\begin_inset Formula $j\in\left\{ 1,\dots,p\right\} $
+\end_inset
+
+ by a lower bound 
+\begin_inset Formula $l_{j}$
+\end_inset
+
+ and an upper bound 
+\begin_inset Formula $h_{j}$
+\end_inset
+
+ such as
+\begin_inset Formula 
+\[
+\mathcal{H}_{i}=\left[l_{1},h_{1}\right]\times\dots\times\left[l_{p},h_{p}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The volume 
+\begin_inset Formula $v\left(\mathcal{A}_{i}\right)$
+\end_inset
+
+ of the orthotope associated to 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ is defined by
+\begin_inset Formula 
+\[
+v\left(\mathcal{A}_{i}\right)=\prod_{j=1}^{p}\left(h_{j}-l_{j}\right)
+\]
+
+\end_inset
+
+Furthermore,
+ an observation 
+\begin_inset Formula $x\in\mathbb{R}^{p}$
+\end_inset
+
+ is considered as intersecting an hyperrectangle if,
+ for all feature 
+\begin_inset Formula $j$
+\end_inset
+
+ we have 
+\begin_inset Formula 
+\[
+l_{j}\leq x_{j}\leq h_{j}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Additionaly,
+ an orthotope 
+\begin_inset Formula $\mathcal{H}_{1}$
+\end_inset
+
+ intersects another orthotope 
+\begin_inset Formula $\mathcal{H}_{2}$
+\end_inset
+
+ if,
+ for all feature 
+\begin_inset Formula $j$
+\end_inset
+
+ we have
+\begin_inset Formula 
+\[
+\max\left(l_{1,j},l_{2,j}\right)\leq\min\left(h_{1,j},h_{2,j}\right)
+\]
+
+\end_inset
+
+with 
+\begin_inset Formula $l_{1,j}$
+\end_inset
+
+,
+\begin_inset Formula $l_{2,j}$
+\end_inset
+
+ and 
+\begin_inset Formula $h_{1,j}$
+\end_inset
+
+,
+\begin_inset Formula $h_{2,j}$
+\end_inset
+
+ respectively the lower and upper bounds of 
+\begin_inset Formula $\mathcal{H}_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathcal{H}_{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "fourezEnsembleMultiAgentSystem2022"
+literal "false"
+
+\end_inset
+
+,
+ authors defined spatialization rules such that overlap between agents would be minimized to avoid ambiguity in decision making to predict the class of a sample.
+ For a regression task,
+ it can be more informative to average the predictions of several weak models to smooth the learned function.
+ This property is all the more interesting because it would make our model easier to use in a non linear optimization process 
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Add ref to optim Chapter
+\end_layout
+
+\end_inset
+
+.
+ Thus,
+ to smooth the learned function,
+ we allow intersections between agents and introduce the concept of neighborhood.
+ Therefore we provide the following definitions:
+\end_layout
+
+\begin_layout Definition
+A Context Agent 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+ if considered activated by an observation 
+\begin_inset Formula $x$
+\end_inset
+
+ if 
+\begin_inset Formula $x$
+\end_inset
+
+ intersects with the orthotope 
+\begin_inset Formula $\mathcal{H}$
+\end_inset
+
+ associated with the activation function 
+\begin_inset Formula $\phi_{\mathcal{H}}$
+\end_inset
+
+ of 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+.
+ In other words,
+ we define the activation function of 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+ as
+\begin_inset Formula 
+\[
+\phi_{\mathcal{H}}\left(x\right)=\begin{cases}
+1 & \text{if}\,\,\forall j,\,\,l_{j}\leq x_{j}\leq h_{j}\\
+0 & \text{else}
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+We define the neighborhood of an observation 
+\begin_inset Formula $x$
+\end_inset
+
+ as an orthotope 
+\begin_inset Formula $\mathcal{H}_{\text{neighborhood}}$
+\end_inset
+
+ centered on 
+\begin_inset Formula $x$
+\end_inset
+
+.
+ A 
+\emph on
+Context
+\emph default
+ Agent is considered a neighbor of 
+\begin_inset Formula $x$
+\end_inset
+
+ if the orthotope 
+\begin_inset Formula $\mathcal{H}$
+\end_inset
+
+ associated with the activation function 
+\begin_inset Formula $\phi_{\mathcal{H}}$
+\end_inset
+
+ of 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+,
+ intersects with 
+\begin_inset Formula $\mathcal{H}_{\text{neighborhood}}$
+\end_inset
+
+
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Add ref to equation of intersection between two orthotopes
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+If a 
+\emph on
+Context
+\emph default
+ agent 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+ expands (resp.
+ contracts) by a factor 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ in the direction of an observation 
+\begin_inset Formula $x\in\mathbb{R}^{p}$
+\end_inset
+
+ at time 
+\begin_inset Formula $t$
+\end_inset
+
+,
+ then the upper bounds 
+\begin_inset Formula $h_{j}^{t}$
+\end_inset
+
+ and lower bounds 
+\begin_inset Formula $l_{j}^{t}$
+\end_inset
+
+ of the associated hyperrectangle are updated to according to the following relationship:
+\begin_inset Formula 
+\begin{align}
+h_{j}^{t+1} & =\begin{cases}
+\left(h_{j}^{t}-l_{j}^{t}\right)\varepsilon^{\frac{1}{p_{+}}}+l_{j}^{t} & \text{if }l_{j}^{t}\leq x_{j}\leq h_{j}^{t}\\
+h_{j}^{t} & \text{else}
+\end{cases}\\
+l_{j}^{t+1} & =\begin{cases}
+\left(l_{j}^{t}-h_{j}^{t}\right)\varepsilon^{\frac{1}{p_{+}}}+h_{j}^{t} & \text{if }l_{j}^{t}\leq x_{j}\leq h_{j}^{t}\\
+l_{j}^{t} & \text{else}
+\end{cases}
+\end{align}
+
+\end_inset
+
+with
+\begin_inset Formula 
+\[
+\varepsilon=\begin{cases}
+\left(1+\alpha\right) & \text{if expansion}\\
+\left(1-\alpha\right) & \text{if retraction}
+\end{cases}
+\]
+
+\end_inset
+
+and 
+\begin_inset Formula $p_{+}$
+\end_inset
+
+ the number of features such that 
+\begin_inset Formula $l_{j}^{t}\leq x_{j}\leq h_{j}^{t}$
+\end_inset
+
+.
+ To summarize,
+ the new volume of the hyperrectangle associated with 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+ is given by the relation:
+\end_layout
+
+\begin_layout Definition
+\begin_inset Formula 
+\begin{align}
+v_{\mathcal{A}}^{t+1} & =\varepsilon v_{\mathcal{A}}^{t}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To summarize,
+ our agents are spatialized through their activation functions with orthotopes that define their 
+\begin_inset Quotes eld
+\end_inset
+
+area of expertise
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Finally,
+ each agent can update the parameters of its activation function,
+ effectively expanding or retracting its associated orthotope.
+ Intuitively,
+ big agents could be considered as 
+\emph on
+generalists
+\emph default
+ and smaller agents could be considered as 
+\emph on
+specialists
+\emph default
+.
+\end_layout
+
+\begin_layout Subsubsection
+Prediction
+\end_layout
+
+\begin_layout Subsection
+Learning Rules
+\end_layout
+
+\begin_layout Subsection
+Comparative Study
+\end_layout
+
+\begin_layout Subsection
+Explainability
+\end_layout
+
+\begin_layout Section
+kCELL:
+ MAS Ensemble Learning with Kernel Spatialization
+\end_layout
+
+\begin_layout Subsection
+Context Agents
+\end_layout
+
+\begin_layout Subsection
+Learning Rules
+\end_layout
+
+\begin_layout Section
+Comparative Study of CELL Variants
 \end_layout
 
 \begin_layout Section
@@ -177,6 +953,13 @@ Spatial Indexing
 
 \begin_layout Chapter
 Solving Control Tasks with CELL
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:Solving-Control-Tasks"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -224,14 +1007,242 @@ Explainable Control (LQR Explainer)
 
 \begin_layout Chapter
 Scalable Non-Linear CELL
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:Scalable-Non-Linear-CELL"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Context-Ensemble-Local"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ we presented an ensemble learning algorithm to solve continuous supervised learning tasks.
+ Then,
+ in chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Solving-Control-Tasks"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ we demonstrated how to use our approach to continuously model the dynamics of a system in order to solve a constrained control task.
+ Through our experiments,
+ we have noticed that,
+ when the state and action dimensions increased,
+ the concept of neighborhood as we have defined it loses its consistency and informativeness due to the dilation of distances in the feature space 
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+A justifier avec une petite xp à la fin du chapitre 3
+\end_layout
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Indeed,
+ when the number of features increases,
+ it is much rarer for an agent to be considered a neighbor of a new point.
+ Therefore,
+ the amoung of data required for training is much greater,
+ and the number of agents created grows rapidly.
+ Thus,
+ we identify a need to limit the growth in the number of agents to increase sample efficiency and limit redundancy in the knowledge base.
+ Until now,
+ to mitigate this problem,
+ we needed to rely on hard-to-tune hyperparameters to define the initial size of agents on each feature 
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+REF chap 3 ou papier PRIMA
+\end_layout
+
+\end_inset
+
+ or on locality hypothesis on consecutive points among a given trajectory to identify relevant closest agents 
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+REF chap 3
+\end_layout
+
+\end_inset
+
+.
+ In this chapter,
+ we present SGP-CELL a novel approach based on Gaussian Processes 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "williams1995gaussian"
+literal "false"
+
+\end_inset
+
+ effectively tailored for scalable online learning.
+ Our contributions are threefold:
+\end_layout
+
+\begin_layout Itemize
+we propose a new spatialization approach for context agents based on Principal Component Analysis (PCA) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jolliffe2011principal"
+literal "false"
+
+\end_inset
+
+ to robustify neighborhoods in larger feature spaces.
+\end_layout
+
+\begin_layout Itemize
+we introduce a new learning process for individual agents based on model selection and greedy objective minimization.
+\end_layout
+
+\begin_layout Itemize
+we demonstrate the performances and sample efficiency of SGP-CELL compared to a Sparse Gaussian Process baseline on a forward dynamics modeling task.
 \end_layout
 
 \begin_layout Section
-Scaling to higher dimensions
+Related Works
+\end_layout
+
+\begin_layout Standard
+Gaussian Processes (GP) are non-parametric Bayesian approaches to solve regression tasks while modeling uncertainty in predictions.
+ GPs have been successful in robotics to model inverse or forward dynamics of a system to solve safe non linear control problems 
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
++ de REF ?
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "berkenkamp2015safe"
+literal "false"
+
+\end_inset
+
+.
+ However,
+ GP have a high computational cost with a learning complexity of 
+\begin_inset Formula $O\left(kN^{3}\right)$
+\end_inset
+
+ with 
+\begin_inset Formula $N$
+\end_inset
+
+ the number of training points and 
+\begin_inset Formula $k$
+\end_inset
+
+ the number of optimization steps to find optimal kernel parameters,
+ which results from the inversion of the covariance matrix 
+\begin_inset Formula $K$
+\end_inset
+
+.
+ This makes GPs no able to handle large datasets.
+\end_layout
+
+\begin_layout Standard
+Approximation methods like Sparse Gaussian Processes (SGP) alleviate this scaling issue.
+ Instead of using the whole training dataset to build the model,
+ a set of 
+\begin_inset Formula $M$
+\end_inset
+
+ inducing points (with 
+\begin_inset Formula $N\gg M$
+\end_inset
+
+) are selected to represent the whole dataset.
+ The inducing points allow for a cheaper low-rank representation for approximating the posterior distribution lowering the complexity to 
+\begin_inset Formula $O\left(NM^{2}\right)$
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "snelson2005sparse,naish2007generalized"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Other works have extended SGP with Variational Inference to further enhance scalability with stochastic minibatch optimization to handle large datasets,
+ improve generalization and reduce overfitting 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "titsias2009variational,bauer2016understanding"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+For
+\end_layout
+
+\begin_layout Subsection
+Gaussian Process Regression
+\end_layout
+
+\begin_layout Subsection
+Online Gaussian Processes
 \end_layout
 
 \begin_layout Section
-GP-CELL
+SGP-CELL
+\end_layout
+
+\begin_layout Subsection
+Scaling Neighborhoods
+\end_layout
+
+\begin_layout Subsection
+Non-Linear Local Modeling
+\end_layout
+
+\begin_layout Section
+Experiments
+\end_layout
+
+\begin_layout Section
+Conclusion and limitations
 \end_layout
 
 \begin_layout Chapter
@@ -254,6 +1265,19 @@ The enforcement of the EU General Safety Regulation has accelerated the adoption
 
 \begin_layout Chapter
 Conclusion and Future Works
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "manuscript"
+options "plain"
+encoding "default"
+
+\end_inset
+
+
 \end_layout
 
 \end_body
