@@ -326,6 +326,29 @@ Add figure to compare bagging,
 \end_inset
 
 
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Visual comparison of bagging,
+ boosting and stacking
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -358,10 +381,7 @@ oCELL:
 \begin_layout Standard
 In this section we describe the first variant of CELL that we name oCELL (orthotope CELL).
  We explore context agent based systems composed of multiple autonomous agents with their own capabilities and only local knowledge of the environment.
-\end_layout
-
-\begin_layout Standard
-Our system is based on the Self-Adaptive Context Learning (SACL) paradigm 
+ Our system is based on the Self-Adaptive Context Learning (SACL) paradigm 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "boesSelfAdaptiveContextLearning2015"
@@ -369,8 +389,16 @@ literal "false"
 
 \end_inset
 
-.
- During the learning phase,
+ to address an online supervised learning problem in which we want to learn a function 
+\begin_inset Formula $f:\mathbb{R}^{n}\rightarrow\mathbb{R}^{m}$
+\end_inset
+
+ mapping feature to target vectors from a stream of data.
+ 
+\end_layout
+
+\begin_layout Standard
+During the learning phase,
  observations are collected and sequentially provided to the Context agents,
  which are updated and created on the go as needed.
  A Context agent is activated upon receiving a new observation,
@@ -533,7 +561,7 @@ In oCELL,
 
 -dimensional orthotope in the feature space.
  This orthotope si defined for each feature dimension 
-\begin_inset Formula $j\in\left\{ 1,\dots,p\right\} $
+\begin_inset Formula $j\in\left\{ 1,\dots,n\right\} $
 \end_inset
 
  by a lower bound 
@@ -547,7 +575,7 @@ In oCELL,
  such as
 \begin_inset Formula 
 \[
-\mathcal{H}_{i}=\left[l_{1},h_{1}\right]\times\dots\times\left[l_{p},h_{p}\right]
+\mathcal{H}_{i}=\left[l_{1},h_{1}\right]\times\dots\times\left[l_{n},h_{n}\right]
 \]
 
 \end_inset
@@ -567,14 +595,14 @@ The volume
  is defined by
 \begin_inset Formula 
 \[
-v\left(\mathcal{A}_{i}\right)=\prod_{j=1}^{p}\left(h_{j}-l_{j}\right)
+v\left(\mathcal{A}_{i}\right)=\prod_{j=1}^{n}\left(h_{j}-l_{j}\right)
 \]
 
 \end_inset
 
 Furthermore,
  an observation 
-\begin_inset Formula $x\in\mathbb{R}^{p}$
+\begin_inset Formula $x\in\mathbb{R}^{n}$
 \end_inset
 
  is considered as intersecting an hyperrectangle if,
@@ -799,7 +827,7 @@ Context
 \end_inset
 
  in the direction of an observation 
-\begin_inset Formula $x\in\mathbb{R}^{p}$
+\begin_inset Formula $x\in\mathbb{R}^{n}$
 \end_inset
 
  at time 
@@ -819,11 +847,11 @@ Context
 \begin_inset Formula 
 \begin{align}
 h_{j}^{t+1} & =\begin{cases}
-\left(h_{j}^{t}-l_{j}^{t}\right)\varepsilon^{\frac{1}{p_{+}}}+l_{j}^{t} & \text{if }l_{j}^{t}\leq x_{j}\leq h_{j}^{t}\\
+\left(h_{j}^{t}-l_{j}^{t}\right)\varepsilon^{\frac{1}{k}}+l_{j}^{t} & \text{if }l_{j}^{t}\leq x_{j}\leq h_{j}^{t}\\
 h_{j}^{t} & \text{else}
 \end{cases}\\
 l_{j}^{t+1} & =\begin{cases}
-\left(l_{j}^{t}-h_{j}^{t}\right)\varepsilon^{\frac{1}{p_{+}}}+h_{j}^{t} & \text{if }l_{j}^{t}\leq x_{j}\leq h_{j}^{t}\\
+\left(l_{j}^{t}-h_{j}^{t}\right)\varepsilon^{\frac{1}{k}}+h_{j}^{t} & \text{if }l_{j}^{t}\leq x_{j}\leq h_{j}^{t}\\
 l_{j}^{t} & \text{else}
 \end{cases}
 \end{align}
@@ -842,7 +870,7 @@ with
 \end_inset
 
 and 
-\begin_inset Formula $p_{+}$
+\begin_inset Formula $k$
 \end_inset
 
  the number of features such that 
@@ -900,14 +928,560 @@ generalists
 specialists
 \emph default
 .
+ Therefore,
+ in a region of feature space that is more complex to model,
+ we would expect to find many small agents,
+ and conversely,
+ in a region fo space that is simpler to model.
+ We note that this assumption is based on the use of a simple class of models for agents such as linear regression.
+ In our subsequent examples and experiments,
+ we will primarily use linear regressions as internal models for the agents.
+ Indeed,
+ these models are simple,
+ explainable,
+ and transparent in their inner workings.
 \end_layout
 
 \begin_layout Subsubsection
-Prediction
+Neighborhood Prediction
+\end_layout
+
+\begin_layout Standard
+Our goal is to solve a regression problem from a data stream.
+ Specifically,
+ we want to model the nonlinear dynamics of a complex system so that we can use the resulting model in an optimization pipeline for optimal control.
+ usually,
+ when performing control with a leaned model,
+ we want to minimize noise in the gradients and smooth the learned function to avoid significantly disrupting the optimization process.
+ Therefore,
+ we choose to allow the system to involve mutliple agents in the final decision,
+ unlike in previous works 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "boesSelfAdaptiveContextLearning2015,dato2021apprentissage,fourezEnsembleMultiAgentSystem2022"
+literal "false"
+
+\end_inset
+
+ where only one agent was ultimately selected to make the prediction.
+\end_layout
+
+\begin_layout Standard
+To obtain the prediction 
+\begin_inset Formula $\hat{y}$
+\end_inset
+
+ from an observation 
+\begin_inset Formula $x$
+\end_inset
+
+,
+ we first need to select the agents that will make propositions on the value of 
+\begin_inset Formula $\hat{y}$
+\end_inset
+
+.
+ If some agents are neighbors of 
+\begin_inset Formula $x$
+\end_inset
+
+,
+ then they make propositions,
+ instead,
+ if 
+\begin_inset Formula $x$
+\end_inset
+
+ has no neighbor,
+ we select the 
+\begin_inset Formula $k$
+\end_inset
+
+-closest agents instead.
+ We proceed this way to avoid situations in which our model is not able to predict at all due to poor knowledge in the area around 
+\begin_inset Formula $x$
+\end_inset
+
+.
+ The final prediction is then given by the arithmetic mean of the propositions of selected agents such as
+\begin_inset Formula 
+\[
+\hat{y}=\frac{1}{\left|D_{\text{selected}}\right|}\times\sum_{i\in D_{\text{selected}}}f_{i}\left(x\right)
+\]
+
+\end_inset
+
+with 
+\begin_inset Formula $D_{\text{selected}}$
+\end_inset
+
+the set of selected agents (neighbors or closest) and 
+\begin_inset Formula $f_{i}\in\mathbb{R}^{m}$
+\end_inset
+
+ the internal function of the 
+\begin_inset Formula $i$
+\end_inset
+
+-th agent.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Insert diagram to explain prediction
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Illustration of the prediction process with Context Agents
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
 Learning Rules
+\end_layout
+
+\begin_layout Standard
+During the training phase,
+ features and targets are sequentially fed to the Context agents.
+ A subset of the agents are selected to make prediction proposals that are assessed for quality.
+ Depending on the quality of its prediction proposal,
+ a Context Agent will update its internal model or shape according to a reduced set of learning rules.
+ It's important to note that cooperation between Context agents occurs solely through these rules.
+ For a given observation,
+ the quality of a proposal is given by
+\begin_inset Formula 
+\begin{equation}
+q=g\left(y,\hat{y}\right)
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $g:\mathbb{R}^{m}\times\mathbb{R}^{m}\rightarrow\mathbb{R}$
+\end_inset
+
+ is a distance measure between the proposal 
+\begin_inset Formula $\hat{y}$
+\end_inset
+
+ and the true value 
+\begin_inset Formula $y$
+\end_inset
+
+.
+ The largest 
+\begin_inset Formula $q$
+\end_inset
+
+,
+ the worse the quality of the proposal.
+ Here we use the square error as the function 
+\begin_inset Formula $g$
+\end_inset
+
+ but other types of error functions could be used.
+ Then,
+ to determine whether the proposition is 
+\emph on
+good
+\emph default
+,
+ 
+\emph on
+imprecise
+\emph default
+ or 
+\emph on
+bad
+\emph default
+,
+ we define two thresholds 
+\begin_inset Formula $\tau_{\text{good}}\in\mathbb{R}$
+\end_inset
+
+ and 
+\begin_inset Formula $\tau_{\text{bad}}\in\mathbb{R}$
+\end_inset
+
+ such that:
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $q\leq\tau_{\text{good}}$
+\end_inset
+
+ then the proposal is considered 
+\emph on
+good
+\emph default
+.
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $\tau_{\text{good}}\leq q\leq\tau_{\text{bad}}$
+\end_inset
+
+ then the proposal is considered 
+\emph on
+imprecise
+\emph default
+.
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $\tau_{\text{bad}}\leq q$
+\end_inset
+
+ then the proposal is considered 
+\emph on
+bad
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+The thresholds 
+\begin_inset Formula $\tau_{\text{good}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\tau_{\text{bad}}$
+\end_inset
+
+ are part of the hyperparameters and are set during the design phase.
+ They allow to make a feedback on the prediction proposal.
+ Based on the received feedback,
+ the 
+\emph on
+Context
+\emph default
+ agent updates itself accordingly.
+ 
+\end_layout
+
+\begin_layout Subsubsection*
+Incompetence
+\begin_inset CommandInset label
+LatexCommand label
+name "subsubsec:Incompetence"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If no 
+\emph on
+Context
+\emph default
+ agent is activated by the observation,
+ then the quality of the prediction proposals from neighbor agents is checked.
+\end_layout
+
+\begin_layout Itemize
+If at least one neighbor agent makes a 
+\emph on
+good
+\emph default
+ or 
+\emph on
+imprecise
+\emph default
+ proposal,
+ then each agent involved expands in the direction of the observation.
+\end_layout
+
+\begin_layout Itemize
+If no neighbor agent makes a 
+\emph on
+good
+\emph default
+ or 
+\emph on
+imprecise
+\emph default
+ proposal,
+ then a new agent is created around the observation.
+\end_layout
+
+\begin_layout Standard
+The initial side-lengths of the hyperrectangle associated with the new agent when created are part of the system's hyperparameters.
+\end_layout
+
+\begin_layout Subsubsection*
+Inaccuracy
+\begin_inset CommandInset label
+LatexCommand label
+name "subsubsec:Inaccuracy"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+When at least one 
+\emph on
+Context
+\emph default
+ agent is activated by the observation,
+ the quality of the proposals made is evaluated.
+ The feedback is transmitted to each activated agents.
+\end_layout
+
+\begin_layout Itemize
+If the proposal is 
+\emph on
+good
+\emph default
+,
+ the 
+\emph on
+Context
+\emph default
+ agent expands by a factor of 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ in the direction of the observation.
+\end_layout
+
+\begin_layout Itemize
+If the proposal is 
+\emph on
+imprecise
+\emph default
+,
+ the 
+\emph on
+Context
+\emph default
+ agent updates its internal model and expands by a factor of 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ in the direction of the observation.
+\end_layout
+
+\begin_layout Itemize
+If the proposal is 
+\emph on
+bad
+\emph default
+,
+ the 
+\emph on
+Context
+\emph default
+ agent contracts by a factor of 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ in the direction of the observation.
+\end_layout
+
+\begin_layout Standard
+The coefficient of variation of the volume of the 
+\emph on
+Context
+\emph default
+ agents,
+ 
+\begin_inset Formula $\alpha$
+\end_inset
+
+,
+ is part of the system's hyperparameters.
+\end_layout
+
+\begin_layout Subsubsection*
+Uselessness
+\begin_inset CommandInset label
+LatexCommand label
+name "subsubsec:Uselessness"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If a 
+\emph on
+Context
+\emph default
+ agent's volume decreases below a certain threshold 
+\begin_inset Formula $S_{\text{vol}}$
+\end_inset
+
+,
+ the 
+\emph on
+Context 
+\emph default
+agent is considered useless and is destroyed.
+ The threshold 
+\begin_inset Formula $S_{\text{vol}}$
+\end_inset
+
+ is part of the system's hyperparameters.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To summarize,
+ a learning step follows these stages:
+\end_layout
+
+\begin_layout Enumerate
+If no agent in the system,
+ then create a 
+\emph on
+Context
+\emph default
+ agent
+\end_layout
+
+\begin_layout Enumerate
+Retrieve the activated and neighbor 
+\emph on
+Context 
+\emph default
+agents of an observation
+\end_layout
+
+\begin_layout Enumerate
+If no agent is activated,
+ then apply the rule to resolve 
+\series bold
+Incompetence 
+\series default
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "subsubsec:Incompetence"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+If at least one 
+\emph on
+Context
+\emph default
+ agent is activated,
+ then apply the rule to resolve 
+\series bold
+Inaccuracy 
+\series default
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "subsubsec:Inaccuracy"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Resolve 
+\series bold
+Uselessness
+\series default
+ on the updated 
+\emph on
+Context
+\emph default
+ agents 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "subsubsec:Uselessness"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Insert flowchart to explain learning
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Flowchart illustrating the learning process
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -925,6 +1499,14 @@ kCELL:
 
 \begin_layout Subsection
 Context Agents
+\end_layout
+
+\begin_layout Subsubsection
+Kernel Spatialization
+\end_layout
+
+\begin_layout Subsubsection
+Soft-Weighted Prediction
 \end_layout
 
 \begin_layout Subsection
@@ -1239,6 +1821,16 @@ Non-Linear Local Modeling
 
 \begin_layout Section
 Experiments
+\end_layout
+
+\begin_layout Section
+Practical Design Guidelines
+\end_layout
+
+\begin_layout Standard
+In order to design a working multi-agent system based on context agents to solve supervised learning tasks,
+ we have identified obstacles that need to be overcome in order for the system to work properly,
+ allowing emergence of learning.
 \end_layout
 
 \begin_layout Section
