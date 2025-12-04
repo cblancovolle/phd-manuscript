@@ -35,7 +35,7 @@ theorems-ams
 \index_command default
 \float_placement class
 \float_alignment class
-\paperfontsize default
+\paperfontsize 12
 \spacing single
 \use_hyperref true
 \pdf_bookmarks true
@@ -48,7 +48,7 @@ theorems-ams
 \pdf_backref false
 \pdf_pdfusetitle true
 \papersize default
-\use_geometry false
+\use_geometry true
 \use_package amsmath 1
 \use_package amssymb 1
 \use_package cancel 1
@@ -75,6 +75,10 @@ theorems-ams
 \shortcut idx
 \color #008080
 \end_index
+\leftmargin 2.5cm
+\topmargin 2.5cm
+\rightmargin 2.5cm
+\bottommargin 2.5cm
 \secnumdepth 2
 \tocdepth 2
 \paragraph_separation indent
@@ -161,7 +165,12 @@ name "chap:Context-Ensemble-Local"
 To achieve speed recommendation we need to model the behavior of a vehicle driven by a human driver in response to speed recommendation set points.
  Thus,
  we need a modeling algorithm able to perform online learning and learn efficiently seeing a data point once while having transparent and explainable inner workings.
- For that reason we explored the use of multiagent systems as a mean of solving supervised learning tasks in an online fashion as introduced 
+ For that reason we explored the use of multiagent systems as a mean of solving supervised learning tasks.
+ 
+\end_layout
+
+\begin_layout Standard
+As showed in 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "boesSelfAdaptiveContextLearning2015,fourezEnsembleMultiAgentSystem2022"
@@ -169,15 +178,22 @@ literal "false"
 
 \end_inset
 
-.
+,
+ a supervised learning problem can be modeled as a multiagent system.
+ This perspective offers several advantages,
+ including design simplicity,
+ transparency,
+ and explainability properties that naturally emerge from the spatial organization of agents.
 \end_layout
 
 \begin_layout Standard
-In this chapter we present a continuous learning framework:
- CELL (Context Ensemble Local Learning).
+In this chapter we introduce CELL (Context Ensemble Local Learning),
+ a family of mutliagent systems designed for online learning dynamics of a complex environment.
  Our approach addresses online supervised learning through simple self-organization of multiple local expert agents paving the feature space.
- Each agent only has a local perspective on the function to approximate and acts locally to achieve its own objective which is becoming an expert local predictor.
- By designing Contrary to previous works on this type of system 
+ These agents are created and updated dynamically according to predefined learning rules.
+ Each agent occupies a specific region in feature space,
+ representing the area where it is most confident in the quality of its predictions.
+ Contrary to previous works on this type of system 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "boesSelfAdaptiveContextLearning2015,fourezEnsembleMultiAgentSystem2022"
@@ -367,9 +383,9 @@ In Bagging we train multiple models (usually homogeneous) in parallel on differe
 \end_layout
 
 \begin_layout Standard
-The system we present in this chapter,
+The family of systems we present in this chapter,
  CELL,
- falls withing the ensemble learning framework and we could label it as a Bagging approach because we consider a set of weak learners as a collection of self-organizing cooperative agents.
+ falls within the ensemble learning framework and we could label it as a Bagging approach because we consider a set of weak learners as a collection of self-organizing cooperative agents.
  Each one of them is a local expert on the function to be approximated.
 \end_layout
 
@@ -389,29 +405,35 @@ literal "false"
 
 \end_inset
 
- to address an online supervised learning problem in which we want to learn a function 
+ to address an online supervised learning problem.
+ We want to learn a function 
 \begin_inset Formula $f:\mathbb{R}^{n}\rightarrow\mathbb{R}^{m}$
 \end_inset
 
- mapping feature to target vectors from a stream of data.
+ to map feature to target vectors from a stream of data.
  
 \end_layout
 
 \begin_layout Standard
-During the learning phase,
- observations are collected and sequentially provided to the Context agents,
- which are updated and created on the go as needed.
- A Context agent is activated upon receiving a new observation,
- this is the spatialization component of the system.
- Then,
- the activated agents,
- that are supposedly expert,
- make suggestions about what the output value should be.
- Feedback on the qulity of the suggestion is provided to the activated agent.
- This feedback indicates whether the suggestion is good,
- imprecise or bad.
- Based on this feedback,
- the concerned Context agent can determine if its suggestion has caused conflicts with other agents or if it has disrupted the cooperation of the group.
+During learning,
+ CELL processes a stream of data.
+ Incoming points are routed to the system's primary components,
+ which we call Context agents.
+ These agents are created and updated dynamically according to predefined learning rules.
+ Each Context agent occupies a specific region in feature space,
+ representing the area where is is most confident in its predictions.
+ This spatialization allows the agent to determine 
+\emph on
+when
+\emph default
+ it should make a prediction.
+ To determine 
+\emph on
+what
+\emph default
+ to predict,
+ each agent maintains a local machine learning model over the confidence region.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -461,11 +483,11 @@ Each Context agent can refine the parameters of its internal activation and pred
  To summarize,
  a Context agent can be considered as a local expert to the function to be approximated with its activation function telling it 
 \emph on
-When
+when
 \emph default
  it should predict and with its prediction function telling it 
 \emph on
-What
+what
 \emph default
  to predict.
  
@@ -491,7 +513,7 @@ Spatialization with Orthotopes
 \begin_layout Standard
 As we need a transparent and interpretable system,
  we chose to spatialize our Context agents using orthotopes.
- the use of orthotopes allows us to precisely evaluate how agents have organized themselves feature-wise while also simplihying the shape change mechanisms required for self-organisation of Context agents.
+ the use of orthotopes allows us to precisely evaluate how agents have organized themselves feature-wise while also simplifying the shape change mechanisms required for self-organisation of Context agents because we can act on each dimension individually.
 \end_layout
 
 \begin_layout Standard
@@ -719,7 +741,7 @@ A Context Agent
 \end_inset
 
  associated with the activation function 
-\begin_inset Formula $\phi_{\mathcal{H}}$
+\begin_inset Formula $\phi_{\mathcal{H}}:\mathbb{R}^{n}\mapsto\left\{ 0,1\right\} $
 \end_inset
 
  of 
@@ -944,6 +966,13 @@ specialists
 
 \begin_layout Subsubsection
 Neighborhood Prediction
+\begin_inset CommandInset label
+LatexCommand label
+name "subsubsec:Neighborhood-Prediction"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -951,7 +980,7 @@ Our goal is to solve a regression problem from a data stream.
  Specifically,
  we want to model the nonlinear dynamics of a complex system so that we can use the resulting model in an optimization pipeline for optimal control.
  usually,
- when performing control with a leaned model,
+ when performing control with a learned model,
  we want to minimize noise in the gradients and smooth the learned function to avoid significantly disrupting the optimization process.
  Therefore,
  we choose to allow the system to involve mutliple agents in the final decision,
@@ -976,7 +1005,7 @@ To obtain the prediction
 \end_inset
 
 ,
- we first need to select the agents that will make propositions on the value of 
+ we first need to select the agents that will make proposals on the value of 
 \begin_inset Formula $\hat{y}$
 \end_inset
 
@@ -986,7 +1015,7 @@ To obtain the prediction
 \end_inset
 
 ,
- then they make propositions,
+ then they make proposals,
  instead,
  if 
 \begin_inset Formula $x$
@@ -1003,7 +1032,7 @@ To obtain the prediction
 \end_inset
 
 .
- The final prediction is then given by the arithmetic mean of the propositions of selected agents such as
+ The final prediction is then given by the arithmetic mean of the proposals of selected agents such as
 \begin_inset Formula 
 \[
 \hat{y}=\frac{1}{\left|D_{\text{selected}}\right|}\times\sum_{i\in D_{\text{selected}}}f_{i}\left(x\right)
@@ -1068,11 +1097,26 @@ Learning Rules
 \begin_layout Standard
 During the training phase,
  features and targets are sequentially fed to the Context agents.
- A subset of the agents are selected to make prediction proposals that are assessed for quality.
+ As stated previously,
+ Context agents can perform atomic operations to improve and position themselves locally:
+ they can refine their internal model with a new point and change their shape.
+ These local operations form the basis of the self-organization of Context agents.
+ We define the learning rules that allow us to characterize the behavior of agents,
+ that is,
+ how they will use the atomic operations at their disposal.
+\end_layout
+
+\begin_layout Standard
+At each learning step,
+ a subset of the agents are selected to make prediction proposals that are assessed for quality.
  Depending on the quality of its prediction proposal,
  a Context Agent will update its internal model or shape according to a reduced set of learning rules.
  It's important to note that cooperation between Context agents occurs solely through these rules.
- For a given observation,
+ 
+\end_layout
+
+\begin_layout Standard
+For a given observation,
  the quality of a proposal is given by
 \begin_inset Formula 
 \begin{equation}
@@ -1340,7 +1384,7 @@ If a
 Context
 \emph default
  agent's volume decreases below a certain threshold 
-\begin_inset Formula $S_{\text{vol}}$
+\begin_inset Formula $\tau_{\text{vol}}$
 \end_inset
 
 ,
@@ -1350,14 +1394,14 @@ Context
 \emph default
 agent is considered useless and is destroyed.
  The threshold 
-\begin_inset Formula $S_{\text{vol}}$
+\begin_inset Formula $\tau_{\text{vol}}$
 \end_inset
 
  is part of the system's hyperparameters.
-\begin_inset Newline newline
-\end_inset
+\end_layout
 
-
+\begin_layout Subsubsection
+Learning Step
 \end_layout
 
 \begin_layout Standard
@@ -1488,29 +1532,1161 @@ Flowchart illustrating the learning process
 Comparative Study
 \end_layout
 
+\begin_layout Subsubsection
+Data Generation
+\end_layout
+
+\begin_layout Subsubsection
+Experiment
+\end_layout
+
 \begin_layout Subsection
 Explainability
+\end_layout
+
+\begin_layout Subsection
+Limitations
+\end_layout
+
+\begin_layout Standard
+We demonstrated the potential of oCELL to solve supervised learning problems.
+ However,
+ this approach still needs refinement and has limitations that we will address in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:kCELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+One of the limitations of this approach lies in the neighborhood prediction system described in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:kCELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ Indeed we assumed in designing our system that an agent's level of knowledge about the function to be approximated is uniform across its area of expertise (i.e the orthotope associated to its activation function).
+ Intuitively it might be more accurate to consider that an agent has a better expertise near its centroid,
+ than on its edges.
+ 
+\end_layout
+
+\begin_layout Standard
+Moreover,
+ we also consider,
+ when mutliple agents are involved in the prediction process that they have the same weight in the construction of the final prediction due to the arithmetic sum.
+ Initially,
+ we decided to proceed this way because of the knowledge uniformity assumption.
+ However it would probably be more accurate to consider that when two agent make predictions,
+ the one closest to the input point will has the smallest error due to the agent's spatial distribution.
+ Thus,
+ each agent involved in the prediction process should be weighted according to their level of expertise on the point
+\end_layout
+
+\begin_layout Standard
+With oCELL,
+ we attempted to calculate a weighted average of the agents' proposals to obtain the final prediction.
+ The weights corresponded to the euclidean distance to centers of the agents involved.
+ However,
+ we found that this did not improve performances,
+ likely because the euclidean distance to the centers do not account for the agent's shape.
+ We therefore need to find a distance between an agent and the point that takes into account both the agent's centroid and its shape.
+\end_layout
+
+\begin_layout Standard
+Another limitation lies in the spatialization of agents using orthotopes.
+ Indeed,
+ in some cases,
+ the orthotopic representation may be limited and may not correspond to the reality of the points on which the agent learns.
+ This can lead to covering entire areas that have never been seen,
+ thus potentially generating false positives when we query the system about its knowledge of a point.
+ We illustrate this in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Limitation orthotope agents"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ in which we compare side by side an overgeneralizing agent and a representative agent by visualizing their respective orthotopes (represented by a blue rectangle) and training data (represented by red dots).
+ The overgeneralizing agent has its training data not covering the entirety of its associated orthotope unlike for the representative agent that seemingly has a training dataset that covers entirely it's associated orthotope.
+ This example shows how crucial is the spatialization of agents and especially their base shape to best represent the local manifolds of features,
+ avoid overgeneralization errors and avoid categorizing a point as known when it's not.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/sane_orthotope_agent.png
+	width 40col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Representative orthotope
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Representative-orthotope-agent"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/overgeneralized_orthotope_agent.png
+	width 40col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Overgeneralizing orthotope
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Overgeneralizing-orthotope-agent"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Side by side comparison of representative Context 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Representative-orthotope-agent"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ agent against a overgeneralizing Context agent 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Overgeneralizing-orthotope-agent"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ The blue rectangle corresponds to the orthotope associated to the activation function of the Context agent.
+ Each red dot corresponds to a training point seen by the Context agent.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Limitation orthotope agents"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Finally,
+ the last limitation we were able to identify is that some system hyperparamters are difficult to tune.
+ We are referring in particular to the initial size of the orthotopes associated with the new created agents,
+ which requires setting a side length for each feature.
+ In this regard,
+ we can also refer to the error thresholds used to categorize a prediction as good,
+ bad or imprecise.
 \end_layout
 
 \begin_layout Section
 kCELL:
  MAS Ensemble Learning with Kernel Spatialization
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:kCELL"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We have extended Context agent learning to address regression tasks in the context of supervised learning.
+ We showed that oCELL has competitive performances on a synthetic 2D benchmark dataset and exhibits interesting explainability properties.
+ Indeed,
+ we showed that we could extract measures of epistemic and aleatoric uncertainties in the predictions of the system as well as information about the variations of the underlying function from the shape and spatial organization of the 
+\emph on
+Context
+\emph default
+ agents in the feature space.
+ These properties will be particularly useful when using this type of model in an optimization loop for safe optimal control.
+\end_layout
+
+\begin_layout Standard
+However,
+ oCELL has some limitations.
+ Specifically,
+ the spatialization of agents with orthotopes can sometimes produce erroneous representations of areas of expertise,
+ leading to overestimations of their size and shape .
+ In addition to that the aggregation function used to compute predictions do not account for the shape and distance between the agents involved and the input.
+ These limitations can sometimes lead to in-distribution interpolation problems and redundant agents.
+ Finally,
+ some of oCELL's learning rules rely on hyperparameters that are difficult to tune (error thresholds and initial size of orthotope sides at agent creation).
+\end_layout
+
+\begin_layout Standard
+To overcome these limitations,
+ in this section we introduce kCELL (kernel CELL),
+ the second variant of CELL.
+ In order to better represent the information we propose a spatialization approach based on RBF kernels inspired from what is done with RBF Networks 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lowe1988multivariable"
+literal "false"
+
+\end_inset
+
+ or MoE (Mixture of Experts) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "yukselTwentyYearsMixture2012"
+literal "false"
+
+\end_inset
+
+ gating mechanisms.
+ We also introduce a smoother aggregation function for inference to better represent the expertise of each agent involved in the prediction process taking inspiration from what is done for Gaussian Processes 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "seeger2004gaussian"
+literal "false"
+
+\end_inset
+
+ in which the contribution of each point to the final prediction is weighted by a kernel value.
 \end_layout
 
 \begin_layout Subsection
 Context Agents
 \end_layout
 
+\begin_layout Standard
+As for oCELL 
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Ref to definition of context agents in oCELL
+\end_layout
+
+\end_inset
+
+,
+ the main entities of kCELL are the Context agents.
+ A Context agent 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ is characterized by an activation function 
+\begin_inset Formula $\phi_{i}\left(x\right)$
+\end_inset
+
+ and a prediction function 
+\begin_inset Formula $f_{i}\left(x\right)$
+\end_inset
+
+ such as 
+\begin_inset Formula 
+\[
+\mathcal{A}_{i}=\left\{ \phi_{i}\left(x\right),f_{i}\left(x\right)\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+However,
+ unlike in oCELL,
+ the Context agents of kCELL are spatialized differently.
+ In oCELL we use a binary activation (the point is inside or outside the associated orthotope) while in kCELL we use a RBF kernel as a continuous and smooth activation function to represent the area of expertise in feature space.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Insert description of subsequent section content
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsubsection
 Kernel Spatialization
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Kernel-Spatialization"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In kCELL,
+ contrary to using orthotopes we use a RBF kernel as the activation function to unlock more degrees of freedom to represent the areas of expertise 
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Add ref to illustration Figure
+\end_layout
+
+\end_inset
+
+.
+ This activation function is smooth and differentiable,
+ making the system more optimization-friendly to be used for control tasks as a dynamics model.
+ Therefore,
+ an agent is spatialized by the mean 
+\begin_inset Formula $\mu_{i}\in\mathbb{R}^{n}$
+\end_inset
+
+ and covariance matrix 
+\begin_inset Formula $\Sigma_{i}\in\mathbb{R}^{n\times n}$
+\end_inset
+
+ of the distribution of its training points.
+ Since this activation function has statistical significance,
+ it is easier for us to define the neighborhood as a confidence interval whose confidence value we can adjust.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Comparison between area of expertise oCELL vs kCELL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+The distance between a point 
+\begin_inset Formula $x\in\mathbb{R}^{n}$
+\end_inset
+
+ and a Context agent 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ is defined as the mahalanobis distance:
+\begin_inset Formula 
+\[
+d\left(\mathcal{A}_{i},x\right)=D_{M}\left(\mu_{i},\Sigma_{i},x\right)=\sqrt{\left(x-\mu_{i}\right)^{\top}\Sigma_{i}^{-1}\left(x-\mu_{i}\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+A Context agent 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ is considered as a neighbor of 
+\begin_inset Formula $x\in\mathbb{R}^{n}$
+\end_inset
+
+ if 
+\begin_inset Formula $x$
+\end_inset
+
+ is likely to belong to the training dataset of 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ such as 
+\begin_inset Formula 
+\[
+D_{M}\left(\mu_{i},\Sigma_{i},x\right)^{2}\leq\chi_{n,0.95}^{2}
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\chi_{n,0.95}^{2}$
+\end_inset
+
+ denotes the 
+\begin_inset Formula $95$
+\end_inset
+
+th percentile of the chi-squared distribution with 
+\begin_inset Formula $n$
+\end_inset
+
+ degrees of freedom.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+The activation function 
+\begin_inset Formula $\phi_{i}:\mathbb{R}^{n}\mapsto\left[0,1\right]$
+\end_inset
+
+ of a Context agent 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ for a point 
+\begin_inset Formula $x\in\mathbb{R}^{n}$
+\end_inset
+
+ is given by the gaussian kernel 
+\begin_inset Formula 
+\[
+\phi_{i}\left(\mathcal{A}_{i},x\right)=\exp\left(-\frac{d\left(\mathcal{A}_{i},x\right)}{2}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+The activation score of a point 
+\begin_inset Formula $x$
+\end_inset
+
+ for a given agent 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ can be interpreted as the likelihood that the agent has previously been trained on points similar to 
+\begin_inset Formula $x$
+\end_inset
+
+,
+ and thus reflects the agent's degree of knowledge over the corresponding region of feature space.
+ We can draw a parallel between this activation function based on RBF kernel and the coverage index 
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Insert ref to coverage index in previous section
+\end_layout
+
+\end_inset
+
+,
+ an explainability metric that we derived from oCELL which is also linked to the degree of knowledge of a point.
+ In kCELL,
+ this explainability property related to the knowledge of a point emerges naturally from the definition of the system.
 \end_layout
 
 \begin_layout Subsubsection
 Soft-Weighted Prediction
 \end_layout
 
+\begin_layout Standard
+In kCELL,
+ we get rid of the knowledge uniformity hypothesis of agents,
+ therefore the activation function of a context agent materializes its area of expertise through a smooth RBF kernel.
+ The further a point is from the agent's centroid,
+ the lower its activation value.
+ This is because we assume that expertise is maximized at the agent's center.
+ Agents with higher activation values contribute more heavily to the final output because they are more expert than others at predicting.
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $S_{k}=\left\{ i|\mathcal{A}_{i}\,\text{is in the \ensuremath{k}-closest to}\,x\right\} $
+\end_inset
+
+ denote the index set of the 
+\begin_inset Formula $k$
+\end_inset
+
+ nearest agents in feature space.
+ The final prediction 
+\begin_inset Formula $f\left(x\right)\in\mathbb{R}^{m}$
+\end_inset
+
+ of the system is then given by
+\begin_inset Formula 
+\[
+f\left(x\right)=\sum_{i\in S_{k}}w_{i}\left(x\right)f_{i}\left(x\right)
+\]
+
+\end_inset
+
+where the normalized contribution weights 
+\begin_inset Formula $w_{i}\left(x\right)$
+\end_inset
+
+ are defined as
+\begin_inset Formula 
+\[
+w_{i}\left(x\right)=\frac{\phi_{i}\left(x\right)}{\sum_{j\in S_{k}}\phi_{j}\left(x\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This formulation ensure that each contributing agent's influence on the final prediction is proportional to its estimated competence.
+ 
+\end_layout
+
 \begin_layout Subsection
 Learning Rules
+\end_layout
+
+\begin_layout Standard
+As in oCELL,
+ we design our learning rules around a set of actions and conditions that triggers those actions to digest 
+\begin_inset Formula $x_{new},y_{new}$
+\end_inset
+
+.
+ Usually,
+ context agent multiagent systems,
+ the set of actions consists of actions that can be performed individually by agents such as updating their model or shape;
+ and more meta actions such as destroying or creating new agents.
+ These actions are triggered by conditions that generally depend on two factors:
+ the number of current neighbors and a feedback value calculated from the proposals of selected agents.
+\end_layout
+
+\begin_layout Standard
+When we have 
+\begin_inset Formula $N>1$
+\end_inset
+
+ agents that are neighbors of 
+\begin_inset Formula $x_{new}$
+\end_inset
+
+,
+ all of those agent are theoretically considered as experts to predict for 
+\begin_inset Formula $x_{new}$
+\end_inset
+
+.
+ As the final prediction fo the system 
+\begin_inset Formula $f\left(x\right)=\hat{y}$
+\end_inset
+
+ is computed from the proposals of all those agents,
+ we need the agents to cooperate together locally to improve the local knowledge.
+ We define 
+\begin_inset Formula $\Delta_{\mathcal{A}_{i}}$
+\end_inset
+
+,
+ the fractional change in error when leaving agent 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ out of the prediction process,
+\begin_inset Formula 
+\[
+\Delta_{i}=\frac{E_{-i}-E}{E}=\frac{\left|\hat{y}_{-i}-y_{new}\right|-\left|\hat{y}-y_{new}\right|}{\left|\hat{y}-y_{new}\right|}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $E$
+\end_inset
+
+ is the prediction error,
+ 
+\begin_inset Formula $E_{-i}=\left|\hat{y}_{-i}-y_{new}\right|$
+\end_inset
+
+ is the prediction error without considering the proposition of prediction of agent 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+So,
+ if 
+\begin_inset Formula $\Delta_{i}>0$
+\end_inset
+
+ then it means that removing agent 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ from the prediction group had a positive impact on the prediction error,
+ meaning that agent 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ has a positive contribution to reducing the error locally and conversely for 
+\begin_inset Formula $\Delta_{i}<0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Feedback Condition
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Agent selected
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Action
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $N=0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta>0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Closest
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+update model + shape
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta<0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Closest
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+create agent
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $N=1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta>0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Neighbor
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+update model + shape
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta<0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Neighbor
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\varnothing$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $C_{i}\leq\tau_{\text{confidence}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Neighbor
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+destroy agent
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $N>1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta>0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Neighbor
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+update shape
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta<0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Neighbor
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+update model
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $C_{i}\leq\tau_{\text{confidence}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Neighbor
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+destroy agent
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Learning rules of kCELL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -1828,9 +3004,262 @@ Practical Design Guidelines
 \end_layout
 
 \begin_layout Standard
-In order to design a working multi-agent system based on context agents to solve supervised learning tasks,
- we have identified obstacles that need to be overcome in order for the system to work properly,
- allowing emergence of learning.
+Based on our experience designing our multiagent systems based on context agents for supervised learning,
+ we present in this section comprehensive overview of common obstacles that must be overcome for such a system to work properly,
+ allowing the emergence of learning.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+feedback (
+\begin_inset Formula $\Delta$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+update model
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+update shape
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+kCELL features
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
