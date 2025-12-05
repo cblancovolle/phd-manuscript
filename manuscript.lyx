@@ -2075,6 +2075,40 @@ Flowchart illustrating the learning process
 
 \end_layout
 
+\begin_layout Standard
+So,
+ oCELL relies on a set of hyperparameters that must be initialized before the training phase.
+ These parameters have an influence on the convergence of the system.
+ We have the prediction labeling thresholds 
+\begin_inset Formula $\tau_{\text{bad}}$
+\end_inset
+
+and 
+\begin_inset Formula $\tau_{\text{good}}$
+\end_inset
+
+ that define the boundaries for classifying the predictions of agents.
+ Those thresholds are crucial because they directly influence the rate at which each learning rule will fire.
+ 
+\end_layout
+
+\begin_layout Standard
+Then we have the initial orthotope sizes that specify the feature-wise initial extent of the orthotope associated with a newly generated agent.
+ This parameter is important in the sense that if an agent starts to small it will never reach other points and thus will be ignore or will add noise to its local surroundings at prediction.
+\end_layout
+
+\begin_layout Standard
+Afterwards we have the volume variation coefficient 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ that dictates the rate at which an agent's shape is updated in terms of fraction of it's current volume.
+\end_layout
+
+\begin_layout Standard
+Finally we have the agent pruning volume threshold which is used for the detection and destruction of agents deemed inactive or irrelevant based on their current orthotope volume.
+\end_layout
+
 \begin_layout Subsection
 Comparative Study
 \end_layout
