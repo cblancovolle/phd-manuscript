@@ -2111,6 +2111,13 @@ Finally we have the agent pruning volume threshold which is used for the detecti
 
 \begin_layout Subsection
 Comparative Study
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Comparative-Study"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -2123,6 +2130,13 @@ Experiment
 
 \begin_layout Subsection
 Explainability
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Explainability-oCELL"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -2235,6 +2249,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename assets/images/sane_orthotope_agent.png
+	lyxscale 40
 	width 40col%
 
 \end_inset
@@ -2275,6 +2290,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename assets/images/overgeneralized_orthotope_agent.png
+	lyxscale 40
 	width 40col%
 
 \end_inset
@@ -2766,6 +2782,13 @@ where
 
 \begin_layout Subsubsection
 Soft-Weighted Prediction
+\begin_inset CommandInset label
+LatexCommand label
+name "subsubsec:Soft-Weighted-Prediction"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -3657,16 +3680,218 @@ the fractional change in error when leaving agent
 
 \end_layout
 
-\begin_layout Subsection
-Experiment
+\begin_layout Standard
+To visualize the result of a learning and local cooperation of agents,
+ we use a 1-dimensional example.
+ We generate a small synthetic dataset from the function 
+\begin_inset Formula $f\left(x\right)=\sin\left(x\right)+\epsilon\mathcal{N}\left(0,1\right)$
+\end_inset
+
+ with 
+\begin_inset Formula $\epsilon\in\mathbb{R}$
+\end_inset
+
+ the noise scaling factor.
+ We simulate online learning by sequentially feeding the agent one 
+\begin_inset Formula $x_{new},y_{new}$
+\end_inset
+
+ tuple at a time.
+ Each point is only seen once during learning as this is an important property of an effective and rapid online learning algorithm especially useful in real time dynamics modeling.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:1D-Visualization-of-local-coop"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ presents a side-by-side visualization of the spatial organization of agents 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "fig:1D-Spatial-organization"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ against the result of aggregating their predictions 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "fig:1D-Resulting-prediction"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ We can observe that the agents overlap and do not fit perfectly across their entire area of expertise;
+ at the edges of agents the fit seems to have more errors and conversely on the center.
+ This is the expected behavior resulting from the assumption of non-uniformity in the knowledge within areas of expertise.
+ Finally,
+ we observe that the overall predictions approximate closely the function considering the noise added to the data.
+ It demonstrates kCELL's ability to generalize effectively by interpolation.
+ This highlights the usefulness of a weighted aggregation function as presented in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsubsec:Soft-Weighted-Prediction"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Comment
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
 status open
 
 \begin_layout Plain Layout
-Illustration of local cooperative learning with learning Sinus 1D toy example (plot agents vs predictions)
+\align center
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/local_coop_1D_illustration/viz_agents_sin1D.png
+	lyxscale 40
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Spatial organization
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:1D-Spatial-organization"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/local_coop_1D_illustration/viz_inference_sin1D.png
+	lyxscale 45
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Resulting prediction
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:1D-Resulting-prediction"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Visualization of local cooperation of agents in predicting a noisy sinus function.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "fig:1D-Spatial-organization"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ presents the spatial organization of agents where is colored segment represents the mapping of an individual agent between feature space and output space.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "fig:1D-Resulting-prediction"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ shows the resulting predictions obtained from the aggregation of agents local models,
+ illustrating the interpolation capabilities of the model.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:1D-Visualization-of-local-coop"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -3679,10 +3904,1365 @@ Illustration of local cooperative learning with learning Sinus 1D toy example (p
 status open
 
 \begin_layout Plain Layout
-Experiment on D4RL with various expertise datasets.
- Try feeding random => medium => expert.
- One test set for each dataset.
- Log performances on each to desmonstrate the adaptability.
+Add algo and mention that we learn from a stream and that to initialize agents we use several successive points (to tackle limitation of oCELL which was to initialize agents with one point)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Adaptation to Non-Stationary Dynamics
+\end_layout
+
+\begin_layout Standard
+In kCELL,
+ the agents learn a function from a stream of data through local modeling and cooperation.
+ In this section we present various experiments and case studies to demonstrate the capabilities of kCELL in terms of online adaptation and raw performances in online dynamics modeling.
+\end_layout
+
+\begin_layout Subsubsection
+Experimental Protocol
+\end_layout
+
+\begin_layout Standard
+To evaluate the capabilities of kCELL to adapt online to non-stationary dynamics,
+ we conducted experiments on two MuJoCo 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "todorov2012mujoco"
+literal "false"
+
+\end_inset
+
+ simulation environment:
+ InvertedPendulum and Hopper.
+ For each environment,
+ datasets were collected under three gravitational acceleration values (
+\emph on
+default 
+\emph default
+gravity
+\emph on
+ 
+\emph default
+
+\begin_inset Formula $g=9.81$
+\end_inset
+
+,
+ 
+\emph on
+low 
+\emph default
+gravity 
+\begin_inset Formula $g=4$
+\end_inset
+
+ ,
+ 
+\emph on
+high
+\emph default
+ gravity 
+\begin_inset Formula $g=20$
+\end_inset
+
+) using pretrained reinforcement learning agents trained with Soft-Actor-Critic (SAC) algorithm 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "haarnoja2018soft"
+literal "false"
+
+\end_inset
+
+ (with stable-baselines3 implementation 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "stable-baselines3"
+literal "false"
+
+\end_inset
+
+).
+ Training data were streamed in the same order to simulate abrupt changes in the underlying system dynamics.
+ The characteristics of the generated datasets are presented in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Characteristics-of-datasets"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The environments were selected to contrast a low-dimensional setting (InvertedPendulum with 4-dimensional states and 1 action) with a higher-dimensional one (Hopper with 11-dimensional state and 3 actions).
+ Mahalanobis distance values become larger the higher the number of dimensions.
+ Thus we want to study the impact of increasing dimensionality on the spatialization of kCELL which was one of the main limiations of the comparative experiments conducted in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Comparative-Study"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ for oCELL.
+ We also compare kCELL to Adaptive Hoeffding Trees 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bifet2009adaptive"
+literal "false"
+
+\end_inset
+
+ which is an efficient adaptive online learning method based on decision trees designed to handle concept drift.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Environment
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+State Size
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Nb Actions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dynamic Changes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Nb Learning Steps
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+InvertedPendulum
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $g\in\left\{ 9.81,4,20\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+30k
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Hopper
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+11
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $g\in\left\{ 9.81,4,20\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+50k
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Characteristics of datasets generated with 
+\begin_inset Formula $g$
+\end_inset
+
+ the acceleration due to gravity 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Characteristics-of-datasets"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Prediction Error Analysis
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Visualization-of-mae-dynamic-changes"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ illustrates the evolution of Mean Absolute Error (MAE) for kCELL and Adaptive Hoeffding Trees algorithms measured on the test sets associated with each value of 
+\begin_inset Formula $g$
+\end_inset
+
+ for each environment.
+ Across both environments,
+ the MAE consistently decreases on the test set corresponding to the currently observed gravity value,
+ indicating effective online adaptation to changes in dynamics (refer to semi-transparent red areas in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Visualization-of-mae-dynamic-changes"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+For the InvertedPendulum environment,
+ kCELL systematically outperforms Adaptive Hoeffding Trees when the training and testing gravity values coincide,
+ exhibiting lower MAE throughout each stationary phase.
+ This suggests that the local spatialized modeling strategy employed by kCELL allows more accurate approximation of the underlying dynamics in low-dimensional settings.
+ For the Hopper environment,
+ both approaches achieve comparable MAE across the different gravity regimes.
+ However,
+ we notice that the error curve of kCELL displays higher variance,
+ reflecting the self organization mechanisms of agents (creation,
+ destruction,
+ updates).
+ This could also be due to numerical out-of-distribution prediction instability of CELL approaches which is a known problem.
+ Indeed,
+ due to spatialization,
+ kCELL is not designed to predict too far outside their domain of expertise leading to very low activation scores for far away points and potential numerical instabilities.
+\end_layout
+
+\begin_layout Standard
+Finally,
+ specifically for kCELL,
+ we notice that for InvertedPendulum,
+ transitions between gravity values lead to an increase in MAE on past test sets,
+ seemingly relfecting partial forgetting of earlier dynamics.
+ In contrast,
+ for Hopper,
+ kCELL exhibits stable MAE on previously encountered gravity values even after multiple regime changes,
+ suggesting retiention of prior knowledge.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/dynamic_change_comparison/mae_comparison_testsets_invertedpendulum.png
+	lyxscale 30
+	width 45col%
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+InvertedPendulum
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Visualization-of-mae-dynamic-changes-invertedpendulum"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/dynamic_change_comparison/mae_comparison_testsets_hopper.png
+	lyxscale 30
+	width 45col%
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Hopper
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Visualization-of-mae-dynamic-changes-hopper"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Evolution of test error on each test dataset.
+ Each horizontal plot shows the evolution of error on a test dataset (in order top to bottom:
+ 
+\begin_inset Formula $g=9.81$
+\end_inset
+
+ (
+\emph on
+default
+\emph default
+),
+ 
+\begin_inset Formula $g=4$
+\end_inset
+
+ (
+\emph on
+low gravity
+\emph default
+),
+ 
+\begin_inset Formula $g=20$
+\end_inset
+
+ (
+\emph on
+high gravity
+\emph default
+).
+ The semi-transparent red area corresponds to the training period in which the training and test sets corresponds to the same dynamic variations.
+ The dotted vertical red lines corresponds to changes in dynamics i.e to a change of train dataset with a different value of 
+\begin_inset Formula $g$
+\end_inset
+
+.
+ The 
+\begin_inset Formula $x$
+\end_inset
+
+ axis corresponds to the number of point ingested (number of steps) and the 
+\begin_inset Formula $y$
+\end_inset
+
+ axis corresponds to the MAE over the corresponding training set.
+ The blue curve corresponds to kCELL's MAE measurements.
+ For example the top plot corresponds to the MAE calculated on test data for 
+\begin_inset Formula $g=9.81$
+\end_inset
+
+ and red area corresponds to the training phase in which 
+\begin_inset Formula $g=9.81$
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Visualization-of-mae-dynamic-changes"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Structural Evolution of Agent Population
+\end_layout
+
+\begin_layout Standard
+We analyze the evolution of agent population during training illustrated in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Evolution-of-nb-agents"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ As previously hinted by MAE analysis,
+ we notice constrating dynamics in the population evolution during learning between the two environments.
+ In InvertedPendulum (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Visualization-of-nb-agents-invertedpendulum"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+),
+ each gravity change induces a short-term surge in the number of agents,
+ followed by a reduction and stabilization around a nominal value.
+ This indicates a restructuring of the population,
+ where novelty triggers agent creation and confidence-based mechanisms triggers destruction to eliminate less relevant agents.
+\end_layout
+
+\begin_layout Standard
+In Hopper (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Visualization-of-nb-agents-hopper"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+),
+ the number of agents grows monotonically throughout training.
+ Distinct growth regimes are observed for each gravity value with first a logaritmic growth (
+\begin_inset Formula $g=9.81$
+\end_inset
+
+),
+ second a seemingly linear growth (
+\begin_inset Formula $g=4$
+\end_inset
+
+) and third a slight logarithmic growth (
+\begin_inset Formula $g=20$
+\end_inset
+
+) with stabilization around 20k steps.
+ This accumulation of agents suggests a continuous detection of local dynamics without systematic removal of existing agents.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/dynamic_change_comparison/nb_agents_colored_zones_no_title_invertedpendulum.png
+	lyxscale 30
+	width 45col%
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+InvertedPendulum
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Visualization-of-nb-agents-invertedpendulum"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/dynamic_change_comparison/nb_agents_colored_zones_no_title_hopper.png
+	lyxscale 30
+	width 45col%
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Hopper
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Visualization-of-nb-agents-hopper"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Evolution of the number of agents in kCELL during learning.
+ Each semi-transparent colored area corresponds to a given training dataset / dynamic variation regime.
+ The dotted vertical red lines corresponds to changes in dynamic i.e to a change of train dataset with a different value of 
+\begin_inset Formula $g$
+\end_inset
+
+.
+ The 
+\begin_inset Formula $x$
+\end_inset
+
+ axis corresponds to the number of point ingested (number of steps) and the 
+\begin_inset Formula $y$
+\end_inset
+
+ axis corresponds to the number of agents in the system.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Evolution-of-nb-agents"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Agent Age and Confidence Dynamics
+\end_layout
+
+\begin_layout Standard
+The mean age of agents provides further insights on kCELL as presented in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Evolution-of-age"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ In InvertedPendulum,
+ gravity changes coincide with abrupt drops in mean agent age.
+ This means that the population becomes suddenly younger,
+ which is consistent with the replacement of older agents by newly created ones following a shift in dynamics.
+ This behavior aligns with a confidence-driven selection mechanism that favors agents specialized to the current dynamics.
+\end_layout
+
+\begin_layout Standard
+In Hopper however,
+ the mean agent age increases almost constantly,
+ with only minor decreases follwoing the first gravity change and a slight slowdown after the second.
+ This indicates that older agents persist over time and are not fully displaced by newer ones,
+ despite agent creations.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/dynamic_change_comparison/age_of_agents_w500_no_title_colored_inverted_pendulum.png
+	lyxscale 30
+	width 45col%
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+InvertedPendulum
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Visualization-of-age-invertedpendulum"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/dynamic_change_comparison/age_of_agents_w500_no_title_colored_hopper.png
+	lyxscale 30
+	width 45col%
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Hopper
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Visualization-of-age-hopper"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Evolution of the age of agents in kCELL during learning (smoothed with a window of 500 steps).
+ Each semi-transparent colored area corresponds to a given training dataset / dynamic variation regime.
+ The dotted vertical red lines corresponds to changes in dynamic i.e to a change of train dataset with a different value of 
+\begin_inset Formula $g$
+\end_inset
+
+.
+ The 
+\begin_inset Formula $x$
+\end_inset
+
+ axis corresponds to the number of point ingested (number of steps) and the 
+\begin_inset Formula $y$
+\end_inset
+
+ axis corresponds to the mean age of agents (in steps) in the system .
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Evolution-of-age"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Agent Activation and Local Expertise
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Evolution-of-activations"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ shows the evolution of the activation of closest agent during learning.
+ In InvertedPendulum,
+ each gravity change results in a sharp drop in activation,
+ signaling a loss of relevance of existing local modals.
+ Activation values subsequently recovers as new agents acquire expertise under the new dynamics.
+\end_layout
+
+\begin_layout Standard
+In Hopper,
+ activation levels differ across the different gravity regimes,
+ with distinct nominal mean activation value observed for each values of gravity acceleration.
+ Slight activation decreases are detectable immediately following changes in dynamics,
+ these effects are less visible than in INvertedPendulum and partially blurred by higher variance regimes.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/dynamic_change_comparison/max_activation_smooth_w500_colored_inverted_pendulum.png
+	lyxscale 30
+	width 45col%
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+InvertedPendulum
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Visualization-of-activations-invertedpendulum"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/dynamic_change_comparison/max_activation_smooth_w500_colored_hopper.png
+	lyxscale 30
+	width 45col%
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Hopper
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Visualization-of-activations-hopper"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Evolution of the maximum activation value of agents in kCELL during learning (smoothed with a window of 500 steps).
+ Each semi-transparent colored area corresponds to a given training dataset / dynamic variation regime.
+ The dotted vertical red lines corresponds to changes in dynamic i.e to a change of train dataset with a different value of 
+\begin_inset Formula $g$
+\end_inset
+
+.
+ The 
+\begin_inset Formula $x$
+\end_inset
+
+ axis corresponds to the number of point ingested (number of steps) and the 
+\begin_inset Formula $y$
+\end_inset
+
+ axis corresponds to the maximum activation value of agents.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Evolution-of-activations"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the higher-dimensional Hopper environment,
+ agent persistence can be explained by two non-exclusive mechanisms.
+ First,
+ it is possible that agents trained under earlier gravity settings retain partial competence in overlapping regions of the state-action space.
+ Those agents are then incrementally adapted as new data arrives leading to multi-regime reuse.
+ In this case the growth of agents can be explained mainly by the modeling complexity introduced by the change in dynamics.
+ Second,
+ high-dimensional effects may reduce the sensitivity of the Mahalanobis distance,
+ yielding sparse activation of older agents that prevents both their meaningful adaption and confidence degradation.
+ In this case,
+ those agents can be considered as frozen because they are too tightly tied to previously visited regions that do not overlap with newly discovered ones after dynamic changes.
+\end_layout
+
+\begin_layout Standard
+To disambiguate whether agent persistence in the Hopper environment arises from adaptive reuse or from limited cross-regime activation,
+ we analyzed the activation patterns of the final agent population obtained after full training.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Heatmap-of-activations-hopper"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ presents a heatmap of agent activations for all training samples,
+ where columns correspond to agents sorted by age (from oldest to youngest) and rows correspond to training data points (in order) aggregated into bins.
+ The resulting heatmap exhibits distinct block patterns,
+ with older agents primarily activated for samples from the earliest dataset and progressively younger agents ddominating activation for later datasets.
+ We can also observe that the shape of the number of agents curve (presented in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Visualization-of-nb-agents-hopper"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+) appears in the heatmap drawn by points where agents are the most active.
+ This organization further indicates that agents remain selectively active for the dynamics under which they were trained and created rather than becoming inactive or obsolete.
+\end_layout
+
+\begin_layout Standard
+Complementary,
+ we provide a two-dimensional UMAP 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mcinnes2018umap"
+literal "false"
+
+\end_inset
+
+ projection of the training data in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:UMAP-of-training-hopper"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ with samples colored according to their corresponding gravity regime.
+ The projection reveals a clear separation between training datasets,
+ suggesting that changes in dynamics induce distinct regions in the state-action space.
+ This structural separation provides a plausible explanation for the coexistence of multiple generations of agents.
+ Because data from different dynamics regimes occupy largely disjoint regions,
+ agents specialized to earlier dynamics remain relevant for their corresponding subspaces without interfering with those created for later regimes.
+\end_layout
+
+\begin_layout Standard
+These analyses support the claim that agent retention in the Hopper environment is primarily driven by regime-specific specialization in a high-dimensional space,
+ rather than by passive survival due to insufficient confidence updates that would prevent the destruction process.
+ While Mahalanobis distance may lose discriminative power in higher dimensional spaces,
+ the observed seperation of state-action distributions enables kCELL to maintain multiple local experts corresponding to different dynamics.
+ This results in stable prediction performance across successive dynamics changes.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/dynamic_change_comparison/agents_activation_heatmap_no_title_w300.png
+	lyxscale 30
+	width 70col%
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Heatmap of final Agents Activations on Training Datasets.
+ 
+\begin_inset Formula $y$
+\end_inset
+
+-axis correspond to the training data (in order) aggregated into bins of size 300 (from top to bottom) and 
+\begin_inset Formula $x$
+\end_inset
+
+-axis corresponds to agents ids sorted from the oldest to the youngest (left to right).
+ The dotted horizontal red lines corresponds to changes in dynamic i.e to a change of train dataset with a different value of 
+\begin_inset Formula $g$
+\end_inset
+
+.
+ The colors corresponds to activation levels of agents over each aggregated training data bins with yellow meaning high activation and blue meaning low activation.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Heatmap-of-activations-hopper"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/dynamic_change_comparison/train_umap_without_agents.png
+	lyxscale 30
+	width 70col%
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Visualization of UMAP projection of Training data where each point is colored depending on the training dataset it comes from (blue for 
+\begin_inset Formula $g=9.81$
+\end_inset
+
+;
+ yellow for 
+\begin_inset Formula $g=4$
+\end_inset
+
+;
+ pink for 
+\begin_inset Formula $g=20$
+\end_inset
+
+)
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:UMAP-of-training-hopper"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Discussion
+\end_layout
+
+\begin_layout Standard
+The results presented suggest that kCELL is able to adapt to non-stationary dynamics through a combination of local specialization and structural plasticity with behaviors that depend strongly on the dimensionality and geometry of the feature space.
+ In both environments,
+ kCELL succesfully reduces prediction error on the currently observed dynamics demonstrating effective online adaptation without explicit task or concept drift detection modules.
+ Compared to a Hoeffding Adaptive Tree baseline,
+ kCELL achieves lower MAE for the low-dimensional InvertedPendulum environment when training and testing distributions coincide.
+ It also achieves comparable performances for the higher-dimensional Hopper environment although with increased variability due to its structural adaptivity.
+\end_layout
+
+\begin_layout Standard
+For the InvertedPendulum environment,
+ changes in dynamics induced a rapid loss of relevance of agents trained on previous dynamics leading to their destruction or adjustment.
+ This is reflected by sharp drops in agent activation,
+ decreases in mean agent age,
+ temporary surges in the number of agents followed by a stabilization and the observed increase in MAE on previously encountered dynamics.
+ These indicate a population renewal process driven by confidence degradation and agent replacement.
+ In this setting,
+ partial forgetting emerges as a natural consequence of the overlap between the geometry of different dynamics and reflects appropriate structural adaptation rather than failure of retention.
+\end_layout
+
+\begin_layout Standard
+In contrast,
+ the Hopper environment exhibits persistent agent populations and stable prediction performance across successive dynamics changes.
+ Although the number of agents grows monotonically,
+ confidence-based destruction prevents the survival of agents that negatively impact prediction accuracy.
+ The absence of population turnover is therefore not attributable to ineffective agent pruning.
+ Analysis of agent activations reveals a structured specialization pattern.
+ The activation heatmap of the final agent population shows distinct blocks associated with different training phases.
+ Older agents are selectively activated for earlier gravity regimes and younger agents for later ones.
+ This organization indicates retention of regime-specific expertise rather than passive persistence of obsolete models.
+ Indeed,
+ the agents do not know when a new dynamics change might occur and which dynamics will replace the current one.
+\end_layout
+
+\begin_layout Standard
+This interpretation is further supported by the UMAP analysis of the training data,
+ which reveals clear separation between datasets generated with different gravity values.
+ The existence fo well-separated regions in the state-action space provides a plausible explanation for the coexistence of multiple generations of agents without destructive interference.
+ Thus,
+ in this case,
+ high dimensionality enables to allocate distinct subsets of agents to different dynamics.
+ Although Mahalanobis distance may lose discriminative precision as dimensionality increases,
+ for this experiment with 11-dimensional states and 3-dimensional actions (resulting in a 14-dimensional input vector),
+ the geometric separation induced by gravity changes appears sufficient to maintain effective specialization.
+\end_layout
+
+\begin_layout Standard
+Overall,
+ the results suggest that kCELL implicitly adjusts the tradeoff between forgetting and retention based on the structure of the data distribution rather than relying on explicit task boundaries.
+ In low-dimensional spaces,
+ adaptation is achieved through agent replacement and partial forgetting,
+ while in higher-dimensional settings with separable regimes,
+ the system favors retention and specialization.
+ These results highlight both the strength and current limitations of kCELL.
+ It paves the way for future works on the use of more robust distance metrics and activation mechanisms to account for high-dimensional geometry.
+\end_layout
+
+\begin_layout Standard
+Finally,
+ we highlight the ability to analyze kCELL through the spatial organization and activation patterns of agents as a key advantage in terms of interpretability.
+ Introspection of agent properties allows to identify which regions of the state-action space correspond to different dynamics,
+ to understand how the model responds to non-stationary conditions and to debug or reinfe learning mechanisms.
+ This relates the properties we presented in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Explainability-oCELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ showing that despite the design differences with oCELL,
+ some related properties remain.
+\end_layout
+
+\begin_layout Subsection
+Online Stationary Modeling
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Experiment on SARCOS + D4RL + KUKA to test raw performances with river-ml algorithms
 \end_layout
 
 \end_inset
@@ -3699,7 +5279,7 @@ Comparative Study of CELL Variants
 status open
 
 \begin_layout Plain Layout
-Comparison of paving for robot in maze between oCELL and kCELL
+Comparison of paving for robot in maze / or pendulum between oCELL and kCELL
 \end_layout
 
 \end_inset
