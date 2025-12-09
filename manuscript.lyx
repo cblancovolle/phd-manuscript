@@ -197,7 +197,7 @@ literal "false"
 
 \begin_layout Standard
 In this chapter we introduce CELL (Context Ensemble Local Learning),
- a family of mutliagent systems designed for online learning dynamics of a complex environment.
+ a family of multiagent systems designed for online learning dynamics of a complex environment.
  Our approach addresses online supervised learning through simple self-organization of multiple local expert agents paving the feature space.
  These agents are created and updated dynamically according to predefined learning rules.
  Each agent occupies a specific region in feature space,
@@ -250,7 +250,7 @@ literal "false"
 
 \end_inset
 
- or eletrical engineering,
+ or electrical engineering,
  particularly with issues related to smart grids 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -387,7 +387,7 @@ In Bagging we train multiple models (usually homogeneous) in parallel on differe
  Then we obtain the final prediction from a weighted average of the predictions of the all the weak learners.
  Finally,
  we have Stacking that falls under meta-learning.
- We train in parallel a set of heterogeneous models and then we train a meta-model whose role will be to combine the predictions of each model to obtain the final output fo the system,
+ We train in parallel a set of heterogeneous models and then we train a meta-model whose role will be to combine the predictions of each model to obtain the final output of the system,
  in order to capture complementary strengths of each learning algorithms involved in the learning process.
 \end_layout
 
@@ -445,6 +445,87 @@ what
 \end_layout
 
 \begin_layout Standard
+First,
+ in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Context-Agents"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ we will introduce the inner workings of the agents in oCELL,
+ describing how they are spatialized in feature space and how they predict.
+ Then,
+ in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Learning-Rules"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ we describe rules allowing self-organization and emergence of learning in the system.
+ Next,
+ in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Comparative-Study"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ we provide a comparative study to evaluate the performances of oCELL against other machine learning algorithms on a 2D toy experiment.
+ Afterwards,
+ in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Explainability-oCELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ we study the introspection capabilities of oCELL,
+ that is to say the explainability properties that emerges from the spatial organization of agents.
+ Finally,
+ in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Limitations"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ we outline the limitations of oCELL and suggest hints for research and improvements to be done in future works (some of which are tackled in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:kCELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
 \begin_inset Note Comment
 status open
 
@@ -459,6 +540,13 @@ Insert description of subsequent section content
 
 \begin_layout Subsection
 Context Agents
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Context-Agents"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -635,7 +723,7 @@ Furthermore,
 \begin_inset Formula $x\in\mathbb{R}^{n}$
 \end_inset
 
- is considered as intersecting an hyperrectangle if,
+ is considered as intersecting an orthotope if,
  for all feature 
 \begin_inset Formula $j$
 \end_inset
@@ -888,7 +976,7 @@ Context
 \begin_inset Formula $l_{j}^{t}$
 \end_inset
 
- of the associated hyperrectangle are updated according to the following relationship:
+ of the associated orthotope are updated according to the following relationship:
 \begin_inset Formula 
 \begin{align}
 h_{j}^{t+1} & =\begin{cases}
@@ -924,7 +1012,7 @@ and
 
 .
  Thus,
- the new volume of the hyperrectangle associated with 
+ the new volume of the orthotope associated with 
 \begin_inset Formula $\mathcal{A}$
 \end_inset
 
@@ -1122,6 +1210,13 @@ Illustration of the prediction process with Context Agents
 
 \begin_layout Subsection
 Learning Rules
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Learning-Rules"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2141,6 +2236,13 @@ name "subsec:Explainability-oCELL"
 
 \begin_layout Subsection
 Limitations
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Limitations"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -4203,11 +4305,35 @@ Hopper
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Characteristics of datasets generated with 
+Characteristics of datasets generated with different values of 
 \begin_inset Formula $g$
 \end_inset
 
- the acceleration due to gravity 
+.
+ 
+\emph on
+State Size
+\emph default
+ stands for the number of features in states,
+ 
+\emph on
+Nb Actions
+\emph default
+ stands for the number of continuous actions,
+ 
+\emph on
+Dynamic Changes
+\emph default
+ corresponds the set of 
+\begin_inset Formula $g$
+\end_inset
+
+ values used to generate the datasets,
+ 
+\emph on
+Nb Learning Steps
+\emph default
+ corresponds to the budget in number of training steps used to train the RL agent used to generate each dataset (one RL Agent per dataset).
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:Characteristics-of-datasets"
@@ -4287,7 +4413,7 @@ Finally,
  specifically for kCELL,
  we notice that for InvertedPendulum,
  transitions between gravity values lead to an increase in MAE on past test sets,
- seemingly relfecting partial forgetting of earlier dynamics.
+ seemingly reflecting partial forgetting of earlier dynamics.
  In contrast,
  for Hopper,
  kCELL exhibits stable MAE on previously encountered gravity values even after multiple regime changes,
