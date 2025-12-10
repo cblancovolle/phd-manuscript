@@ -33,7 +33,7 @@ theorems-ams
 \output_sync 0
 \bibtex_command default
 \index_command default
-\float_placement class
+\float_placement H
 \float_alignment class
 \paperfontsize 12
 \spacing single
@@ -398,15 +398,168 @@ The family of systems we present in this chapter,
  Each one of them is a local expert on the function to be approximated.
 \end_layout
 
+\begin_layout Subsection
+XAI
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:XAI"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The field of eXplainable Artificial Intelligence (XAI) addresses the opacity of complex models by providing insights into their decision-making processes.
+ However,
+ interpretability and explainability are defined in various ways 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gilpin2018explaining,doshi2017towards"
+literal "false"
+
+\end_inset
+
+ and often used interchangeably.
+ Thus,
+ following the distinction made in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "burkart2021survey"
+literal "false"
+
+\end_inset
+
+,
+ we differentiate between interpretability and explainability.
+ Interpretability is defined as the inherent ability to understand how the model works as a whole,
+ focusing on the model's structure and mechanisms (i.e transparency).
+ In contrast,
+ explainability is associated with the methodologies used to communicate the reasoning for a specific decision taken by a model.
+ 
+\end_layout
+
+\begin_layout Standard
+Approaches such as deep learning achieve good performance across a wide variety of tasks.
+ However,
+ these approaches generate highly complex models.
+ There must be a compromise between the model's performance and its ability to produce explainable predictions and interpretable structures 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "linardatosExplainableAIReview2020"
+literal "false"
+
+\end_inset
+
+.
+ Some approaches were developed to adress the explainability of predictions.
+ SHAP looks for the impact of each feature on the prediction using cooperative game theory 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lundberg2017unified"
+literal "false"
+
+\end_inset
+
+ and LIME builds an interpretable surrogate model that approximate a black-box model locally 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ribeiro2016should"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Within this discourse,
+ machine learning models are typically categorized as white-box or black-box models 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "loyola-gonzalezBlackBoxVsWhiteBox2019"
+literal "false"
+
+\end_inset
+
+.
+ Black-box models have opaque and complex inner workings that are difficult for an external observer to understand.
+ This categorisation includes deep learning models 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lecunDeepLearning2015"
+literal "false"
+
+\end_inset
+
+ and some ensemble models 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "breimanRandomForests2001,polikarEnsembleLearning2012,chenXGBoostScalableTree2016,keLightGBMHighlyEfficient2017"
+literal "false"
+
+\end_inset
+
+.
+ Conversely,
+ white-box models have simpler and less opaque inner workings.
+ These models,
+ considered more explainable than black-box models,
+ include linear regression models 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "weisbergAppliedLinearRegression2005"
+literal "false"
+
+\end_inset
+
+,
+ decision trees 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "rokachDecisionTrees2005"
+literal "false"
+
+\end_inset
+
+ ,
+ and other rule-based approaches.
+ To achieve explainability,
+ white-box models are preferred.
+\end_layout
+
+\begin_layout Standard
+The explainability of a prediction is partly linked to the concept of uncertainty.
+ An informed decision-making process must take uncertainty into account.
+ We distinguish between epistemic uncertainty and aleatoric uncertainty 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "chuaDeepReinforcementLearning2018,hullermeierAleatoricEpistemicUncertainty2021"
+literal "false"
+
+\end_inset
+
+.
+ Aleatoric uncertainty arises from the inherent natural variation in the studied phenomena.
+ It may be due to random fluctuations,
+ measurement errors,
+ or other unpredictable factors.
+ Epistemic uncertainty on the other hands,
+ stems from a lack of knowledge or complete understanding of the studied phenomenon.
+ This type of uncertainty is related to the lack of data in certain regions of the feature space.
+\end_layout
+
 \begin_layout Section
 oCELL:
  Multiagent Ensemble Learning with Orthotopes
 \end_layout
 
 \begin_layout Standard
-In this section we describe the first variant of CELL that we name oCELL (orthotope CELL).
- We explore context agent based systems composed of multiple autonomous agents with their own capabilities and only local knowledge of the environment.
- Our system is based on the Self-Adaptive Context Learning (SACL) paradigm 
+This section introduces the first variant of CELL,
+ referred to as oCELL (orthotope CELL).
+ CELL systems are multiagent systems composed of autonomous agents,
+ each possessing local knowledge and specific capabilities.
+ These systems build upon the Self-Adaptive Context Learning (SACL) paradigm 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "boesSelfAdaptiveContextLearning2015"
@@ -414,34 +567,31 @@ literal "false"
 
 \end_inset
 
- to address an online supervised learning problem.
- We want to learn a function 
-\begin_inset Formula $f:\mathbb{R}^{n}\rightarrow\mathbb{R}^{m}$
-\end_inset
-
- to map feature to target vectors from a stream of data.
- 
+ to address online supervised learning tasks.
 \end_layout
 
 \begin_layout Standard
-oCELL processes a stream of data.
- Incoming points are routed to the system's primary components,
- which we call Context agents.
- These agents are created and updated dynamically according to predefined learning rules.
- Each Context agent occupies a specific region in feature space,
- representing the area where is is most confident in its predictions.
- This spatialization allows the agent to determine 
+The objective is to approximate a function 
+\begin_inset Formula $f:\mathbb{R}^{n}\rightarrow\mathbb{R}^{m}$
+\end_inset
+
+ that maps feature vectors to target vectors from a continuous stream of data.
+ oCELL processes incoming data points by routing them to its primary components,
+ the context agents.
+ These agents are dynamically created and updated according to predefined learning rules.
+ Each agent occupies a distinct region of the feature space defined as an orthotope,
+ where it maintains the highest confidence in its predictions.
+ This spatial organization allows agents to determine 
 \emph on
 when
 \emph default
- it should make a prediction.
+ they should contribute to the prediction process.
  To determine 
 \emph on
 what
 \emph default
  to predict,
- each agent maintains a local machine learning model over the confidence region.
- 
+ each agent maintains a local machine learning model over to its confidence region.
 \end_layout
 
 \begin_layout Standard
@@ -457,8 +607,9 @@ nolink "false"
 
 \end_inset
 
- we will introduce the inner workings of the agents in oCELL,
- describing how they are spatialized in feature space and how they predict.
+,
+ we describe the internal structure of context agents,
+ including their spatialization in the feature space and their prediction mechanisms.
  Then,
  in 
 \begin_inset CommandInset ref
@@ -471,9 +622,10 @@ nolink "false"
 
 \end_inset
 
- we describe rules allowing self-organization and emergence of learning in the system.
- Next,
- in 
+,
+ we introduce the learning rules that cover agent creation,
+ adaptation and self-organization leading to the emergence of learning in the system.
+ In 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:Comparative-Study"
@@ -484,8 +636,9 @@ nolink "false"
 
 \end_inset
 
- we provide a comparative study to evaluate the performances of oCELL against other machine learning algorithms on a 2D toy experiment.
- Afterwards,
+,
+ we present a comparative study evaluating the performance of oCELL against other machine learning algorithms on a two-dimensional benchmark.
+ Subsequently,
  in 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -497,8 +650,9 @@ nolink "false"
 
 \end_inset
 
- we study the introspection capabilities of oCELL,
- that is to say the explainability properties that emerges from the spatial organization of agents.
+,
+ we analyze the introspection and explainability capabilities of oCELL,
+ which naturally arise from the spatial organization of agents.
  Finally,
  in 
 \begin_inset CommandInset ref
@@ -511,7 +665,9 @@ nolink "false"
 
 \end_inset
 
- we outline the limitations of oCELL and suggest hints for research and improvements to be done in future works (some of which are tackled in 
+,
+ we discuss the limitations of oCELL and outline directions for future research,
+ some of which are addressed in 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:kCELL"
@@ -522,20 +678,7 @@ nolink "false"
 
 \end_inset
 
-).
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Insert description of subsequent section content
-\end_layout
-
-\end_inset
-
-
+.
 \end_layout
 
 \begin_layout Subsection
@@ -550,12 +693,18 @@ name "subsec:Context-Agents"
 \end_layout
 
 \begin_layout Standard
-The main entities of oCELL are the Context agents.
- A Context agent 
-\begin_inset Formula $\mathcal{A}_{i}$
+The main entities of oCELL are context agents.
+ A context agent,
+ denoted as 
+\begin_inset Formula 
+\[
+\mathcal{A}_{i}=\left\{ \phi_{i},f_{i}\right\} 
+\]
+
 \end_inset
 
- is characterized by an activation function 
+is defined by two core components:
+ an activation function 
 \begin_inset Formula $\phi_{i}\left(x\right)$
 \end_inset
 
@@ -563,57 +712,58 @@ The main entities of oCELL are the Context agents.
 \begin_inset Formula $f_{i}\left(x\right)$
 \end_inset
 
- such as 
-\begin_inset Formula 
-\[
-\mathcal{A}_{i}=\left\{ \phi_{i}\left(x\right),f_{i}\left(x\right)\right\} 
-\]
-
+.
+ The activation function determines whether the agent should contribute to the prediction for a given input 
+\begin_inset Formula $x$
 \end_inset
 
-
+,
+ while the prediction function provides the corresponding output.
 \end_layout
 
 \begin_layout Standard
-Each agent can refine the parameters of its internal activation and prediction function to adapt to its local surroundings depending on reinforcement signals it receives.
- To summarize,
- a Context agent can be considered as a local expert of the function to be approximated with its activation function telling it 
+Each agent can adapt the parameters of its activation and prediction functions based on reinforcement signals derived from its performance,
+ enabling it to refine its behavior according to local conditions in feature space.
+ Conceptually,
+ a context agent acts as a local expert for the target function with activation function governing 
 \emph on
 when
 \emph default
- it should predict and with its prediction function telling it 
+ the agent predicts,
+ and the prediction function specifying 
 \emph on
 what
 \emph default
- to predict.
- 
+ it predicts.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Insert description of subsequent section content
-\end_layout
-
-\end_inset
-
-
+We first describe the spatialization mechanism of context agents based on orthotopes.
+ Then we detail the prediction mechanisms arising from interactions within an agent’s neighborhood.
 \end_layout
 
 \begin_layout Subsubsection
 Spatialization with Orthotopes
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Spatialization-with-Orthotopes"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-As we need a transparent and interpretable system,
- we chose to spatialize our Context agents using orthotopes.
- the use of orthotopes allows us to precisely evaluate how agents have organized themselves feature-wise while also allowing for simpler shape change mechanisms required for self-organisation of Context agents because we can act on each dimension individually.
+To ensure transparency and interpretability,
+ oCELL spatialize context agents using orthotopes (also referred to as hyper-rectangles in the literature).
+ Orthotopes provide a clear geometric representation of an agent's confidence region in the feature space,
+ allowing precise evaluation of agent organization and facilitating shape adaptation during self-organization.
+ This representation allows independent manipulation of each feature dimension,
+ simplifying expansion and retraction operations.
 \end_layout
 
 \begin_layout Standard
-Learning with orthotopes (often referred to as hyper-rectangles in literature) is an approach already explored in literature for supervised learning 
+Learning with orthotopes has been explored in previous works on supervised learning 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "fourezEnsembleMultiAgentSystem2022,konstantinov2023interpretable"
@@ -622,10 +772,9 @@ literal "false"
 \end_inset
 
 .
- Usually,
- these approaches aim to partition the feature space into orthotopes to then model locally the function to approximate.
- For example,
- in 
+ These approaches typically partition the feature space into orthotopes and model the target function locally.
+ For instance,
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "konstantinov2023interpretable"
@@ -634,13 +783,13 @@ literal "false"
 \end_inset
 
 ,
- the authors leverage a gradient boosting approach to learn the bounds of the orthotopes with each corresponding to a very simple base model (constant value),
- not suitable for online learning from a stream of data.
+ employs a gradient boosting to learn orthotope bounds,
+ where each region corresponds to a simple constant model.
+ However this approach is not suitable for online learning from data streams.
 \end_layout
 
 \begin_layout Standard
-In terms of spatialization of agents,
- oCELL borrows a similar approach to 
+oCELL borrows a similar spatialization principle to 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "fourezEnsembleMultiAgentSystem2022"
@@ -649,7 +798,7 @@ literal "false"
 \end_inset
 
 ,
- in which authors use SACL learning paradigm 
+ which uses the SACL paradigm 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "boesSelfAdaptiveContextLearning2015"
@@ -657,7 +806,7 @@ literal "false"
 
 \end_inset
 
- to solve a classification task from a stream of data by progressively paving the feature space with context agents.
+ to progressively pave the feature space with context agents to address classification tasks.
  However,
  unlike 
 \begin_inset CommandInset citation
@@ -668,21 +817,21 @@ literal "false"
 \end_inset
 
 ,
- we address issues specifically related to regression problems such as a need for a smoother spatialization of agents.
+ oCELL addresses issues specifically related to regression tasks such as the need for a smoother spatialization of agents to smooth prediction accuracy.
 \end_layout
 
 \begin_layout Standard
-In oCELL,
- each agent activation function's parameters correspond to a 
+Each agent's activation function defines a 
 \begin_inset Formula $p$
 \end_inset
 
 -dimensional orthotope in the feature space.
- This orthotope si defined for each feature dimension 
+ For each feature dimension 
 \begin_inset Formula $j\in\left\{ 1,\dots,n\right\} $
 \end_inset
 
- by a lower bound 
+,
+ the orthotope is parameterized by a lower bound 
 \begin_inset Formula $l_{j}$
 \end_inset
 
@@ -692,9 +841,9 @@ In oCELL,
 
  such as
 \begin_inset Formula 
-\[
+\begin{equation}
 \mathcal{H}_{i}=\left[l_{1},h_{1}\right]\times\dots\times\left[l_{n},h_{n}\right]
-\]
+\end{equation}
 
 \end_inset
 
@@ -712,14 +861,13 @@ The volume
 
  is defined by
 \begin_inset Formula 
-\[
+\begin{equation}
 v\left(\mathcal{A}_{i}\right)=\prod_{j=1}^{n}\left(h_{j}-l_{j}\right)
-\]
+\end{equation}
 
 \end_inset
 
-Furthermore,
- an observation 
+An observation 
 \begin_inset Formula $x\in\mathbb{R}^{n}$
 \end_inset
 
@@ -728,11 +876,12 @@ Furthermore,
 \begin_inset Formula $j$
 \end_inset
 
- we have 
+,
+ 
 \begin_inset Formula 
-\[
+\begin{equation}
 l_{j}\leq x_{j}\leq h_{j}
-\]
+\end{equation}
 
 \end_inset
 
@@ -754,11 +903,11 @@ Additionaly,
 \begin_inset Formula $j$
 \end_inset
 
- we have
+,
 \begin_inset Formula 
-\[
-\max\left(l_{1,j},l_{2,j}\right)\leq\min\left(h_{1,j},h_{2,j}\right)
-\]
+\begin{equation}
+\max\left(l_{1,j},l_{2,j}\right)\leq\min\left(h_{1,j},h_{2,j}\right)\label{eq:orthotope-intersection}
+\end{equation}
 
 \end_inset
 
@@ -778,7 +927,7 @@ with
 \begin_inset Formula $h_{2,j}$
 \end_inset
 
- respectively the lower and upper bounds of 
+ denote the lower and upper bounds of 
 \begin_inset Formula $\mathcal{H}_{1}$
 \end_inset
 
@@ -790,8 +939,8 @@ with
 \end_layout
 
 \begin_layout Standard
-Agents in oCELL are constructed based on the assumption of uniformity of knowledge over their area of expertise,
- that is to say on the area delimited by the orthotope associated with them.
+Agents in oCELL are constructed based on the assumption of uniform knowledge over their confidence region,
+ i.e the area delimited by the associated orthotope.
  We distinguish between activation and neighborhood.
  When an agent is activated by a point,
  it means it is confident in its expertise to predict for that point.
@@ -835,12 +984,12 @@ A Context Agent
 
  as
 \begin_inset Formula 
-\[
+\begin{equation}
 \phi_{\mathcal{H}}\left(x\right)=\begin{cases}
 1 & \text{if}\,\,\forall j,\,\,l_{j}\leq x_{j}\leq h_{j}\\
 0 & \text{else}
 \end{cases}
-\]
+\end{equation}
 
 \end_inset
 
@@ -855,11 +1004,11 @@ A Context Agent
 \end_layout
 
 \begin_layout Definition
-We define the neighborhood of an observation 
+The neighborhood of an observation 
 \begin_inset Formula $x$
 \end_inset
 
- as an orthotope 
+ is defined as an orthotope 
 \begin_inset Formula $\mathcal{H}_{\text{neighborhood}}$
 \end_inset
 
@@ -868,24 +1017,24 @@ We define the neighborhood of an observation
 \end_inset
 
 .
- A 
-\emph on
-Context
-\emph default
- Agent is considered a neighbor of 
+ A context Agent 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ is considered a neighbor of 
 \begin_inset Formula $x$
 \end_inset
 
  if the orthotope 
-\begin_inset Formula $\mathcal{H}$
+\begin_inset Formula $\mathcal{H}_{i}$
 \end_inset
 
  associated with the activation function 
-\begin_inset Formula $\phi_{\mathcal{H}}$
+\begin_inset Formula $\phi_{i}$
 \end_inset
 
  of 
-\begin_inset Formula $\mathcal{A}$
+\begin_inset Formula $\mathcal{A}_{i}$
 \end_inset
 
 ,
@@ -894,12 +1043,13 @@ Context
 \end_inset
 
 
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Add ref to equation of intersection between two orthotopes
-\end_layout
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:orthotope-intersection"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
 
 \end_inset
 
@@ -914,9 +1064,9 @@ Add ref to equation of intersection between two orthotopes
 \end_layout
 
 \begin_layout Standard
-For agents to self-organize,
- they need to be able to change form and move across feature space.
- In 
+For self-organization,
+ agents must adapt their shape and position in the feature space.
+ Unlike 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "fourezEnsembleMultiAgentSystem2022"
@@ -925,10 +1075,11 @@ literal "false"
 \end_inset
 
 ,
- authors defined spatialization rules such that overlap between agents would be minimized to avoid ambiguity in decision making to predict the class of a sample (for example agents could push each other).
- For a regression task,
- it can be more informative to average the predictions of several weak models to smooth the learned function.
- This property is all the more interesting because it would make our model easier to use in a non linear optimization process (cf section 
+ which minimizes overlap to avoid ambiguity in classification (for example agents could push each other),
+ oCELL allows overlapping regions to allow prediction smoothing through ensemble averaging.
+ This property is particularly useful for regression tasks as it can be more informative to average the predictions of several weak models to smooth the learned function.
+ It also facilitates integration into non-linear optimization processes (cf.
+ section 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "subsec:Hard-Constraints"
@@ -940,9 +1091,8 @@ nolink "false"
 \end_inset
 
 ).
- To smooth the learned function,
- we allow intersections between agents.
- An agent can therefore change its shape by contracting or expanding without worrying about where other agents are.
+ Therefore,
+ an agent can change its shape by contracting or expanding it's orthotope without worrying about the positions of other agents.
 \end_layout
 
 \begin_layout Definition
@@ -993,12 +1143,12 @@ l_{j}^{t} & \text{else}
 
 with
 \begin_inset Formula 
-\[
+\begin{equation}
 \varepsilon=\begin{cases}
 \left(1+\alpha\right) & \text{if expansion}\\
 \left(1-\alpha\right) & \text{if retraction}
 \end{cases}
-\]
+\end{equation}
 
 \end_inset
 
@@ -1038,37 +1188,30 @@ v_{\mathcal{A}}^{t+1} & =\varepsilon v_{\mathcal{A}}^{t}
 \end_layout
 
 \begin_layout Standard
-To summarize,
- our agents are spatialized through their activation functions with orthotopes that define their 
+In summary,
+ agents are spatialized through activation functions defining orthotopes that represent their 
 \emph on
-area of expertise
+confidence region
 \emph default
- in feature space.
- Finally,
- each agent can update the parameters of its activation function,
- effectively expanding or retracting its associated orthotope.
+ (i.e area of expertise) in feature space.
+ Each agent can adapt its bounds,
+ expanding or contracting its associated orthotope as needed.
  Intuitively,
- big agents could be considered as 
+ larger agents act as 
 \emph on
 generalists
 \emph default
- and smaller agents could be considered as 
+,
+ while smaller agents serve as 
 \emph on
 specialists
 \emph default
 .
- Therefore,
- in a region of feature space that is more complex to model,
- we would expect to find many small agents,
- and conversely,
- in a region of space that is simpler to model.
- We note that this assumption is based on the use of a simple class of models for agents such as linear regression.
- In our subsequent examples and experiments,
- we will primarily use linear regressions as internal models for the agents.
- Indeed,
- these models are simple,
- explainable,
- and transparent in their inner workings.
+ Consequently,
+ complex regions of feature space tend to host many small agents,
+ whereas simpler regions tend to be covered by fewer larger agents.
+ This assumption aligns with the use of simple local models such as linear regressions,
+ which we use in subsequent experiments for the transparency and interpretability of their inner workings.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1083,9 +1226,9 @@ name "subsubsec:Neighborhood-Prediction"
 \end_layout
 
 \begin_layout Standard
-Our goal is to solve a regression problem from a data stream.
- Specifically,
- we want to model the nonlinear dynamics of a complex system so that we can use the resulting model in an optimization pipeline for optimal control (cf chapter 
+The objective of oCELL is to perform online regression from a continuous data stream.
+ Spcifically,
+ it aims at modeling the nonlinear dynamics of a complex system for subsequent use in an optimization pipeline for optimal control (see Chapter 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "chap:Solving-Control-Tasks"
@@ -1097,12 +1240,23 @@ nolink "false"
 \end_inset
 
 ).
- Usually,
- when performing control with a learned model,
- we want to have minimal noise in the gradients and a smooth learned function to avoid significantly disrupting the optimization process.
- Therefore,
- we choose to allow the system to involve mutliple agents in the final decision,
- unlike in previous works 
+ Thus,
+ it's desirable to minimize gradient noise and ensure the learned function is smooth,
+ as irregularities can significantly disrupt the optimization process 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nesterov2013introductory"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+To achieve this,
+ oCELL allows multiple agents to contribute to the final prediction,
+ in contrast to previous works 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "boesSelfAdaptiveContextLearning2015,dato2021apprentissage,fourezEnsembleMultiAgentSystem2022"
@@ -1110,7 +1264,8 @@ literal "false"
 
 \end_inset
 
- where only one agent was ultimately selected to make the prediction.
+,
+ where a single agent was ultimately selected for prediction.
 \end_layout
 
 \begin_layout Standard
@@ -1123,7 +1278,7 @@ To obtain the prediction
 \end_inset
 
 ,
- we first need to select the agents that will make proposals on the value of 
+ we first need to select the agents that are the most competent to predict the value of 
 \begin_inset Formula $\hat{y}$
 \end_inset
 
@@ -1145,11 +1300,11 @@ To obtain the prediction
 \end_inset
 
 -closest agents instead.
- We proceed this way to avoid situations in which our model is not able to predict at all due to poor knowledge in the area around 
+ This fallback mechanism prevents prediction failures in regions where the system has limited knowledge (i.e poor paving of the area around 
 \begin_inset Formula $x$
 \end_inset
 
-.
+).
  The final prediction is then given by the arithmetic mean of the proposals of selected agents such as
 \begin_inset Formula 
 \[
@@ -1158,15 +1313,15 @@ To obtain the prediction
 
 \end_inset
 
-with 
+where 
 \begin_inset Formula $D_{\text{selected}}$
 \end_inset
 
-the set of selected agents (neighbors or closest) and 
+is the set of selected agents (neighbors or closest) and 
 \begin_inset Formula $f_{i}\in\mathbb{R}^{m}$
 \end_inset
 
- the internal function of the 
+ the internal prediction function of the 
 \begin_inset Formula $i$
 \end_inset
 
@@ -1174,16 +1329,6 @@ the set of selected agents (neighbors or closest) and
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Insert diagram to explain prediction
-\end_layout
-
-\end_inset
-
-
 \begin_inset Float figure
 placement document
 alignment document
@@ -1221,25 +1366,23 @@ name "subsec:Learning-Rules"
 
 \begin_layout Standard
 In CELL systems,
- we design the learning rules around a set of actions and conditions that trigger those actions to digest 
-\begin_inset Formula $x_{new},y_{new}$
+ the design of learning rules revolves around a set of actions and trigger conditions that decide how to digest the continuous stream of 
+\begin_inset Formula $\left(x_{new},y_{new}\right)$
 \end_inset
 
- that are fed to the system as a data stream.
- In context agent learning systems,
- the set of actions consists of actions that can be performed individually by agents such as updating their model or shape;
- and more meta-level actions such as destroying or creating new agents.
- In oCELL these actions are triggered by conditions that depend on the number of current neighbors or activated agents and a feedback value calculated from the proposals of selected agents.
+ data.
+ Some actions are tied to individual agents such as updating their model (prediction function) or shape (activation function);
+ and others are more meta-level actions such as destroying or creating new agents.
+ These actions are triggered by conditions.
+ In oCELL,
+ those conditions depend on the number of current neighbors,
+ on the number of activated agents and on a feedback value calculated from the proposals of selected agents.
 \end_layout
 
 \begin_layout Standard
-To determine what an agent should do,
- we define the quality of the proposal 
+To determine the appropriate action for an agent,
+ we define the prediction quality 
 \begin_inset Formula $L_{\mathcal{A}_{i}}$
-\end_inset
-
- 
-\begin_inset Formula $g:\mathbb{R}^{m}\times\mathbb{R}^{m}\mapsto\mathbb{R}$
 \end_inset
 
  of agent 
@@ -1266,21 +1409,24 @@ L_{\mathcal{A}_{i}}=g\left(\hat{y},y\right)
 \begin_inset Formula $y$
 \end_inset
 
-,
- that is to say the error.
+.
  The largest 
 \begin_inset Formula $L_{\mathcal{A}_{i}}$
 \end_inset
 
 ,
  the worse the quality of the proposal.
- For oCELL,
- we will use the squared error as the 
+ In oCELL,
+ we use the squared error as the 
 \begin_inset Formula $g$
 \end_inset
 
  function but other types of error functions could be used instead.
- We define two thresholds 
+ 
+\end_layout
+
+\begin_layout Standard
+We define two thresholds 
 \begin_inset Formula $\tau_{\text{good}}$
 \end_inset
 
@@ -1288,11 +1434,11 @@ L_{\mathcal{A}_{i}}=g\left(\hat{y},y\right)
 \begin_inset Formula $\tau_{\text{bad}}$
 \end_inset
 
- to define three regimes in the values of 
+ to partition the values of 
 \begin_inset Formula $L_{\mathcal{A}_{i}}$
 \end_inset
 
-:
+ into three regimes:
  
 \begin_inset Formula $L_{\mathcal{A}_{i}}\in\left[0,\tau_{\text{good}}\right]$
 \end_inset
@@ -1320,8 +1466,7 @@ inaccurate
 bad
 \emph default
  predictions.
- This way,
- we can choose the desired degree of accuracy that we want oCELL to reach after training.
+ These thresholds control the degree of accuracy expected from the system and influence the frequency of some rule activation.
 \end_layout
 
 \begin_layout Paragraph
@@ -1338,7 +1483,7 @@ When we have
 \end_inset
 
 ,
- it means the area around 
+ it means the region around 
 \begin_inset Formula $x_{new}$
 \end_inset
 
@@ -1383,8 +1528,8 @@ good
 \emph on
 inaccurate
 \emph default
- but it is still promising as a candidate to be activated,
- so it only refines its internal model and keeps its positions waiting for another signal to expand is needed.
+ but not catastrophic,
+ so it only refines its internal model and keeps its positions waiting for another signal to expand if needed.
  Then,
  if 
 \begin_inset Formula $L_{\mathcal{A}_{i}}\in\left[\tau_{\text{bad}},+\infty\right[$
@@ -1411,8 +1556,8 @@ will retract to get away from
 \end_inset
 
 .
- This rule represents the core of agents local self-organization.
- It allows the agents to move in feature space and refine their model as needed to exclude or include points to better model their close surroundings in feature space in response to feedbacks on the quality of their predictions.
+ This rule is the core of agents local self-organization.
+ It allows the agents to move in feature space and refine their model as needed to exclude or include points to better model their close surroundings in response to feedbacks on the quality of their predictions.
 \end_layout
 
 \begin_layout Paragraph
@@ -1461,7 +1606,7 @@ inaccurate
 \begin_inset Formula $\mathcal{A}_{i}$
 \end_inset
 
- could be an expert on 
+ could become an expert on 
 \begin_inset Formula $x_{new}$
 \end_inset
 
@@ -1485,8 +1630,7 @@ inaccurate
 \end_inset
 
 .
- This rule allows oCELL to reuse the current knowledge and extend it as needed.
- It also aims to limit the creation of redundant agents.
+ This rule promotes knowledge reuse and limit redundant agent creation.
 \end_layout
 
 \begin_layout Paragraph
@@ -1495,27 +1639,25 @@ Uselessness
 
 \begin_layout Standard
 In practice,
- we observe that it's necessary to have mechanisms for destroying agents within the system.
+ we observe a need for agent destruction mechanisms within the system.
  Indeed,
- some agents may evolve to degenrate shapes if they receive too much negative feedbacks in a row.
- Theyr become far too small to be informative.
+ some agents may evolve into degenerate shapes if they receive too much negative feedbacks in a row.
+ They become far too small to be informative.
  These 
 \emph on
 dead
 \emph default
- agents,
- that won't be activate ever again,
- are no longer useful in the system.
+ agents most probably won't be activated ever again and are no longer useful in the system.
  Consequently,
- we detroy all agents whose volume falls below a certain threshold value 
+ all agents whose volume falls below a certain threshold value 
 \begin_inset Formula $\tau_{\text{vol}}$
 \end_inset
 
-.
+ are destroyed.
 \end_layout
 
 \begin_layout Standard
-Finally we present in Table 
+Table 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "tab:Learning-rules-of-oCELL"
@@ -1526,7 +1668,18 @@ nolink "false"
 
 \end_inset
 
- a summary of the learning rules that describe the behavior of agents in oCELL.
+ summarize the learning rules governing the behavior of agents in oCELL and Figure 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "fig:Flowchart-illustrating-oCELL-learning"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ illustrates the learning process.
 \end_layout
 
 \begin_layout Standard
@@ -2158,6 +2311,13 @@ status open
 
 \begin_layout Plain Layout
 Flowchart illustrating the learning process
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Flowchart-illustrating-oCELL-learning"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -2171,37 +2331,51 @@ Flowchart illustrating the learning process
 \end_layout
 
 \begin_layout Standard
-So,
- oCELL relies on a set of hyperparameters that must be initialized before the training phase.
+Therefore,
+ oCELL relies on several hyperparameters that must be initialized prior to training.
  These parameters have an influence on the convergence of the system.
- We have the prediction labeling thresholds 
+ These parameters include:
+\end_layout
+
+\begin_layout Itemize
+Initial orthotope size (
+\begin_inset Formula $R$
+\end_inset
+
+):
+ determines the initial confidence region of newly created agents;
+ overly small regions may hinder proper activation and make new agents overspecialize locally.
+\end_layout
+
+\begin_layout Itemize
+Prediction thresholds (
 \begin_inset Formula $\tau_{\text{bad}}$
 \end_inset
 
-and 
+ and 
 \begin_inset Formula $\tau_{\text{good}}$
 \end_inset
 
- that define the boundaries for classifying the predictions of agents.
- Those thresholds are crucial because they directly influence the rate at which each learning rule will fire.
- 
+):
+ define accuracy regimes and influence rule activation frequency.
 \end_layout
 
-\begin_layout Standard
-Then we have the initial orthotope sizes that specify the feature-wise initial extent of the orthotope associated with a newly generated agent.
- This parameter is important in the sense that if an agent starts to small it will never reach other points and thus will be ignore or will add noise to its local surroundings at prediction.
-\end_layout
-
-\begin_layout Standard
-Afterwards we have the volume variation coefficient 
+\begin_layout Itemize
+Volume variation coefficient (
 \begin_inset Formula $\alpha$
 \end_inset
 
- that dictates the rate at which an agent's shape is updated in terms of fraction of it's current volume.
+):
+ controls the rate of expansion or retraction of agents as a fraction of their current volume.
 \end_layout
 
-\begin_layout Standard
-Finally we have the agent pruning volume threshold which is used for the detection and destruction of agents deemed inactive or irrelevant based on their current orthotope volume.
+\begin_layout Itemize
+Destruction threshold (
+\begin_inset Formula $\tau_{\text{vol}}$
+\end_inset
+
+):
+ specifies the minimum volume below which an agent is considered as a candidate for destruction.
 \end_layout
 
 \begin_layout Subsection
@@ -2215,12 +2389,4335 @@ name "subsec:Comparative-Study"
 
 \end_layout
 
-\begin_layout Subsubsection
-Data Generation
+\begin_layout Standard
+To evaluate the performances of oCELL,
+ we conduct a comparative study against standard machine learning algorithms on a regression task.
+ This section outlines the experimental protocol and compare performances against various metrics.
+ For this experiment,
+ each context agent employs a linear regression as its internal model.
+ This choice is motivated by the simplicity and transparency of the inner workings of linear transformations.
+ This aligns with the design of oCELL and facilitate clear analysis of the system's behavior.
 \end_layout
 
 \begin_layout Subsubsection
-Experiment
+Experimental Setup
+\end_layout
+
+\begin_layout Standard
+The experiment is conducted on four two-dimensional benchmark functions commonly used in optimization research.
+ These functions were selected due to their nonlinear characteristics and the challenges they present for optimization,
+ particularly for gradient-based methods 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Jamil2013ALS"
+literal "false"
+
+\end_inset
+
+.
+ This choice is motivated by the fact that state-of-the-art machine learning algorithms 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "chenXGBoostScalableTree2016,keLightGBMHighlyEfficient2017"
+literal "false"
+
+\end_inset
+
+ partially rely on gradient-based optimization during the learning process.
+\end_layout
+
+\begin_layout Standard
+To ensure relevance of the evaluation while keeping it low-dimensional,
+ we selected classical functions known for their optimization difficulty,
+ characterized by multiple local optima and nonlinear variations 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "aliNumericalEvaluationSeveral2005,Jamil2013ALS"
+literal "false"
+
+\end_inset
+
+.
+ The functions considered are the SSR functions (
+\begin_inset Formula $f\left(x,y\right)=\sin\left(\sqrt{x^{2}+y^{2}}\right)$
+\end_inset
+
+),
+ Booth,
+ Goldstein-Price,
+ and Beale functions (see Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Heatmaps"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+ For each function,
+ a synthetic dataset comprising 8000 observations was generated by uniformly sampling points within the feature space.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/oCELL_comparative_study/functions_heatmap_line.png
+	lyxscale 35
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Visualization of the 2D functions used to generate the benchmark datasets.
+ The color levels approaching yellow correspond to higher values,
+ while the color levels approaching blue correspond to lower values.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Heatmaps"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We compare oCELL against widely used ensemble algorithms and common weak learners.
+ The selected weak learners include decision trees 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "breimanClassificationRegressionTrees2017"
+literal "false"
+
+\end_inset
+
+,
+ SVMs 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "changLIBSVMLibrarySupport2011"
+literal "false"
+
+\end_inset
+
+,
+ and linear regression 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "weisbergAppliedLinearRegression2005"
+literal "false"
+
+\end_inset
+
+.
+ For ensemble methods,
+ we consider both classical approaches such as gradient boosting 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "friedmanGreedyFunctionApproximation2001"
+literal "false"
+
+\end_inset
+
+ and random forests 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "breimanRandomForests2001"
+literal "false"
+
+\end_inset
+
+,
+ alongside state-of-the-art algorithms:
+ XGBoost 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "chenXGBoostScalableTree2016"
+literal "false"
+
+\end_inset
+
+ and LightGBM 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "keLightGBMHighlyEfficient2017"
+literal "false"
+
+\end_inset
+
+..
+\end_layout
+
+\begin_layout Standard
+All input features are normalized to the range 
+\begin_inset Formula $-1$
+\end_inset
+
+ and 
+\begin_inset Formula $1$
+\end_inset
+
+.
+ Hyperparameter optimization is performed via a grid search with the goal of minimizing the mean squared error obtained through 5-fold cross-validation.
+ The resulting best configurations found are reported in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:Best-hyperparameters-set"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ These configurations correspond to the parameter sets exposed by the interfaces of the scikit-learn 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "pedregosaScikitlearnMachineLearning2012"
+literal "false"
+
+\end_inset
+
+,
+ xgboost 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "chenXGBoostScalableTree2016"
+literal "false"
+
+\end_inset
+
+,
+ and lightgbm 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "keLightGBMHighlyEfficient2017"
+literal "false"
+
+\end_inset
+
+ python libraries.
+ For oCELL,
+ 
+\begin_inset Formula $R$
+\end_inset
+
+ is a vector corresponding to the initial length on each dimension of the sides of the orthotope for a newly created context agent.
+ The parameters 
+\begin_inset Formula $\tau_{\text{good}},\tau_{\text{bad}},\alpha\in\mathbb{R}^{3}$
+\end_inset
+
+ correspond to those introduced in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Learning-Rules"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ and 
+\emph on
+memory_length
+\emph default
+ sepcifies the maximum memory size allocated to an agent.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/oCELL_comparative_study/prediction_mas_line.png
+	lyxscale 30
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Visualization-of-the-predictions"
+
+\end_inset
+
+Visualization of oCELL predictions on data not included in the training dataset.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Results
+\end_layout
+
+\begin_layout Standard
+The results obtained using the selected evaluation metrics across the considered benchmark functions are reported in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:Comparisons-results"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ oCELL achieves the lowest mean absolute error (MAE) and the highest coefficient of determination (
+\begin_inset Formula $R^{2}$
+\end_inset
+
+) for all four functions.
+ It also attains the best mean squared error (MSE) on the SSR,
+ Goldstein-Price,
+ and Booth functions,
+ while XGBoost performs slightly better in terms of MSE on the Beale function.
+ Overall,
+ oCELL demonstrates comparable performances to XGBoost and LightGBM for most functions,
+ while consistently outperforming the weak learners.
+ These results indicate that oCELL effectively captures the nonlinear variations of the underlying functions from the data,
+ as illustrated in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:Visualization-of-the-predictions"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{figure*}[!ht]
+\end_layout
+
+\end_inset
+
+
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "50col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+resizebox{0.95
+\backslash
+columnwidth}{!}{
+\end_layout
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="37" columns="6">
+<features booktabs="true" tabularvalignment="middle">
+<column alignment="left" valignment="top" width="20col%">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+hyperparameters
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+SSR
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Booth
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Goldstein-Price
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Beale
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+oCELL
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $R$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.35$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.05$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\tau_{\text{good}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.01
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.15
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.01
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\tau_{\text{bad}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.3
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\alpha$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+memory_length
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+20
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+50
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+200
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+20
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+
+\series bold
+XG
+\begin_inset Newline newline
+\end_inset
+
+Boost
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+learning_rate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.05
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.05
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+max_depth
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+n_estimators
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+300
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+300
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+300
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+300
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+objective
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+abs.
+ error
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+abs.
+ error
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+squ.
+ error
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+abs.
+ error
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+
+\series bold
+Light
+\begin_inset Newline newline
+\end_inset
+
+GBM
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+learning_rate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+max_depth
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+n_estimators
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+objective
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+300
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+300
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+200
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+300
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+min_child_samples
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+huber
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+l2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+tweedie
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+tweedie
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+
+\series bold
+Random Forest
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+bootstrap
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+true
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+true
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+true
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+true
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+criterion
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+abs.
+ error
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+poisson
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+poisson
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+poisson
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+max_depth
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+max_features
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+null
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+null
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+null
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+null
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+min_samples_leaf
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+min_samples_split
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+n_estimators
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+300
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+200
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+300
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+300
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+
+\series bold
+Decision Tree
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+criterion
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+abs.
+ error
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+poisson
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+poisson
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+poisson
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+max_depth
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+max_features
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+null
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+null
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+null
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+null
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+min_samples_leaf
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+min_samples_split
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+
+\series bold
+Gradient boosting
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+learning_rate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+loss
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+abs.
+ error
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+huber
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+squ.
+ error
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+huber
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+max_depth
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+max_features
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+null
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+null
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+null
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+null
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+min_samples_leaf
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+min_samples_split
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+
+\series bold
+SVM
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+epsilon
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+gamma
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+scale
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+scale
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+scale
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+scale
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+kernel
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rbf
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rbf
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+poly
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rbf
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+
+\series bold
+Linear Reg.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+fit_intercept
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+true
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+true
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+true
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+true
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Best-hyperparameters-set"
+
+\end_inset
+
+Best hyperparameters set found by grid search on 5-fold cross validation results
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "40col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+resizebox{0.95
+\backslash
+columnwidth}{!}{
+\end_layout
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="33" columns="5">
+<features booktabs="true" tabularvalignment="middle">
+<column alignment="left" valignment="top" width="20col%">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $R^{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MSE
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MAE
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Beale
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Decision Tree
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,983
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6,94e+06
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,07e+03
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Gradient boosting
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,995
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2,08e+06
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6,19e+02
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+LightGBM
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,996
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,61e+06
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4,75e+02
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Linear Reg.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-0,001
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4,16e+08
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,19e+04
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+oCELL
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0,997
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,34e+06
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+2,53e+02
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Random Forest
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,995
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2,02e+06
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5,23e+02
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SVM
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-0,139
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4,74e+08
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8,28e+03
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+XGBoost
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0,997
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+1,29e+06
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4,11e+02
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Booth
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Decision Tree
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,994
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,29e+03
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2,60e+01
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Gradient boosting
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,999
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,39e+02
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7,44e+00
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+LightGBM
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,999
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,38e+02
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8,09e+00
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Linear Reg.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,426
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,17e+05
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2,63e+02
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+oCELL
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+1,000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+9,52e+00
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+9,91e-01
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Random Forest
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,998
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3,57e+02
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,31e+01
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SVM
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,811
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3,89e+04
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7,85e+01
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+XGBoost
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+1,000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8,72e+01
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6,01e+00
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Goldstein-Price
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Decision Tree
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,994
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,02e+08
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5,29e+03
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Gradient boosting
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0,999
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2,37e+07
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2,62e+03
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+LightGBM
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0,999
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,80e+07
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,82e+03
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Linear Reg.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,249
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,22e+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6,79e+04
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+oCELL
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0,999
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+1,21e+07
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+7,02e+02
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Random Forest
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,998
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3,98e+07
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3,38e+03
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SVM
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-0,127
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,83e+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5,17e+04
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+XGBoost
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0,999
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,46e+07
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,61e+03
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+SSR
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Decision Tree
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,960
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,89e-02
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9,30e-02
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Gradient boosting
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,997
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,22e-03
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2,30e-02
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+LightGBM
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,998
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7,68e-04
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,98e-02
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Linear Reg.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4,77e-01
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6,09e-01
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+oCELL
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0,999
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+4,97e-04
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+1,39e-02
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Random Forest
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,978
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,03e-02
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6,48e-02
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SVM
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,972
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,32e-02
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7,90e-02
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+XGBoost
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0,999
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5,93e-04
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,65e-02
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Comparisons-results"
+
+\end_inset
+
+Comparison between oCELL and the reference algorithms (best scores in bold)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{figure*}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -2228,6 +6725,704 @@ Explainability
 \begin_inset CommandInset label
 LatexCommand label
 name "subsec:Explainability-oCELL"
+
+\end_inset
+
+ and Interpretability
+\end_layout
+
+\begin_layout Standard
+Our approach is similar to LIME since it involves learning local surrogate models 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ribeiro2016should"
+literal "false"
+
+\end_inset
+
+.
+ However,
+ oCELL introduces additional properties.
+\end_layout
+
+\begin_layout Standard
+When the internal model of agents are white-box models like linear regressions,
+ then we can consider oCELL as a fully interpretable white box model.
+ Indeed,
+ the final prediction is obtained by linear combination of the individual predictions of a restricted set of agents,
+ unlike classical bagging or boosting ensemble models in which all models can contribute (which can blur the credit assigment between a large number of weak-learners).
+ This property makes oCELL interpretable according to the definition introduced in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:XAI"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Therefore it's possible to analyze and interpret the internal structures of the model,
+ such as the spatial organization of agents to extract information about the underlying function to the data.
+ For didactic purposes,
+ the remainder of this section is based on a training carried out on a synthetic dataset generated from the Beale function (cf.
+ 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:Heatmaps"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+ This nonlinear function exhibits regimes of amplitude variations that are very different across its domain of definition.
+ The amplitude of the gradients of the Beale function varies greatly at the boundaries of the definition domain (
+\begin_inset Formula $-4\leq x,y\leq4$
+\end_inset
+
+),
+ while in the central plateau,
+ the variations in gradient amplitude are more subtle.
+ The Beale function is frequently used as a benchmark for testing optimization algorithms 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zhuangAdaBeliefOptimizerAdapting2020,Jamil2013ALS"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/oCELL_comparative_study/beale_agents_english.png
+	lyxscale 30
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Visualization-tiling-beale"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/oCELL_comparative_study/beale_neighborhood_english.png
+	lyxscale 30
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Visualization-neighborhood-beale"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Visualization of the tiling of the space (normalized between 
+\begin_inset Formula $-1$
+\end_inset
+
+ and 
+\begin_inset Formula $1$
+\end_inset
+
+) by the 
+\emph on
+Context
+\emph default
+ agents for the Beale function 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "fig:Visualization-tiling-beale"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ Each blue rectangle represents a 
+\emph on
+Context
+\emph default
+ agent,
+ and the red rectangle is an example of the neighborhood of an observation.
+ Visualization of the 
+\emph on
+Context
+\emph default
+ agents in the neighborhood of an observation 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "fig:Visualization-neighborhood-beale"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Uncertainty and Confidence
+\end_layout
+
+\begin_layout Standard
+The notion of neighborhood and more broadly the spatial organization of agents allows to extract various metrics of the local organization of agents in the feature space.
+\end_layout
+
+\begin_layout Paragraph
+Epistemic Uncertainty
+\end_layout
+
+\begin_layout Standard
+During training,
+ the agents organize themselves in the feature space.
+ Depending on the training dataset and the complexity of the underlying function,
+ the results of self-organization varies.
+ As illustrated in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:Visualization-tiling-beale"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ gaps (uncovered zones) in the agent tiling may remain.
+ It is possible that for a given observation,
+ no 
+\emph on
+Context
+\emph default
+ agent is activated.
+ In such cases,
+ making a prediction requires relying on the proposals of the nearest agents in the observation's neighborhood.
+ To determine if the agents' prediction is reliable,
+ we define the coverage index 
+\begin_inset Formula $p_{\text{coverage}}$
+\end_inset
+
+ of the observation's neighborhood as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+p_{\text{coverage}}=\frac{V_{\text{agents}}}{V_{\text{neighborhood}}}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $V_{\text{agents}}$
+\end_inset
+
+ is the volume covered by the 
+\emph on
+Context
+\emph default
+ agents in the neighborhood and 
+\begin_inset Formula $V_{\text{neighborhood}}$
+\end_inset
+
+ is the volume of the hyperrectangle representing the neighborhood.
+\end_layout
+
+\begin_layout Standard
+Thus,
+ if 
+\begin_inset Formula $p_{\text{coverage}}$
+\end_inset
+
+ is close to 
+\begin_inset Formula $1$
+\end_inset
+
+,
+ then the space around the observation contains few gaps:
+ our model is proficient in that region of space.
+ Therefore,
+ it is relevant to consider the predictions of nearby agents.
+ Conversely,
+ if 
+\begin_inset Formula $p_{\text{coverage}}$
+\end_inset
+
+ is close to 
+\begin_inset Formula $0$
+\end_inset
+
+,
+ then the space around the observation contains many gaps.
+ There is a high probability that this region of space was underexplored during training.
+ This may indicate either gaps in the training data specific to that area of space,
+ or that training did not proceed as expected for various reasons (strong non-linearities in the function to approximate,
+ presence of noise,
+ discontinuity,
+ etc...).
+ We illustrate the utility of the coverage index in a scenario where our system learns from a dataset with an entire portion of missing data 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "fig:Comparison-coverage-index"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ We observe that the coverage index helps identify the missing portion of data in the training dataset without having directly access to the actual training dataset.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/oCELL_comparative_study/side_by_side_missing_data_cover_index_english.png
+	lyxscale 30
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Comparison-coverage-index"
+
+\end_inset
+
+Comparison of the distribution map of observations used to train the model (left) and the visualization of the coverage index associated with this model (right).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The covergae index is therefore a quantitative measure of the epistemic uncertainty associated with a prediction.
+ it provides a direct assessment of the model's learned boundaries and limitations in various regions of the feature space.
+ For the development of critical systems,
+ this property is essential to observe in order to assess the risk of extrapolation or interpolation errors.
+ 
+\end_layout
+
+\begin_layout Standard
+This measure is fundamentally linked to both explainability and interpretability.
+ Locally,
+ at the individual prediction level,
+ coverage index serves as a crucial component of post-hoc explanation.
+ By quantifying the reliability of the output,
+ it effectively represents a degree of trustworhtiness and the necessity of relying on neighborhood averaging (cf.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsubsec:Neighborhood-Prediction"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+ Globally,
+ the aggregated coverage index allows for the systematic analysis and visualization of the entire agent organization across the feature space.
+ This analysis of the overall tiling pattern directly addresses interpretability by giving tools for understanding the model's inherent structure and mechanisms.
+\end_layout
+
+\begin_layout Paragraph
+Aleatoric Uncertainty
+\end_layout
+
+\begin_layout Standard
+After training,
+ when an observation is provided to the model,
+ each activated agent makes a prediction proposal.
+ We can thus calculate the discrepancy between the prediction proposals from the set of proposals of the activated agents (
+\begin_inset Formula $\mathcal{D}_{\text{proposals}}$
+\end_inset
+
+) to deduce a measure of aleatoric uncertainty:
+ 
+\begin_inset Formula 
+\begin{equation}
+\sigma_{\text{activated}}=\sqrt{\sum_{p\in\mathcal{D}_{\text{proposals}}}\frac{\left|p-p_{\text{mean}}\right|}{n_{\text{activated}}}}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $p_{\text{mean}}$
+\end_inset
+
+ is the average of the proposals in the set of 
+\begin_inset Formula $\mathcal{D}_{\text{proposals}}$
+\end_inset
+
+ and 
+\begin_inset Formula $n_{\text{activated}}$
+\end_inset
+
+ is the number of activated agents.
+ This value estimates the disagreement among agents which judge themselves as equally competent to propose a prediction.
+\end_layout
+
+\begin_layout Standard
+This value of discrepancy quantifies the aleatoric uncertainty associated with the model's predictions.
+ It captures the inherent noise and stochasticity as a disagreement among locally activated agents.
+ It's linked to explainability because it primarily relates to locality at the prediction-level,
+ providing useful tools to explain predictions under the angle of trust.
+\end_layout
+
+\begin_layout Standard
+Then,
+ as oCELL is agnostic of the internal model of the agents that compose it,
+ it's possible to use a class of models capable of inherently providing a measure of uncertainty on predictions,
+ such as Gaussian Processes.
+ Those are models which allow estimation of both epistemic and aleatoric uncertainties 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "schulzTutorialGaussianProcess2018"
+literal "false"
+
+\end_inset
+
+.
+ Exploiting the strength of this type of model could make the estimation of aleatoric uncertainty more robust.
+ The major drawback of this approach is the computational and space complexities of Gaussian Processes which can significantly slow down the learning process.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Metric
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Scope
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Explainability
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Interpretability
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Coverage Index
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Local + Global
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Activated Discrepancies
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $\sigma_{\text{activated}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Local
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Summary of the metrics introduced and their link to explainability or interpretability
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
 
 \end_inset
 
@@ -2352,7 +7547,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/sane_orthotope_agent.png
 	lyxscale 40
-	width 40col%
+	width 45col%
 
 \end_inset
 
@@ -2393,7 +7588,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/overgeneralized_orthotope_agent.png
 	lyxscale 40
-	width 40col%
+	width 45col%
 
 \end_inset
 
@@ -2486,9 +7681,11 @@ oCELL has been designed for online machine learning.
 
 \begin_layout Standard
 Finally,
- the last limitation we were able to identify is that some hyperparameters are difficult to tune.
+ the last limitation we were able to identify that some hyperparameters are difficult to tune.
  We are referring in particular to the initial size of the orthotopes associated with the new created agents,
  which requires setting a side length for each feature.
+ In addition to being difficult to tune,
+ this parameter has the most significant impact on the final performance of the system compared to others.
  In this regard,
  we can also refer to the error thresholds used to categorize a prediction as 
 \emph on
@@ -2610,7 +7807,7 @@ Ref to definition of context agents in oCELL
  such as 
 \begin_inset Formula 
 \[
-\mathcal{A}_{i}=\left\{ \phi_{i}\left(x\right),f_{i}\left(x\right)\right\} 
+\mathcal{A}_{i}=\left\{ \phi_{i},f_{i}\right\} 
 \]
 
 \end_inset
