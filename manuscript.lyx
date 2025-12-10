@@ -5,6 +5,9 @@
 \save_transient_properties true
 \origin unavailable
 \textclass book
+\begin_preamble
+\usepackage{pifont}
+\end_preamble
 \use_default_options true
 \begin_modules
 theorems-ams
@@ -197,8 +200,8 @@ literal "false"
 
 \begin_layout Standard
 In this chapter we introduce CELL (Context Ensemble Local Learning),
- a family of multiagent systems designed for online learning dynamics of a complex environment.
- Our approach addresses online supervised learning through simple self-organization of multiple local expert agents paving the feature space.
+ a family of multiagent systems designed for online learning dynamics of a complex environment trhough two approaches oCELL and kCELL.
+ This framework addresses online supervised learning through simple self-organization of multiple local expert agents paving the feature space.
  These agents are created and updated dynamically according to predefined learning rules.
  Each agent occupies a specific region in feature space,
  representing the area where it is most confident in the quality of its predictions.
@@ -211,7 +214,7 @@ literal "false"
 \end_inset
 
 ,
- we introduce novelties regarding the explainability while exploring new cooperation mechanisms between agents and new spatialization approaches.
+ we introduce novelties regarding explainability and interpretability while exploring new cooperation mechanisms between agents and new spatialization approaches.
 \end_layout
 
 \begin_layout Standard
@@ -222,8 +225,76 @@ By leveraging the spatialization of local experts and the inherent transparency 
  keeping a bounded computational complexity.
 \end_layout
 
+\begin_layout Standard
+First in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Background"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ we provide an overview of related works about multiagent learning,
+ ensemble methods and eXplainable AI (XAI) to better situate the CELL framework within the existing literature.
+ In section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:oCELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ we introduce oCELL,
+ presenting its capabilities in terms of predictive performance and explainability,
+ as well as its structural limitations.
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:kCELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ then describes kCELL,
+ a more robust and expressive variant of CELL that addresses several of oCELL's limitations while preserving its intrinsic explainability and interpretability properties.
+ Finally,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Parallelization-and-Differentiability"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ discusses practical considerations for efficient implementation,
+ including strategies for obtaining differentiable operations,
+ GPU parallelization,
+ and spatial indexing to optimize learning speed and inference.
+\end_layout
+
 \begin_layout Section
 Background
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Background"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -552,6 +623,13 @@ literal "false"
 \begin_layout Section
 oCELL:
  Multiagent Ensemble Learning with Orthotopes
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:oCELL"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -6721,18 +6799,19 @@ end{figure*}
 \end_layout
 
 \begin_layout Subsection
-Explainability
+Explainability and Interpretability
 \begin_inset CommandInset label
 LatexCommand label
 name "subsec:Explainability-oCELL"
 
 \end_inset
 
- and Interpretability
+
 \end_layout
 
 \begin_layout Standard
-Our approach is similar to LIME since it involves learning local surrogate models 
+The CELL variants are designed to possess native mechanisms for introspection.
+ While its architecture is similar to the localized approximation approach used by techniques such as LIME 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "ribeiro2016should"
@@ -6740,18 +6819,18 @@ literal "false"
 
 \end_inset
 
-.
- However,
- oCELL introduces additional properties.
+,
+ oCELL achieves intrinsic local explainability htrough its structure multiagent design.
+\end_layout
+
+\begin_layout Subsubsection
+Interpretability
 \end_layout
 
 \begin_layout Standard
-When the internal model of agents are white-box models like linear regressions,
- then we can consider oCELL as a fully interpretable white box model.
- Indeed,
- the final prediction is obtained by linear combination of the individual predictions of a restricted set of agents,
- unlike classical bagging or boosting ensemble models in which all models can contribute (which can blur the credit assigment between a large number of weak-learners).
- This property makes oCELL interpretable according to the definition introduced in 
+oCELL's design provides a basis for full model interpretability.
+ When the agents employ inherently transparent models such as linear regression,
+ oCELL itself works as a structurally interpretable white-box model in accordance with the definition introduces in 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:XAI"
@@ -6763,12 +6842,15 @@ nolink "false"
 \end_inset
 
 .
- 
+ The system's final prediction is derived from a linear combination of predictions proposed by a restricted,
+ spatially-localized subset of agents.
+ This mechanism simplifies the process of credit assigment compared to traditional global ensemble models (e.g with bagging or boosting),
+ which often involve contributions from a large set of weak learners.
+ This property makes oCELL intrinsically interpretable.
 \end_layout
 
 \begin_layout Standard
-Therefore it's possible to analyze and interpret the internal structures of the model,
- such as the spatial organization of agents to extract information about the underlying function to the data.
+Consequently the spatial organization and internal structures of the model can be systematically analyzed to extract essential information about the underlying function and the complexity of the function underlying the data.
  For didactic purposes,
  the remainder of this section is based on a training carried out on a synthetic dataset generated from the Beale function (cf.
  
@@ -7170,7 +7252,7 @@ After training,
  
 \begin_inset Formula 
 \begin{equation}
-\sigma_{\text{activated}}=\sqrt{\sum_{p\in\mathcal{D}_{\text{proposals}}}\frac{\left|p-p_{\text{mean}}\right|}{n_{\text{activated}}}}
+\sigma_{\text{activated}}=\sqrt{\sum_{p\in\mathcal{D}_{\text{proposals}}}\frac{\left|p-p_{\text{mean}}\right|}{N_{A}}}
 \end{equation}
 
 \end_inset
@@ -7184,7 +7266,7 @@ where
 \end_inset
 
  and 
-\begin_inset Formula $n_{\text{activated}}$
+\begin_inset Formula $N_{A}$
 \end_inset
 
  is the number of activated agents.
@@ -7213,7 +7295,389 @@ literal "false"
 
 .
  Exploiting the strength of this type of model could make the estimation of aleatoric uncertainty more robust.
- The major drawback of this approach is the computational and space complexities of Gaussian Processes which can significantly slow down the learning process.
+ Indeed,
+ several activated agents are needed for 
+\begin_inset Formula $\sigma_{\text{activated}}$
+\end_inset
+
+ to be informative,
+ using Gaussian Processes would allow to still have a discrepancy value to use even when only one agent is activated.
+ To overcome this drawback,
+ we present later a generalization of this metruc so that it can be used to analyze the geometric structures formed by agents during learning.
+\end_layout
+
+\begin_layout Paragraph
+Variations of the Underlying Function
+\end_layout
+
+\begin_layout Standard
+The shape of an agent depends on the region of space it occupies.
+ Moreover,
+ within its confidence area delimited by the orthotope associated to its activation function,
+ the function underlying the data is locally approximable by a simple model.
+ Therefore,
+ in a region containing a large number of agents,
+ variations in the underlying function are likely to be more 
+\emph on
+difficult
+\emph default
+ to learn.
+ Thus,
+ we define the density of agents around an observation as
+\begin_inset Formula 
+\begin{equation}
+\rho=\frac{N_{\text{agents}}}{V_{\text{neighborhood}}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $V_{\text{neighborhood}}$
+\end_inset
+
+ is the volume of the orthotope representing the neighborhood and 
+\begin_inset Formula $N_{\text{agents}}$
+\end_inset
+
+ is the number of agents intersecting it.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Visualization-density"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ shows the density of agents in the input variable space for the Beale function.
+ We observe a corridor in the center of the figure for 
+\begin_inset Formula $y\in\left[-1,1\right]$
+\end_inset
+
+ where the density of agents is low.
+ In the rest of the figure,
+ the density of agents is higher.
+ By examining the distribution of the average volume of agents in the neighborhood of observations (
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:Visualization-volume"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+),
+ we note that areas with high agent density contain smaller agents,
+ and conversely for low-density areas.
+\end_layout
+
+\begin_layout Standard
+These two regions correspond to very different variation regimes of the Beale function.
+ Indeed,
+ the region containing the largest agents (low density) corresponds to a plateau where the gradient magnitude of the function varies little.
+ In contrast,
+ the region containing the smallest agents (higher density) corresponds to a region of space where the gradient magnitude of the function varies strongly as one approaches the boundary of the definition area (
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:Visualization-density"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Finally,
+ to complete the analysis,
+ we define the degree of discrepancy 
+\begin_inset Formula $\kappa$
+\end_inset
+
+ (which is a derivative of the discrepancy of activated agents 
+\begin_inset Formula $\sigma_{\text{activated}}$
+\end_inset
+
+ presented earlier) among the predictions of all agents in the neighborhood (
+\begin_inset Formula $\mathcal{D}_{\text{proposals}}$
+\end_inset
+
+) as
+\begin_inset Formula 
+\begin{equation}
+\kappa=\frac{\sqrt{\sum_{p\in\mathcal{D}_{\text{proposals}}}\frac{\left|p-p_{\text{mean}}\right|}{N}}}{\left|y_{\text{mean}}\right|}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $N$
+\end_inset
+
+ is the number of agents in the neighborhood,
+ and 
+\begin_inset Formula $y_{\text{mean}}$
+\end_inset
+
+ is the average of predictions from the agents in the neighborhood.
+\end_layout
+
+\begin_layout Standard
+If 
+\begin_inset Formula $\kappa$
+\end_inset
+
+ is close to 
+\begin_inset Formula $0$
+\end_inset
+
+,
+ then the predictions of the agents in the neighborhood are very close to each other.
+ This indicates that the underlying function of the data varies little around the observation.
+ Conversely,
+ if its value is high,
+ then the agents in the neighborhood make very different predictions,
+ suggesting that the regime of variation of the underlying function is likely to change abruptly in that area.
+ The degree of discrepancy helps identify regions in the input space where approximating the underlying function is most challenging.
+ For the Beale function,
+ the degree of discrepancy highlights regions of the space with the most complex variations (see 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:Visualization-discrepancy"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ where the yellow areas represent the highest disagreement between agents).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/oCELL_comparative_study/beale_density_english.png
+	lyxscale 30
+	width 28text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Visualization-density"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/oCELL_comparative_study/beale_mean_volume_english.png
+	lyxscale 30
+	width 28text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Visualization-volume"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/oCELL_comparative_study/beale_consensus_degree_english.png
+	lyxscale 30
+	width 28text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Visualization-discrepancy"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Visualization of density 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "fig:Visualization-density"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ average volume 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "fig:Visualization-volume"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ degree of discrepancy 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "fig:Visualization-discrepancy"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ of 
+\emph on
+Context
+\emph default
+ agents.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The metrics presented above allow to extract measures of epistemic and aleatoric uncertainty on predictions,
+ as well as information on function variations based on the shape and position of agents in the feature space.
+\end_layout
+
+\begin_layout Standard
+We have extracted measures of epistemic (coverage index) and aleatoric (activated discrepancy) uncertainty from the predictions of the system as well as information about the variations of underlying function from the shape (volume and density) and spatial organization of agents in the feature space (degree of discrepancy).
+ These introspection tools reveal capabilities that are useful for various purposes such as fault detection,
+ model debugging,
+ or smart resampling strategies to improve learning in specific,
+ uncertain regions of the feature space.
+ Finally,
+ Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Summary-Metrics-Explainability-oCELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ summarizes the scopes and links between the defined metrics and the notions of explainability and interpretability.
 \end_layout
 
 \begin_layout Standard
@@ -7227,7 +7691,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="4" columns="4">
+<lyxtabular version="3" rows="8" columns="4">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -7272,16 +7736,20 @@ Interpretability
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Coverage Index
+Coverage Index (
+\begin_inset Formula $p_{\text{coverage}}$
+\end_inset
+
+)
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -7290,7 +7758,7 @@ Local + Global
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -7302,7 +7770,7 @@ Local + Global
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -7316,18 +7784,53 @@ Local + Global
 </cell>
 </row>
 <row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Activated Discrepancies
-\end_layout
-
-\begin_layout Plain Layout
+Activated Discrepancies (
 \begin_inset Formula $\sigma_{\text{activated}}$
 \end_inset
 
-
+)
 \end_layout
 
 \end_inset
@@ -7357,6 +7860,9 @@ Local
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Formula $\times$
+\end_inset
+
 
 \end_layout
 
@@ -7364,7 +7870,55 @@ Local
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Density (
+\begin_inset Formula $\rho$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Local + Global
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -7373,7 +7927,7 @@ Local
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -7382,7 +7936,7 @@ Local
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -7391,7 +7945,93 @@ Local
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Degree of Discrepancy (
+\begin_inset Formula $\kappa$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Local + Global
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -7413,14 +8053,17 @@ Local
 
 \begin_layout Plain Layout
 Summary of the metrics introduced and their link to explainability or interpretability
-\end_layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Summary-Metrics-Explainability-oCELL"
 
 \end_inset
 
 
 \end_layout
 
-\begin_layout Plain Layout
+\end_inset
+
 
 \end_layout
 
@@ -7441,9 +8084,9 @@ name "subsec:Limitations"
 \end_layout
 
 \begin_layout Standard
-We demonstrated the potential of oCELL to solve supervised learning problems.
- However,
- this approach still needs refinement and has limitations that we will address in 
+We demonstrated that oCELL can address supervised learning tasks,
+ but several limitations remain,
+ which we tackle partly in section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:kCELL"
@@ -7458,54 +8101,22 @@ nolink "false"
 \end_layout
 
 \begin_layout Standard
-One of the limitations of this approach lies in the neighborhood prediction system described in 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:kCELL"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-.
- Indeed we assumed in designing our system that an agent's level of knowledge about the function to be approximated is uniform across its area of expertise (i.e the orthotope associated to its activation function).
- Intuitively it might be more accurate to consider that an agent has a better expertise near its centroid,
- than on its edges.
- 
+A first limitation concerns the neighborhood prediction mechanism.
+ Our current design assumes that an agent possesses uniform knwoledge throughout its activation region (the orthotope associated with its activation function).
+ In practice,
+ an agent is typically more reliable near its centroid and less accurate near the boundaries of its region.
+ Despite this,
+ all agents contributing to a prediction currently receive equal weight.
+ This is an artifact of the uniform-knowledge assumption.
+ A more principle approach would weight each agent according to its estimated local expertise level at the query point.
 \end_layout
 
 \begin_layout Standard
-Moreover,
- we also consider,
- when mutliple agents are involved in the prediction process that they have the same weight in the construction of the final prediction due to the arithmetic sum.
- Initially,
- we decided to proceed this way because of the knowledge uniformity assumption.
- However it would probably be more accurate to consider that when two agent make predictions,
- the one closest to the input point will has the smallest error due to the agent's spatial distribution.
- Thus,
- each agent involved in the prediction process should be weighted according to their level of expertise on the point
-\end_layout
-
-\begin_layout Standard
-With oCELL,
- we attempted to calculate a weighted average of the agents' proposals to obtain the final prediction.
- The weights corresponded to the euclidean distance to centers of the agents involved.
- However,
- we found that this did not improve performances,
- likely because the euclidean distance to the centers do not account for the agent's shape.
- We therefore need to find a distance between an agent and the point that takes into account both the agent's centroid and its shape.
-\end_layout
-
-\begin_layout Standard
-Another limitation lies in the spatialization of agents using orthotopes.
- Indeed,
- in some cases,
- the orthotopic representation may be limited and may not correspond to the reality of the points on which the agent learns.
- This can lead to covering entire areas that have never been seen,
- thus potentially generating false positives when we query the system about its knowledge of a point.
- We illustrate this in Figure 
+We explored this idea by weighting predictions using the Euclidean distance between the input and each agent's centroid,
+ but this did not improve performance,
+ likely because centroid distance alone does not reflect the whole geometry of each orthotope.
+ A more appropriate distance measure should incorporate both the agent's centroid and the shape of its support.
+ As illustrated in 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Limitation orthotope agents"
@@ -7516,10 +8127,40 @@ nolink "false"
 
 \end_inset
 
- in which we compare side by side an overgeneralizing agent and a representative agent by visualizing their respective orthotopes (represented by a blue rectangle) and training data (represented by red dots).
- The overgeneralizing agent has its training data not covering the entirety of its associated orthotope unlike for the representative agent that seemingly has a training dataset that covers entirely it's associated orthotope.
- This example shows how crucial is the spatialization of agents and especially their base shape to best represent the local manifolds of features,
- avoid overgeneralization errors and avoid categorizing a point as known when it's not.
+ (side by side comparison of an overgeneralizing agent and a representative agent by visualizing their respective orthotopes (represented by a blue rectangle) and training data (represented by red dots)),
+ an agent may occupy a large orthotope while its training data populate only a small manifold (i.e a subregion),
+ causing spurious known-region responses and false positives.
+ Accurate spatialization and potentially richer base shapes is therefore essential to capture local data structures and prevent overgeneralization.
+\end_layout
+
+\begin_layout Standard
+Furthermore,
+ although oCELL is designed for online learning,
+ it treats incoming samples as independent,
+ failing to exploit temporal correlations in data streams.
+ This limits its sample efficiency and reduces its ability to adapt to evolving distributions.
+\end_layout
+
+\begin_layout Standard
+Finally,
+ some hyperparameters remain difficult to tune.
+ In particular,
+ the initial side lengths of newly created agents have a disproportionate impact on performance and require specifying a scale per feature dimension.
+ Similarly,
+ the error thresholds used to classify predictions as 
+\emph on
+good
+\emph default
+,
+ 
+\emph on
+inaccurate
+\emph default
+ or 
+\emph on
+bad
+\emph default
+ are hard to tune properly to enable an efficient balence in the triggering of the various adaptation mechanisms or agents (i.e learning rules).
 \end_layout
 
 \begin_layout Standard
@@ -7672,35 +8313,13 @@ name "fig:Limitation orthotope agents"
 \end_layout
 
 \begin_layout Standard
-oCELL has been designed for online machine learning.
- However,
- it does not exploit the relationships between successive points in a data stream.
- It considers each point to be independent,
- effectively limiting oCELL's convergence speed.
-\end_layout
-
-\begin_layout Standard
-Finally,
- the last limitation we were able to identify that some hyperparameters are difficult to tune.
- We are referring in particular to the initial size of the orthotopes associated with the new created agents,
- which requires setting a side length for each feature.
- In addition to being difficult to tune,
- this parameter has the most significant impact on the final performance of the system compared to others.
- In this regard,
- we can also refer to the error thresholds used to categorize a prediction as 
-\emph on
-good
-\emph default
-,
- 
-\emph on
-bad
-\emph default
- or 
-\emph on
-inaccurate
-\emph default
-.
+Taken together,
+ these limitations expose a broader structural issue.
+ oCELL relies on spatialization and prediction aggregation mechanisms that are too rigid.
+ The orthotope representation is too coarse to support reliable interpolation when agents overlap or specialize unevenly.
+ These limitations also highlight the need for inference machanisms that weight agents according to their estimated expertise level rather than using discrete activations.
+ These considerations motivate the design of a new CELL system in which spatialization,
+ inference and adaptation are grouned in smoother data representations.
 \end_layout
 
 \begin_layout Section
@@ -7716,38 +8335,19 @@ name "sec:kCELL"
 \end_layout
 
 \begin_layout Standard
-We have extended Context agent learning to address regression tasks in the context of supervised learning.
- We showed that oCELL has competitive performances on a synthetic 2D benchmark dataset and exhibits interesting explainability properties.
- Indeed,
- we showed that we could extract measures of epistemic and aleatoric uncertainties in the predictions of the system as well as information about the variations of the underlying function from the shape and spatial organization of the 
-\emph on
-Context
-\emph default
- agents in the feature space.
- These properties will be particularly useful when using this type of model in an optimization loop for safe optimal control.
+Building upon the limitations of oCELL,
+ we now introduce kCELL (kernel CELL),
+ the second variant of the CELL framework.
+ With oCELL we demonstrated that a population of agents can achieve competitive performance and provide valuable introspection signals such as epistemic and aleatoric uncertainty estimates and qualitative information about local function variations.
+ However,
+ its rigid spatial representation ultimately limits its ability to build reliable and adaptive regions of expertise.
+ This constraint becomes problematic when there is need for fast adaptation in an online settings.
 \end_layout
 
 \begin_layout Standard
-However,
- oCELL has some limitations.
- Specifically,
- the spatialization of agents with orthotopes can sometimes produce erroneous representations of areas of expertise,
- leading to overestimations of their size and shape.
- In addition to that,
- the aggregation function used to compute predictions do not account for the shape and distance between the agents involved and the input.
- These limitations can sometimes lead to in-distribution interpolation problems and redundant agents.
- Furthermore,
- oCELL consider all points as independent and thus do not exploit the relationships between successive points,
- limiting its convergence speed in an online setting in which adaptativity is fairly important.
- Finally,
- some of oCELL's learning rules rely on hyperparameters that are difficult to tune (error thresholds and initial size of orthotope sides at agent creation).
-\end_layout
-
-\begin_layout Standard
-To overcome these limitations,
- we introduce kCELL (kernel CELL),
- the second variant of CELL.
- In order to better represent the information we propose a spatialization approach based on RBF kernels inspired from what is done with RBF Networks 
+kCELL addresses these issues by replacing orthotope-based spatialization with a kernel-based representation.
+ Each agent has its activation function in the form of a RBF kernel that defines a smooth continuous distance between input features and agents,
+ drawing inspiration from RBF Networks 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "lowe1988multivariable"
@@ -7755,7 +8355,7 @@ literal "false"
 
 \end_inset
 
- or MoE (Mixture of Experts) 
+ and MoE (Mixture of Experts) 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "yukselTwentyYearsMixture2012"
@@ -7764,7 +8364,16 @@ literal "false"
 \end_inset
 
  gating mechanisms.
- We also introduce a smoother aggregation function for inference to better represent the expertise of each agent involved in the prediction process taking inspiration from what is done for Gaussian Processes 
+ This change allows the system to express spatial structures more finely,
+ with more degrees of freedom than what is permitted with orthotopes,
+ thus breaking the assumption of knowledge uniformity over the region of expertise of oCELL.
+\end_layout
+
+\begin_layout Standard
+In addition to that,
+ kCELL introduces a smooth aggregation rule in which agents contribute to predictions proportionally to their kernel-defined relevance,
+ i.e proportionally to their estimated expertise level.
+ This brings the inference closer to the probabilistic weighting strategies used in Gaussian Processes 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "seeger2004gaussian"
@@ -7772,7 +8381,15 @@ literal "false"
 
 \end_inset
 
- in which the contribution of each point to the final prediction is weighted by a kernel value.
+.
+ 
+\end_layout
+
+\begin_layout Standard
+For those reasons kCELL improves interpolation quality,
+ agents' data representations and yield more stable learning dynamics that are less dependent on brittle hyperparameters,
+ which is better suited for online adaptive learning.
+ kCELL is a more expressive and robust extension of the CELL framework that also preserves the explainability properties demonstrated with oCELL.
 \end_layout
 
 \begin_layout Subsection
@@ -10165,7 +10782,7 @@ In Hopper,
  activation levels differ across the different gravity regimes,
  with distinct nominal mean activation value observed for each values of gravity acceleration.
  Slight activation decreases are detectable immediately following changes in dynamics,
- these effects are less visible than in INvertedPendulum and partially blurred by higher variance regimes.
+ these effects are less visible than in InvertedPendulum and partially blurred by higher variance regimes.
 \end_layout
 
 \begin_layout Standard
@@ -10643,6 +11260,32 @@ Limitations
 
 \begin_layout Section
 Parallelization and Differentiability
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Parallelization-and-Differentiability"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+While kCELL provides a more robust and expressive instantiation of the CELL framework,
+ capable of handling nonstationary online learning tasks and maintaining interpretability,
+ its practical deployment in computationally demanding applications,
+ such as model-based control,
+ requires additional considerations.
+ In particular,
+ real-time control and optimization loops demand fast inference and the ability to compute gradients of the learned model with respect to inputs and control variables.
+\end_layout
+
+\begin_layout Standard
+To meet these requirements,
+ the CELL framework can be extended with differentiable representations and optimized implementations that exploit GPU parallelization and spatial indexing.
+ This permits efficient evaluation of large populations of agents,
+ allowing gradien-based optimization over the learned model.
+ The following sections detail these practical strategies for making CELL variants differentiable and computationally efficient,
+ bridging the gap between expressive multiagent learning and real-time applications.
 \end_layout
 
 \begin_layout Subsection
