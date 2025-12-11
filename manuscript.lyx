@@ -175,8 +175,8 @@ name "chap:Context-Ensemble-Local"
 
 \begin_layout Standard
 To achieve speed recommendation we need to model the behavior of a vehicle driven by a human driver in response to speed recommendation set points.
- Thus,
- we need a modeling algorithm able to perform online learning and learn efficiently seeing a data point once while having transparent and explainable inner workings.
+ Therefore,
+ we need a modeling algorithm able to perform online learning and learn efficiently seeing a data point once while having transparent inner workings and explainable predictions.
  For that reason we explored the use of multiagent systems as a mean of solving supervised learning tasks.
  
 \end_layout
@@ -195,13 +195,14 @@ literal "false"
  This perspective offers several advantages,
  including design simplicity,
  transparency,
- and explainability properties that naturally emerge from the spatial organization of agents.
+ interpretability and explainability properties that naturally emerge from the structural organization of agents.
 \end_layout
 
 \begin_layout Standard
-In this chapter we introduce CELL (Context Ensemble Local Learning),
- a family of multiagent systems designed for online learning dynamics of a complex environment trhough two approaches oCELL and kCELL.
- This framework addresses online supervised learning through simple self-organization of multiple local expert agents paving the feature space.
+In this chapter we present CELL (Context Ensemble Local Learning),
+ a family of multiagent systems designed for learning dynamics of complex systems from an online stream of data.
+ We introduce CELL through two approaches oCELL and kCELL.
+ This framework addresses online supervised learning through self-organization of multiple local expert agents paving the feature space.
  These agents are created and updated dynamically according to predefined learning rules.
  Each agent occupies a specific region in feature space,
  representing the area where it is most confident in the quality of its predictions.
@@ -267,7 +268,7 @@ nolink "false"
 \end_inset
 
  then describes kCELL,
- a more robust and expressive variant of CELL that addresses several of oCELL's limitations while preserving its intrinsic explainability and interpretability properties.
+ a more robust and expressive implementation of CELL that addresses several of oCELL's limitations while preserving its intrinsic explainability and interpretability properties.
  Finally,
  Section 
 \begin_inset CommandInset ref
@@ -348,11 +349,11 @@ literal "false"
 
 \begin_layout Standard
 In this chapter,
- we present various iterations of CELL,
- a MAS that combines both approaches to tackle online supervised learning problems.
+ we present various two implementations of CELL,
+ a MAS framework that combines both approaches to tackle online supervised learning problems.
  Agents of the system update using both reinforcement learning signals and cooperation rules.
  Unlike MARL,
- our approach requires fewer environment interactions and focuses on specialized agents collaborating within a supervised learning framework,
+ CELL requires fewer environment interactions and focuses on specialized agents collaborating within a supervised learning framework,
  differing from MARL's dynamic interactions aiming to maximize cumulative rewards through adaptive strategies (
 \emph on
 competitive
@@ -448,22 +449,46 @@ Visual comparison of bagging,
 \end_layout
 
 \begin_layout Standard
-In Bagging we train multiple models (usually homogeneous) in parallel on different subsets of the training data to introduce diversity,
+In Bagging 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "breiman1996bagging"
+literal "false"
+
+\end_inset
+
+ multiple models (usually homogeneous) are trained in parallel on different subsets of the training data to introduce diversity,
  reduce variance and improve stability.
  Then the final prediction is obtained by averaging the predictions of the weak learners (regression) or by majority voting (classification).
  Unlike Bagging,
- in Boosting,
- we train the models sequentially.
+ in Boosting 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "freund1997decision"
+literal "false"
+
+\end_inset
+
+,
+ the models are trained sequentially.
  Each new model focuses on correcting the errors of the previous ones to reduce bias and improve accuracy.
- Then we obtain the final prediction from a weighted average of the predictions of the all the weak learners.
+ Then the final prediction is obtained from a weighted average of the predictions of the all the weak learners.
  Finally,
- we have Stacking that falls under meta-learning.
- We train in parallel a set of heterogeneous models and then we train a meta-model whose role will be to combine the predictions of each model to obtain the final output of the system,
+ there is Stacking 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wolpert1992stacked"
+literal "false"
+
+\end_inset
+
+ that falls under meta-learning.
+ We train in parallel a set of heterogeneous models and then a meta-model is trained to combine the predictions of each model to obtain the final output of the system,
  in order to capture complementary strengths of each learning algorithms involved in the learning process.
 \end_layout
 
 \begin_layout Standard
-The family of systems we present in this chapter,
+The family of systems presented in this chapter,
  CELL,
  falls within the ensemble learning framework and we could label it as a Bagging approach because we consider a set of weak learners as a collection of self-organizing cooperative agents.
  Each one of them is a local expert on the function to be approximated.
@@ -503,10 +528,18 @@ literal "false"
 
 ,
  we differentiate between interpretability and explainability.
- Interpretability is defined as the inherent ability to understand how the model works as a whole,
+ 
+\series bold
+Interpretability
+\series default
+ is defined as the inherent ability to understand how the model works as a whole,
  focusing on the model's structure and mechanisms (i.e transparency).
  In contrast,
- explainability is associated with the methodologies used to communicate the reasoning for a specific decision taken by a model.
+ 
+\series bold
+Explainability 
+\series default
+is associated with the methodologies used to communicate the reasoning for a specific decision taken by a model.
  
 \end_layout
 
@@ -554,7 +587,11 @@ literal "false"
 \end_inset
 
 .
- Black-box models have opaque and complex inner workings that are difficult for an external observer to understand.
+ 
+\series bold
+Black-box
+\series default
+ models have opaque and complex inner workings that are difficult for an external observer to understand.
  This categorisation includes deep learning models 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -573,7 +610,11 @@ literal "false"
 
 .
  Conversely,
- white-box models have simpler and less opaque inner workings.
+ 
+\series bold
+White-box
+\series default
+ models have simpler and less opaque inner workings.
  These models,
  considered more explainable than black-box models,
  include linear regression models 
@@ -611,11 +652,19 @@ literal "false"
 \end_inset
 
 .
- Aleatoric uncertainty arises from the inherent natural variation in the studied phenomena.
+ 
+\series bold
+Aleatoric uncertainty
+\series default
+ arises from the inherent natural variations in the studied phenomena.
  It may be due to random fluctuations,
  measurement errors,
  or other unpredictable factors.
- Epistemic uncertainty on the other hands,
+ 
+\series bold
+Epistemic uncertainty
+\series default
+ on the other hands,
  stems from a lack of knowledge or complete understanding of the studied phenomenon.
  This type of uncertainty is related to the lack of data in certain regions of the feature space.
 \end_layout
@@ -633,7 +682,7 @@ name "sec:oCELL"
 \end_layout
 
 \begin_layout Standard
-This section introduces the first variant of CELL,
+This section introduces the first implementation of CELL,
  referred to as oCELL (orthotope CELL).
  CELL systems are multiagent systems composed of autonomous agents,
  each possessing local knowledge and specific capabilities.
@@ -669,7 +718,7 @@ when
 what
 \emph default
  to predict,
- each agent maintains a local machine learning model over to its confidence region.
+ each agent maintains a local machine learning model over its confidence region.
 \end_layout
 
 \begin_layout Standard
@@ -729,7 +778,7 @@ nolink "false"
 \end_inset
 
 ,
- we analyze the introspection and explainability capabilities of oCELL,
+ we analyze the capabilities of oCELL in terms of interpretability and explainability,
  which naturally arise from the spatial organization of agents.
  Finally,
  in 
@@ -835,7 +884,7 @@ name "subsec:Spatialization-with-Orthotopes"
 To ensure transparency and interpretability,
  oCELL spatialize context agents using orthotopes (also referred to as hyper-rectangles in the literature).
  Orthotopes provide a clear geometric representation of an agent's confidence region in the feature space,
- allowing precise evaluation of agent organization and facilitating shape adaptation during self-organization.
+ allowing precise evaluation of local structures and facilitating shape adaptation during self-organization.
  This representation allows independent manipulation of each feature dimension,
  simplifying expansion and retraction operations.
 \end_layout
@@ -895,7 +944,7 @@ literal "false"
 \end_inset
 
 ,
- oCELL addresses issues specifically related to regression tasks such as the need for a smoother spatialization of agents to smooth prediction accuracy.
+ oCELL addresses issues specifically related to regression tasks such as the need for a smoother spatialization of agents to smooth prediction accuracy (i.e smooth the learned function).
 \end_layout
 
 \begin_layout Standard
@@ -1025,7 +1074,7 @@ Agents in oCELL are constructed based on the assumption of uniform knowledge ove
  When an agent is a neighbor of a point,
  it means it has doubts about its expertise to predict for that point.
  In other words,
- it's an agent that is a candidate to become an activated agent for that point.
+ it is an agent that is a candidate to become an activated agent for that point.
  The way an agent updates itself differs depending on whether the agent is activated or a neighbor.
 \end_layout
 
@@ -1170,15 +1219,11 @@ nolink "false"
 
 ).
  Therefore,
- an agent can change its shape by contracting or expanding it's orthotope without worrying about the positions of other agents.
+ an agent can change its shape by contracting or expanding its orthotope without worrying about the positions of other agents.
 \end_layout
 
 \begin_layout Definition
-If a 
-\emph on
-Context
-\emph default
- agent 
+If a context agent 
 \begin_inset Formula $\mathcal{A}$
 \end_inset
 
@@ -1289,7 +1334,7 @@ specialists
  complex regions of feature space tend to host many small agents,
  whereas simpler regions tend to be covered by fewer larger agents.
  This assumption aligns with the use of simple local models such as linear regressions,
- which we use in subsequent experiments for the transparency and interpretability of their inner workings.
+ which we leverage in subsequent experiments to demonstrate the transparency and interpretability of oCELL.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1308,7 +1353,7 @@ The objective of oCELL is to perform online regression from a continuous data st
  Spcifically,
  it aims at modeling the nonlinear dynamics of a complex system for subsequent use in an optimization pipeline for optimal control (see Chapter 
 \begin_inset CommandInset ref
-LatexCommand eqref
+LatexCommand ref
 reference "chap:Solving-Control-Tasks"
 plural "false"
 caps "false"
@@ -1318,8 +1363,8 @@ nolink "false"
 \end_inset
 
 ).
- Thus,
- it's desirable to minimize gradient noise and ensure the learned function is smooth,
+ Therefore,
+ it is desirable to minimize gradient noise and ensure the learned function is smooth,
  as irregularities can significantly disrupt the optimization process 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -1366,9 +1411,8 @@ To obtain the prediction
 \end_inset
 
 ,
- then they make proposals,
- instead,
- if 
+ then they each make a prediction proposal.
+ If 
 \begin_inset Formula $x$
 \end_inset
 
@@ -1415,10 +1459,29 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/cell_prediction_diagram.png
+	lyxscale 30
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Illustration of the prediction process with Context Agents
+Illustration of the prediction process with agents in CELL framework
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Illustration-of-cell-prediction"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1454,7 +1517,7 @@ In CELL systems,
  These actions are triggered by conditions.
  In oCELL,
  those conditions depend on the number of current neighbors,
- on the number of activated agents and on a feedback value calculated from the proposals of selected agents.
+ on the number of activated agents and on a feedback values calculated from the proposals of selected agents.
 \end_layout
 
 \begin_layout Standard
@@ -1629,7 +1692,7 @@ bad,
 \begin_inset Formula $\mathcal{A}_{i}$
 \end_inset
 
-will retract to get away from 
+ will retract to get away from 
 \begin_inset Formula $x_{new}$
 \end_inset
 
@@ -1737,7 +1800,7 @@ dead
 \begin_layout Standard
 Table 
 \begin_inset CommandInset ref
-LatexCommand eqref
+LatexCommand ref
 reference "tab:Learning-rules-of-oCELL"
 plural "false"
 caps "false"
@@ -1748,7 +1811,7 @@ nolink "false"
 
  summarize the learning rules governing the behavior of agents in oCELL and Figure 
 \begin_inset CommandInset ref
-LatexCommand eqref
+LatexCommand ref
 reference "fig:Flowchart-illustrating-oCELL-learning"
 plural "false"
 caps "false"
@@ -2649,7 +2712,7 @@ literal "false"
 
 \end_inset
 
-..
+.
 \end_layout
 
 \begin_layout Standard
@@ -2804,9 +2867,9 @@ nolink "false"
  oCELL demonstrates comparable performances to XGBoost and LightGBM for most functions,
  while consistently outperforming the weak learners.
  These results indicate that oCELL effectively captures the nonlinear variations of the underlying functions from the data,
- as illustrated in 
+ as illustrated in Figure 
 \begin_inset CommandInset ref
-LatexCommand formatted
+LatexCommand ref
 reference "fig:Visualization-of-the-predictions"
 plural "false"
 caps "false"
@@ -6810,7 +6873,7 @@ name "subsec:Explainability-oCELL"
 \end_layout
 
 \begin_layout Standard
-The CELL variants are designed to possess native mechanisms for introspection.
+The CELL implementations are designed to possess native mechanisms for introspection.
  While its architecture is similar to the localized approximation approach used by techniques such as LIME 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -6820,7 +6883,7 @@ literal "false"
 \end_inset
 
 ,
- oCELL achieves intrinsic local explainability htrough its structure multiagent design.
+ oCELL achieves intrinsic local explainability through its structural multiagent design.
 \end_layout
 
 \begin_layout Subsubsection
@@ -6830,7 +6893,7 @@ Interpretability
 \begin_layout Standard
 oCELL's design provides a basis for full model interpretability.
  When the agents employ inherently transparent models such as linear regression,
- oCELL itself works as a structurally interpretable white-box model in accordance with the definition introduces in 
+ oCELL itself works as a structurally interpretable white-box model in accordance with the definition introduced in 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:XAI"
@@ -6844,18 +6907,18 @@ nolink "false"
 .
  The system's final prediction is derived from a linear combination of predictions proposed by a restricted,
  spatially-localized subset of agents.
- This mechanism simplifies the process of credit assigment compared to traditional global ensemble models (e.g with bagging or boosting),
+ This mechanism simplifies the process of credit assigment compared to traditional global ensemble models (e.g bagging or boosting),
  which often involve contributions from a large set of weak learners.
  This property makes oCELL intrinsically interpretable.
 \end_layout
 
 \begin_layout Standard
-Consequently the spatial organization and internal structures of the model can be systematically analyzed to extract essential information about the underlying function and the complexity of the function underlying the data.
+Consequently the spatial organization and internal structures of the model can be systematically analyzed to extract essential information about the function underlying the data and its complexity.
  For didactic purposes,
  the remainder of this section is based on a training carried out on a synthetic dataset generated from the Beale function (cf.
- 
+ Figure 
 \begin_inset CommandInset ref
-LatexCommand formatted
+LatexCommand ref
 reference "fig:Heatmaps"
 plural "false"
 caps "false"
@@ -6995,11 +7058,7 @@ Visualization of the tiling of the space (normalized between
 \begin_inset Formula $1$
 \end_inset
 
-) by the 
-\emph on
-Context
-\emph default
- agents for the Beale function 
+) by the context agents for the Beale function 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "fig:Visualization-tiling-beale"
@@ -7011,17 +7070,9 @@ nolink "false"
 \end_inset
 
 .
- Each blue rectangle represents a 
-\emph on
-Context
-\emph default
- agent,
+ Each blue rectangle represents a context agent,
  and the red rectangle is an example of the neighborhood of an observation.
- Visualization of the 
-\emph on
-Context
-\emph default
- agents in the neighborhood of an observation 
+ Visualization of the context agents in the neighborhood of an observation 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "fig:Visualization-neighborhood-beale"
@@ -7076,11 +7127,7 @@ nolink "false"
 ,
  gaps (uncovered zones) in the agent tiling may remain.
  It is possible that for a given observation,
- no 
-\emph on
-Context
-\emph default
- agent is activated.
+ no agent is activated.
  In such cases,
  making a prediction requires relying on the proposals of the nearest agents in the observation's neighborhood.
  To determine if the agents' prediction is reliable,
@@ -7088,7 +7135,7 @@ Context
 \begin_inset Formula $p_{\text{coverage}}$
 \end_inset
 
- of the observation's neighborhood as:
+ of the observation's neighborhood as
 \end_layout
 
 \begin_layout Standard
@@ -7125,7 +7172,7 @@ Thus,
 \end_inset
 
 ,
- then the space around the observation contains few gaps:
+ the space around the observation contains few gaps:
  our model is proficient in that region of space.
  Therefore,
  it is relevant to consider the predictions of nearby agents.
@@ -7216,7 +7263,7 @@ The covergae index is therefore a quantitative measure of the epistemic uncertai
 This measure is fundamentally linked to both explainability and interpretability.
  Locally,
  at the individual prediction level,
- coverage index serves as a crucial component of post-hoc explanation.
+ coverage index serves as a crucial component of explanation.
  By quantifying the reliability of the output,
  it effectively represents a degree of trustworhtiness and the necessity of relying on neighborhood averaging (cf.
  
@@ -7283,7 +7330,7 @@ This value of discrepancy quantifies the aleatoric uncertainty associated with t
 \begin_layout Standard
 Then,
  as oCELL is agnostic of the internal model of the agents that compose it,
- it's possible to use a class of models capable of inherently providing a measure of uncertainty on predictions,
+ it is possible to use a class of models capable of inherently providing a measure of uncertainty on predictions,
  such as Gaussian Processes.
  Those are models which allow estimation of both epistemic and aleatoric uncertainties 
 \begin_inset CommandInset citation
@@ -8134,6 +8181,13 @@ nolink "false"
 \end_layout
 
 \begin_layout Standard
+Moreover,
+ we observed that oCELL's agent destruction system was not sufficient and that agent overproduction was fairly common,
+ sometimes leading to high local redundancy and the persistence of agents that parasitize the collective without improving it.
+ This highlights a need for smarter destruction mechanisms that are designed towards local cooperation.
+\end_layout
+
+\begin_layout Standard
 Furthermore,
  although oCELL is designed for online learning,
  it treats incoming samples as independent,
@@ -8337,7 +8391,7 @@ name "sec:kCELL"
 \begin_layout Standard
 Building upon the limitations of oCELL,
  we now introduce kCELL (kernel CELL),
- the second variant of the CELL framework.
+ the second implementation of the CELL framework.
  With oCELL we demonstrated that a population of agents can achieve competitive performance and provide valuable introspection signals such as epistemic and aleatoric uncertainty estimates and qualitative information about local function variations.
  However,
  its rigid spatial representation ultimately limits its ability to build reliable and adaptive regions of expertise.
@@ -8950,8 +9004,8 @@ So,
  to be destroyed,
  or for another agent to become a neighbor in that area so they can improve together.
  Conversely,
- if it's better than the baseline,
- then it's a local expert whom we want to keep in that area since it represents the only knowledge we have about it.
+ if it is better than the baseline,
+ then it is a local expert whom we want to keep in that area since it represents the only knowledge we have about it.
  So,
  it should improve its local model and strengthen its local anchoring around 
 \begin_inset Formula $x_{new}$
@@ -9600,7 +9654,7 @@ the fractional change in error when leaving agent
 To visualize the result of a learning and local cooperation of agents,
  we use a 1-dimensional example.
  We generate a small synthetic dataset from the function 
-\begin_inset Formula $f\left(x\right)=\sin\left(x\right)+\epsilon\mathcal{N}\left(0,1\right)$
+\begin_inset Formula $f\left(x\right)=\sin\left(x\right)+\epsilon\,\mathcal{N}\left(0,1\right)$
 \end_inset
 
  with 
@@ -9835,7 +9889,7 @@ Adaptation to Non-Stationary Dynamics
 \begin_layout Standard
 In kCELL,
  the agents learn a function from a stream of data through local modeling and cooperation.
- In this section we present various experiments and case studies to demonstrate the capabilities of kCELL in terms of online adaptation and raw performances in online dynamics modeling.
+ In this section we present an experiment and introspection studies to demonstrate the capabilities of kCELL in terms of online adaptation and raw performances in online non-stationary dynamics modeling.
 \end_layout
 
 \begin_layout Subsubsection
@@ -9902,7 +9956,19 @@ literal "false"
 \end_inset
 
 ).
- Training data were streamed in the same order to simulate abrupt changes in the underlying system dynamics.
+ Training data were streamed in the same order (
+\emph on
+default 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ low 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ high
+\emph default
+) to simulate abrupt changes in the underlying system dynamics.
  The characteristics of the generated datasets are presented in Table 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -9920,10 +9986,10 @@ nolink "false"
 \begin_layout Standard
 The environments were selected to contrast a low-dimensional setting (InvertedPendulum with 4-dimensional states and 1 action) with a higher-dimensional one (Hopper with 11-dimensional state and 3 actions).
  Mahalanobis distance values become larger the higher the number of dimensions.
- Thus we want to study the impact of increasing dimensionality on the spatialization of kCELL which was one of the main limiations of the comparative experiments conducted in section 
+ Thus we want to study the impact of increasing dimensionality on the representativity of the spatialization of kCELL which was one of the main limitations of oCELL (cf 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "subsec:Comparative-Study"
+reference "subsec:Limitations"
 plural "false"
 caps "false"
 noprefix "false"
@@ -9931,7 +9997,7 @@ nolink "false"
 
 \end_inset
 
- for oCELL.
+).
  We also compare kCELL to Adaptive Hoeffding Trees 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -10205,11 +10271,35 @@ nolink "false"
 \end_layout
 
 \begin_layout Standard
-For the InvertedPendulum environment,
+For the InvertedPendulum environment (cf.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Evolution-of-mae-dynamic-changes-invertedpendulum"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+),
  kCELL systematically outperforms Adaptive Hoeffding Trees when the training and testing gravity values coincide,
  exhibiting lower MAE throughout each stationary phase.
  This suggests that the local spatialized modeling strategy employed by kCELL allows more accurate approximation of the underlying dynamics in low-dimensional settings.
- For the Hopper environment,
+ For the Hopper environment (cf.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Visualization-of-mae-dynamic-changes-hopper"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+),
  both approaches achieve comparable MAE across the different gravity regimes.
  However,
  we notice that the error curve of kCELL displays higher variance,
@@ -10223,8 +10313,7 @@ For the InvertedPendulum environment,
 \end_layout
 
 \begin_layout Standard
-Finally,
- specifically for kCELL,
+For kCELL,
  we notice that for InvertedPendulum,
  transitions between gravity values lead to an increase in MAE on past test sets,
  seemingly reflecting partial forgetting of earlier dynamics.
@@ -10267,7 +10356,7 @@ status open
 InvertedPendulum
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:Visualization-of-mae-dynamic-changes-invertedpendulum"
+name "fig:Evolution-of-mae-dynamic-changes-invertedpendulum"
 
 \end_inset
 
@@ -10417,8 +10506,9 @@ nolink "false"
 
 .
  As previously hinted by MAE analysis,
- we notice constrating dynamics in the population evolution during learning between the two environments.
- In InvertedPendulum (Figure 
+ we notice contrasting dynamics in the population evolution during learning between the two environments.
+ In InvertedPendulum (cf.
+ Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Visualization-of-nb-agents-invertedpendulum"
@@ -10437,7 +10527,8 @@ nolink "false"
 \end_layout
 
 \begin_layout Standard
-In Hopper (Figure 
+In Hopper (cf.
+ Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Visualization-of-nb-agents-hopper"
@@ -10611,7 +10702,19 @@ nolink "false"
 \end_inset
 
 .
- In InvertedPendulum,
+ In InvertedPendulum (cf.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Visualization-of-age-invertedpendulum"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+),
  gravity changes coincide with abrupt drops in mean agent age.
  This means that the population becomes suddenly younger,
  which is consistent with the replacement of older agents by newly created ones following a shift in dynamics.
@@ -10619,7 +10722,19 @@ nolink "false"
 \end_layout
 
 \begin_layout Standard
-In Hopper however,
+In Hopper (cf.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Visualization-of-age-hopper"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+) however,
  the mean agent age increases almost constantly,
  with only minor decreases follwoing the first gravity change and a slight slowdown after the second.
  This indicates that older agents persist over time and are not fully displaced by newer ones,
@@ -10771,14 +10886,38 @@ nolink "false"
 
 ,
  shows the evolution of the activation of closest agent during learning.
- In InvertedPendulum,
+ In InvertedPendulum (cf.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Visualization-of-activations-invertedpendulum"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+),
  each gravity change results in a sharp drop in activation,
  signaling a loss of relevance of existing local modals.
  Activation values subsequently recovers as new agents acquire expertise under the new dynamics.
 \end_layout
 
 \begin_layout Standard
-In Hopper,
+In Hopper (cf.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Visualization-of-activations-hopper"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+),
  activation levels differ across the different gravity regimes,
  with distinct nominal mean activation value observed for each values of gravity acceleration.
  Slight activation decreases are detectable immediately following changes in dynamics,
@@ -10928,7 +11067,7 @@ In the higher-dimensional Hopper environment,
 
 \begin_layout Standard
 To disambiguate whether agent persistence in the Hopper environment arises from adaptive reuse or from limited cross-regime activation,
- we analyzed the activation patterns of the final agent population obtained after full training.
+ we analyze the activation patterns of the final agent population obtained after full training.
  Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -10984,7 +11123,7 @@ nolink "false"
  with samples colored according to their corresponding gravity regime.
  The projection reveals a clear separation between training datasets,
  suggesting that changes in dynamics induce distinct regions in the state-action space.
- This structural separation provides a plausible explanation for the coexistence of multiple generations of agents.
+ This structural separation provides a plausible geometric explanation for the coexistence of multiple generations of agents.
  Because data from different dynamics regimes occupy largely disjoint regions,
  agents specialized to earlier dynamics remain relevant for their corresponding subspaces without interfering with those created for later regimes.
 \end_layout
@@ -11116,7 +11255,7 @@ Discussion
 \end_layout
 
 \begin_layout Standard
-The results presented suggest that kCELL is able to adapt to non-stationary dynamics through a combination of local specialization and structural plasticity with behaviors that depend strongly on the dimensionality and geometry of the feature space.
+The results presented suggest that kCELL were able to adapt to non-stationary dynamics through a combination of local specialization and structural plasticity with behaviors that depend strongly on the dimensionality and geometry of the feature space.
  In both environments,
  kCELL succesfully reduces prediction error on the currently observed dynamics demonstrating effective online adaptation without explicit task or concept drift detection modules.
  Compared to a Hoeffding Adaptive Tree baseline,
@@ -11175,9 +11314,10 @@ Overall,
 \begin_layout Standard
 Finally,
  we highlight the ability to analyze kCELL through the spatial organization and activation patterns of agents as a key advantage in terms of interpretability.
- Introspection of agent properties allows to identify which regions of the state-action space correspond to different dynamics,
- to understand how the model responds to non-stationary conditions and to debug or reinfe learning mechanisms.
- This relates the properties we presented in section 
+ Introspection of agent properties allows to identify which regions of the state-action space correspond to different dynamics.
+ This provide understanding on how the model responds to non-stationary conditions which can be useful to debug,
+ refine learning mechanisms or build fallback strategies.
+ This relates to the properties we presented in section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:Explainability-oCELL"
@@ -11284,7 +11424,7 @@ To meet these requirements,
  the CELL framework can be extended with differentiable representations and optimized implementations that exploit GPU parallelization and spatial indexing.
  This permits efficient evaluation of large populations of agents,
  allowing gradien-based optimization over the learned model.
- The following sections detail these practical strategies for making CELL variants differentiable and computationally efficient,
+ The following sections detail these practical strategies for making CELL implementations differentiable and computationally efficient,
  bridging the gap between expressive multiagent learning and real-time applications.
 \end_layout
 
