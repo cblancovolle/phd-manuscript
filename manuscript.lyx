@@ -120,8 +120,339 @@ LatexCommand tableofcontents
 Introduction
 \end_layout
 
+\begin_layout Section
+Background and Motivation
+\end_layout
+
+\begin_layout Section
+Problem Statement
+\end_layout
+
+\begin_layout Section
+Contributions
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="left" valignment="top" width="95col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:oCELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Intrinsic XAI through Self-Organization Analysis:
+ Developed the oCELL algorithm and formalized a novel methodology leveraging agent self-organization structures to perform model introspection and infer underlying function properties for enhanced explainability and interpretability.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "blanco2024explainability"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:oCELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Empirical Evaluation of oCELL Performance:
+ A low-dimensional comparative study demonstrating oCELL's competitive performance against SotA ensemble algorithms.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "blanco2024explainability"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:kCELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Non-Stationary Adaptation Capabilities:
+ Development of the kCELL algorithm and a study demonstrating its ability to adapt to non-stationary dynamics for forward prediction,
+ using introspection to analyze the system's behavior.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Solving-Control-Tasks"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Integration for Constrained Optimal Control:
+ Formalization of a novel coupling method to integrate the kCELL learning mechanism into traditional optimization solvers for solving complex constrained optimal control problems with learned models.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Solving-Control-Tasks"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Introspection-Enhanced Safe Control:
+ Proposal of a novel methodology that utilizes kCELL's intrinsic introspection capabilities to enhance the safety and performance of the solved constrained optimal control problems with learned models.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Solving-Control-Tasks"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Constraint-Impact Explainability Method:
+ Proposal of a novel XAI method leveraging kCELL's structure to quantify and explain the impact of constraints on optimization outcomes in safe control.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Scalable-Non-Linear-CELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Scalable CELL Spatialization:
+ Proposal of Principal Component Analysis (PCA) as a novel technique to scale the CELL paradigm to higher-dimensional feature spaces,
+ including a comparative evaluation.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Scalable-Non-Linear-CELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Scalable Gaussian Process Learning (SGP-CELL):
+ Development of the SGP-CELL algorithm,
+ a novel machine learning model that leverages the CELL paradigm to achieve online learning and scalability in Gaussian Processes (GP) with respect to the number of data points.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Summary of Contributions
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Chapter
-Related Works
+State of the Art
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:State-of-the-Art"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -154,19 +485,14 @@ Speed Recommendation and Speed Control
 Online Machine Learning
 \end_layout
 
-\begin_layout Section
-Optimal Control
-\end_layout
+\begin_layout Standard
+\begin_inset Note Comment
+status open
 
-\begin_layout Section
-Positioning
+\begin_layout Plain Layout
+Start with supervised learning,
+ then machine learning then ensemble learning then online learning
 \end_layout
-
-\begin_layout Chapter
-Context Ensemble Local Learning (CELL)
-\begin_inset CommandInset label
-LatexCommand label
-name "chap:Context-Ensemble-Local"
 
 \end_inset
 
@@ -174,128 +500,8 @@ name "chap:Context-Ensemble-Local"
 \end_layout
 
 \begin_layout Standard
-To achieve speed recommendation we need to model the behavior of a vehicle driven by a human driver in response to speed recommendation set points.
- Therefore,
- we need a modeling algorithm able to perform online learning and learn efficiently seeing a data point once while having transparent inner workings and explainable predictions.
- For that reason we explored the use of multiagent systems as a mean of solving supervised learning tasks.
- 
-\end_layout
-
-\begin_layout Standard
-As showed in 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "boesSelfAdaptiveContextLearning2015,fourezEnsembleMultiAgentSystem2022"
-literal "false"
-
-\end_inset
-
-,
- a supervised learning problem can be modeled as a multiagent system.
- This perspective offers several advantages,
- including design simplicity,
- transparency,
- interpretability and explainability properties that naturally emerge from the structural organization of agents.
-\end_layout
-
-\begin_layout Standard
-In this chapter we present CELL (Context Ensemble Local Learning),
- a family of multiagent systems designed for learning dynamics of complex systems from an online stream of data.
- We introduce CELL through two approaches oCELL and kCELL.
- This framework addresses online supervised learning through self-organization of multiple local expert agents paving the feature space.
- These agents are created and updated dynamically according to predefined learning rules.
- Each agent occupies a specific region in feature space,
- representing the area where it is most confident in the quality of its predictions.
- Contrary to previous works on this type of system 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "boesSelfAdaptiveContextLearning2015,fourezEnsembleMultiAgentSystem2022"
-literal "false"
-
-\end_inset
-
-,
- we introduce novelties regarding explainability and interpretability while exploring new cooperation mechanisms between agents and new spatialization approaches.
-\end_layout
-
-\begin_layout Standard
-By leveraging the spatialization of local experts and the inherent transparency of the model,
- we derive unique informative explainability properties that provide valuable insights about the approximated function.
- Furthermore,
- we outline practical guidelines for scaling with the number of agents,
- keeping a bounded computational complexity.
-\end_layout
-
-\begin_layout Standard
-First in section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Background"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-,
- we provide an overview of related works about multiagent learning,
- ensemble methods and eXplainable AI (XAI) to better situate the CELL framework within the existing literature.
- In section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:oCELL"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-,
- we introduce oCELL,
- presenting its capabilities in terms of predictive performance and explainability,
- as well as its structural limitations.
- Section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:kCELL"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- then describes kCELL,
- a more robust and expressive implementation of CELL that addresses several of oCELL's limitations while preserving its intrinsic explainability and interpretability properties.
- Finally,
- Section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Parallelization-and-Differentiability"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- discusses practical considerations for efficient implementation,
- including strategies for obtaining differentiable operations,
- GPU parallelization,
- and spatial indexing to optimize learning speed and inference.
-\end_layout
-
-\begin_layout Section
-Background
-\begin_inset CommandInset label
-LatexCommand label
-name "sec:Background"
-
-\end_inset
-
-
+We provide an overview of related works about multiagent learning,
+ ensemble methods and eXplainable AI (XAI) to better situate the CELL paradigm within the existing literature.
 \end_layout
 
 \begin_layout Subsection
@@ -349,8 +555,16 @@ literal "false"
 
 \begin_layout Standard
 In this chapter,
- we present various two implementations of CELL,
- a MAS framework that combines both approaches to tackle online supervised learning problems.
+ we present various two instantiations of CELL,
+ a MAS paradigm derived from the Self Adaptive Context Learning (SACL) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "boesSelfAdaptiveContextLearning2015"
+literal "false"
+
+\end_inset
+
+ that combines both approaches to tackle online supervised learning problems.
  Agents of the system update using both reinforcement learning signals and cooperation rules.
  Unlike MARL,
  CELL requires fewer environment interactions and focuses on specialized agents collaborating within a supervised learning framework,
@@ -490,7 +704,7 @@ literal "false"
 \begin_layout Standard
 The family of systems presented in this chapter,
  CELL,
- falls within the ensemble learning framework and we could label it as a Bagging approach because we consider a set of weak learners as a collection of self-organizing cooperative agents.
+ falls within ensemble learning and we could label it as a Bagging approach because we consider a set of weak learners as a collection of self-organizing cooperative agents.
  Each one of them is a local expert on the function to be approximated.
 \end_layout
 
@@ -670,6 +884,138 @@ Epistemic uncertainty
 \end_layout
 
 \begin_layout Section
+Optimal Control
+\end_layout
+
+\begin_layout Section
+Positioning
+\end_layout
+
+\begin_layout Chapter
+Context Ensemble Local Learning (CELL)
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:Context-Ensemble-Local"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To achieve speed recommendation,
+ the behavior of a vehicle driven by a human driver in response to speed recommendation set points need to be modeled.
+ Therefore,
+ we need a modeling algorithm able to perform online learning and learn efficiently seeing a data point once while having transparent inner workings and explainable predictions.
+ For that reason we explored the use of multiagent systems as a mean of solving supervised learning tasks.
+ 
+\end_layout
+
+\begin_layout Standard
+As showed in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "boesSelfAdaptiveContextLearning2015,fourezEnsembleMultiAgentSystem2022"
+literal "false"
+
+\end_inset
+
+,
+ a supervised learning problem can be modeled as a multiagent system.
+ This perspective offers several advantages,
+ including design simplicity,
+ transparency,
+ interpretability and explainability properties that naturally emerge from the structural organization of agents.
+\end_layout
+
+\begin_layout Standard
+Building upon the Self Adaptive Context Learning (SACL) paradigm 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "boesSelfAdaptiveContextLearning2015"
+literal "false"
+
+\end_inset
+
+,
+ this chapter introduces the CELL (Context Ensemble Local Learning) learning paradigm,
+ which provides the core hypotheses and theoretical grounds for designing spatialized multiagent learning systems suited for modeling the dynamics of complex systems from online streaming data.
+ This paradigm addresses online supervised learning through self-organization of multiple local expert agents paving the feature space.
+ These agents are created and updated dynamically according to predefined learning rules.
+ Each agent occupies a specific region in feature space,
+ representing the area where it is most confident in the quality of its predictions.
+ Contrary to previous works on this type of system 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "boesSelfAdaptiveContextLearning2015,fourezEnsembleMultiAgentSystem2022"
+literal "false"
+
+\end_inset
+
+,
+ we introduce novelties regarding explainability and interpretability while exploring new cooperation mechanisms between agents and new spatialization approaches.
+\end_layout
+
+\begin_layout Standard
+By leveraging the spatialization of local experts and the inherent transparency of the model,
+ we derive unique informative explainability properties that provide valuable insights about the approximated function.
+ Furthermore,
+ we outline practical guidelines for scaling with the number of agents,
+ keeping a bounded computational complexity.
+ Therefore,
+ the CELL paradigm is introduced through two distinct learning systems:
+ oCELL and kCELL.
+\end_layout
+
+\begin_layout Standard
+First,
+ in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:oCELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ oCELL is introduced,
+ its capabilities are presented in terms of predictive performance and explainability,
+ as well as its structural limitations.
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:kCELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ then describes kCELL,
+ a more robust and expressive instantiation of CELL that addresses several of oCELL's limitations while preserving its intrinsic explainability and interpretability properties.
+ Finally,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Parallelization-and-Differentiability"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ discusses practical considerations for efficient implementation,
+ including strategies for obtaining differentiable operations,
+ GPU parallelization,
+ and spatial indexing to optimize learning speed and inference.
+\end_layout
+
+\begin_layout Section
 oCELL:
  Multiagent Ensemble Learning with Orthotopes
 \begin_inset CommandInset label
@@ -682,7 +1028,7 @@ name "sec:oCELL"
 \end_layout
 
 \begin_layout Standard
-This section introduces the first implementation of CELL,
+This section introduces the first instantiation of CELL,
  referred to as oCELL (orthotope CELL).
  CELL systems are multiagent systems composed of autonomous agents,
  each possessing local knowledge and specific capabilities.
@@ -735,10 +1081,10 @@ nolink "false"
 \end_inset
 
 ,
- we describe the internal structure of context agents,
+ the internal structure of context agents is described,
  including their spatialization in the feature space and their prediction mechanisms.
  Then,
- in 
+ Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:Learning-Rules"
@@ -749,10 +1095,9 @@ nolink "false"
 
 \end_inset
 
-,
- we introduce the learning rules that cover agent creation,
+ introduces the learning rules that cover agent creation,
  adaptation and self-organization leading to the emergence of learning in the system.
- In 
+ Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:Comparative-Study"
@@ -763,10 +1108,9 @@ nolink "false"
 
 \end_inset
 
-,
- we present a comparative study evaluating the performance of oCELL against other machine learning algorithms on a two-dimensional benchmark.
+ presents a comparative study evaluating the performance of oCELL against other machine learning algorithms on a two-dimensional benchmark.
  Subsequently,
- in 
+ section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:Explainability-oCELL"
@@ -777,11 +1121,10 @@ nolink "false"
 
 \end_inset
 
-,
- we analyze the capabilities of oCELL in terms of interpretability and explainability,
+ presents an analysis of the capabilities of oCELL in terms of interpretability and explainability,
  which naturally arise from the spatial organization of agents.
  Finally,
- in 
+ Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:Limitations"
@@ -792,8 +1135,7 @@ nolink "false"
 
 \end_inset
 
-,
- we discuss the limitations of oCELL and outline directions for future research,
+ discusses the limitations of oCELL and outline directions for future research,
  some of which are addressed in 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -865,8 +1207,9 @@ what
 \end_layout
 
 \begin_layout Standard
-We first describe the spatialization mechanism of context agents based on orthotopes.
- Then we detail the prediction mechanisms arising from interactions within an agent’s neighborhood.
+First,
+ the spatialization mechanism of context agents based on orthotopes is described.
+ Then the prediction mechanisms arising from interactions within an agent’s neighborhood are detailed.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1401,7 +1744,7 @@ To obtain the prediction
 \end_inset
 
 ,
- we first need to select the agents that are the most competent to predict the value of 
+ the most competent agents are selected to predict the value of 
 \begin_inset Formula $\hat{y}$
 \end_inset
 
@@ -1417,11 +1760,11 @@ To obtain the prediction
 \end_inset
 
  has no neighbor,
- we select the 
+ the 
 \begin_inset Formula $k$
 \end_inset
 
--closest agents instead.
+-closest agents are selected instead.
  This fallback mechanism prevents prediction failures in regions where the system has limited knowledge (i.e poor paving of the area around 
 \begin_inset Formula $x$
 \end_inset
@@ -1474,7 +1817,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Illustration of the prediction process with agents in CELL framework
+Illustration of the prediction process with agents in CELL paradigm
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:Illustration-of-cell-prediction"
@@ -1615,7 +1958,7 @@ Inaccuracy
 \end_layout
 
 \begin_layout Standard
-When we have 
+When there are 
 \begin_inset Formula $N_{A}\geq1$
 \end_inset
 
@@ -1706,7 +2049,7 @@ Incompetence
 \end_layout
 
 \begin_layout Standard
-When we have 
+When there are 
 \begin_inset Formula $N_{A}=0$
 \end_inset
 
@@ -1766,11 +2109,11 @@ good
 inaccurate
 \emph default
  predictions,
- then we create a new agent centered on 
+ a new agent centered on 
 \begin_inset Formula $x_{new}$
 \end_inset
 
-.
+ is created.
  This rule promotes knowledge reuse and limit redundant agent creation.
 \end_layout
 
@@ -2532,7 +2875,7 @@ name "subsec:Comparative-Study"
 
 \begin_layout Standard
 To evaluate the performances of oCELL,
- we conduct a comparative study against standard machine learning algorithms on a regression task.
+ we conducted a comparative study against standard machine learning algorithms on a regression task.
  This section outlines the experimental protocol and compare performances against various metrics.
  For this experiment,
  each context agent employs a linear regression as its internal model.
@@ -6873,7 +7216,7 @@ name "subsec:Explainability-oCELL"
 \end_layout
 
 \begin_layout Standard
-The CELL implementations are designed to possess native mechanisms for introspection.
+The CELL instantiations are designed to possess native mechanisms for introspection.
  While its architecture is similar to the localized approximation approach used by techniques such as LIME 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -7350,7 +7693,7 @@ literal "false"
  to be informative,
  using Gaussian Processes would allow to still have a discrepancy value to use even when only one agent is activated.
  To overcome this drawback,
- we present later a generalization of this metruc so that it can be used to analyze the geometric structures formed by agents during learning.
+ we present later a generalization of this metric so that it can be used to analyze the geometric structures formed by agents during learning.
 \end_layout
 
 \begin_layout Paragraph
@@ -8133,7 +8476,7 @@ name "subsec:Limitations"
 \begin_layout Standard
 We demonstrated that oCELL can address supervised learning tasks,
  but several limitations remain,
- which we tackle partly in section 
+ which are tackled partly in section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:kCELL"
@@ -8181,10 +8524,22 @@ nolink "false"
 \end_layout
 
 \begin_layout Standard
+Furthermore,
+ we observed that oCELL's agent destruction mechanism was inadequate.
+ Agent overproduction was a frequently observed phenomenon,
+ occasionally resulting in significant local redundancy and the persistence of harmful parasitic agents within the collective.
+ This necessitates the development of more sophisticated destruction strategies explicitly designed to enforce local cooperation.
+ In addition to that,
+ the current single-point agent creation scheme seems too limited,
+ as it directly contributes to local redundancy (slow local convergence).
+ It should be more stable to initialize agents using multiples points to minimize local overlap and make local convergence faster.
+\end_layout
+
+\begin_layout Standard
 Moreover,
  we observed that oCELL's agent destruction system was not sufficient and that agent overproduction was fairly common,
  sometimes leading to high local redundancy and the persistence of agents that parasitize the collective without improving it.
- This highlights a need for smarter destruction mechanisms that are designed towards local cooperation.
+ This highlights a need for smarter destruction mechanisms that are designed towards local cooperation and more efficient agent creation schemes because creating agents with only one point can cause high local redundancy.
 \end_layout
 
 \begin_layout Standard
@@ -8322,7 +8677,7 @@ name "fig:Overgeneralizing-orthotope-agent"
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Side by side comparison of representative Context 
+Side by side comparison of representative 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Representative-orthotope-agent"
@@ -8333,7 +8688,7 @@ nolink "false"
 
 \end_inset
 
- agent against a overgeneralizing Context agent 
+ agent against a overgeneralizing agent 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Overgeneralizing-orthotope-agent"
@@ -8390,9 +8745,10 @@ name "sec:kCELL"
 
 \begin_layout Standard
 Building upon the limitations of oCELL,
- we now introduce kCELL (kernel CELL),
- the second implementation of the CELL framework.
- With oCELL we demonstrated that a population of agents can achieve competitive performance and provide valuable introspection signals such as epistemic and aleatoric uncertainty estimates and qualitative information about local function variations.
+ we introduce kCELL (kernel CELL),
+ the second instantiation of the CELL paradigm.
+ With oCELL,
+ we demonstrated that a population of agents can achieve competitive performance and provide valuable introspection signals such as epistemic and aleatoric uncertainty estimates and qualitative information about local function variations.
  However,
  its rigid spatial representation ultimately limits its ability to build reliable and adaptive regions of expertise.
  This constraint becomes problematic when there is need for fast adaptation in an online settings.
@@ -8443,11 +8799,90 @@ literal "false"
 For those reasons kCELL improves interpolation quality,
  agents' data representations and yield more stable learning dynamics that are less dependent on brittle hyperparameters,
  which is better suited for online adaptive learning.
- kCELL is a more expressive and robust extension of the CELL framework that also preserves the explainability properties demonstrated with oCELL.
+ kCELL is a more expressive and robust extension of the CELL paradigm that also preserves the explainability properties demonstrated with oCELL.
+\end_layout
+
+\begin_layout Standard
+First,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:kCELL-Context-Agents"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+First,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:kCELL-Context-Agents"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ describes the internal structure of context agents in kCELL,
+ including their spatialization in the feature space and their prediction mechanisms.
+ Then,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:kCELL-Learning-Rules"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ introduces the learning rules that cover agent creation,
+ adaptation and self-organization leading to the emergence of learning in the system.
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:kCELL-Adaptation-to-Non-Stationary"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ presents a study of kCELL's capabilities in terms of adaption in a non-stationary environment leveraging the introspection tools specific to the models derived from CELL.
+ Subsequently,
+ section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:kCELL-Discussions-and-Limitations"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ discusses the key differences between oCELL and kCELL and details the limitations of kCELL.
 \end_layout
 
 \begin_layout Subsection
 Context Agents
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:kCELL-Context-Agents"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -8490,20 +8925,15 @@ Ref to definition of context agents in oCELL
 However,
  unlike in oCELL,
  the Context agents of kCELL are spatialized differently.
- In oCELL we use a binary activation (the point is inside or outside the associated orthotope) while in kCELL we use a RBF kernel as a continuous and smooth activation function to represent the area of expertise in feature space.
+ In oCELL,
+ a binary activation (the point is inside or outside the associated orthotope) is used while in kCELL,
+ a RBF kernel is used as a continuous and smooth activation function to represent the area of expertise in feature space.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Insert description of subsequent section content
-\end_layout
-
-\end_inset
-
-
+First,
+ the spatialization mechanism of context agents based on RBF kernels is described.
+ Then the soft weighted prediction mechanism allowing for weighting based on estimated level of expertise is presented.
 \end_layout
 
 \begin_layout Subsubsection
@@ -8519,7 +8949,7 @@ name "subsec:Kernel-Spatialization"
 
 \begin_layout Standard
 In kCELL,
- contrary to using orthotopes we use a RBF kernel as the activation function to unlock more degrees of freedom to represent the areas of expertise 
+ contrary to using orthotopes a RBF kernel is used as the activation function to unlock more degrees of freedom to represent the areas of expertise 
 \begin_inset Note Comment
 status open
 
@@ -8543,7 +8973,7 @@ Add ref to illustration Figure
 
  of the distribution of its training points.
  Since this activation function has statistical significance,
- it is easier for us to define the neighborhood as a confidence interval whose confidence value we can adjust.
+ it is easier to define the neighborhood as a confidence interval whose confidence value can be adjusted.
 \end_layout
 
 \begin_layout Standard
@@ -8699,13 +9129,14 @@ Insert ref to coverage index in previous section
 \end_inset
 
 ,
- an explainability metric that we derived from oCELL which is also linked to the degree of knowledge of a point.
+ an explainability metric derived from oCELL which is also linked to the degree of knowledge of a point.
  In kCELL,
  this explainability property related to the knowledge of a point emerges naturally from the definition of the system.
 \end_layout
 
 \begin_layout Definition
-With kCELL we want to retain as few points as possible in memory to truly represent information through local models.
+One of the requirements of kCELL is to be lightweight,
+ meaning that as few points as possible should be retained in memory to truly represent information through local models.
  As previously stated,
  the spatialization of each agent can be fully described by a mean 
 \begin_inset Formula $\mu_{i}$
@@ -8725,7 +9156,7 @@ With kCELL we want to retain as few points as possible in memory to truly repres
 \end_inset
 
 ,
- we update its mean and covariance matrix using the Welford's algorithm 
+ its mean and covariance matrix are updated using the Welford's algorithm 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "welford1962note"
@@ -8747,7 +9178,7 @@ where
 \end_inset
 
  is the number of points ingested by the agent to update its shape.
- With this approach we express the shape change purely as a mean and covariance estimation problem.
+ With this approach the shape change is expressed purely as a mean and covariance estimation problem.
 \end_layout
 
 \begin_layout Subsubsection
@@ -8814,11 +9245,18 @@ This formulation ensures that each contributing agent's influence on the final p
 
 \begin_layout Subsection
 Learning Rules
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:kCELL-Learning-Rules"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
 As in oCELL,
- we design our learning rules around a set of actions and conditions that triggers those actions to digest 
+ learning rules are designed around a set of actions and conditions that triggers those actions to digest 
 \begin_inset Formula $x_{new},y_{new}$
 \end_inset
 
@@ -8831,7 +9269,7 @@ As in oCELL,
 \end_layout
 
 \begin_layout Standard
-When we have 
+When there are 
 \begin_inset Formula $N>1$
 \end_inset
 
@@ -8850,8 +9288,9 @@ When we have
 \end_inset
 
  is computed from the proposals of all those agents,
- we need the agents to cooperate together locally to improve the local knowledge.
- We define 
+ the agents need to cooperate together locally to improve the local knowledge.
+ For this purpose,
+ we define 
 \begin_inset Formula $\Delta_{\mathcal{A}_{i}}$
 \end_inset
 
@@ -8917,7 +9356,7 @@ So,
 \end_layout
 
 \begin_layout Standard
-When we have only one agent (
+When there is only one agent (
 \begin_inset Formula $N=1$
 \end_inset
 
@@ -8926,9 +9365,9 @@ When we have only one agent (
 \end_inset
 
 ,
- we can't update it according to the same rules.
+ it can't be updatd according to the same rules.
  Indeed,
- we can't compare its contribution to the error using other neighors (as if 
+ its contribution to the error cannot be compared to the ones of other neighors (as if 
 \begin_inset Formula $N>1$
 \end_inset
 
@@ -9005,7 +9444,7 @@ So,
  or for another agent to become a neighbor in that area so they can improve together.
  Conversely,
  if it is better than the baseline,
- then it is a local expert whom we want to keep in that area since it represents the only knowledge we have about it.
+ then it is a local expert whom should stay in that area since it represents the only local source of knowledge.
  So,
  it should improve its local model and strengthen its local anchoring around 
 \begin_inset Formula $x_{new}$
@@ -9021,11 +9460,11 @@ Finally if no agent is considered a neighbor (
 \end_inset
 
 ),
- then we compute 
+ 
 \begin_inset Formula $\Delta_{\mathcal{A}_{i}}^{\prime}$
 \end_inset
 
- since as in the case 
+ is computed since as in the case 
 \begin_inset Formula $N=1$
 \end_inset
 
@@ -9054,16 +9493,18 @@ Finally if no agent is considered a neighbor (
 \begin_inset Formula $x_{new}$
 \end_inset
 
- and should add it to its knowledge base by covering the space around it by creating a new agent initialized from a short term containing last points seen by the system.
+ and should add it to its knowledge base by covering the space around it by creating a new agent.
+ To avoid initializing the new agent with only one point (as in oCELL) and accelerate local convergence,
+ it is initialized from a short term buffer containing last points seen by the system.
 \end_layout
 
 \begin_layout Standard
-Since we create agents,
- we need a mechanism to destroy then.
+Since agents are created,
+ a destruction mechanism is needed.
  An,
  agent might position poorly in the feature space or choose to ingest the wrong points making its model no longer representative of the covered area.
- Decision errors happen almost all the time when working in an online setting because we have no knowledge to what the future points will look like.
- We can only guess from local relationshop between successive points.
+ Decision errors happen almost all the time when working in an online setting because it is impossible to know what the future points will look like.
+ It can only be guessed from local relationships between successive points.
  If no destruction mechanism is introduced to mitigate the proliferation of agents,
  the number of agents will grow indefinitely and performances will be hurt by bad agents,
  preventing local specialization in the system and ultimately dragging down the predictive accuracy.
@@ -9099,7 +9540,8 @@ where
 \end_layout
 
 \begin_layout Standard
-Then we define 
+Then,
+ we define 
 \begin_inset Formula $\bar{C}_{\mathcal{A}_{i}}\in\left[-1,1\right]$
 \end_inset
 
@@ -9183,7 +9625,7 @@ is selected as a neighbor to
 
 \begin_layout Standard
 Finally,
- we present in Table 
+ Table 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:Learning-rules-of-kCELL"
@@ -9194,7 +9636,7 @@ nolink "false"
 
 \end_inset
 
- a summary of the learning rules that describe the behavior of context agents in kCELL.
+ presents a summary of the learning rules that describe the behavior of context agents in kCELL.
 \end_layout
 
 \begin_layout Standard
@@ -9869,21 +10311,15 @@ name "fig:1D-Visualization-of-local-coop"
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Add algo and mention that we learn from a stream and that to initialize agents we use several successive points (to tackle limitation of oCELL which was to initialize agents with one point)
-\end_layout
+\begin_layout Subsection
+Adaptation to Non-Stationary Dynamics
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:kCELL-Adaptation-to-Non-Stationary"
 
 \end_inset
 
 
-\end_layout
-
-\begin_layout Subsection
-Adaptation to Non-Stationary Dynamics
 \end_layout
 
 \begin_layout Standard
@@ -11395,7 +11831,180 @@ Experiment on number of neighbors and mahalanobis distances in various dimension
 \end_layout
 
 \begin_layout Subsection
-Limitations
+Discussions and Limitations
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:kCELL-Discussions-and-Limitations"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Add comparison between oCELL and kCELL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Solving Control Tasks with CELL
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:Solving-Control-Tasks"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Building upon the Self Adaptive Context Learning (SACL) paradigm 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "boesSelfAdaptiveContextLearning2015"
+literal "false"
+
+\end_inset
+
+,
+ we introduced CELL (Context Ensemble Local Learning) paradigm,
+ which provides the core hypothesis and theoretical ground for designing spatialized multiagent learning systems.
+ The algorithms derived from CELL,
+ such as oCELL and kCELL,
+ are online machine learning algorithms that exhibit unique explainability and interpretability properties useful for model introspection.
+\end_layout
+
+\begin_layout Standard
+In this chapter,
+ we leverage these properties to demonstrate the use of kCELL for solving control tasks without requiring prior knowledge of the system dynamics.
+ Optimal Control tasks are often associated with constraints depending on legality,
+ stability or safety requirements.
+ In the field of data-driven control,
+ enforcing the strict satisfaction of hard operational constraints remains a major challenge,
+ as predictive models learned from data often lack the necessary robustness and verifiable guarantees required for safety-critical applications.
+\end_layout
+
+\begin_layout Standard
+To address this,
+ we show how kCELL can be used as the predictive model within a Model Predictive Control (MPC) scheme.
+\end_layout
+
+\begin_layout Standard
+The core contributions presented in this chapter are threefold:
+\end_layout
+
+\begin_layout Paragraph
+Integration with Solvers
+\end_layout
+
+\begin_layout Standard
+We demonstrate that kCELL's inherent local linearization enables a seamless integration with traditional non-linear optimization methods,
+ such as Sequential Quadratic Programming (SQP) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "boggs1995sequential"
+literal "false"
+
+\end_inset
+
+.
+ This makes a kCELL model directly exploitable by high-performance convex solvers for real-time constrained problems.
+\end_layout
+
+\begin_layout Paragraph
+Enhanced Safety via Introspection
+\end_layout
+
+\begin_layout Standard
+The spatial organization of kCELL's local experts provides a knowledge map of model's training support.
+ We leverage this map to dynamically control the optimization process's conservativeness,
+ allowing the controller to safely manage exploration in poorly modeled states or prioritize stability in well-modeled regions.
+\end_layout
+
+\begin_layout Paragraph
+Constraint Impact Analysis
+\end_layout
+
+\begin_layout Standard
+Building on this introspection capability,
+ we propose a novel interpretability approach based on the Linear Quadratic Regulator (LQR) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kalman1960contributions"
+literal "false"
+
+\end_inset
+
+.
+ This method is used to analyze and quantify the precise impact of constraints on the optimization objective,
+ establishing a baseline for unconstrained performance and providing a new layer of explanations.
+\end_layout
+
+\begin_layout Standard
+This chapter is structured as following.
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Parallelization-and-Differentiability"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ addresses the prerequisites for real-time control by presenting implementation guidelines focused on optimizing CELL algorithms.
+ Specifically it details how to achieve fast inference and learning through spatial indexing and GPU parallelization;
+ and how to ensure differentiability of the core components using differentiable programming frameworks.
+ In Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Model-Predictive-Control"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ the integration of kCELL into a MPC scheme is described,
+ establishing the foundational control.
+ This leads to Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Constrained-Optimization"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ which focuses on safe control.
+ It demonstrates the transition from soft constraints to robust hard constraints enforcement using kCELL within a SQP framework.
+ Finally,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Explainable-Control-(LQR)"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ presents a novel explanation method based on LQR to justify the decisions in control regarding constraint enforcement by evaluating constraint impact on the optimization process.
 \end_layout
 
 \begin_layout Section
@@ -11410,7 +12019,7 @@ name "sec:Parallelization-and-Differentiability"
 \end_layout
 
 \begin_layout Standard
-While kCELL provides a more robust and expressive instantiation of the CELL framework,
+While kCELL provides a more robust and expressive instantiation of the CELL paradigm,
  capable of handling nonstationary online learning tasks and maintaining interpretability,
  its practical deployment in computationally demanding applications,
  such as model-based control,
@@ -11421,7 +12030,7 @@ While kCELL provides a more robust and expressive instantiation of the CELL fram
 
 \begin_layout Standard
 To meet these requirements,
- the CELL framework can be extended with differentiable representations and optimized implementations that exploit GPU parallelization and spatial indexing.
+ the CELL paradigm can be extended with differentiable representations and optimized implementations that exploit GPU parallelization and spatial indexing.
  This permits efficient evaluation of large populations of agents,
  allowing gradien-based optimization over the learned model.
  The following sections detail these practical strategies for making CELL implementations differentiable and computationally efficient,
@@ -11440,42 +12049,26 @@ Differentiable Programming Frameworks
 GPU-based parallelized updates
 \end_layout
 
-\begin_layout Chapter
-Solving Control Tasks with CELL
+\begin_layout Section
+Model Predictive Control
 \begin_inset CommandInset label
 LatexCommand label
-name "chap:Solving-Control-Tasks"
+name "sec:Model-Predictive-Control"
 
 \end_inset
 
 
 \end_layout
 
-\begin_layout Standard
-We introduced CELL (Context Ensemble Local Learning),
- an online machine learning framework.
- In this chapter,
- we demonstrate the use of CELL for solving complex control tasks without prior knowledge of system dynamics.
- CELL continuously learns the dynamics and is used as the predictive model within a Model Predictive Control (MPC) scheme.
-\end_layout
-
-\begin_layout Standard
-For safe control tasks with hard operational constraints,
- we show that CELL's inherent local linearization enables a seamless integration with traditional non linear optimization methods such as Sequential Quadratic Programming.
- Moreover,
- the spatial organization of local experts provides a knowledge map of the model,
- allowing the control of the optimization process conservativeness to explore poorly modeled states or stay in well modeled regions.
- Building on this property,
- we propose a novel interpretability approach based on Linear Quadratic Regulator (LQR) to analyze and quantify the impact of constraints on the optimization objective,
- establishing a baseline for unconstrained performance.
-\end_layout
-
-\begin_layout Section
-Model Predictive Control
-\end_layout
-
 \begin_layout Section
 Constrained Optimization
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Constrained-Optimization"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -11493,12 +12086,19 @@ name "subsec:Hard-Constraints"
 
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Robust MPC (Uncertainty Handling)
 \end_layout
 
 \begin_layout Section
 Explainable Control (LQR Explainer)
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Explainable-Control-(LQR)"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter
