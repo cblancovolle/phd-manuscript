@@ -1016,6 +1016,10 @@ nolink "false"
 \end_layout
 
 \begin_layout Section
+CELL Learning Paradigm
+\end_layout
+
+\begin_layout Section
 oCELL:
  Multiagent Ensemble Learning with Orthotopes
 \begin_inset CommandInset label
@@ -11875,67 +11879,101 @@ literal "false"
 \end_inset
 
 ,
- we introduced CELL (Context Ensemble Local Learning) paradigm,
+ we introduced the CELL (Context Ensemble Local Learning) paradigm,
  which provides the core hypothesis and theoretical ground for designing spatialized multiagent learning systems.
- The algorithms derived from CELL,
- such as oCELL and kCELL,
- are online machine learning algorithms that exhibit unique explainability and interpretability properties useful for model introspection.
+ Within this paradigm,
+ algorithms such as oCELL and kCELL rely on a population of agents spatialized in feature space.
+ Each agent learns a local predictive model from a stream of data.
+ These online learning systems exhibit intrinsic interpretability and explainability properties that arise from the spatial organization of agents,
+ spatialized local learning and agent-level interactions.
+ 
 \end_layout
 
 \begin_layout Standard
-In this chapter,
- we leverage these properties to demonstrate the use of kCELL for solving control tasks without requiring prior knowledge of the system dynamics.
- Optimal Control tasks are often associated with constraints depending on legality,
- stability or safety requirements.
- In the field of data-driven control,
- enforcing the strict satisfaction of hard operational constraints remains a major challenge,
- as predictive models learned from data often lack the necessary robustness and verifiable guarantees required for safety-critical applications.
-\end_layout
-
-\begin_layout Standard
-To address this,
- we show how kCELL can be used as the predictive model within a Model Predictive Control (MPC) scheme.
-\end_layout
-
-\begin_layout Standard
-The core contributions presented in this chapter are threefold:
-\end_layout
-
-\begin_layout Paragraph
-Integration with Solvers
-\end_layout
-
-\begin_layout Standard
-We demonstrate that kCELL's inherent local linearization enables a seamless integration with traditional non-linear optimization methods,
- such as Sequential Quadratic Programming (SQP) 
+This chapter investigates how these properties can be exploited for model-based control with learned model without prior knowledge of system dynamics.
+ In this setting,
+ control policies are built from the combination of a learned predictive model and an optimizer.
+ This corresponds to the Model Predictive Control (MPC) framework,
+ in which control actions are obtained by repeatedly optimizing predicted trajectories over a finite horizon 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "boggs1995sequential"
+key "rawlings2017model"
 literal "false"
 
 \end_inset
 
 .
- This makes a kCELL model directly exploitable by high-performance convex solvers for real-time constrained problems.
-\end_layout
-
-\begin_layout Paragraph
-Enhanced Safety via Introspection
 \end_layout
 
 \begin_layout Standard
-The spatial organization of kCELL's local experts provides a knowledge map of model's training support.
- We leverage this map to dynamically control the optimization process's conservativeness,
- allowing the controller to safely manage exploration in poorly modeled states or prioritize stability in well-modeled regions.
-\end_layout
+When the predictions of learned models lie outside the regions in the state-action space that have been sufficiently represented in the training data,
+ the model is inherently limited in terms of accuracy.
+ This limitation needs to be considered in optimal control problems involving hard constraints related to safety,
+ stability or physical feasibility 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Brunke2022May"
+literal "false"
 
-\begin_layout Paragraph
-Constraint Impact Analysis
+\end_inset
+
+.
+ Indeed,
+ unreliable predictions lead to unreliable optimization results.
+ While data-driven control methods have achieved promising results,
+ they often rely on opaque inner workings and struggle to provide reliable guarantees when operating outside the support of the training data 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "prag2022toward,berberich2025overview"
+literal "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
-Building on this introspection capability,
- we propose a novel interpretability approach based on the Linear Quadratic Regulator (LQR) 
+In this chapter we show that kCELL's structural transparency provides introspection tools that can be directly embedded into control and optimization pipelines.
+ kCELL exposes measurable quantities such as distance-based competence,
+ local prediction disagreement that provide proxies for quantifying epistemic and aleatoric uncertainties (cf Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:XAI"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ for definitions).
+ kCELL's properties can then be leveraged to guide exploration,
+ regularize exploitation,
+ and explain control decisions in a unified framework.
+\end_layout
+
+\begin_layout Standard
+More specifically,
+ the core contributions presented in this chapter are fourfold:
+\end_layout
+
+\begin_layout Itemize
+We provide a discussion on how kCELL can be efficiently integrated into real-time,
+ model-based control frameworks by exploiting differentiability for gradient-based optimization and parallel computation or spatial indexing for fast trajectory unfolding.
+\end_layout
+
+\begin_layout Itemize
+We introduce introspection-driven strategies based on agent spatial organization and local disagreement for exploration of a low-dimensional environment without prior knowledge of the dynamics.
+ We show that these strategies lead to more effective coverage of the state-action space than uninformed exploration mechanisms.
+\end_layout
+
+\begin_layout Itemize
+We introduce an introspection-driven conservative regularization mechanism for trajectory optimization that leverages kCELL's explicit notion of local model competence,
+ reducing the risk of extrapolation errors and improving robustness of control with learned dynamics.
+\end_layout
+
+\begin_layout Itemize
+We present a novel local explanation method based on Linear Quadratic Regulator (LQR) 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "kalman1960contributions"
@@ -11943,13 +11981,11 @@ literal "false"
 
 \end_inset
 
-.
- This method is used to analyze and quantify the precise impact of constraints on the optimization objective,
- establishing a baseline for unconstrained performance and providing a new layer of explanations.
+ for constrained model-based control based on local linearization quantification of constraint impact and feature importance in optimized control policies.
 \end_layout
 
 \begin_layout Standard
-This chapter is structured as following.
+This chapter is organized as follows.
  Section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -11961,13 +11997,11 @@ nolink "false"
 
 \end_inset
 
- addresses the prerequisites for real-time control by presenting implementation guidelines focused on optimizing CELL algorithms.
- Specifically it details how to achieve fast inference and learning through spatial indexing and GPU parallelization;
- and how to ensure differentiability of the core components using differentiable programming frameworks.
- In Section 
+ discusses the computational and differentiability properties of kCELL that make it suitable for real-time constrained control within a MPC scheme.
+ Section 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:Model-Predictive-Control"
+reference "sec:Exploration-MPC"
 plural "false"
 caps "false"
 noprefix "false"
@@ -11975,13 +12009,11 @@ nolink "false"
 
 \end_inset
 
-,
- the integration of kCELL into a MPC scheme is described,
- establishing the foundational control.
- This leads to Section 
+ focuses on exploration of unknown dynamics and shows how the spatial organization and local interactions of agents can be exploited to drive data-efficient exploration.
+ Section 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:Constrained-Optimization"
+reference "sec:Conservative-MPC"
 plural "false"
 caps "false"
 noprefix "false"
@@ -11989,9 +12021,7 @@ nolink "false"
 
 \end_inset
 
-,
- which focuses on safe control.
- It demonstrates the transition from soft constraints to robust hard constraints enforcement using kCELL within a SQP framework.
+ addresses robust exploitation by introducing knowledge-aware regularization for trajectory optimization with kCELL.
  Finally,
  Section 
 \begin_inset CommandInset ref
@@ -12004,11 +12034,12 @@ nolink "false"
 
 \end_inset
 
- presents a novel explanation method based on LQR to justify the decisions in control regarding constraint enforcement by evaluating constraint impact on the optimization process.
+ introduces a novel LQR-based explanation mechanism for constrained controllers to evaluate the impact of constraints on the optimization process and to estimate feature importance,
+ highlighting how kCELL allows to obtain interpretable and explainable control decisions.
 \end_layout
 
 \begin_layout Section
-Parallelization and Differentiability
+Efficient kCELL for Real-Time Control
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Parallelization-and-Differentiability"
@@ -12019,41 +12050,149 @@ name "sec:Parallelization-and-Differentiability"
 \end_layout
 
 \begin_layout Standard
-While kCELL provides a more robust and expressive instantiation of the CELL paradigm,
- capable of handling nonstationary online learning tasks and maintaining interpretability,
- its practical deployment in computationally demanding applications,
- such as model-based control,
- requires additional considerations.
- In particular,
- real-time control and optimization loops demand fast inference and the ability to compute gradients of the learned model with respect to inputs and control variables.
+kCELL provides a more robust and expressive instantiation of the CELL paradigm.
+ It is capable of handling nonstationary online learning tasks and maintaining interpretability.
+ However,
+ its practical deployment in model-based control,
+ requires additional computational and structural considerations.
 \end_layout
 
 \begin_layout Standard
-To meet these requirements,
- the CELL paradigm can be extended with differentiable representations and optimized implementations that exploit GPU parallelization and spatial indexing.
- This permits efficient evaluation of large populations of agents,
- allowing gradien-based optimization over the learned model.
- The following sections detail these practical strategies for making CELL implementations differentiable and computationally efficient,
- bridging the gap between expressive multiagent learning and real-time applications.
+Model Predictive Control (MPC) relies on repeated model evaluations within an optimization loop.
+ When using learned models,
+ inference speed and mathematical structure are important to the feasibility and reliability of control,
+ especially if real-time constraints needs to be met.
+\end_layout
+
+\begin_layout Standard
+To this end,
+ two main requirements can be emphasized.
+ First,
+ population-based optimization methods commonly employed in data-driven MPC,
+ such as the Cross-Entropy Method (CEM) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "de2005tutorial"
+literal "false"
+
+\end_inset
+
+,
+ require fast and batched predictions over large sets of candidate trajectories,
+ making purely sequential inference with naive expert lookup in kCELL prohibitively expensive.
+ Second,
+ gradient-based optimization methods,
+ such as Sequential Quadratic Programming (SQP),
+ require differentiable predictive models in order to compute local linearization of the dynamics and to handle hard constraints efficiently.
+\end_layout
+
+\begin_layout Standard
+kCELL must comprise optimized implementations and differentiable representations.
+ Regarding computational efficiency,
+ in kCELL,
+ expert selection can be accelerated significantly through spatial indexing or parallel execution,
+ enabling efficient batched inference on modern hardware such as GPUs.
+ Regarding differentiability,
+ when activation functions and internal models are differentiable,
+ kCELL admits analytic gradients and straightforward local linearization,
+ making it naturally compatible with gradient-based MPC formulations.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Introduce the need for fast predictions and differentiable local models in online control.
+\end_layout
+
+\begin_layout Plain Layout
+Emphasize that MPC requires repeated forward predictions and sometimes local linearizations.
+\end_layout
+
+\begin_layout Plain Layout
+Point out that naive kCELL implementation can be too slow for real-time MPC,
+ motivating optimizations.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
-Spatial Indexing
+Efficient Implementation
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Spatial Indexing:
+ explain how the expert lookup is accelerated by KD-tree,
+ grid-based indexing,
+ or other structures.
+\end_layout
+
+\begin_layout Plain Layout
+GPU Parallelization:
+ show batching of local predictions for multiple states/actions.
+\end_layout
+
+\begin_layout Plain Layout
+Optionally include a profiling experiment:
+ inference time vs number of experts/states.
+\end_layout
+
+\begin_layout Plain Layout
+Highlight differentiability:
+ why it is essential for gradient-based MPC/SQP.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
-Differentiable Programming Frameworks
+MPC and Local Linearization
 \end_layout
 
-\begin_layout Subsection
-GPU-based parallelized updates
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Transition:
+ “With fast,
+ differentiable predictions,
+ kCELL can be used as a predictive model in MPC.”
 \end_layout
 
-\begin_layout Section
-Model Predictive Control
-\begin_inset CommandInset label
-LatexCommand label
-name "sec:Model-Predictive-Control"
+\begin_layout Plain Layout
+Explain how kCELL local linearization maps naturally onto MPC/SQP subproblems:
+\end_layout
+
+\begin_layout Plain Layout
+Local affine approximations of dynamics → linear constraints in QPs
+\end_layout
+
+\begin_layout Plain Layout
+Piecewise local structure → naturally supports local linearization required by SQP
+\end_layout
+
+\begin_layout Plain Layout
+Argue why shooting methods are less appropriate:
+\end_layout
+
+\begin_layout Plain Layout
+global rollout leaves local validity region
+\end_layout
+
+\begin_layout Plain Layout
+hard to enforce constraints reliably
+\end_layout
 
 \end_inset
 
@@ -12061,37 +12200,29 @@ name "sec:Model-Predictive-Control"
 \end_layout
 
 \begin_layout Section
-Constrained Optimization
+Exploratoration MPC with kCELL
 \begin_inset CommandInset label
 LatexCommand label
-name "sec:Constrained-Optimization"
+name "sec:Exploration-MPC"
 
 \end_inset
 
 
-\end_layout
-
-\begin_layout Subsection
-Soft Constraints
-\end_layout
-
-\begin_layout Subsection
-Hard Constraints
-\begin_inset CommandInset label
-LatexCommand label
-name "subsec:Hard-Constraints"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
-Robust MPC (Uncertainty Handling)
 \end_layout
 
 \begin_layout Section
-Explainable Control (LQR Explainer)
+Conservative MPC with kCELL
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Conservative-MPC"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Towards Safe Explainable Control under Hard Constraints 
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Explainable-Control-(LQR)"
