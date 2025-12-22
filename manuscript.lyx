@@ -1017,6 +1017,13 @@ nolink "false"
 
 \begin_layout Section
 CELL Learning Paradigm
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:CELL-Learning-Paradigm"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -8819,22 +8826,6 @@ nolink "false"
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-First,
- Section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "subsec:kCELL-Context-Agents"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
  describes the internal structure of context agents in kCELL,
  including their spatialization in the feature space and their prediction mechanisms.
  Then,
@@ -11981,7 +11972,8 @@ literal "false"
 
 \end_inset
 
- for constrained model-based control based on local linearization quantification of constraint impact and feature importance in optimized control policies.
+ for constrained model-based control.
+ This approach allows quantification of constraint impact and feature importance estimation in optimized control policies.
 \end_layout
 
 \begin_layout Standard
@@ -12053,8 +12045,7 @@ name "sec:Parallelization-and-Differentiability"
 kCELL provides a more robust and expressive instantiation of the CELL paradigm.
  It is capable of handling nonstationary online learning tasks and maintaining interpretability.
  However,
- its practical deployment in model-based control,
- requires additional computational and structural considerations.
+ its practical deployment in model-based control requires additional computational and structural considerations.
 \end_layout
 
 \begin_layout Standard
@@ -12078,8 +12069,8 @@ literal "false"
 \end_inset
 
 ,
- require fast and batched predictions over large sets of candidate trajectories,
- making purely sequential inference with naive expert lookup in kCELL prohibitively expensive.
+ require fast and batched predictions over large sets of candidate trajectories.
+ This makes purely sequential inference with naive expert lookup in kCELL prohibitively expensive.
  Second,
  gradient-based optimization methods,
  such as Sequential Quadratic Programming (SQP),
@@ -12099,20 +12090,137 @@ kCELL must comprise optimized implementations and differentiable representations
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Comment
+Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Efficient-Implementation"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ discusses strategies that can be implemented to accelerate inference and learning in kCELL,
+ making it suited for use with random shooting optimization methods like CEM.
+ Then,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:MPC-and-Local-Linearization"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ shows how the local structure of kCELL lead to trivial local linearizations of the learned dynamics,
+ making kCELL suited for constrained MPC solved using SQP.
+\end_layout
+
+\begin_layout Subsection
+Efficient Implementation
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Efficient-Implementation"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Population based trajectory optimization algorithms are broadly used in robotics for their robustness to non-convex and non-smooth dynamics or cost functions 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "chai2019review"
+literal "false"
+
+\end_inset
+
+.
+ This includes stochastic shooting methods such as Model Path Predictive Integral (MPPI) or CEM (which is used in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Exploration-MPC"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+ Those methods rely heavily on parallel evaluation of large population of candidate trajectories at each control step within the MPC framework.
+\end_layout
+
+\begin_layout Standard
+In CELL instanciations like kCELL and oCELL,
+ a learning step always begins with a neighboring agent selection phase.
+ Since the agents are spatially distributed in the feature space,
+ then the selection of neighboring agents can be broken down into 2 components:
+ a distance calculation to find the closest agents and a thresholding of those distances to discriminate neighbors.
+\end_layout
+
+\begin_layout Standard
+Because agents are spatially distributed within the feature space,
+ managing the ensemble of agents as a geospatial database can be considered.
+ In this case,
+ to speed up nearest neighbor searches,
+ spatial indexing techniques can be leveraged to select the k-closest agents with a reduced complexity.
+ Indexing in geospatial databases is most commonly performances using tree-based methods such as KD-tree or R-tree 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "guting1994introduction"
+literal "false"
+
+\end_inset
+
+.
+ The KD-tree (for k-dimensional tree) is a binary tree data structure.
+ It recursively partition space by splitting along alternating dimensions,
+ making it efficient for range queries and nearest neighbor searches on point data 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bentley1975multidimensional"
+literal "false"
+
+\end_inset
+
+.
+ The R-tree is a hierarchical tree structure designed for indexing multi-dimensional objects like rectangles or polygons.
+ Each node of the tree represents a bounding rectangle that encloses child nodes.
+ R-trees are particularly suited for range,
+ intersection and nearest neighbor queries in GIS and geospatial databases 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "guttman1984r"
+literal "false"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
 status open
 
 \begin_layout Plain Layout
-Introduce the need for fast predictions and differentiable local models in online control.
+
 \end_layout
 
 \begin_layout Plain Layout
-Emphasize that MPC requires repeated forward predictions and sometimes local linearizations.
-\end_layout
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Point out that naive kCELL implementation can be too slow for real-time MPC,
- motivating optimizations.
+Illustration of KD-tree and R-tree
 \end_layout
 
 \end_inset
@@ -12120,8 +12228,110 @@ Point out that naive kCELL implementation can be too slow for real-time MPC,
 
 \end_layout
 
-\begin_layout Subsection
-Efficient Implementation
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To build an index on agents within the feature space,
+ R-tree is a better choice than KD-tree because R-tree is designed to handle polygons,
+ and more specifically,
+ orthotopes (which are in substance,
+ n-dimensional generalization of rectangles).
+ Therefore,
+ agents can be indexed by their bounding orthotope.
+ For kCELL,
+ this is the orthotope encompassing the agent's confidence interval specified as a parameter.
+ Furthermore,
+ R-trees can be incrementally updated,
+ making them compatible with the online learning nature of CELL instantiations 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "guttman1984r"
+literal "false"
+
+\end_inset
+
+.
+ Finally,
+ with a spatial index based on a R-tree,
+ the selection process can be broken down into three ordered steps:
+ searching for the k-closest agents in the R-tree,
+ calculating the distances between the point and the k-closest agents,
+ and finally thresholding the distances to discriminate the neighbor agents.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+- population based MPC (broadly used for their robustness to non smooth dynamcis) rely on parallel evaluation of large population of candidate trajectories at each control step [ref]
+\end_layout
+
+\begin_layout Plain Layout
+- to allow usage in population based MPC
+\end_layout
+
+\begin_layout Plain Layout
+- in kCELL,
+ learning steps systematically start by neighborhood checks
+\end_layout
+
+\begin_layout Plain Layout
+- agents are spatialized in feature space and neighborhood checks can be decomposed into distance computation and distance thresholding,
+ in fine we look for closest agents.
+\end_layout
+
+\begin_layout Plain Layout
+- because of feature space spatialization we can use spatial indexing techniques to select k closest more easily in nlogn complexity
+\end_layout
+
+\begin_layout Plain Layout
+- approaches like kd-trees (for point) or rtrees (for polygons via bounding rectangles) exists.
+\end_layout
+
+\begin_layout Plain Layout
+- rtrees are more suitable for online updates as they support incremental insertions and deletions => because balanced tree
+\end_layout
+
+\begin_layout Plain Layout
+- the neighborhood selection process becomes:
+ get k closest in index => compute real distances to avoid misclassifications => threshold distances
+\end_layout
+
+\begin_layout Plain Layout
+=================
+\end_layout
+
+\begin_layout Plain Layout
+- distance computations can obviously be parallelized
+\end_layout
+
+\begin_layout Plain Layout
+- easy to use GPU computations on this
+\end_layout
+
+\begin_layout Plain Layout
+- then we store spatialized information as tensors in memory (schema)
+\end_layout
+
+\begin_layout Plain Layout
+- for agent creation or deletion we add a row or delete a row from the global tensor (schema)
+\end_layout
+
+\begin_layout Plain Layout
+- benchmark depending on number of agents in python with pytorch
+\end_layout
+
+\begin_layout Plain Layout
+=================
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -12157,6 +12367,13 @@ Highlight differentiability:
 
 \begin_layout Subsection
 MPC and Local Linearization
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:MPC-and-Local-Linearization"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -12200,7 +12417,7 @@ hard to enforce constraints reliably
 \end_layout
 
 \begin_layout Section
-Exploratoration MPC with kCELL
+Exploration MPC with kCELL
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Exploration-MPC"
