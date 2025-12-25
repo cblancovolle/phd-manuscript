@@ -1303,7 +1303,7 @@ literal "false"
 
 \begin_layout Standard
 Each agent's activation function defines a 
-\begin_inset Formula $p$
+\begin_inset Formula $n$
 \end_inset
 
 -dimensional orthotope in the feature space.
@@ -9072,7 +9072,7 @@ th percentile of the chi-squared distribution with
 
 \begin_layout Definition
 The activation function 
-\begin_inset Formula $\phi_{i}:\mathbb{R}^{n}\mapsto\left[0,1\right]$
+\begin_inset Formula $\phi_{i}:\mathbb{R}^{n}\mapsto\left]0,1\right]$
 \end_inset
 
  of a Context agent 
@@ -11950,7 +11950,7 @@ More specifically,
 
 \begin_layout Itemize
 We provide a discussion on how kCELL can be efficiently integrated into real-time,
- model-based control frameworks by exploiting differentiability for gradient-based optimization and parallel computation or spatial indexing for fast trajectory unfolding.
+ model-based control frameworks by exploiting its local linearization capabilities for gradient-based optimization and implementation strategies based on parallel computation or spatial indexing for fast trajectory unfolding in population-based MPC.
 \end_layout
 
 \begin_layout Itemize
@@ -12073,7 +12073,15 @@ literal "false"
  Purely sequential inference with naive expert lookup in kCELL prohibitively expensive.
  Second,
  gradient-based optimization methods,
- such as Sequential Quadratic Programming (SQP),
+ such as Sequential Quadratic Programming (SQP) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "rawlings2017model"
+literal "false"
+
+\end_inset
+
+,
  require differentiable predictive models in order to compute local linearization of the dynamics and to handle hard constraints efficiently.
 \end_layout
 
@@ -12102,7 +12110,7 @@ nolink "false"
 \end_inset
 
  discusses strategies that can be implemented to accelerate inference and learning in kCELL,
- making it suited for use with random shooting optimization methods like CEM.
+ making it suitable for use with random shooting optimization methods like CEM.
  Then,
  Section 
 \begin_inset CommandInset ref
@@ -12153,6 +12161,8 @@ nolink "false"
 
 ).
  These methods rely heavily on parallel evaluation of large population of candidate trajectories at each control step within the MPC framework.
+ In this section,
+ we show that GPU parallel brute force is more reliable than geospatial indexing for nearest neighbor selection to speed up learning and inference process in kCELL for population based MPC.
 \end_layout
 
 \begin_layout Subsubsection
@@ -13115,7 +13125,7 @@ However,
 \end_layout
 
 \begin_layout Subsection
-MPC and Local Linearization
+Differentiability and Local Linearization for Gradient-Based MPC
 \begin_inset CommandInset label
 LatexCommand label
 name "subsec:MPC-and-Local-Linearization"
@@ -13126,6 +13136,359 @@ name "subsec:MPC-and-Local-Linearization"
 \end_layout
 
 \begin_layout Standard
+Fast and scalable inference in kCELL is essential for its integration into real-time MPC frameworks,
+ especially when using population-based or gradient-based trajectory optimization methods that rely on repeated model evaluations.
+\end_layout
+
+\begin_layout Standard
+However,
+ computational efficiency alone is insufficient when MPC formulation rely on gradient-based optimization methods that exploit local structures to enforce hard constraints.
+ Such approaches require predictive models that admit reliable local linearizations of the learned system dynamics.
+\end_layout
+
+\begin_layout Standard
+In this section,
+ we show that kCELL naturally provides local affine approximations of the dynamics that are directly compatible with gradient-based optimization approaches such as Sequential Quadratic Programming (SQP).
+\end_layout
+
+\begin_layout Subsubsection
+Differentiability in CELL instantiations
+\end_layout
+
+\begin_layout Standard
+In CELL instantiations,
+ online learning is performed by maintaining a set of self-organizing spatialized agents that map the target function locally (cf Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Context-Ensemble-Local"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+ A context agent is denoted as
+\begin_inset Formula 
+\[
+\mathcal{A}_{i}=\left\{ \phi_{i},f_{i}\right\} 
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\phi_{i}:\mathbb{R}^{n}\mapsto\left]0,1\right]$
+\end_inset
+
+ is an activation function that maps features to a level of expertise for predicting a given input,
+ and 
+\begin_inset Formula $f_{i}:\mathbb{R}^{n}\mapsto\mathbb{R}^{m}$
+\end_inset
+
+ is local internal prediction function that maps features to target outputs.
+\end_layout
+
+\begin_layout Standard
+In CELL instantiations,
+ the global prediction is obtained by aggregating the predictions of agents,
+ leveraging activation and prediction functions through an aggregation function.
+ If the activation function,
+ the prediction function and the aggregation function are differentiable,
+ then,
+ by standard composition rule,
+ the global prediction function of the system is differentiable.
+\end_layout
+
+\begin_layout Standard
+For kCELL,
+ we consider a RBF kernel as the activation function,
+ an affine function as the prediction function and a weighted average as the aggregation function.
+ The final prediction is obtained by 
+\begin_inset Formula 
+\begin{equation}
+f\left(x\right)=\frac{\sum_{i}\phi_{i}\left(x\right)f_{i}\left(x\right)}{\sum_{i}\phi_{i}\left(x\right)}=\sum_{i}w_{i}\left(x\right)f_{i}\left(x\right)
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $w_{i}\left(x\right)$
+\end_inset
+
+ are the normalized weights such as 
+\begin_inset Formula $\sum_{i}w_{i}\left(x\right)=1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+As all the involved functions are differentiable with respect to 
+\begin_inset Formula $x$
+\end_inset
+
+,
+ the derivative of the prediction function of the system if given by
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial f}{\partial x}\left(x\right)=\sum_{i}\left(\frac{\partial w_{i}}{\partial x}\left(x\right)f_{i}\left(x\right)+w_{i}\left(x\right)\frac{\partial f_{i}}{\partial x}\left(x\right)\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This property makes kCELL usable in gradient-based nonlinear optimization frameworks.
+ However,
+ we argue that a principled approach to linearization can be leveraged by exploiting kCELL's internal structure.
+ In typical model-based control,
+ non-linear dynamics are lienarized via a first-order Taylor expansion to fit the requirements of convex optimization 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "rawlings2017model"
+literal "false"
+
+\end_inset
+
+.
+ However,
+ when the predictive model is already an ensemble of local linear structures,
+ applying a Taylor expansion becomes conceptually redundant.
+ For this reason,
+ we propose to bypass standard differentiation in favor of the structural local linearization capabilities of kCELL.
+\end_layout
+
+\begin_layout Subsubsection
+Local Linearization
+\end_layout
+
+\begin_layout Standard
+In kCELL,
+ the spatial organization of agents and their linear internal models allows to extract local affine models without computing full Jacobians or Taylor expansions.
+\end_layout
+
+\begin_layout Standard
+In MPC,
+ the predictive model predicts the next state 
+\begin_inset Formula $s_{t+1}$
+\end_inset
+
+ from 
+\begin_inset Formula $x_{t}=\left[s_{t},u_{t}\right]$
+\end_inset
+
+ where 
+\begin_inset Formula $s_{t}$
+\end_inset
+
+ is the current state of the system and 
+\begin_inset Formula $u_{t}$
+\end_inset
+
+ is the action to take.
+ Assuming agents have linear internal models 
+\begin_inset Formula $f_{i}\left(x_{t}\right)=A_{i}s_{t}+B_{i}u_{t}+c_{i}$
+\end_inset
+
+,
+ the local affine model around a query point 
+\begin_inset Formula $x_{t}$
+\end_inset
+
+ is given by
+\begin_inset Formula 
+\begin{eqnarray}
+A\left(x_{t}\right)s+B\left(x_{t}\right)u+c\left(x_{t}\right) & = & \sum_{i}w_{i}\left(x_{t}\right)f_{i}\left(x_{t}\right)\\
+ & = & \sum_{i}w_{i}\left(x_{t}\right)\left(A_{i}s_{t}+B_{i}u_{t}+c_{i}\right)\\
+ & = & \underbrace{\sum_{i}w_{i}\left(x_{t}\right)A_{i}}_{A\left(x_{t}\right)}s_{t}+\underbrace{\sum_{i}w_{i}\left(x_{t}\right)B_{i}}_{B\left(x_{t}\right)}u_{t}+\underbrace{\sum_{i}w_{i}\left(x_{t}\right)c_{i}}_{c\left(x_{t}\right)}\label{eq:kcell-local-linear-model}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This approach offers a significant advanatge for control because it preserves the dynamics as learned by the model in the first place.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Sequential Quadratic Programming (SQP)
+\end_layout
+
+\begin_layout Standard
+Sequential Quadratic Programming (SQP) is a local optimization method designed for solving nonlinear constrained problems.
+ The optimization problem to solve is a nonlinear program formulated as
+\begin_inset Formula 
+\begin{align*}
+\min_{u_{0:T-1}}\,\,\, & J\left(s_{0:T},u_{0:T-1}\right)\\
+\text{s.t.\,\,\, } & s_{t+1}=f\left(s_{t},u_{t}\right)\\
+ & h\left(s_{t},u_{t}\right)\leq0\\
+ & g\left(s_{t},u_{t}\right)=0
+\end{align*}
+
+\end_inset
+
+where 
+\begin_inset Formula $J:\mathbb{R}^{n\times T}\mapsto\mathbb{R}$
+\end_inset
+
+ is the cost function,
+ 
+\begin_inset Formula $f$
+\end_inset
+
+ the dynamic function describing the system,
+ 
+\begin_inset Formula $h$
+\end_inset
+
+ and 
+\begin_inset Formula $g$
+\end_inset
+
+ correspond respectively to the supplementary inequality and equality constraints.
+\end_layout
+
+\begin_layout Standard
+At each iteration,
+ the original nonlinear program is approximated by a Quadratic Program (QP) in which the objective is quadratic and the dynamics and constraints are linearized around a reference trajectory
+\begin_inset Formula 
+\begin{align*}
+\min_{u_{0:T-1}}\,\,\, & \sum_{t=0}^{T-1}\left(s_{t}^{\top}Q_{t}s_{t}+q_{t}^{\top}s_{t}+u_{t}^{\top}R_{t}u_{t}+r_{t}^{\top}u_{t}\right)\\
+\text{s.t.\,\,\, } & s_{t+1}=A_{t}s_{t}+B_{t}u_{t}+c_{t}\\
+ & h_{\text{lin}}\left(s_{t},u_{t}\right)\leq0\\
+ & g_{\text{lin}}\left(s_{t},u_{t}\right)=0
+\end{align*}
+
+\end_inset
+
+where 
+\begin_inset Formula $A_{t}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $B_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $c_{t}$
+\end_inset
+
+ define the locally linearized dynamics obtained from a first-order Taylor expansion,
+ 
+\begin_inset Formula $h_{\text{lin}}$
+\end_inset
+
+ and 
+\begin_inset Formula $g_{\text{lin}}$
+\end_inset
+
+ correspond respectively to the linearized inequality and equality constraints obtained from a first-order Taylor expansion,
+ the matrices 
+\begin_inset Formula $Q_{t}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $R_{t}$
+\end_inset
+
+ and vectors 
+\begin_inset Formula $q_{t}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $r_{t}$
+\end_inset
+
+ are obtained from a second-order Taylor expansion of the original cost 
+\begin_inset Formula $J$
+\end_inset
+
+ around the reference trajectory 
+\begin_inset Formula $\tau_{t}$
+\end_inset
+
+.
+ Solving this QP yields an updated trajectory 
+\begin_inset Formula $\tau_{t+1}$
+\end_inset
+
+,
+ and the process is repeated until convergence.
+\end_layout
+
+\begin_layout Standard
+Due to its spatialized agent-based structure,
+ kCELL provides naturally the linearized dynamics needed for the local QP.
+ As shown in Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:kcell-local-linear-model"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ for a query point 
+\begin_inset Formula $x_{t}=\left[s_{t},u_{t}\right]$
+\end_inset
+
+,
+ the local affine model
+\begin_inset Formula 
+\[
+s_{t+1}\approx\underbrace{A\left(x_{t}\right)}_{A_{t}}s_{t}+\underbrace{B\left(x_{t}\right)}_{B_{t}}u_{t}+\underbrace{c\left(x_{t}\right)}_{c_{t}}
+\]
+
+\end_inset
+
+provides exactly the matrices needed for the linearized dynamics in the QP.
+ This way the approximated QP subproblem is fully compliant with the dynamics initially learned by the model,
+ without having to build a proxy through differentiation and Taylor expansion.
+ Consequently,
+ SQP-based MPC provides a principled and efficient way to exploit kCELL's local structure while being able to enforce hard constraints.
+\end_layout
+
+\begin_layout Standard
+In this section we discussed about the integration of kCELL into real-time MPC pipelines by exploiting both its computational and structural properties.
+ First the differentiable and modular nature of kCELL enables highly parallel trajectory unfolding,
+ making population-based optimizer tractable through GPU based implmentations.
+ This approach is particularly adapted for large-scale trajectory sampling and global solution exploration.
+ Then,
+ we showed that kCELL's agent-based structure provides both differentiability and explicit local affine models of the learned dynamicsk for gradientt-based MPC.
+ This property naturally allow the use of SQP,
+ which exploits local linear models to efficiently enforce hard constraints and produce smooth control trajectories.
+ Ultimately,
+ we showed that using a kCELL predictive dynamics model,
+ both population-based and gradient-based optimization schemes could be leveraged.
+\end_layout
+
+\begin_layout Standard
+Beyond computational efficiency,
+ kCELL exposes introspection signals such as distance-based competence and local model disagreement that quantify the reliability of the predictions along candidate trajectories.
+ in the remainder of this chapter,
+ we explore the use of these introspection signals to improve control in terms of exploration and exploitation under operational constraints.
+\end_layout
+
+\begin_layout Section
+Exploration MPC with kCELL
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Exploration-MPC"
+
+\end_inset
+
 
 \end_layout
 
@@ -13134,46 +13497,8 @@ name "subsec:MPC-and-Local-Linearization"
 status open
 
 \begin_layout Plain Layout
-Transition:
- “With fast,
- differentiable predictions,
- kCELL can be used as a predictive model in MPC.”
+Because 
 \end_layout
-
-\begin_layout Plain Layout
-Explain how kCELL local linearization maps naturally onto MPC/SQP subproblems:
-\end_layout
-
-\begin_layout Plain Layout
-Local affine approximations of dynamics → linear constraints in QPs
-\end_layout
-
-\begin_layout Plain Layout
-Piecewise local structure → naturally supports local linearization required by SQP
-\end_layout
-
-\begin_layout Plain Layout
-Argue why shooting methods are less appropriate:
-\end_layout
-
-\begin_layout Plain Layout
-global rollout leaves local validity region
-\end_layout
-
-\begin_layout Plain Layout
-hard to enforce constraints reliably
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section
-Exploration MPC with kCELL
-\begin_inset CommandInset label
-LatexCommand label
-name "sec:Exploration-MPC"
 
 \end_inset
 
