@@ -12043,7 +12043,7 @@ name "sec:Parallelization-and-Differentiability"
 
 \begin_layout Standard
 kCELL provides a more robust and expressive instantiation of the CELL paradigm.
- It is capable of handling nonstationary online learning tasks and maintaining interpretability.
+ It is capable of handling non-stationary online learning tasks and maintaining interpretability.
  However,
  its practical deployment in model-based control requires additional computational and structural considerations.
 \end_layout
@@ -12052,12 +12052,12 @@ kCELL provides a more robust and expressive instantiation of the CELL paradigm.
 Model Predictive Control (MPC) relies on repeated model evaluations within an optimization loop.
  When using learned models,
  inference speed and mathematical structure are important to the feasibility and reliability of control,
- especially if real-time constraints needs to be met.
+ especially if real-time constraints need to be met.
 \end_layout
 
 \begin_layout Standard
 To this end,
- two main requirements can be emphasized.
+ two main requirements must be addressed.
  First,
  population-based optimization methods commonly employed in data-driven MPC,
  such as the Cross-Entropy Method (CEM) 
@@ -12069,8 +12069,8 @@ literal "false"
 \end_inset
 
 ,
- require fast and batched predictions over large sets of candidate trajectories.
- This makes purely sequential inference with naive expert lookup in kCELL prohibitively expensive.
+ require fast and batched predictions over large sets of candidate trajectories whose computational cost must remain predictable across control steps.
+ Purely sequential inference with naive expert lookup in kCELL prohibitively expensive.
  Second,
  gradient-based optimization methods,
  such as Sequential Quadratic Programming (SQP),
@@ -12078,7 +12078,7 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-kCELL must comprise optimized implementations and differentiable representations.
+kCELL must therefore comprise optimized implementations to enable fast batched inference and differentiable representations to support gradient-based control methods.
  Regarding computational efficiency,
  in kCELL,
  expert selection can be accelerated significantly through spatial indexing or parallel execution,
@@ -12152,15 +12152,19 @@ nolink "false"
 \end_inset
 
 ).
- Those methods rely heavily on parallel evaluation of large population of candidate trajectories at each control step within the MPC framework.
+ These methods rely heavily on parallel evaluation of large population of candidate trajectories at each control step within the MPC framework.
+\end_layout
+
+\begin_layout Subsubsection
+Geospatial Tree Indexing
 \end_layout
 
 \begin_layout Standard
 In CELL instanciations like kCELL and oCELL,
  a learning step always begins with a neighboring agent selection phase.
  Since the agents are spatially distributed in the feature space,
- then the selection of neighboring agents can be broken down into 2 components:
- a distance calculation to find the closest agents and a thresholding of those distances to discriminate neighbors.
+ then the selection of neighboring agents can be broken down into two components:
+ distance calculation to find the closest agents and thresholding of those distances to discriminate neighbors.
 \end_layout
 
 \begin_layout Standard
@@ -12188,7 +12192,18 @@ literal "false"
 
 \end_inset
 
-.
+ (cf Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Visualization-of-KD-tree"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
  The R-tree is a hierarchical tree structure designed for indexing multi-dimensional objects like rectangles or polygons.
  Each node of the tree represents a bounding rectangle that encloses child nodes.
  R-trees are particularly suited for range,
@@ -12200,8 +12215,18 @@ literal "false"
 
 \end_inset
 
-.
- 
+ (cf Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Visualization-of-R-tree"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
 \end_layout
 
 \begin_layout Standard
@@ -12213,6 +12238,82 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/kdtree_illustration.png
+	lyxscale 30
+	width 45col%
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+KD-tree
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Visualization-of-KD-tree"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/rtree_illustration.png
+	lyxscale 30
+	width 45col%
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+R-tree
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Visualization-of-R-tree"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
 
 \end_layout
 
@@ -12220,7 +12321,14 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Illustration of KD-tree and R-tree
+Illustration of KD-tree and R-tree on 2D data
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Illustration-of-KD-tree-and-R-tree"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -12234,11 +12342,13 @@ Illustration of KD-tree and R-tree
 \end_layout
 
 \begin_layout Standard
-To build an index on agents within the feature space,
- R-tree is a better choice than KD-tree because R-tree is designed to handle polygons,
- and more specifically,
- orthotopes (which are in substance,
- n-dimensional generalization of rectangles).
+In the context of CELL instantiations,
+ R-trees are better suited than KD-trees because they are designed to handle polygons and orthotopes,
+ i.e 
+\begin_inset Formula $n$
+\end_inset
+
+-dimensional generalizations of rectangles.
  Therefore,
  agents can be indexed by their bounding orthotope.
  For kCELL,
@@ -12263,75 +12373,368 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Comment
+Implementing a R-tree as a geospatial index over the agents reduces the neighborhood searches from 
+\begin_inset Formula $O\left(n\right)$
+\end_inset
+
+ in the naive case to 
+\begin_inset Formula $O\left(\log n\right)$
+\end_inset
+
+.
+ However,
+ for insertion and deletion,
+ the average time complexity increases from 
+\begin_inset Formula $O\left(1\right)$
+\end_inset
+
+ in the naive case to 
+\begin_inset Formula $O\left(\log n\right)$
+\end_inset
+
+ with geospatial indexing.
+ While geospatial indexing seems less advantageous in terms of insertion and deletion,
+ it should be remembered that agent creations and destructions are generally less frequent then neighborhood searches in kCELL.
+\end_layout
+
+\begin_layout Subsubsection
+GPU Parallelization
+\end_layout
+
+\begin_layout Standard
+However,
+ as the dimensionality of the feature space increases,
+ the structural advantages of the R-tree diminish due to distance distention and bounding box overlap making the search complexity degenerate to 
+\begin_inset Formula $O\left(n\right)$
+\end_inset
+
+.
+ In such cases,
+ the overhead induced by geospatial indexing offers no advantage over a brute-force approach.
+ To address these limitations,
+ the embarrassingly parallelizable nature of neighborhood search in kCELL (and oCELL) can be exploited through GPU acceleration.
+ By shifting from pointer-based tree structures to dense tensor representations,
+ kCELL (and oCELL) can leverage massive parallel throughput as the selection phase can be executed as a vectorized linear algebra operation.
+\end_layout
+
+\begin_layout Paragraph
+Memory Layout
+\end_layout
+
+\begin_layout Standard
+To maximize the efficiency of using the GPU for agent selection,
+ agent data is stored in contiguous memory block.
+ For example,
+ for kCELL system,
+ we define two global agent tensors for storing the parameters of the activation functions,
+\begin_inset Formula 
+\[
+\mathcal{T}_{\mu}\in\mathbb{R}^{N\times n},\,\,\mathcal{T}_{\Sigma}\in\mathbb{R}^{N\times n\times n}
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $N$
+\end_inset
+
+ is the maximum agent capacity of the agent pool and 
+\begin_inset Formula $n$
+\end_inset
+
+ is the number of features.
+ 
+\begin_inset Formula $\mathcal{T}_{\mu}$
+\end_inset
+
+ is for storing the means and 
+\begin_inset Formula $\mathcal{T}_{\Sigma}$
+\end_inset
+
+ is for storing the covariance matrices.
+ With this layout,
+ the GPU hardware can easily saturate its bandwith for efficient distance computations.
+\end_layout
+
+\begin_layout Paragraph
+Dynamic Agent Population
+\end_layout
+
+\begin_layout Standard
+In CELL systems,
+ the number of agents is dynamic.
+ Agents can be created or destroyed depending on the needs of the system.
+ In a GPU parallelization context with contiguous memory storage,
+ managing a dynamic set of agents requires efficient creation and deletion strategies to avoid costly memory allocations.
+\end_layout
+
+\begin_layout Standard
+The most straightforward approach consists in a dynamic reallocation of memory each time an agent is created or destroyed as illustrated in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Illustration-of-dynamic-reallocation"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ Although easy to implement,
+ this approach is unsuitable for high-frequency learning loops due to the overhead induced by re-allocating GPU memory and copying of existing data.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
 status open
 
 \begin_layout Plain Layout
-- population based MPC (broadly used for their robustness to non smooth dynamcis) rely on parallel evaluation of large population of candidate trajectories at each control step [ref]
+\align center
+\begin_inset Graphics
+	filename assets/images/dynamic_reallocation_creation_destruction.png
+	lyxscale 30
+	width 70col%
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Plain Layout
-- to allow usage in population based MPC
-\end_layout
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
-- in kCELL,
- learning steps systematically start by neighborhood checks
-\end_layout
+Illustration of agent creation and destruction in dynamic reallocation regime
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Illustration-of-dynamic-reallocation"
 
-\begin_layout Plain Layout
-- agents are spatialized in feature space and neighborhood checks can be decomposed into distance computation and distance thresholding,
- in fine we look for closest agents.
-\end_layout
+\end_inset
 
-\begin_layout Plain Layout
-- because of feature space spatialization we can use spatial indexing techniques to select k closest more easily in nlogn complexity
-\end_layout
 
-\begin_layout Plain Layout
-- approaches like kd-trees (for point) or rtrees (for polygons via bounding rectangles) exists.
-\end_layout
-
-\begin_layout Plain Layout
-- rtrees are more suitable for online updates as they support incremental insertions and deletions => because balanced tree
-\end_layout
-
-\begin_layout Plain Layout
-- the neighborhood selection process becomes:
- get k closest in index => compute real distances to avoid misclassifications => threshold distances
-\end_layout
-
-\begin_layout Plain Layout
-=================
-\end_layout
-
-\begin_layout Plain Layout
-- distance computations can obviously be parallelized
-\end_layout
-
-\begin_layout Plain Layout
-- easy to use GPU computations on this
-\end_layout
-
-\begin_layout Plain Layout
-- then we store spatialized information as tensors in memory (schema)
-\end_layout
-
-\begin_layout Plain Layout
-- for agent creation or deletion we add a row or delete a row from the global tensor (schema)
-\end_layout
-
-\begin_layout Plain Layout
-- benchmark depending on number of agents in python with pytorch
-\end_layout
-
-\begin_layout Plain Layout
-=================
 \end_layout
 
 \end_inset
 
 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To achieve 
+\begin_inset Formula $O\left(1\right)$
+\end_inset
+
+ updated complexity,
+ another strategy can be considered.
+ Fixed-capacity tensors are pre-allocated to store agents data.
+ A boolean masking vector 
+\begin_inset Formula $\mathcal{M}\in\left\{ 0,1\right\} ^{N}$
+\end_inset
+
+ is maintained to track which memory slot contains an agent or not.
+ 
+\end_layout
+
+\begin_layout Standard
+Agent creation then consists in assigning new agents data to the first index 
+\begin_inset Formula $i$
+\end_inset
+
+ such that 
+\begin_inset Formula $\mathcal{M}_{i}=0$
+\end_inset
+
+.
+ If the agent population exceeds the predefined capacity,
+ standard dynamic resizing strategies can be employed.
+\end_layout
+
+\begin_layout Standard
+Conversely,
+ agent deletion sets 
+\begin_inset Formula $\mathcal{M}_{i}=0$
+\end_inset
+
+,
+ marking the slot as available to host data of future agents as illustrated in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Illustration-of-preallocated-memory-pool"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ This effectively hide the agent from the selection kernel without moving data.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/preallocated_memorpool_creation_destruction.png
+	lyxscale 30
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Illustration of agent creation and destruction in preallocated memory pool with masking regime
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Illustration-of-preallocated-memory-pool"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For selection,
+ the mask 
+\begin_inset Formula $\mathcal{M}$
+\end_inset
+
+ is used to filter the active memory slots and retrieve only relevant distance computations (i.e those corresponding to existing agents).
+\end_layout
+
+\begin_layout Subsubsection
+Comparison between GPU and Tree Selection
+\end_layout
+
+\begin_layout Standard
+The choice of using a geospatial index or the parallelization enabled by a GPU depends on the number of features and the quantity of agents required for learning the function underlying the data which is highly correlated to its compexity.
+\end_layout
+
+\begin_layout Standard
+To evaluate the impact of this structural shift,
+ we benchmark neighborhood selection in Python using 
+\emph on
+PyTorch
+\emph default
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "paszke2019pytorch"
+literal "false"
+
+\end_inset
+
+ for GPU accelerated computations and using 
+\emph on
+Rtree
+\emph default
+ package 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gilliesRtreeSpatialIndexing"
+literal "false"
+
+\end_inset
+
+ for efficient R-tree implementation.
+ We compare the two selection approaches presented previously on a synthetic nearest neighbor selection task for variable amount of features and agents.
+ The synthetic centroids are generated to form 100 clusters to simulate high density manifolds.
+ As shown in Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Context-Ensemble-Local"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ in CELL instantiations like oCELL and kCELL,
+ agents organize spatially according to the data encountered.
+ In real-world cases,
+ these data points are rarely uniformly distributed.
+ Indeed,
+ uniform distribution could overestimate the volume of search.
+ Using clustered centroid distribution allows a fairer comparison for R-trees whose main strength is to prune empty space.
+\end_layout
+
+\begin_layout Standard
+From a set of 1000 query points,
+ the time to find the 5-nearest neighbors is measured and averaged across 3 cycles.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Heatmap-of-activations-hopper"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ exposes a heatmap of the relative execution time difference in percentage expressed as
+\begin_inset Formula 
+\[
+\Delta_{t}=\frac{\Delta_{\text{GPU}}-\Delta_{\text{R-tree}}}{\Delta_{\text{R-tree}}}\times100
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\Delta_{\text{GPU}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\Delta_{\text{R-tree}}$
+\end_inset
+
+ the execution time of a nearest neighbor query averaged over 3 cycles.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Binary-winner-R-tree-GPU"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ shows which strategy has obtained lowest execution time in each studied configuration.
 \end_layout
 
 \begin_layout Standard
@@ -12365,6 +12768,352 @@ Highlight differentiability:
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/benchmark/relative_time_diff_rtree_gpu_comprison_notitle.png
+	lyxscale 30
+	width 45col%
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Relative Execution Time Difference Heatmap
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Relative-time-diff-comparison-R-tree-GPU"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/benchmark/binary_perf_diff_rtree_gpu_comprison_notitle.png
+	lyxscale 30
+	width 45col%
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Winner Binary Heatmap
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Binary-winner-R-tree-GPU"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Comparison of the execution times of GPU and R-tree on various 
+\begin_inset Formula $\left\{ n,N\right\} $
+\end_inset
+
+ configurations for a clustered distribution of synthetic centroids.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Comparison-R-tree-GPU-agent-selection"
+
+\end_inset
+
+ contains a heatmap of the relative execution time difference between the two strategies (
+\begin_inset Formula $\Delta_{t}$
+\end_inset
+
+).
+ Shades of yellow correspond to 
+\begin_inset Formula $\Delta_{t}>0$
+\end_inset
+
+,
+ i.e to R-tree being faster.
+ Conversely,
+ shades of blue correspond to 
+\begin_inset Formula $\Delta_{t}<0$
+\end_inset
+
+,
+ i.e to GPU being faster.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Relative-time-diff-comparison-R-tree-GPU"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ contains a binary heatmap clearly showing in which configuration which strategy was faster.
+ White cells corresponds to configurations in which R-tree was faster and black cells correspond to configurations in which GPU was faster.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The benchmarking results show that R-tree maintains a competitive edge in low-dimensional regimes (
+\begin_inset Formula $n\leq5$
+\end_inset
+
+).
+ This is an expected result as R-trees struggles in higher dimensions due to the curse of dimensionality.
+ In higher dimensional regimes the distinction between nearest and farthest points becomes meaningless and pruning becomes ineffective 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kouiroukidis2011effects"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+However,
+ the performances of the R-tree compared to GPU does not seem monotonic.
+ In Figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Relative-time-diff-comparison-R-tree-GPU"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Binary-winner-R-tree-GPU"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ we notice a non linear phase transition area (looking like a 
+\begin_inset Quotes eld
+\end_inset
+
+semi-banana
+\begin_inset Quotes erd
+\end_inset
+
+) that extends from 
+\begin_inset Formula $N=2500$
+\end_inset
+
+ centroids and 
+\begin_inset Formula $n=70$
+\end_inset
+
+ features to 
+\begin_inset Formula $N=20000$
+\end_inset
+
+ and 
+\begin_inset Formula $n=50$
+\end_inset
+
+.
+ Within this region,
+ R-tree is competitive or faster than GPU.
+\end_layout
+
+\begin_layout Standard
+As shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Winner-binary-heatmap-uniform"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ the competitive advantage of R-trees within the non linear phase transition area fades when the centroids are uniformly distributed.
+ In this case the R-trees are almost never faster than GPU computation.
+ It shows that the structure of data needs to be analyzed beforehand to make sure R-tree indexing is a pertinent indexing option.
+ This is an expected result because R-trees are particularly adapted to prune large empty spaces.
+ The uniform distribution of centroids does not exhibit exploitable structures for the R-tree.
+ This is not an issue for the GPU based nearest neighbor computations that is a brute force approach that does not rely on structure.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/benchmark/binary_perf_diff_rtree_gpu_comprison_uniform_notitle.png
+	lyxscale 30
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Winner binary heatmap with uniformly distributed synthetic centroids
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Winner-binary-heatmap-uniform"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These observations indicate that the performance of nearest neighbor selection with R-trees compared to using GPUs is better in low dimensional regimes (
+\begin_inset Formula $n\leq5$
+\end_inset
+
+) and depends heavily on the underlying data structures when the number of dimensions increases (
+\begin_inset Formula $n\geq5$
+\end_inset
+
+) due to the curse of dimensionality.
+\end_layout
+
+\begin_layout Standard
+From an engineering standpoint,
+ GPU-based selection provides a more predictable and stable latency profile,
+ independent of data distribution.
+ While R-tree indexing can provide large gains in very specific sparse regimes,
+ its performance is highly sensitive to the latent structure of the learned model (i.e the distribution of agents).
+\end_layout
+
+\begin_layout Standard
+In an online learning setting for adaptive control in a MPC scheme without prior knowledge of the dynamics of the environment,
+ the data distribution is not known in advance and may evolve over time.
+ For this reason,
+ the GPU-based brute-force selection is preferred for its 
+\emph on
+deterministic latency
+\emph default
+,
+ its 
+\emph on
+hardware scalability
+\emph default
+.
+ Indeed GPU execution time scales predictably with 
+\begin_inset Formula $n$
+\end_inset
+
+ and 
+\begin_inset Formula $N$
+\end_inset
+
+,
+ whereas R-tree latency exhibits high variance depending on tree depth and splits overlap.
+ Moreover,
+ GPUs naturally handles batch queries as a single high-throughput operation,
+ which can be deemed useful for population-based optimization.
+\end_layout
+
+\begin_layout Standard
+The implementation strategies discussed in this section address the primary computational bottleneck of kCELL for use in a MPC scheme,
+ namely the repeated selection and evaluation of local experts under strict real-time constraints.
+ By leveraging either spatial indexing or GPU brute force selection,
+ kCELL can be integrated into population-based trajectory optimizers while maintaining predictable inference and learning latency.
+\end_layout
+
+\begin_layout Standard
+However,
+ computational efficiency alone is not sufficient for kCELL to be deployed with gradient-based optimizers that could potentially handle hard constraints.
+ Such approaches require predictive models to admit local linearizations.
+\end_layout
+
 \begin_layout Subsection
 MPC and Local Linearization
 \begin_inset CommandInset label
@@ -12373,6 +13122,10 @@ name "subsec:MPC-and-Local-Linearization"
 
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
 
 \end_layout
 
