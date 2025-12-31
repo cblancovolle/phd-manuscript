@@ -1359,7 +1359,7 @@ The volume
  is defined by
 \begin_inset Formula 
 \begin{equation}
-v\left(\mathcal{A}_{i}\right)=\prod_{j=1}^{n}\left(h_{j}-l_{j}\right)
+v\left(\mathcal{A}_{i}\right)=\prod_{j=1}^{n}\left(h_{j}-l_{j}\right)\label{eq:orthotope-volume}
 \end{equation}
 
 \end_inset
@@ -9192,6 +9192,43 @@ where
  With this approach the shape change is expressed purely as a mean and covariance estimation problem.
 \end_layout
 
+\begin_layout Definition
+The notion of volume expressed in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Context-Agents"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ (cf.
+ Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:orthotope-volume"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+) still carries on.
+ The volume of an agent is tied to the volume of a confidence ellipsoid defined by a theshold on squared mahalanobis distance.
+ Thus the volume of an agent is proportional to the square root of the determinant of the associated covariance matrix
+\begin_inset Formula 
+\[
+v\left(\mathcal{A}_{i}\right)\propto\sqrt{\det\left(\Sigma_{i}\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsubsection
 Soft-Weighted Prediction
 \begin_inset CommandInset label
@@ -11860,6 +11897,10 @@ status open
 Add comparison between oCELL and kCELL
 \end_layout
 
+\begin_layout Plain Layout
+- Gaussian representation better via smoothness and degrees of freedom but still is an assumption about daat distribution => corrected via PCA ?
+\end_layout
+
 \end_inset
 
 
@@ -13553,8 +13594,8 @@ literal "false"
 
 \end_inset
 
-) or on uncertainty-based mechanisms,
- such as those leveraged in Gaussian Processes 
+) or on uncertainty-based mechanisms derived from auxiliary models,
+ such bayesian posterior variances in Gaussian Processes 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "srinivas2009gaussian,ruiz2015general"
@@ -13563,7 +13604,7 @@ literal "false"
 \end_inset
 
 ,
- Curiosity-driven exploration 
+ intrinsic motivation signals in Curiosity-driven exploration 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "pathak2017curiosity"
@@ -13572,7 +13613,7 @@ literal "false"
 \end_inset
 
 ,
- and Random Network Distillation 
+ or novelty scores learned through Random Network Distillation 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "burda2018exploration"
@@ -13581,12 +13622,32 @@ literal "false"
 \end_inset
 
 .
+ While effective in many situations,
+ these approaches quantify uncertainty through probabilistic inference or learned proxies that are determined by model design choices,
+ whereas kCELL exposes uncertainty as a structural and geometric property of its spatialized local learning architecture.
 \end_layout
 
 \begin_layout Standard
 kCELL's spatialized agent-based architecture provides two distinct introspection signals that can be directly embedded into the MPC objective function to drive exploration of unknown states:
  distance-based competence and local model disagreement.
- The new cost function to minimize is
+ 
+\end_layout
+
+\begin_layout Standard
+Distance-based competence quantifies how far a state-action pair lies from regions that are sufficiently covered by agents,
+ providing a geometrical grounded measure of feature space epistemic uncertainty.
+ Local model disagreement captures variability in the predicted dynamics across neighboring agents,
+ yielding a local estimate of predictive uncertainty.
+ Because kCELL operates in an online learning regime,
+ these introspection quantities evolve through constant interaction with the environment and can be evaluated at every MPC iteration without retraining,
+ posterior computations,
+ or auxiliary optimization procedures.
+\end_layout
+
+\begin_layout Standard
+Exploration can therefore be formulated as a deterministic,
+ introspection-based regularization of the control objective,
+ leading to the following augmented cost function
 \begin_inset Formula 
 \[
 J\left(s_{t},u_{t}\right)=\alpha J_{\text{task}}\left(s_{t},u_{t}\right)+\lambda J_{\text{explore}}\left(s_{t},u_{t}\right)
@@ -13594,6 +13655,10 @@ J\left(s_{t},u_{t}\right)=\alpha J_{\text{task}}\left(s_{t},u_{t}\right)+\lambda
 
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
 where 
 \begin_inset Formula $J_{\text{task}}$
 \end_inset
@@ -13611,19 +13676,6 @@ where
  the adjustment weights to trade-off task exploitation and exploration.
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Add a sentence to ground the singularity of using kCELL here => for now positioning is not clear.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsection
 Distance-based Competence
 \begin_inset CommandInset label
@@ -13637,16 +13689,15 @@ name "subsec:Distance-based-Competence"
 
 \begin_layout Standard
 Unlike opaque black-box models,
- kCELL provides an explicit measure of its knowledge about specific regions of the feature space through the spatial distribution of agents.
+ kCELL provides an explicit measure of its degree of knowledge about specific regions of the feature space through the spatial distribution of agents.
  To encourage exploration,
  the model must acquire data that lie outside the currently covered regions,
- that is to say,
- beyond its existing knowledge.
- The degree of knowledge can be quantified by evaluating the Mahalanobis distance between a given state-action pair and the closest agents.
+ i.e outside regions that have been sufficiently visited.
+ The degree of knowledge associated with a state-action pair can be quantified by evaluating the Mahalanobis distance between the pair and the closest agents.
 \end_layout
 
 \begin_layout Standard
-The objective is to drive the state-action trajectories away from the current knowledge-base.
+The objective is to deliberately drive the state-action trajectories away from the currently covered regions fo the feature space to collect informative samples in poorly modeled areas.
  To achieve this,
  we introduce a distance-based penalty term 
 \begin_inset Formula $p_{\text{dist}}\left(x_{t}\right)$
@@ -13683,10 +13734,23 @@ is the set of the
 \begin_inset Formula $\Sigma_{i}$
 \end_inset
 
- are the parameters of their activation function.
+ are the parameters of their activation function,
+ 
+\begin_inset Formula $w_{i}\left(x_{t}\right)=\frac{\phi_{i}\left(x_{t}\right)}{\sum_{j}\phi_{j}\left(x_{t}\right)}$
+\end_inset
+
+ are the weights depending on the activation of each agent on 
+\begin_inset Formula $x_{t}$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
+Because the penalty is negative,
+ minimizing the augmented MPC objective encourages trajectories that maximize the distance to the currently well-covered regions.
+ in this context,
+ 
 \begin_inset Formula $p_{\text{dist}}\ll0$
 \end_inset
 
@@ -13694,17 +13758,17 @@ is the set of the
 \begin_inset Formula $x_{t}$
 \end_inset
 
- is currently far from the current knowledge base.
+ is currently supported by the agents' training data.
  Conversely ,
  
 \begin_inset Formula $p_{\text{dist}}\approx0$
 \end_inset
 
- means that 
+ indicates that 
 \begin_inset Formula $x_{t}$
 \end_inset
 
- is close to a known region of feature space and thus is probably already including in the current knowledge base.
+ is close to a well-covered (known) region of feature space and is therefore likely to be already included in the current knowledge base.
 \end_layout
 
 \begin_layout Subsection
@@ -13719,17 +13783,15 @@ name "subsec:Local-Disagreement"
 \end_layout
 
 \begin_layout Standard
-In regions where multiple agents are close,
- the variance between their individual predictions serves as a proxy for aleatoric uncertainty or model inconsistency.
- High disagreement suggests that the local dynamics are either stochastic
-\begin_inset space ~
-\end_inset
-
-noisy or that the model has not yet converged to a stable local representation.
+In regions where multiple agents are close in feature space,
+ the variance between their individual predictions serves as a proxy for local predictive inconsistency.
+ High disagreement suggests that the local dynamics are either stochastic,
+ noisy or that the model has not yet converged to a stable local representation.
 \end_layout
 
 \begin_layout Standard
-The objective is to drive the state-action trajectories in high disagreement regions to force the model to discover new area or to converge in already known region of feature space (similar to 
+The objective is to drive the state-action trajectories towards regions exhibiting high predictive disagreement to force the model to discover new areas or to converge in already known region of feature space.
+ This mechanism is functionally analogous to uncertainty-driven exploration strategies proposed in 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "srinivas2009gaussian,ruiz2015general,pathak2017curiosity,burda2018exploration"
@@ -13737,13 +13799,17 @@ literal "false"
 
 \end_inset
 
-).
- To achieve this,
+ while remaining fully intrinsic to the kCELL architecture.
+ 
+\end_layout
+
+\begin_layout Standard
+To achieve this,
  we introduce a disagreement-based penalty term 
 \begin_inset Formula $p_{\text{disagree}}\left(x_{t}\right)$
 \end_inset
 
- that augments the MPC cost function by promoting exploration of highly uncertain region of feature space,
+ that augments the MPC cost function by promoting exploration of highly uncertain regions of feature space,
  such as
 \begin_inset Formula 
 \begin{eqnarray}
@@ -13752,7 +13818,43 @@ p_{\text{disagree}}\left(x_{t}\right) & = & -\sum_{i\in D_{\text{closest}}}w_{i}
 
 \end_inset
 
+where 
+\begin_inset Formula $x_{t}=\left[s_{t},u_{t}\right]$
+\end_inset
 
+,
+ 
+\begin_inset Formula $D_{\text{closest}}$
+\end_inset
+
+is the set of the 
+\begin_inset Formula $k$
+\end_inset
+
+-closest agents,
+ 
+\begin_inset Formula $f\left(x_{t}\right)$
+\end_inset
+
+ is the global prediction of the system obtained by aggregating the predictions of the closest agents,
+ 
+\begin_inset Formula $f_{i}\left(x_{t}\right)$
+\end_inset
+
+ is the prediction of the 
+\begin_inset Formula $i$
+\end_inset
+
+-th agent,
+ 
+\begin_inset Formula $w_{i}\left(x_{t}\right)=\frac{\phi_{i}\left(x_{t}\right)}{\sum_{j}\phi_{j}\left(x_{t}\right)}$
+\end_inset
+
+ are the weights depending on the activation of each agent on 
+\begin_inset Formula $x_{t}$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Subsection
@@ -13766,6 +13868,1210 @@ name "subsec:Exploration-Comparative-Study"
 
 \end_layout
 
+\begin_layout Standard
+This section evaluates the effectiveness of the proposed introspection-driven exploration strategies based on distance-based competence and local model disagreement.
+ The objective is to assess whether embedding these signals into the MPC objective leads to improved coverage of feature space in an online learning setup,
+ compared to random uninform or purely exploitative exploration strategies.
+\end_layout
+
+\begin_layout Subsubsection
+Experimental Protocol
+\end_layout
+
+\begin_layout Standard
+This experiment is conducted on the classical Pendulum control task available in gymnasium reinforcement learning library 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "towers2024gymnasium"
+literal "false"
+
+\end_inset
+
+,
+ which exhibits nonlinear dynamics and presents a nontrivial exploration challenge.
+ 
+\end_layout
+
+\begin_layout Standard
+States are composed of the 
+\begin_inset Formula $x,y$
+\end_inset
+
+ the 2D-coordinates of the tip of the pendulum and of 
+\begin_inset Formula $\dot{\theta}$
+\end_inset
+
+ the angular velocity.
+ For convenience reasons,
+ in subsequent figures,
+ states are also represented by 
+\begin_inset Formula $\theta$
+\end_inset
+
+,
+ the angle and 
+\begin_inset Formula $\dot{\theta}$
+\end_inset
+
+ to allow for 2D representations.
+ 
+\end_layout
+
+\begin_layout Standard
+The pendulum is initialized at the bottom equilibrium with zero angular velocity (
+\begin_inset Formula $\left\{ \theta=\pi,\,\dot{\theta}=0\right\} $
+\end_inset
+
+) at the beginning of each episode.
+ No initial state randomization is applied.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Insert graph presenting the pendulum with polar coordinates and xy coordinates
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This way,
+ high energy states are harder to reach,
+ making the exploration harder for uninformed random strategies.
+ The cost function to minimize to solve the task is the following
+\begin_inset Formula 
+\begin{equation}
+\min_{u_{0:T}}\sum_{t=0}^{T}\left(\left(s_{t}-s_{\text{ref}}\right)^{\top}Q\left(s_{t}-s_{\text{ref}}\right)+u_{t}^{\top}Ru_{t}\right)+\left(\left(s_{T+1}-s_{\text{ref}}\right)^{\top}Q\left(s_{T+1}-s_{\text{ref}}\right)\right)
+\end{equation}
+
+\end_inset
+
+with 
+\begin_inset Formula $Q\in\mathbb{R}^{3\times3}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $R\in\mathbb{R}^{1\times1}$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $s_{\text{ref}}$
+\end_inset
+
+ the target state to reach for the pendulum which usually is the top neutral position.
+\end_layout
+
+\begin_layout Standard
+The agent interacts with the environment for a total of 5000 time steps,
+ divided into episodes of 500 steps.
+ During interaction,
+ a kCELL model is learned online from streaming data to predict the next state.
+\end_layout
+
+\begin_layout Standard
+Trajectory optimization is performed using the Cross-Entropy Method (CEM) because this approach is stochastic.
+ Using a population-based optimizer naturally introduces variability in candidate action sequecnes.
+ This stochasticity is important in the early learning phase of kCELL,
+ as it avoids situations where newly created agents would be initialized with near-zero action variance,
+ which can greatly hurt local model learning.
+\end_layout
+
+\begin_layout Standard
+Four exploration strategies are evaluated:
+\end_layout
+
+\begin_layout Enumerate
+Distance intrinsic exploration,
+ where the cost function to minimize is the distance-based competence penalty introduced in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Distance-based-Competence"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Disagreement intrinsic exploration,
+ where the cost function to minimize is the disagreement-based penalty introduced in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Local-Disagreement"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Pure exploitation,
+ where only the original task cost is minimized without any exploration regularization.
+\end_layout
+
+\begin_layout Enumerate
+Uniform random exploration,
+ where actions are sampled uniformly at random within admissible bounds.
+\end_layout
+
+\begin_layout Standard
+For all exploration strategies,
+ the same kCELL architecture,
+ with same hyperparameters and interaction budget is learned.
+ The metrics measured in subsequent sections are averaged over 5 seeds to eliminate part of the stochastic bias induced by using stochastic optimizer and random exploration strategies.
+ All strategies share identical model architecture,
+ hyperparameters and interaction budget ensuring that observed differences arise solely from the exploration strategy.
+\end_layout
+
+\begin_layout Subsubsection
+Quantitative State-Space Coverage
+\end_layout
+
+\begin_layout Standard
+To quantify the state exploration performance,
+ the continuous state space is discretized into a regular grid of bins (50 bins per dimension).
+ Each visited state is mapped to its corresponding bin,
+ which is then marked as visited.
+ State-space coverage is then defined as the ratio of visited bins to the total number of bins.
+ The final coverage ratios are (averaged over 5 seeds),
+ are reported in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Space-Coverage"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+resizebox{0.95
+\backslash
+columnwidth}{!}{
+\end_layout
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Disagreement (ours)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Distance (ours)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Random Uniform
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Full Exploitation
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Coverage (in %)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset Formula $\mathbf{58.6\pm5}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset Formula $\mathbf{57.9\pm3}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $49.2\pm6$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $8\pm4$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset VSpace smallskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Measured state space coverage ratio (in %) after 5000 exploration steps.
+ Best scores are highlighted in bold.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Space-Coverage"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The results show that both introspection-driven strategies (distance-based competence and local disagreement) achieve significantly higher state-space coverage than the uninformed random uniform strategy under the same interaction budget:
+ 
+\begin_inset Formula $\approx10\%$
+\end_inset
+
+ higher ratio for introspection-based strategies.
+ Conversely,
+ with pure exploitation strategy,
+ where the controller optimizes only the task cost without any exploration regularization,
+ results in the lowest coverage.
+ This indicates that in the absence of prior knowledge of the dynamics,
+ exploitation (i.e optimizing the task objective) alone is insufficient to drive the system toward diverse and informative regions of the state space.
+\end_layout
+
+\begin_layout Standard
+Furthermore,
+ The distance-based and disagreement-based strategies achieve comparable final coverage levels,
+ indicating that both introspection signals are effective at promoting exploration beyond the regions initially supported by the data.
+\end_layout
+
+\begin_layout Subsubsection
+Evolution of Coverage during Exploration
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Evolution-of-the-coverage"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ shows the evolution of state-space coverage over time averaged over 5 seeds.
+ The two introspection-driven strategies consistently dominate the random uniform baseline.
+ Pure exploitation seems to remain confined to a narrow subset of states and fails to significantly increase coverage.
+\end_layout
+
+\begin_layout Standard
+Both introspection-driven strategies show comparable growth in coverage over time.
+ Minor differences in variability across seeds are observed but the mean coverage remains similar.
+ This suggests that both strategies effectively promote exploration.
+ Any apparent differences should be interpreted cautiously as they may not be statistically significant.
+\end_layout
+
+\begin_layout Standard
+Overall,
+ these results confirm that embedding introspection signals directly into the MPC objective yields an exploration advantage over uninformed stochastic action sampling.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/exploration/coverage_evolution_5k.png
+	lyxscale 30
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Evolution of the measured state space coverage ratio during exploration phase.
+ 
+\emph on
+x
+\emph default
+-axis corresponds to the number of steps and 
+\emph on
+y
+\emph default
+-axis corresponds to the measured state space coverage ratio.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Evolution-of-the-coverage"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Spatial Distribution of Visited States
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Obtained-space-coverage"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ presents heatmaps of visited states in the (
+\begin_inset Formula $\theta,\,\dot{\theta}$
+\end_inset
+
+) space after the exploration phase.
+ For all strategies,
+ states corresponding to low angular velocities and angles that are close to the starting configuration (
+\begin_inset Formula $\theta\approx\pi$
+\end_inset
+
+) are visited more frequently,
+ reflecting the energy barrier associated with reaching high energy states associated with throwing the pendulum tip all the way to the top.
+\end_layout
+
+\begin_layout Standard
+Clear differences emerge between strategies.
+ Both distance-based and disagreement-based explorations achieve substantially broader coverage,
+ with frequent visits to high-energy states corresponding to near-upright pendulum configurations (
+\begin_inset Formula $\theta\approx0$
+\end_inset
+
+ or 
+\begin_inset Formula $2\pi$
+\end_inset
+
+) and large angular velocities.
+ In contrast,
+ the random uniform strategy exhibits sparse and uneven coverage,
+ with large regions remaining unvisited (especially in high energy regions).
+ Pure exploitation remains almost entirely confined near the starting state.
+ It consistently fails to overcome the energy barrier required to explore the upper half of the state space.
+\end_layout
+
+\begin_layout Standard
+These observations highlight the limitations of uninformed random exploration in structured dynamical systems and demonstrate that introspection driven objectives allow the controller to deliberately seek out to reach informative regions of that are otherwise difficult to reach.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/exploration/coverage_heatmap_2x2_notitle_5k.png
+	lyxscale 15
+	width 95col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Obtained space coverage for the exploration strategies considered.
+ 
+\emph on
+Top-left
+\emph default
+ corresponds to Disagreement strategy;
+ 
+\emph on
+Top-right
+\emph default
+ corresponds to Distance strategy,
+ 
+\emph on
+Bottom-left
+\emph default
+ corresponds to Random Uniform strategy;
+ and 
+\emph on
+Bottom-right
+\emph default
+ corresponds to Full Exploitation strategy.
+ The more yellow,
+ the more the cell has been visited across the different seeds,
+ conversely for blue colored cells.
+ 
+\emph on
+y
+\emph default
+-axis corresponds to the angle and 
+\emph on
+x
+\emph default
+-axis corresponds to angular velocity.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Obtained-space-coverage"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Agent Activation Patterns and Local Geometry
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Activation Patterns"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ illustrates the spatial organization of kCELL agents after the exploration phase.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Activation-Patterns-XY-Pendulum"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ shows agent activations projected onto the Cartesian coordinates of the pendulum tip.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Activation-Patterns-AngleAngularVelocity-Pendulum"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ displays activations in the (
+\begin_inset Formula $\theta,\,\dot{\theta}$
+\end_inset
+
+) space.
+\end_layout
+
+\begin_layout Standard
+For the distance-based and disagreement-based strategises,
+ agent activations cover the entire circular manifold corresponding to the pendulum's reachable positions,
+ indicating that even high-energy and rarely visited states are locally modeled by dedicated agents.
+ In contrast,
+ with the random uniform and pure exploitation strategies,
+ agent activations are concentrated in the lower-energy regions of the state space.
+\end_layout
+
+\begin_layout Standard
+A broader diversity in agent sizes can be observed for the introspection-driven strategies.
+ This is most likely due to kCELL agent creation mechanism,
+ which creates agents from a minimum number of samples to ensure thet local models are quickly reliable.
+ In high-velocity regimes or during abrupt torque changes such as strong braking events,
+ state transitions are more widely distributed,
+ leading to larger initial covariance estimates.
+ These larger agents are not pathological artifacts but instead reflect an specific experience of data,
+ here corresponding to regions of high local variability.
+\end_layout
+
+\begin_layout Standard
+For example,
+ in the (
+\begin_inset Formula $\theta,\,\dot{\theta}$
+\end_inset
+
+) projection,
+ some agents appear elongated along one dimension especially for the Distance-based strategy.
+ Analysis of their covariance matrices reveals that these agents correspond to sharp directional changes in the dynamics,
+ typically induced by large control intpus applied against the direction of motion.
+ As such,
+ agent geometry seems to provide an interpretable signature of local dynamical regimes encountered during exploration.
+ The Distance-based strategy seeming to have more of these king of agents could be due to a more agressive exploration strategy that prioritizes more extreme action variations.
+\end_layout
+
+\begin_layout Standard
+These activation patterns demonstrate that kCELL does not cover the state space uniformly but organizes local models in a manner that reflects the underlying geometry and variability of the dynamics encountered during exploration.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/exploration/activation_patterns_xy_notitle_5k.png
+	lyxscale 30
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Activation-Patterns-XY-Pendulum"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/exploration/activation_patterns_angle_angular_velocity_5k_notitle.png
+	lyxscale 30
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Activation-Patterns-AngleAngularVelocity-Pendulum"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Activation Patterns"
+
+\end_inset
+
+ Visualization of the activation patterns of agents for all considered strategies.
+ Starting from the top,
+ 
+\begin_inset Formula $1^{st}$
+\end_inset
+
+ plot corresponds to the Disagreement strategy;
+ 
+\begin_inset Formula $2^{nd}$
+\end_inset
+
+ plot corresponds to the Distance strategy,
+ 
+\begin_inset Formula $3^{rd}$
+\end_inset
+
+ plot corresponds to the Random Uniform Strategy and finally 
+\begin_inset Formula $4^{th}$
+\end_inset
+
+ plot corresponds to the Full Exploitation strategy.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Activation-Patterns-XY-Pendulum"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ shows the activation patterns of agents projected in the space of 2D coordinates of the tip of the pendulum (
+\begin_inset Formula $x=\cos\left(\theta\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $y=\sin\left(\theta\right)$
+\end_inset
+
+).
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Activation-Patterns-AngleAngularVelocity-Pendulum"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ shows the activation patterns of agents projected in the space of Angle (
+\emph on
+y
+\emph default
+-axis) and Angular Velocity (
+\emph on
+x
+\emph default
+-axis).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Agent Population Dynamics
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Evolution-of-agent-population-pendulum"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ shows the evolutions of the number of agents during exploration.
+ Both introspection-driven strategies lead to a substantially larger number of agents than the random uniform and pure exploration baselines.
+ This increase is positively correlated with the observed improvement in state-space coverage.
+\end_layout
+
+\begin_layout Standard
+While both introspection-driven strategies generate more agents overall,
+ the disagreement-based strategy exhibits higher variability in agent population across the 5 considered seeds,
+ which is consistent with the higher sensitivity of disagreement to local modeling inconsistencies.
+ The more the space is covered,
+ the more the local models can conflict locally and drive exploration to them for consolidation.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/exploration/nb_agents_evolution_5k.png
+	lyxscale 30
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Evolution-of-agent-population-pendulum"
+
+\end_inset
+
+Evolution of agent population for the four considered strategies average over 5 seeds.
+ 
+\emph on
+y
+\emph default
+-axis corresponds to the number of agents and 
+\emph on
+x
+\emph default
+-axis corresponds to the number of exploration steps.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Prediction Accuracy and Sample Efficiency
+\end_layout
+
+\begin_layout Standard
+To assess whether introspection-driven exploration strategies translate into better models,
+ we evaluate the predictive accuracy of kCELL after the exploration phase.
+ For each exploration strategy,
+ the learned model is evaluated on an exhaustive test set crafted specifically to cover a large portion of the state-action space.
+ Model performance is quantified using the root mean squared error (RMSE) between predicted and ground-truth next states.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:RMSE-after-exploration"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ presents a bar plot that reports the average RMSE across five seeds for the four exploration strategies.
+\end_layout
+
+\begin_layout Standard
+Both introspection-driven strategies achieve substantially lower prediction error than the random uniform and pure exploitation baselines.
+ In contrast,
+ no statistically significant difference in RMSE is observed between the distance-based and disagreement-based strategies.
+\end_layout
+
+\begin_layout Standard
+These results indicate that introspection-driven exploration improves the sample efficiency of online model learning in kCELL.
+ While the two introspection signals lead to slightly different exploration dynamics,
+ they results in comparable models in terms of predictive quality under the same interaction budget.
+ This suggests that the shallow performance differences observed in state-space coverage are not likely associated with systematic differences in model accuracy under the considered interaction budget and evaluation protocol.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/exploration/RMSE_bar_no_title_5k.png
+	lyxscale 30
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:RMSE-after-exploration"
+
+\end_inset
+
+RMSE averaged over 5 seeds.
+ 
+\emph on
+y
+\emph default
+-axis is the RMSE and 
+\emph on
+x
+\emph default
+-axis ticks corresponds to the corresponding exploration strategy.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Global Action Distribution
+\end_layout
+
+\begin_layout Standard
+Although distance-based and disagreement-based strategies yield comparable coverage and predictive accuracy,
+ minor differences in exploration dynamics were observed in coverage variability and in agent population statistics across seeds.
+ Those variations are subtle and may reflect stochastic effects of the optimizer rather than systematic differences.
+ To investigate the general behavior of the controller under introspection-driven exploration objectives,
+ we analyzed the distribution of actions taken during exploration.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Actions-KDE-after-exploration"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ presents kernel density estimates of the applied control inputs.
+\end_layout
+
+\begin_layout Standard
+The resulting action distributions are very similar for both introspection-driven strategies.
+ Three dominant modes can be observed centered around saturated control actions (-2,
+ 2) and near-zero actions.
+ This multimodal structure contrasts with the random uniform baseline.
+ It indicates that both introspection-driven strategies induce structured non-uniform action profiles.
+ The presence of repeated extreme actions suggests that introspection-driven objectives actively promote saturated actions in order to reach higher energy states rather than relying on diffuse stochastic perturbations.
+\end_layout
+
+\begin_layout Standard
+These results suggest that the observed similarities in coverage and model accuracy are more likely attributable to how these signals interact with local geometry and agent creation rather than fundamentally different global action sampling behaviors.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/exploration/actions_KDE_5k.png
+	lyxscale 30
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Actions-KDE-after-exploration"
+
+\end_inset
+
+KDE density over actions taken during exploration for each considered exploration strategy.
+ 
+\emph on
+y
+\emph default
+-axis is the KDE density and 
+\emph on
+x
+\emph default
+-axis ticks corresponds to the actions (in pendulum it corresponds to the applied torque).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Discussion
+\end_layout
+
+\begin_layout Standard
+The experimental results presented in this section demonstrate that introspection-driven exploration strategies based on kCELL online modeling improve exploration efficiency in model-based control settings without prior knowledge of the system dynamics.
+ By embedding distance-based competence and local model disagreement directly into the MPC objective,
+ the controller is able to consistently escape well-modeled regions and acquire informative data in unknown regions of the state-action space.
+\end_layout
+
+\begin_layout Standard
+Coverage metrics and spatial visualizations show that both introspection-driven strategies lead to a better coverage than uninformed random uniform exploration and pure exploitation.
+ Introspection-driven strategies are able to overcome the energy barrier induced by the pendulum environment.
+ High energy configurations are repeatedly visited despite being hard to reach for uninformed strategies.
+ These results confirm that effective exploration cannot be achieved through randomly uniform actions alone,
+ but instead requires additional motivations like model knowledge or uncertainty.
+\end_layout
+
+\begin_layout Standard
+The analysis of global action distributions confirms that both introspection-driven strategies induce structured multimodal action profiles that facilitate exploration of high-energy states.
+ The similarities observed in these distributions suggest that the two strategies behave comparably interms of global action patterns.
+ Differences in coverage or agent population arise primarily from interactions with local agent geometry rather than fundamentally different action sampling.
+\end_layout
+
+\begin_layout Standard
+At the agent level,
+ activation patterns and population dynamics provide insights into the underlying mechanisms of introspection-driven exploration strategies.
+ Increased agent creation correlates strongly with improved coverage.
+ This indicates that exploration emerges from the interaction between the introspection objective and kCELL's agent creation process.
+ Furthermore,
+ agent geometry and size variability reflect local properties of the dynamics.
+ For example,
+ for high-velocity regimes,
+ created agents tend to be larger or for sharp directional changes,
+ agents displays a high variance on the action dimension.
+ Each agent represents a singular experience of data.
+ This highlights one of the key advantage of kCELL,
+ which is its interpretability.
+ Indeed,
+ uncertainty and model structure are not hidden within opaque parameters but instead manifest explicitly through the spatial organization of agents.
+\end_layout
+
+\begin_layout Standard
+Finally,
+ the observed improvements in predictive accuracy confirm that introspection-driven exploration translates into concrete benefits for online model learning.
+ Under a fixed interaction budget,
+ broader and more structured exploration leads to more accurate learning dynamics.
+ It reinforces the link between exploration strategy,
+ model quality and downstream control performance.
+\end_layout
+
+\begin_layout Standard
+Overall,
+ kCELL's architecture allows to extract introspection signals that can be leveraged successfully to build efficient uncertainty-aware exploration mechanisms without prior knowledge about the dynamics of the environment.
+ Those mechanisms do not rely on external stochastic processes or auxiliary uncertainty models.
+\end_layout
+
 \begin_layout Subsection
 Discussions and Limitations
 \begin_inset CommandInset label
@@ -13775,6 +15081,31 @@ name "subsec:Exploration-Discussions-and-Limitations"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+We highlighted the overoptimistic representations of oCELL in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Limitations"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ kCELL was supposed to respond to this limitation by using a smoother spatialization technique based on RBF-kernels.
+ However,
+ in this case we notice one potential limitation which is the need for diversity to initialize agents.
+ And also gaussian assumptions does not allow to represent any manifold (ex:
+ -2,
+ 2) => maybe use KDE ?
+\end_layout
+
+\begin_layout Standard
+Local optimization techniques are smoother but rely strongly on a continuous agent support => maybe the locality of kCELL induces harde to reach global optimum and easier to reach local optima
 \end_layout
 
 \begin_layout Section
