@@ -15072,19 +15072,18 @@ Overall,
  Those mechanisms do not rely on external stochastic processes or auxiliary uncertainty models.
 \end_layout
 
-\begin_layout Subsection
-Discussions and Limitations
-\begin_inset CommandInset label
-LatexCommand label
-name "subsec:Exploration-Discussions-and-Limitations"
-
-\end_inset
-
-
+\begin_layout Subsubsection
+Limitations
 \end_layout
 
 \begin_layout Standard
-We highlighted the overoptimistic representations of oCELL in Section 
+While the results demonstrate the effectiveness of introspection-driven exploration with kCELL,
+ several limitations still stand and need to be acknowledged.
+\end_layout
+
+\begin_layout Standard
+kCELL was introduced to address the overoptimistic spatial representations of oCELL (cf.
+ Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:Limitations"
@@ -15095,17 +15094,79 @@ nolink "false"
 
 \end_inset
 
-.
- kCELL was supposed to respond to this limitation by using a smoother spatialization technique based on RBF-kernels.
- However,
- in this case we notice one potential limitation which is the need for diversity to initialize agents.
- And also gaussian assumptions does not allow to represent any manifold (ex:
- -2,
- 2) => maybe use KDE ?
+) that originated from the use of orthotope based spatialization.
+ While allowing more degrees of freedom and a better representative power,
+ using Gaussian-based spatialization introduces its own set of constraints.
+ Agents are spatialized using RBF kernels parameterized by the mean and covariance estimated from local ingested data.
+ As a result,
+ agent creation requires a minimum diversity level to avoid ill-conditioned covariance estimates.
+ In practice,
+ this makes early exploration phases or low-variability action regimes potentially problematic.
+ On the other hand,
+ while population-based optimizers such as CEM introduce stochasticity that partially mitigates this issue by inducing action variability,
+ excessive dispersion of actions can lead to overly extended agents and interpolation errors.
+ This effect can be observed in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Activation-Patterns-AngleAngularVelocity-Pendulum"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ through some agents that appear elongated (especially for distance-based strategy) due to too spread out actions.
+ These agents still represent valid local experiences but such behavior may pose challenges when extending the approach to more complex control environments.
 \end_layout
 
 \begin_layout Standard
-Local optimization techniques are smoother but rely strongly on a continuous agent support => maybe the locality of kCELL induces harde to reach global optimum and easier to reach local optima
+The Gaussian assumption underlying agent spatialization restricts the ability of kCELL to faithfully represent complex or multimodal feature manifolds that cannot be represented by a single Gaussian kernel.
+ The agent population can approximate such structures through multiple overlapping agents,
+ but this approximation remains indirect.
+ Extending the spatialization mechanism beyond Gaussian assumptions,
+ for example by using kernel density estimates or mixture-based representations,
+ could allow kCELL to better capture complex feature geometries.
+ 
+\end_layout
+
+\begin_layout Standard
+The experimental evaluation is restricted to a low-dimensional control problem (3 state dimensions and 1 action dimension).
+ The pendulum environment captures nontrivial exploration challenges such as energy barriers.
+ However,
+ scalability to higher-dimensional systems remains an open question for kCELL.
+ In such settings,
+ agent management,
+ coverage estimation and computational overhead may require additional mechanisms such as dimensionality reduction (which we explore in Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Scalable-Non-Linear-CELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Finally,
+ this study considers distance-based competence and local disagreement as independent exploration objectives.
+ A combined approach was not explored,
+ primarily because thses introspection signals operate on very different scales and have distinct geometrical interpretations.
+ Investigating principled combinations or adaptive weighting schemes between distance-based and disagreement-based objectives could reveal complementary effects and lead to more exhaustive exploration strategies.
+\end_layout
+
+\begin_layout Standard
+Beyond exploration,
+ introspection signals extracted from kCELL naturally lead to the design of conservative control strategies under learned dynamics.
+ While exploring exploits these signals to deliberately seek poorly modeled regions,
+ the same quantities can be repurposed during exploitation to bias the controller toward states where the model is locally reliable.
+ In this setting,
+ introspection costs no longer acts as penalties but as a confidence-aware bonuses that encourage trajectoires to remain close to existing agents,
+ i.e close to the current knwoledge of the model.
 \end_layout
 
 \begin_layout Section
@@ -15117,6 +15178,100 @@ name "sec:Conservative-MPC"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Mention the fact that we spatialize only on states
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Mention the fact that the distance based conservative regularization term is convex
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Mention the fact that in results,
+ we observe that getting closer to the knowledge base of the model = less compounding errors => solid argument in favor of the local expertise hypothesis.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Define reliability
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+We use regularization to increase the confidence we can have in the model at optimization time => this is required for safety / reliability of the controller (cf paper Safe Control Review) => we advance toward safety
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Distance-based Conservatism
+\end_layout
+
+\begin_layout Subsection
+Comparative Study
+\end_layout
+
+\begin_layout Subsubsection
+Experimental Protocol
+\end_layout
+
+\begin_layout Subsubsection
+Validation of Regularization Behavior
+\end_layout
+
+\begin_layout Subsubsection
+Impact on Prediction Accuracy
+\end_layout
+
+\begin_layout Subsubsection
+Impact on Compounding Errors
+\end_layout
+
+\begin_layout Subsubsection
+Cost-Accuracy Tradeoff
 \end_layout
 
 \begin_layout Section
