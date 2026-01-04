@@ -9331,7 +9331,7 @@ When there are
 \end_inset
 
 .
- As the final prediction fo the system 
+ As the final prediction of the system 
 \begin_inset Formula $f\left(x\right)=\hat{y}$
 \end_inset
 
@@ -13147,13 +13147,13 @@ In an online learning setting for adaptive control in a MPC scheme without prior
 \emph on
 deterministic latency
 \emph default
-,
- its 
+ and 
 \emph on
 hardware scalability
 \emph default
 .
- Indeed GPU execution time scales predictably with 
+ Indeed,
+ GPU execution time scales predictably with 
 \begin_inset Formula $n$
 \end_inset
 
@@ -13500,7 +13500,7 @@ literal "false"
  or trust-region strategy 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "schulman2015trust"
+key "conn2000trust,schulman2015trust"
 literal "false"
 
 \end_inset
@@ -13697,7 +13697,7 @@ Unlike opaque black-box models,
 \end_layout
 
 \begin_layout Standard
-The objective is to deliberately drive the state-action trajectories away from the currently covered regions fo the feature space to collect informative samples in poorly modeled areas.
+The objective is to deliberately drive the state-action trajectories away from the currently covered regions of the feature space to collect informative samples in poorly modeled areas.
  To achieve this,
  we introduce a distance-based penalty term 
 \begin_inset Formula $p_{\text{dist}}\left(x_{t}\right)$
@@ -13758,8 +13758,8 @@ Because the penalty is negative,
 \begin_inset Formula $x_{t}$
 \end_inset
 
- is currently supported by the agents' training data.
- Conversely ,
+ is currently not supported by the agents' training data.
+ Conversely,
  
 \begin_inset Formula $p_{\text{dist}}\approx0$
 \end_inset
@@ -13897,7 +13897,7 @@ States are composed of the
 \begin_inset Formula $x,y$
 \end_inset
 
- the 2D-coordinates of the tip of the pendulum and of 
+ 2D-coordinates of the tip of the pendulum and of 
 \begin_inset Formula $\dot{\theta}$
 \end_inset
 
@@ -15181,29 +15181,92 @@ name "sec:Conservative-MPC"
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Mention the fact that we spatialize only on states
-\end_layout
-
-\end_inset
-
-
+Exploration strategies relying on kCELL intrinsic multiagent structure have shown successful to drive exploration in an unknown environment,
+ leading to better predictive learned dynamic models than when exploring with uninformed random strategies.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Mention the fact that the distance based conservative regularization term is convex
-\end_layout
+To achieve safe control with learned models,
+ i.e reliability of controllers,
+ the problem of compounding errors and uncertainty in the model predictions need to be addressed at exploitation time 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Brunke2022May"
+literal "false"
 
 \end_inset
 
+.
+ With inexact dynamic models,
+ small errors on the first horizon steps leads to massive errors over time.
+ Compounding errors are deeply linked to epistemic uncertainty (lack of knowledge about the underlying true dynamics).
+ In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Brunke2022May"
+literal "false"
 
+\end_inset
+
+,
+ the authors discuss using Gaussian Processes (GPs) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "williams1995gaussian"
+literal "false"
+
+\end_inset
+
+ or Bayesian Neural Networks 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "blundell2015weight"
+literal "false"
+
+\end_inset
+
+ to quantify the prediction uncertainty and take it into account in optimization to obtain safe conservative control policies.
+\end_layout
+
+\begin_layout Standard
+kCELL's spatialized agent-based architecture provides valuable introspection signals that can serve as proxies for epistemic uncertainty.
+ Those introspection signals can be directly embedded into the MPC objective to regularize the behavior of the resulting policy by keeping the explored states at optimization time into the knowledge landscape of the model,
+ avoiding wandering into unknown states that would induce large error compounding effects.
+\end_layout
+
+\begin_layout Standard
+In this chapter we focus specifically on distance-based competence introspection signals that quantify how far a state lies from regions that are sufficiently covered by agents.
+ It provides a geometrically grounded measure of epistemic uncertainty.
+\end_layout
+
+\begin_layout Standard
+To bias the policy toward a more conservative knowledge-aware regime,
+ an introspection-based regularization of the control objective is defined,
+ leading to the following augmented cost function
+\begin_inset Formula 
+\[
+J\left(s_{t},u_{t}\right)=\alpha J_{\text{task}}\left(s_{t},u_{t}\right)+\lambda J_{\text{conservative}}\left(s_{t},u_{t}\right)
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $J_{\text{task}}$
+\end_inset
+
+ is the task-related cost function,
+ 
+\begin_inset Formula $J_{\text{conservative}}$
+\end_inset
+
+ the conservative regularization term,
+ and 
+\begin_inset Formula $\alpha\in\mathbb{R},\,\lambda\in\mathbb{R}$
+\end_inset
+
+ the adjustment weights to trade-off task exploitation and conservatism.
+ In this context we define a conservative policy,
+ as a policy that is biased toward minimizing epistemic uncertainty.
 \end_layout
 
 \begin_layout Standard
@@ -15248,30 +15311,1144 @@ We use regularization to increase the confidence we can have in the model at opt
 
 \begin_layout Subsection
 Distance-based Conservatism
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Distance-based-Conservatism"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Unlike opaque black-box models,
+ kCELL provides an explicit measure of its degree of knowledge about specific regions of the feature space through the spatial distribution of agents.
+ To encourage conservatism,
+ the controller must keep evaluated solutions and state trajectories close to the covered regions of the feature space.
+ In kCELL,
+ the degree of knowledge associated with an input 
+\begin_inset Formula $x_{t}$
+\end_inset
+
+ can be quantified by evaluating the Mahalanobis distance between 
+\begin_inset Formula $x_{t}$
+\end_inset
+
+ and the closest agents.
+\end_layout
+
+\begin_layout Standard
+In kCELL one of the structural hypothesis is that agents are local experts on the function to approximate and that the closer an input is to the center of an agent,
+ the most probable the prediction will be accurate.
+ Thus,
+ the objective is to deliberately drive the trajectories close to the currently covered regions,
+ that is to say,
+ closer to the center of agents.
+\end_layout
+
+\begin_layout Standard
+To achieve this,
+ we introduce a distance-based regularization term 
+\begin_inset Formula $q_{\text{dist}}\left(x_{t}\right)$
+\end_inset
+
+ that augments the MPC cost function by promoting conservative behaviors such as
+\begin_inset Formula 
+\begin{eqnarray}
+q_{\text{dist}}\left(x_{t}\right) & = & \sum_{i\in D_{\text{closest}}}w_{i}\left(x_{t}\right)\left(\left(x_{t}-\mu_{i}\right)^{\top}\Sigma_{i}^{-1}\left(x_{t}-\mu_{i}\right)\right)\\
+ & = & \sum_{i\in D_{\text{closest}}}w_{i}\left(x_{t}\right)d\left(\mathcal{A}_{i},x_{t}\right)^{2}
+\end{eqnarray}
+
+\end_inset
+
+where 
+\begin_inset Formula $x_{t}=\left[s_{t},u_{t}\right]$
+\end_inset
+
+,
+ 
+\begin_inset Formula $D_{\text{closest}}$
+\end_inset
+
+is the set of the 
+\begin_inset Formula $k$
+\end_inset
+
+-closest agents,
+ 
+\begin_inset Formula $\mu_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $\Sigma_{i}$
+\end_inset
+
+ are the parameters of their activation function,
+ 
+\begin_inset Formula $w_{i}\left(x_{t}\right)=\frac{\phi_{i}\left(x_{t}\right)}{\sum_{j}\phi_{j}\left(x_{t}\right)}$
+\end_inset
+
+ are the weights depending on the activation of each agent on 
+\begin_inset Formula $x_{t}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Because the penalty is positive,
+ minimizing the augmented MPC objective encourages trajectories that minimize the distance to the currently well-covered regions (in constrast to what is done for exploration in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Distance-based-Competence"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+ in this context,
+ 
+\begin_inset Formula $q_{\text{dist}}\gg0$
+\end_inset
+
+ means that 
+\begin_inset Formula $x_{t}$
+\end_inset
+
+ is currently not supported by the agents' training data.
+ Conversely,
+ 
+\begin_inset Formula $q_{\text{dist}}\approx0$
+\end_inset
+
+ indicates that 
+\begin_inset Formula $x_{t}$
+\end_inset
+
+ is close to a well-covered (known) region of feature space and is therefore likely to have been encountered during training.
+ As 
+\begin_inset Formula $q_{\text{dist}}$
+\end_inset
+
+ is convex,
+ it can easily be embedded for optimization with fast conic solvers like OSQP 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "stellato2020osqp"
+literal "false"
+
+\end_inset
+
+ within the context of Sequential Quadratic Programming (SQP) optimization framework.
 \end_layout
 
 \begin_layout Subsection
 Comparative Study
 \end_layout
 
+\begin_layout Standard
+This section evaluates the effectiveness of the proposed introspection-driven regularization term based on distance to agents in a learned kCELL system through a low-dimensional experiment.
+ The objective is to assess whether embedding this regularization term into the MPC objective yields better known trajectories,
+ less compounding errors and if there is a tradeoff between conservativeness and task resolution performance.
+\end_layout
+
 \begin_layout Subsubsection
 Experimental Protocol
+\end_layout
+
+\begin_layout Standard
+This experiment evaluates the impact of introspection-driven conservative regularization on the reliability of trajectory optimization using a kCELL learned dynamics model within a MPC scheme.
+ The objective is to assess whether considering the spatialization of agents of a kCELL model during optimization reduces extrapolation errors and improves robustness of long-horizon predictions.
+\end_layout
+
+\begin_layout Standard
+The experiment is conducted on the classical Pendulum control task available in gymnasium reinforcement learning library 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "towers2024gymnasium"
+literal "false"
+
+\end_inset
+
+ which exhibits nonlinear dynamics.
+ States are composed of the 
+\begin_inset Formula $x,\,y$
+\end_inset
+
+ 2D-coordinates of the tip of the pendulum and of 
+\begin_inset Formula $\dot{\theta}$
+\end_inset
+
+ the angular velocity.
+\end_layout
+
+\begin_layout Standard
+A kCELL model is learned online from streaming interaction data.
+ The population of linear agent predictors is spatialized in the state space (not including actions).
+ This design choice is motivated by empirical observations on the pendulum task.
+ Indeed,
+ spatializing agents jointly over state and action dimensions leads to slower stabilization of agent population,
+ whereas state-only spatialization resulted in faster convergence of local models and more stable agent coverage.
+ Given the low-dimensional action space and the smooth dynamics,
+ state-based spatialization provides a favorable tradeoff between model predictive accuracy and sample efficiency.
+\end_layout
+
+\begin_layout Standard
+To ensure a sufficient coverage of the state space,
+ an informed finetuned stochastic exploration policy based on Ornstein-Uhlenbeck (OU) noise is used to interact with the simulation environment to collect learning data.
+ This exploration phase to build a kCELL model is conducted for a fixed interaction budget of 30k steps.
+ The learned dynamics model is frozen and used subsequently for evaluation.
+ No further learning occurs during evaluation,
+ ensuring that observed effects are attributable to the optimization strategy rather than continued model adaptation.
+\end_layout
+
+\begin_layout Standard
+Control actions are obtained using a MPC scheme.
+ Action sequences are optimized over a finite horizon using the learned kCELL dynamics.
+ Trajectory optimization is performed using SQP with OSQP conic solver to solve the local Quadratic Programs at each iteration.
+ Using SQP,
+ a gradient-based optimizer,
+ allows to isolate the effect of the proposed regularization without introducing stochastic variability which is inherent to population-based optimization methods.
+\end_layout
+
+\begin_layout Standard
+The baseline optimization objective,
+ i.e the cost function to minimize to solve the task is the following
+\begin_inset Formula 
+\begin{equation}
+\min_{u_{0:T}}\sum_{t=0}^{T}\left(\left(s_{t}-s_{\text{ref}}\right)^{\top}Q\left(s_{t}-s_{\text{ref}}\right)+u_{t}^{\top}Ru_{t}\right)+\left(\left(s_{T+1}-s_{\text{ref}}\right)^{\top}Q\left(s_{T+1}-s_{\text{ref}}\right)\right)
+\end{equation}
+
+\end_inset
+
+with 
+\begin_inset Formula $Q\in\mathbb{R}^{3\times3}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $R\in\mathbb{R}^{1\times1}$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $s_{\text{ref}}$
+\end_inset
+
+ the target state to reach for the pendulum which usually is the top neutral position.
+\end_layout
+
+\begin_layout Standard
+To this objective,
+ an additional conservative regularization term 
+\begin_inset Formula $q_{\text{dist}}$
+\end_inset
+
+ is introduced (cf Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Distance-based-Conservatism"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+ This regularization term is weighted by a coefficient 
+\begin_inset Formula $\lambda\geq0$
+\end_inset
+
+,
+ penalizing predicted trajectories that run accross low coverage regions of the state space,
+ envouraging solutions that remain within areas well covered by the agent.
+ The goal is to stay close to what the model knows.
+\end_layout
+
+\begin_layout Standard
+The evaluation is conducted for multiple values of 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+ We refer to the unregularized case 
+\begin_inset Formula $\lambda=0$
+\end_inset
+
+ as the baseline.
+ To evaluate robustness and reliability independently of exploration stochasticity,
+ control performance is assessed from an exhaustive set of initial states sampled over a grid in the state space.
+ For each initial state,
+ the predictions produced by kCELL with the found solution are compared against the ground-truth trajectory.
+ This allows direct measurement of prediction error against the true dynamics,
+ also allowing to assess the compounding effects on a given horizon.
+ All evaluations are performed using identical MPC horizons (
+\begin_inset Formula $T=20$
+\end_inset
+
+),
+ cost function,
+ solver parameters and constraints across regularization settings.
 \end_layout
 
 \begin_layout Subsubsection
 Validation of Regularization Behavior
 \end_layout
 
+\begin_layout Standard
+To validate the behavior of the regularization term,
+ we measure the mean agent activation along optimized trajectories.
+ Activation of agents serves as a proxy for epistemic uncertainty by measuring the distance to the closest experts in state space.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Boxplot-Mean-Activation"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ presents boxplots of the mean agent activation for each considered values of 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+As 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ increases,
+ we observe a clear increase in mean agent activation indicating that the optimizer progressively favors trajectories that remain closer to the centers of kCELL agents,
+ i.e within regions that are well supported by training data.
+ This behavior is consistent with the expected behavior of the regularization term 
+\begin_inset Formula $q_{\text{dist}}$
+\end_inset
+
+.
+ The optimization landscape is effectively reshaped.
+\end_layout
+
+\begin_layout Standard
+In addition to that,
+ increasing 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ also yields a noticeable reduction in the spread of the activation distributions across initial conditions.
+ This reduced variability indicates that under stronger regularization trajectories initialized in different regions are increasingly constrained to remain within similarly well-supported regions.
+ This effect suggests that the regularization not only increases overall conservatism but also homogenizes the level of model support encountered along optimized trajectories.
+\end_layout
+
+\begin_layout Standard
+These results validate the behavior of the introspection-driven regularization mechanism.
+ The regularizer acts as intended by increasing the proximity of optimized trajectories to kCELL agent centers and reduces variability in model competence across initial conditions.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/conservative/boxplot_mean_activation_vs_reg_coeff.png
+	lyxscale 30
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Boxplot-Mean-Activation"
+
+\end_inset
+
+ Boxplots of the mean activation over optimized trajectories for various values of regularization coefficient 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+ 
+\emph on
+y
+\emph default
+-axis corresponds to the mean activation over optimized trajectories and 
+\emph on
+x
+\emph default
+-axis corresponsd to values of 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+ The blue curve corresponds to the global mean and the orange bars correspond to the median value.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsubsection
 Impact on Prediction Accuracy
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Boxplot-Pred-Error"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ presents boxplots of the mean absolute error over trajectories for various values of regularization coefficient 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+ For each value of regularization coefficient 
+\begin_inset Formula $\lambda$
+\end_inset
+
+,
+ along each optimized rollout,
+ the predicted state transitions produced by kCELL are compared against ground-truth trajectories.
+ Prediction error is computed and aggregated over the horizon.
+\end_layout
+
+\begin_layout Standard
+As the regularization coefficient increases,
+ a downward shift of the error distributions can be observed.
+ Higher values of 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ correspond to lower median and mean prediction errors indicating that trajectories optimized under strong regularization are predicted more accurately on average by the learned model.
+ This behavior is consistent with the core hypothesis of kCELL that stipulates that regions of high agent activation correspond to areas where local linear models provide the most reliable approximations of the true dynamics.
+\end_layout
+
+\begin_layout Standard
+This reduction in prediction error does not arise from any modification of the learned kCELL model itself which remains fixed during evaluation.
+ Instead,
+ it is a direct consequent of the optimizer preferentially selecting trajectories that remain within regions of the state space that are well supported by training data.
+ Thus,
+ the regularization acts as a mechanism for smarter model usage rather than model improvement.
+ By penalizing trajectories that lie too much in lowly covered regions,
+ the optimizer performs a form of constrained optimization where the constraint is the validity of the local linear approximation.
+\end_layout
+
+\begin_layout Standard
+In addition to that,
+ the downward shift in mean absolute error distributions for increasing values of 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is accompanied to a decrease in the spread of the error distributions.
+ This indicates that large mean prediction errors become progressively less frequent as regularization strength increases.
+ This suggests that distance-based regularization not only improves average prediction accuracy but also reduces the occurence of extreme prediction failures across considered initial conditions.
+ This effect is particularly relevant in terms of reliability of the model as it seems to successfully prevent to some extent,
+ the controller to exploit faulty out of distribution trajectories.
+\end_layout
+
+\begin_layout Standard
+Overall,
+ these results confirm that the spatial organization of agents in a kCELL model encodes meaningful information about local model reliability.
+ This information can be effectively exploited during trajectory optimization.
+ By encouraging trajectories to remain within regions of high agent coverage,
+ the proposed regularization yields more accurate and more consistent predictions.
+ This way it improves the reliability of model-based control with learned dynamics.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/conservative/boxplot_mean_absolute_error.png
+	lyxscale 30
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Boxplot-Pred-Error"
+
+\end_inset
+
+Boxplots of the mean absolute error over optimized trajectories for various values of regularization coefficient 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+ 
+\emph on
+y
+\emph default
+-axis corresponds to the mean absolute error over optimized trajectories and 
+\emph on
+x
+\emph default
+-axis corresponds to values of 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+ The blue curve corresponds to the global mean and the orange bars correspond to the median value.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
 Impact on Compounding Errors
 \end_layout
 
+\begin_layout Standard
+One of the main limitations of learned dynamics models in model-based control is their susceptibility to error accumulation over long prediction horizons.
+ Even small local inaccuracies can compound across successive rollout steps rapidly degrading the prediction quality and optimization results in the process.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Pred-Error-vs-Horizon-Steps"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ shows the evolution of the mean absolute prediction error over the prediction horizon for various values of 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In the absence of regularization,
+ for the baseline,
+ the prediction error increases rapidly with the horizon length reflecting the compounding effects of model errors in multi-step rollouts.
+ This behavior highlights represents a challenge in standard MPC schemes based on learned dynamics models when operating with out of distribution data 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Brunke2022May"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+As 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ values increase,
+ the rate at which prediction error grows with the horizon steps is substantially reduced.
+ Stronger regularization leads to consistently lower prediction errors especially for more distant horizon steps.
+ This confirms that the primary benefit of the proposed regularization lies in mitigating compounding errors rather than improving one-step prediction accuracy.
+\end_layout
+
+\begin_layout Standard
+Overall,
+ these results show that this introspection-based regularization term improves the reliability of long-horizon predictions in MPC.
+ By maintaining the trajectory within highly covered regions,
+ the error propagation is dampened,
+ preventing the exponential divergence typically observed in the unregularized case over the horizon.
+ It reduces the myopic behavior induced by error-prone rollouts and enhances the practical usability of kCELL learned dynamics models for more reliable control policies.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/conservative/mean_prediction_error_per_horizon_step.png
+	lyxscale 30
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Pred-Error-vs-Horizon-Steps"
+
+\end_inset
+
+Evolution of the mean absolute error over the prediction horizon for various values of regularization coefficient 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+ 
+\emph on
+y
+\emph default
+-axis corresponds to the mean absolute error over optimized trajectories and 
+\emph on
+x
+\emph default
+-axis corresponds to the horizon steps.
+ Each colored curve corresponds to a given value of 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+ The 
+\begin_inset Formula $\lambda=0$
+\end_inset
+
+ curve corresponds to the unregularized baseline case.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsubsection
 Cost-Accuracy Tradeoff
+\end_layout
+
+\begin_layout Standard
+While the introspection-based regularization term improves the reliability of predictions in a model-based control setting,
+ such conservatism is expected to impact global task solving performance.
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Boxplot-Cum-Cost-with-Baseline"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ show boxplots of the cumulative task cost over trajectories for various values of 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+ As 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ increases,
+ the mean cumulative cost slightly increases compared to the unregularized baseline (
+\begin_inset Formula $\lambda=0$
+\end_inset
+
+).
+ This indicates that the controller increasingly sacrifices task optimality in order to remain within regions of the state space that are well supported by the learned kCELL model.
+ In addition to that,
+ the spread of the cost distributions decreases with stronger regularization.
+ This suggests that conservative behavior leads to more uniform,
+ less optimal,
+ performances across initial conditions.
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Mean-Cum-Cost-vs-Horizon-Steps"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ shows the evolution of the mean cumulative cost over the horizon steps for various values of 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+ Higher regularization coefficiens 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ resulted in higher accumulated costs compared to the baseline.
+ This effect is more pronounced for longer horizons.
+ It indicates that conservative trajectory selection restricts the optimizer's ability to exploit agressive control strategies that rely extensively on extrapolation in predictions.
+\end_layout
+
+\begin_layout Standard
+To explicitely relate predictive performance to task performance,
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Pareto-Error-vs-Cost"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ presents a scatter plot of mean absolute prediction error over cumulative cost for various values of 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+ By interpolating a cubic polynomial on those points,
+ a nonlinear relationship can be observed between the prediction error and cumulative costs.
+ Indeed,
+ trajectories associated with lower prediction errors tend to incur higher costs.
+ The interpolated curve exhibits a steep initial decrease in cost as prediction error increases,
+ followed by a more gradual regime.
+\end_layout
+
+\begin_layout Standard
+Overall,
+ for this specific control task,
+ these results reveal an explicit reliability-performance tradeoff induced by the introspection-based regularization term we introduced.
+ Stronger regularization improves prediction accuracy and reduces error accumulation at the expense of control optimality.
+ The shape of the tradeoff shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Pareto-Error-vs-Cost"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ suggests that it is possible to find intermediate values of the regularization coefficient 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ that yields substantial gains in predictive accuracy for a limited increase in cost.
+ Further works on different control tasks should be carried on to find a practical tuning mechanism for the conservative coefficient.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/conservative/boxplot_cost.png
+	lyxscale 30
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Boxplot-Cum-Cost-with-Baseline"
+
+\end_inset
+
+Boxplots of the cumulative costs over optimized trajectories for various values of regularization coefficient 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+ 
+\emph on
+y
+\emph default
+-axis corresponds to the cumulated cost over optimized trajectories and 
+\emph on
+x
+\emph default
+-axis corresponds to values of 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+ The blue curve corresponds to the global mean and the orange bars correspond to the median value.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/conservative/cost_diff_per_horizon_step.png
+	lyxscale 30
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Mean-Cum-Cost-vs-Horizon-Steps"
+
+\end_inset
+
+Evolution of the cumulative cost over the prediction horizon for various values of regularization coefficient 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+ 
+\emph on
+y
+\emph default
+-axis corresponds to the cumulative cost over optimized trajectories and 
+\emph on
+x
+\emph default
+-axis corresponds to the horizon steps.
+ Each colored curve corresponds to a given value of 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+ The 
+\begin_inset Formula $\lambda=0$
+\end_inset
+
+ curve corresponds to the unregularized baseline case.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/conservative/pareto_cost_vs_error.png
+	lyxscale 30
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Pareto-Error-vs-Cost"
+
+\end_inset
+
+Visualization of cumulative cost against mean absolute error.
+ 
+\emph on
+y
+\emph default
+-axis corresponds to the cumulative costs and 
+\emph on
+x
+\emph default
+-axis corresponds to the mean absolute errors over trajectories.
+ Each colored point is associated to a value of 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+ The greyed out line corresponds to a cubic interpolation.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Discussion
+\end_layout
+
+\begin_layout Standard
+This experiment shows that the spatial organization of agents in kCELL can be directly exploited during trajectory optimization to improve the reliability of model-based control with a learned kCELL model.
+ A distance-based regularization term derived from agent coverage is embedded into the MPC objective and it effectively bias the optimizer toward regions of the state space where the learned dynamics are supported by training data.
+\end_layout
+
+\begin_layout Standard
+The results show that this regularization method leads to trajectories that remain closer to agent centers,
+ reduced prediction errors and attenuated error compounding over horizon steps.
+ These effects are observed without modifying the learned kCELL model.
+ The improvement arises solely from how the model is exploited by the optimizer,
+ rather than from improved accuracy that would be obtained by continuous learning.
+ The proposed regularization mechanism does not attempt to make the model more accurate.
+ Instead,
+ it exploits epistemic awareness to make the better off of it.
+\end_layout
+
+\begin_layout Standard
+Moreover,
+ these results provide empirical support for the local expertise hypothesis that represents the core of kCELL.
+ A correlation between activation of agents and reduced prediction error can be observed.
+ It validates the assumption that local linear models are more and more reliable the closest the features are to their center.
+ The regularization mechanism transforms this hypothesis into a control-relevant advanatage.
+\end_layout
+
+\begin_layout Standard
+By increasing the regularization coefficient,
+ the reduction in the growth rate of prediction error across the horizon steps improves largely the longer the horizon.
+ In this case,
+ it seems that the main effect of this introspection-based regularization approach lies in mitigatin erorr compounding effects.
+ The regularization term prevents the optimizer from relying too much on aggressive extrapolated trajectories.
+ This way,
+ the controller looks to avoid MPC instabilities that arise from inaccurate predictions and misguided optimization.
+ The pendulum environment is forgiving,
+ because due to inertia,
+ an unregularized MPC controller can recover from mistakes.
+ However,
+ in more complex control environments with less smooth dynamics this might not be the case and a regularization strategy could prove useful.
+\end_layout
+
+\begin_layout Standard
+At the same time,
+ theresults show a tradeoff between predictive accuracy and task performance in term of cumulated costs.
+ Increasing conservatism leads to higher cumulative costs and lower predictive error.
+ This behavior is expected and results directly from enforcing knowledge-aware regularization to the controller.
+ The regularization acts as a soft feasibility constraint on the validity of the model,
+ considering that unknown regions are somewhat unfeasible or dangerous.
+ This is similar to trust-region methods in nonlinear optimization 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "conn2000trust,schulman2015trust"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Pareto-Error-vs-Cost"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ showed that this tradeoff seems nonlinear.
+ Reductions in prediction error can be obtained for relatively small increases in cost,
+ suggesting that intermediate regularization strengths may offer a practical compromise between safety and performance.
+ This observation is relevant for real-world applications where safety is required.
+ In these cases,
+ slight suboptimality is acceptable in exchange for improve reliability and reduced risk of catastrophic failure.
+\end_layout
+
+\begin_layout Standard
+Overall,
+ this study shows that kCELL's interpretability properties can be embedded into optimization pipelines.
+ The proposed regularization mechanism consistures a principle way to translate structural transparency into conservative control behavior.
+ This approach is a little step further towards reliable (i.e safe) model-based control based on learned dynamics models.
+\end_layout
+
+\begin_layout Subsubsection
+Limitations
+\end_layout
+
+\begin_layout Standard
+The comparative study that we conducted as well as the proposed introspection-based regularization mechanism exhibit some limitations that should be acknowledged.
+\end_layout
+
+\begin_layout Standard
+In the presented experiments,
+ proximity to agent centers correlates well with prediction accuracy.
+ However,
+ the distance-based competence measure used in this study is only a proxy for epistemic uncertainty.
+ It is not a calibrated uncertainty estimate.
+ As such,
+ this regularization approach should be interpreted as a heuristic for risk reduction rather than a formal safety guarantee.
+ Its effectiveness deeply depends on the structure and distribution of agents.
+ No guarantees can be provided at the moment if the agent coverage is insufficient or poorly aligned with the true dynamics of the system.
+\end_layout
+
+\begin_layout Standard
+The experiment has been conducted on a low-dimensional dynamical system (the pendulum) with smooth dynamics.
+ As pointed out in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:kCELL-Discussions-and-Limitations"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ in low dimensional case,
+ Mahalanobis distances (that are used for regularization) are not too distorted and remain meaningful.
+ In higher dimensional cases the agent coverage might become more sparse.
+ The impact of dimensionality on the effectiveness of the proposed regularization has not been studied in this chapter and remains an important limitation.
+ This regularization approach might require additional mechanisms to remain effective.
+\end_layout
+
+\begin_layout Standard
+We made the choice of spatializing agents only in the state space for convenience reasons to stabilize faster the agent population at learning time.
+ This choice limits expressiveness of agents regarding actions.
+ While this design choice is appropriate for the pendulum control task,
+ it may not generalize to other dynamical systems.
+ In such cases,
+ regularization in joint state-action space could be required.
+\end_layout
+
+\begin_layout Standard
+Another limitation relates to the density and sparsity of agent population.
+ The conducted experiment rely on a single learned kCELL model trained with a fixed exploration budget.
+ The effect of the sparsity of agent population on the conservative regularization behavior has not beed studied.
+ Training multiple models with varying agent densities would be necessary to better characterize how coverage quality impacts the reliability gains.
+\end_layout
+
+\begin_layout Standard
+In this work we show that it might be possible to find a value for the regularization coefficient 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ that could represent a satisfying tradeoff between performance loss and increased predictive accuracy.
+ However,
+ we do not provide a principled way to tune the 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ regularization coefficient.
+ It must be done manually depending on the task nature and on the scale of task cost.
+ Further investigations across different control environments are needed to extract practical insights and rules to chose the value of 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ depending on the problem characteristics as well as performance and predictive accuracy requirements.
+\end_layout
+
+\begin_layout Standard
+Finally,
+ the proposed approach improves the reliability of the controller but does not ensure safety.
+ The regularization reduces the likelihood of failure due to prediction errors by discouraging extrapolation but it does not prevent it entirely.
 \end_layout
 
 \begin_layout Section
