@@ -204,7 +204,7 @@ This research investigates the use of local online learning methods based on mul
 
 \begin_layout Standard
 While this work was initiated within the industrial framework of Intelligent Speed Recommendation for the automotive sector,
- we came to the conclusion that the fundamental scientific bottleneck lies in the ability of a controller to adapt continuously to non-stationary time-varying dynamics.
+ we came to the conclusion that the fundamental scientific bottleneck lies in the ability of a controller to adapt continuously to non-stationary dynamics.
 \end_layout
 
 \begin_layout Standard
@@ -1000,7 +1000,7 @@ literal "false"
  they still remain limited by their offline nature.
  Most of these HitL systems are built upon static databases or pre-trained driver profiles that fail to account for the variability of human driving behaviors and for the non-stationarity of those behaviors that can evolve over time.
  In reality,
- a driver's response is not a fixed parameter but a time-varying process influenced by physiological states,
+ a driver's response is not a fixed parameter but a non-stationary process influenced by physiological states,
  environmental context and lon-term behavioral adaptation.
  
 \end_layout
@@ -1040,8 +1040,8 @@ nolink "false"
 \end_inset
 
  shows that from the identified research gap,
- the industrial speed recommendation problem can be abstracted to a more fundamental scientific challenge which is the control of complex time-varying systems.
- By considering the vehicle-driver system as a whole with unknown non-stationary dynamics,
+ the industrial speed recommendation problem can be abstracted to a more fundamental scientific challenge which is the control of complex non-stationary systems.
+ By considering the vehicle-driver plant as a whole with unknown non-stationary dynamics,
  the problem is reformulated as a task of Adaptive Control with a Learned Model which represents the core focus of this thesis.
 \end_layout
 
@@ -1505,11 +1505,239 @@ name "sec:Problem-Statement"
 
 \end_layout
 
+\begin_layout Standard
+To address the gaps identified in the literature,
+ this thesis proposes a shift in perspective.
+ Rather than viewing speed recommendation as a static recommendation task,
+ we treat it as a Human-Robot Collabotation (HRC) problem.
+ For a robot to work effectively with humans,
+ it requires anticipatory skills 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "dani2024human"
+literal "false"
+
+\end_inset
+
+.
+ The controller must infer the driver's intended motion and behavior to synchronize its recommendations effectively.
+ By forecasting a human's response,
+ the controller can provide set points that are complementary to the human's intent rather than being reactionary or disruptive.
+\end_layout
+
+\begin_layout Standard
+Consequently,
+ we propose to tackle the speed recommendation problem as a control problem under the assumption that the vehicle-driver plant is modeled as a whole.
+ Given the non-stationarity and complexity of human behavior,
+ this plant cannot be described by a static physical model.
+ Instead,
+ it must be continuously learned online from experience.
+ Formulated in this way,
+ the speed recommendation problem is abstracted into a problem of Adaptive Control that can be decomposed into two subproblems:
+ 
+\series bold
+online learning
+\series default
+ and 
+\series bold
+optimal control with learned model
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+First,
+ the online learning subproblem consists in the continuous generation of a predictive model 
+\begin_inset Formula $\hat{f}:\mathbb{R}^{n}\rightarrow\mathbb{R}^{m}$
+\end_inset
+
+ of the vehicle-driver dynamics from a stream of state-action pairs 
+\begin_inset Formula $\left[s_{t},u_{t}\right]\in\mathbb{R}^{n}$
+\end_inset
+
+.
+ Function 
+\begin_inset Formula $\hat{f}$
+\end_inset
+
+ maps a states and actions to next state prediction such as
+\begin_inset Formula 
+\begin{equation}
+\hat{f}\left(s_{t},u_{t}\right)=s_{t+1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Then,
+ the optimal control with learned model subproblem consists in the derivation of a control law that minimizes a cost function 
+\begin_inset Formula $J$
+\end_inset
+
+ over a horizon 
+\begin_inset Formula $H$
+\end_inset
+
+ based on the predictions of the learned model 
+\begin_inset Formula $\hat{f}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+To solve these subproblems in a non-stationary environment,
+ we argue for the necessity of using a local learning approach in which the feature space is partitioned into regions managed by local experts.
+ This choice is driven by the requirements for interpretability and real-time adaptability.
+ In the context of HRC,
+ interpretability may not be a strict mathematical requirement for control but it is a functional necessity to ensure system certifiability 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kress2021formalizing"
+literal "false"
+
+\end_inset
+
+ and to improve human trust toward the controller 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "anjomshoae2019explainable"
+literal "false"
+
+\end_inset
+
+.
+ For safety,
+ industrial standards require that the internal models driving the system's decisions be traceable and verifiable.
+ This task remains notoriously difficult with black-box global approximators.
+ For HRC,
+ a human is more likely to accept and cooperate with a system whose behavior is predicatble and grounded in transparent logic.
+\end_layout
+
+\begin_layout Standard
+Local learning provides transparency by decomposing complex global dynamics into a set of specialized local models.
+ Unlike global architectures where a single weight update can unpredictably affect the entire model,
+ a local learning approach can ensure that any update stays local.
+ This spatialization ensures that any prediction is traceable to a specific region of the feature space.
+\end_layout
+
+\begin_layout Standard
+Moreover,
+ global approximation methods often struggle with the stability-plasticity dilemma 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mermillod2013stability"
+literal "false"
+
+\end_inset
+
+ where learning new behaviors leads to the forgetting of old ones.
+ With local learning methods,
+ the model can adapt to new behaviors locally and incrementally without corrupting knowledge stored in other regions.
+ This allows the model to remain accurate across different driving contexts without requiring computationally heavy,
+ and often impossible,
+ offline training.
+\end_layout
+
+\begin_layout Standard
+The long-term goal of this research is to enable efficient HRC,
+ specifically in the automotive sector.
+ This goal depends on the reliability of the underlying control architecture.
+ Therefore,
+ this thesis does not address the high-level social or psychological aspects of HRC but rather the foundational subproblems required to make the best out of HRC:
+ local online learning and control with learned models.
+ The following section details our contributions to these two research fields.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Itemize
+For successful human-robot collaboration,
+ the robot must infer the human's intended motion to synchronize its actions.
+ Anticipatory skills are required for robots to work effectively with humans.
+ By forecasting a human's trajectory,
+ the robot can set a control set point that is complementary to the human's current and future behavior rather than being reactionary or disruptive.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "dani2024human"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Thus,
+ from the previous statement,
+ we deduce that to bridge the gap between performant autonomous approaches and speed recommendation systems,
+ the speed recommendation problem can be tackled as a control problem under the assumption that the vehicle-driver system is continuously modeled to account for the non-stationarity of the driver behavior.
+ Formulated in this way,
+ the speed recommendation problem can be abstracted into an adaptive control problem with a learned model.
+\end_layout
+
+\begin_layout Itemize
+Therefore,
+ the problem can be broken down into 2 subproblems:
+ Online modeling and Control with learned model [HOW TO JUSTIFY THIS MPC ARCHITECTURE ?]
+\end_layout
+
+\begin_layout Itemize
+[SHOULD WE INTRODUCE LOCAL LEARNING HERE OR WAIT FOR STATE OF THE ART ?]
+\end_layout
+
+\begin_layout Plain Layout
+We notice that both approaches are inherently limited in their consideration of the driver.
+ Indeed,
+ in a speed recommendation context,
+ the driver can delay,
+ accept or refuse a speed recommendation set point.
+ Moreover,
+ as introducing the driver in the loop generates uncertainty because all human drivers are different,
+ speed recommendations should be personalized to each one to better align with their driving style to maximize acceptance of recommendation set points.
+ In addition to that,
+ to maximize acceptance and the positive behavioral impact on driving,
+ speed recommendation strategies should be interpretable to be able to justify their decisions to some extent to the driver.
+\end_layout
+
+\begin_layout Plain Layout
+To bridge the gap between performant autonomous approaches and speed recommendation systems,
+ we propose to tackle the speed recommendation problem as a control problem under the assumption that the vehicle-driver system is continuously modeled to account for the non-stationarity of the driver behavior over his life.
+ Formulated in this way,
+ the speed recommendation problem is reduced to an adaptive control problem with a learned model.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Contributions
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Contributions"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Itemize
+In this thesis we contribute to online learning and control with learned models but we do not tackle HRC as is.
+ This work represents a step toward HRC,
+ works still remain to do.
+\end_layout
 
 \end_inset
 
