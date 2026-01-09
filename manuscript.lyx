@@ -7,10 +7,13 @@
 \textclass book
 \begin_preamble
 \usepackage{pifont}
+\usepackage{graphicx}
+\usepackage{forest}
 \end_preamble
 \use_default_options true
 \begin_modules
 theorems-ams
+linguistics
 \end_modules
 \maintain_unincluded_children no
 \language english
@@ -107,6 +110,10 @@ theorems-ams
 
 \begin_body
 
+\begin_layout Title
+Adaptive Control via Local Online Learning
+\end_layout
+
 \begin_layout Standard
 \begin_inset CommandInset toc
 LatexCommand tableofcontents
@@ -120,16 +127,1393 @@ LatexCommand tableofcontents
 Introduction
 \end_layout
 
+\begin_layout Standard
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+This thesis is financed by an automotive company.
+ Initially the goal was to work on intelligent speed recommendation.
+\end_layout
+
+\begin_layout Plain Layout
+I structure my introduction this way:
+\end_layout
+
+\begin_layout Plain Layout
+- 1.
+ Background and Motivation
+\end_layout
+
+\begin_layout Plain Layout
+- 2.
+ Problem Statement
+\end_layout
+
+\begin_layout Plain Layout
+- 3.
+ Contributions
+\end_layout
+
+\begin_layout Plain Layout
+In 1.
+ I want to present why our company cares about speed recommendation.
+ Then,
+ in this part I also want to show a short review of literature to show that several speed management systems are considered in research:
+\end_layout
+
+\begin_layout Plain Layout
+- Open Loop systems => that recommend speed to the driver via simple rule based approaches without considering any driver feedback => These approaches are more interpretable but limited in terms of objectives considered and do not enable personalization
+\end_layout
+
+\begin_layout Plain Layout
+- Closed Loop systems => that control the speed of the vehicle in an autonomous way => performance but no consideration of the driver
+\end_layout
+
+\begin_layout Plain Layout
+We notice that both approaches are inherently limited in their consideration of the driver.
+ Indeed,
+ in a speed recommendation context,
+ the driver can delay,
+ accept or refuse a speed recommendation set point.
+ Moreover,
+ as introducing the driver in the loop generates uncertainty because all human drivers are different,
+ speed recommendations should be personalized to each one to better align with their driving style to maximize acceptance of recommendation set points.
+ In addition to that,
+ to maximize acceptance and the positive behavioral impact on driving,
+ speed recommendation strategies should be interpretable to be able to justify their decisions to some extent to the driver.
+\end_layout
+
+\begin_layout Plain Layout
+To bridge the gap between performant autonomous approaches and speed recommendation systems,
+ we propose to tackle the speed recommendation problem as a control problem under the assumption that the vehicle-driver system is continuously modeled to account for the non-stationarity of the driver behavior over his life.
+ Formulated in this way,
+ the speed recommendation problem is reduced to an adaptive control problem with a learned model.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This research investigates the use of local online learning methods based on multi-agent self organization mechanisms to control complex,
+ non-stationary systems where the underlying dynamics are unknown beforehand.
+ 
+\end_layout
+
+\begin_layout Standard
+While this work was initiated within the industrial framework of Intelligent Speed Recommendation for the automotive sector,
+ we came to the conclusion that the fundamental scientific bottleneck lies in the ability of a controller to adapt continuously to non-stationary time-varying dynamics.
+\end_layout
+
+\begin_layout Standard
+We structure the remainder of this introductory chapter as following.
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Background-and-Motivation"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ presents a contextualization on speed management systems and their current limitations.
+ Then,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Problem-Statement"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ shows how a speed recommendation problem can be asbtracted into an adaptive control problem with a continuously learning model.
+ Finally,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Contributions"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ exposes a summary of all the contributions of our work to the fields of 
+\emph on
+online learning
+\emph default
+ and 
+\emph on
+control with learned models
+\emph default
+.
+\end_layout
+
 \begin_layout Section
 Background and Motivation
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Background-and-Motivation"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Excesses and mismanagement of speed on the roads have been proven to be positively correlated to the occurence of accidents with injuries and fatalities 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "hauerSpeedSafety2009,elvikSpeedRoadSafety2005"
+literal "false"
+
+\end_inset
+
+.
+ Studies have shown that vehicle speed control devices like Intelligent Speed Assist (ISA) could significantly contribute to the reduction of road accidents 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "tate1997implementation"
+literal "false"
+
+\end_inset
+
+.
+ Moreover,
+ better speed management can lead to significant reduction in energy consumption 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "xu2021overview"
+literal "false"
+
+\end_inset
+
+ making this issue a strategic concern for individuals,
+ but also for fleet management companies 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "atri2024operational"
+literal "false"
+
+\end_inset
+
+.
+ Consequently,
+ developing speed management technologies that help drivers maintain safe and efficient speeds is essential for public safety and for the sustainable development of the automotive industry.
+\end_layout
+
+\begin_layout Standard
+From an industrial perspective,
+ the main challenge for developing intelligent speed recommendation devices lies in designing a system that effectively influence vehicle speed while maintaining a high level of user acceptance,
+ safety and energy efficiency.
+ As the driver can chose to 
+\emph on
+accept
+\emph default
+,
+ 
+\emph on
+delay
+\emph default
+ or 
+\emph on
+refuse
+\emph default
+ a recommended speed set point,
+ the effectivenes of such recommendation systems is largely determined by the underlying control architecture and how it interacts with an unpredictable human driver.
+\end_layout
+
+\begin_layout Standard
+Research on speed management can be broken down into two distinct branches as displayed on Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Taxonomy-of-Vehicle"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ On one hand,
+ 
+\emph on
+Open-Loop
+\emph default
+ systems presented in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Open-Loop"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ comprise mainly advisory systems that do not consider any form of feedback from the vehicle state or driver response to recommendation set points.
+ On the other hand,
+ 
+\emph on
+Closed-Loop
+\emph default
+ systems presented in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Closed-Loop"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ consider feedbacks from the vehicle state,
+ removing the driver from the execution loop,
+ enabling for safety guarantees,
+ and stability and self correction.
+ Finally,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Synthesis-and-Research-Gap"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ presents a synthesis of research gaps identified after analysis of the literature.
+ 
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+resizebox{
+\backslash
+columnwidth}{!}{%
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{forest}
+\end_layout
+
+\begin_layout Plain Layout
+
+for tree={
+\end_layout
+
+\begin_layout Plain Layout
+
+	l sep=30pt
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+[Speed Management
+\end_layout
+
+\begin_layout Plain Layout
+
+  [Open-Loop Systems
+\end_layout
+
+\begin_layout Plain Layout
+
+    [Heuristic / Rules]
+\end_layout
+
+\begin_layout Plain Layout
+
+    [Optimization]
+\end_layout
+
+\begin_layout Plain Layout
+
+    [Offline Planning]
+\end_layout
+
+\begin_layout Plain Layout
+
+    [Infrastructures]
+\end_layout
+
+\begin_layout Plain Layout
+
+  ]
+\end_layout
+
+\begin_layout Plain Layout
+
+  [Closed-Loop Systems
+\end_layout
+
+\begin_layout Plain Layout
+
+	[Feedback Laws]
+\end_layout
+
+\begin_layout Plain Layout
+
+    [Online Planning]
+\end_layout
+
+\begin_layout Plain Layout
+
+	[Model-Free]
+\end_layout
+
+\begin_layout Plain Layout
+
+    [HitL]
+\end_layout
+
+\begin_layout Plain Layout
+
+  ]
+\end_layout
+
+\begin_layout Plain Layout
+
+]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{forest}%
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Taxonomy-of-Vehicle"
+
+\end_inset
+
+Taxonomy of Vehicle Speed Management approaches
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Open-Loop
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Open-Loop"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Open loop systems correspond to systems that do not consider feedback from the driver or vehicle state.
+ In the speed management literature,
+ these works primarily focus on translating environment constraints such as traffic light timings 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "krauseTrafficLightAssistantDriven2012,alsabaanOptimizationFuelCost2013"
+literal "false"
+
+\end_inset
+
+,
+ weather conditions 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "galanisEnvironmentalBasedSpeedRecommendation2019"
+literal "false"
+
+\end_inset
+
+ or road geometry 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hazoorDevelopmentNovelIntelligent2021"
+literal "false"
+
+\end_inset
+
+,
+ into recommended speed profiles.
+ Among the proposed approaches,
+ some employ advanced optimization techniques like Pontryagin's Maximum Principle 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ozatayVelocityProfileOptimization2017"
+literal "false"
+
+\end_inset
+
+ to maximize energy efficiency.
+ Others rely on passive infrastructure-based interventions ranging from physical enforcements via road bumps 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "salauVehicleSpeedControl2004"
+literal "false"
+
+\end_inset
+
+ to visual stimulations 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zhaoHowDoesMural2022"
+literal "false"
+
+\end_inset
+
+,
+ aiming at increasing speed awareness through environmental design.
+ 
+\end_layout
+
+\begin_layout Standard
+However,
+ whether digital or physical,
+ these approaches share the same structural limitation because they assume that the recommendation set points are going to be followed perfectly and instantaneously.
+ This assumption ignores the non-stationarity and variability of human-behavior.
+ Consequently,
+ without online feedback mechanisms to account for driver acceptance,
+ the theoretical benefits of these optimizations are rarely fully realized in real-world conditions.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+Rules / Heuristics
+\end_layout
+
+\begin_layout Itemize
+Communication of speed recommendation with smartphone (work on HMIs),
+ rule-based approach based on traffic lights state and distance to traffic light to avoid dead stops (for energy consumption ) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "krauseTrafficLightAssistantDriven2012"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Rule-based recommendation approach based on fusion of several data sources (weather,
+ road profile,
+ ...) and comparison to nominal speed profiles (for safety and comfort).
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "galanisEnvironmentalBasedSpeedRecommendation2019"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Rule based recommendation approach based on Stopping Distance and Available Sight Distance (mainly for safety,
+ then for energy efficiency) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hazoorDevelopmentNovelIntelligent2021"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Optimization
+\end_layout
+
+\begin_layout Itemize
+Optimization based recommendation approach to determine the optimal Speed Limit (Variable Speed Limit problem) that is transmitted to the driver via V2I which is also used for collecting data for computind the optimal speed (for safety).
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wuCombinedConnectedVehicles2020"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Communication of speed recommendation with V2X (V2V and V2I).
+ Optimization (Heuristic provided too for real time) based approach based on traffic light schedule (for energy consumption).
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "alsabaanOptimizationFuelCost2013"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Optimization based speed recommendation method based on analytical PMP solution relying on offline linearization of road profile beforehand.
+ Method is fast because analytical solution and adaptive a bit online because some parameters are dynamic (for energy consumption then for legal speed limit enforcement).
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ozatayVelocityProfileOptimization2017"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Offline Planning
+\end_layout
+
+\begin_layout Itemize
+PMP speed control approach for cruising (for energy) which handles gear shifts and alternates between acceleration and idling.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "shenFuelOptimalPeriodicControl2018"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Infrastructures
+\end_layout
+
+\begin_layout Itemize
+Infrastructure-based approach using road bumps.
+ Communication of speed limitations to driver with signs and physical enforcement (vibration too hard above design speed limit).
+ Study about road bump characteristics to enforce speed limit efficiently (for safety) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "salauVehicleSpeedControl2004"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Infrastructure / Heuristic approach using discontinuous mural decorations on tunnel sidewalls at specific frequencies to provide visual stimulation.
+ It induces a passive psychological signal that enhances driver's ability to estimate his true speed => improving speed awareness and alertness (for safety) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zhaoHowDoesMural2022"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Closed-Loop
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Closed-Loop"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Works on closed-loop speed management systems are rooted in the development of autonomous vehicles.
+ In a sense,
+ they resolve the main limitation of open-loop systems by completely ignoring the driver and focusing solely on vehicle control.
+ In this context,
+ the system plays an active role in speed regulation by acting directly on low level vehicle's actuators (throttle / brake),
+ thereby bypassing the uncertainties of driver acceptance.
+ The related literature can be divided into two technical branches:
+ 
+\emph on
+model-based online planning
+\emph default
+ and 
+\emph on
+data-driven
+\emph default
+ approaches.
+\end_layout
+
+\begin_layout Standard
+On the one hand,
+ model-based online planning approaches rely extensively on approaches on physical models of the vehicle coupled with Model Predictive Control (MPC) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "asadiPredictiveCruiseControl2010,kamalModelPredictiveControl2012,hanSafeEcoDrivingControl2018"
+literal "false"
+
+\end_inset
+
+,
+ Pontryagin's Maximum Principle (PMP) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "maEcodriveExperimentRolling2019,ozatayAnalyticalSolutionMinimum2014"
+literal "false"
+
+\end_inset
+
+ or Dynamic Programming (DP) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "sunOptimalEcoDrivingControl2020"
+literal "false"
+
+\end_inset
+
+.
+ These approaches take into account changes in the environment by solving constrained optimization problems in real-time that mostly balance energy efficiency,
+ safety and travel time.
+ Since solving many optimization problems can be costly,
+ research efforts have focused on finding analytical solutions 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ozatayAnalyticalSolutionMinimum2014,malikopoulosOptimalControlSpeed2018,hanSafeEcoDrivingControl2018"
+literal "false"
+
+\end_inset
+
+ or using discretization techniques 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jinPowerBasedOptimalLongitudinal2016,jinEnergyoptimalSpeedControl2023"
+literal "false"
+
+\end_inset
+
+ to solve the optimization problems.
+ These methods offer rigorous safety and stability guarantees as they rely on pre-defined physical models coupled with control theory.
+ However,
+ the main limitation exposed for open-loops systems remains,
+ as the human driver is excluded form the control loop,
+ resulting in mostly unusable systems when considering a human driver controlling the vehicle.
+ Moreover,
+ the capabilities of the resulting controllers depend on the accuracy of the physical models used.
+ To ensure the controller operates in real-time,
+ it is often necessary to make compromises on the complexity and accuracy of the physical model,
+ making it more difficult to handle larger number of variables.
+\end_layout
+
+\begin_layout Standard
+On the other hand,
+ data-driven approaches have emerged to address the limitations of physical modeling,
+ particularly for capturing complex,
+ non-linear behaviors that are difficult to formalize analytically.
+ By leveraging Reinforcement Learning,
+ data-driven approaches simplify multi-objective optimization through the design of reward functions that balance energy,
+ safety and comfort 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "xuHierarchicalSpeedControl2022,duComfortableEnergyefficientSpeed2022,liuLongitudinalControlConnected2023"
+literal "false"
+
+\end_inset
+
+.
+ Various architectures are leveraged to handle speed control tasks such as DDPG for car-following and heavy vehicles 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "sunDDPGBasedDecisionMakingStrategy2020,moghaddam2024cooperative"
+literal "false"
+
+\end_inset
+
+,
+ PPO for traffic efficiency 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "xuHierarchicalSpeedControl2022,liuLongitudinalControlConnected2023,zhao2024adaptive"
+literal "false"
+
+\end_inset
+
+ or SAC and DQN for safe speed control 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jiangReinforcementLearningBased2022,kim2025reinforcement"
+literal "false"
+
+\end_inset
+
+.
+ These methods also allow to generate human-like profiles by learning directly from vast datasets of driving trajectories 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zhangHumanlikeAutonomousVehicle2018,zhuHumanlikeAutonomousCarfollowing2018"
+literal "false"
+
+\end_inset
+
+.
+ However,
+ these approaches rely on extensive and sample inefficient training,
+ resulting in frozen policies that cannot adapt to the non-stationary nature of the road environment.
+ Furthermore,
+ compared to model-based methods,
+ data-driven controllers lack formal safety and stability guarantees.
+ They mostly rely on neural networks which make enforcing hard constraints difficult in safety-critical control systems due to the brittleness of their predictions outside the training distribution and to the interpretability of their inner workings 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zhang2020testing"
+literal "false"
+
+\end_inset
+
+.
+ Neural networks can be very successful but are black-boxes that are hard to trust and validate.
+ Specifically in industrial safety critical use cases,
+ the use of neural networks is mostly reduced to small certifiable networks,
+ largely limiting the scalability potential 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zhang2020testing"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Despite their differences,
+ both model-based and data-driven closed-loop architectures share a common limitation:
+ they prioritize the autonomy of the vehicle denying authority of the driver on his vehicle.
+ Human-in-the-Loop (HitL) systems seek to tackle this limitation.
+ These approaches attempt to reintegrate the driver into the control loop by treating human behavior as a dynamic variable of the problem rather than ignoring it by considering vehicle autonomy.
+ In this field,
+ literature focuses on personalizing speed recommendations by monitoring physiological signals such as heart rate to model stress levels 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "maganaDesignSpeedAssistant2017"
+literal "false"
+
+\end_inset
+
+,
+ or by estimating driver acceptance scores to modulate the speed recommendation strategy 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "vyas2021drivebfr"
+literal "false"
+
+\end_inset
+
+.
+ Other works use simple online reinforcement learning strategies to steer cloud-based planning toward the driver's historical preferences 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ozatayCloudBasedVelocityProfile2014"
+literal "false"
+
+\end_inset
+
+ or use context-aware models to predict expert driver reactions on blind intersections 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "saitoContextawareDriverModel2021"
+literal "false"
+
+\end_inset
+
+.
+ These approaches represent significant step toward driver consideration into closed-loop systems.
+ However,
+ they still remain limited by their offline nature.
+ Most of these HitL systems are built upon static databases or pre-trained driver profiles that fail to account for the variability of human driving behaviors and for the non-stationarity of those behaviors that can evolve over time.
+ In reality,
+ a driver's response is not a fixed parameter but a time-varying process influenced by physiological states,
+ environmental context and lon-term behavioral adaptation.
+ 
+\end_layout
+
+\begin_layout Subsection
+Synthesis and Research Gap
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Synthesis-and-Research-Gap"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The review of the literature on speed management systems reveals a significant gap in the state of the art.
+ Open-loop advisory systems respect driver's autonomy but lack the consideration of feedbacks on driver's behavior to ensure high effectiveness.
+ Conversely,
+ closed-loop autonomous systems offer high performance and theoretical guarantees but exclude the human driver from the execution loop.
+ Finally,
+ Human-in-the-loop methods that try to reinsert the driver in the loop through personalization and data-driven approaches,
+ are limited by their inability to adapt in real-time to non-stationary behavior and learn continuously.
+\end_layout
+
+\begin_layout Standard
+We identified a research gap in the lack of interpretable methods capable of learning continuously to adapt to the non-stationarity of the human driver behavior.
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Problem-Statement"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ shows that from the identified research gap,
+ the industrial speed recommendation problem can be abstracted to a more fundamental scientific challenge which is the control of complex time-varying systems.
+ By considering the vehicle-driver system as a whole with unknown non-stationary dynamics,
+ the problem is reformulated as a task of Adaptive Control with a Learned Model which represents the core focus of this thesis.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+Feedback Laws
+\end_layout
+
+\begin_layout Itemize
+Offline Policy computation via Stochastic Dynamic Programming from Markov Chains then online exploitation of the policy from feedback on terrain (for tradeoff between energy and travel speed) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kolmanovskyTerrainTrafficOptimized2010"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $H_{\infty}$
+\end_inset
+
+ control for eco-driving speed control for car following scenario (for energy and safety) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "chenComparativeStudyModel2021"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Online Planning
+\end_layout
+
+\begin_layout Itemize
+Eco-driving speed control approach using Relaxed PMP from V2I data for planning and PID for speed trajectory tracking (for energy with safety constraints).
+ Similar to MPC.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "maEcodriveExperimentRolling2019"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Dynamic Programming speed control in space (not time) to make it suitable for online planning.
+ Method to handle traffic lights intersections (for energy with safety constraints).
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "sunOptimalEcoDrivingControl2020"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Predictive Cuise Control using MPC + Rules to determine target speed to handle traffic light intersections (for energy,
+ travel time,
+ safety,
+ comfort).
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "asadiPredictiveCruiseControl2010"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+MPC for speed control with real time traffic information and V2V / V2I communication (vehicles / traffic signals).
+ Mainly an advanced ACC system (for energy,
+ safety,
+ comfort) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kamalModelPredictiveControl2012"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+MPC with analytical solution (for energy,
+ safety and legality) for autonomous connected vehicle.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hanSafeEcoDrivingControl2018"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+MPC optimized with Mixed Integer Linear Programming (MILP) for speed control.
+ Discretization of states to make the optimization faster in an online setting.
+ Heavy offline computations to compute costs for discretized map.
+ (for energy and safety).
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jinPowerBasedOptimalLongitudinal2016"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+MPC optimized with MILP for speed control (for energy and safety) for buses.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jinEnergyoptimalSpeedControl2023"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Analytical solution to PMP for speed control (intelligent cruise control) under some assumptions to allow for real time recomputations and embedding on board of the vehicle (for energy).
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ozatayAnalyticalSolutionMinimum2014"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Analytical solution for speed control based on Hamiltonian analysis to tackle approach of speed reduction zones or bottlenecks (for energy and safety).
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "malikopoulosOptimalControlSpeed2018"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+MinMax on learned transition model to control the speed of the vehicle (for safety) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "messaoudiAgentbasedIntervehicleCooperative2018"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Model-based RL for eco-driving (for energy).
+ Maintain domain knowledge of vehicle dynamics while maintaining model-free adaptability.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "leeModelBasedReinforcementLearning2020"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Model-Free
+\end_layout
+
+\begin_layout Itemize
+Policy gradient RL for speed control for safe longitudinal car following (safety and efficiency).
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "desjardinsCooperativeAdaptiveCruise2011"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+RL based dynamic speed limit control model for stochastic traffic networks (for energy consumption of vehicles in the network) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zhuAccountingDynamicSpeed2014"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Human-like speed control through Deep Q Learning (for human-like behavior) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zhangHumanlikeAutonomousVehicle2018"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Human-like speed control through DDPG for car following (for human-like behavior) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zhuHumanlikeAutonomousCarfollowing2018"
+literal "false"
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+Speed control through variant of PPO (for safety,
+ energy and comfort) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "xuHierarchicalSpeedControl2022"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Adaptive Cruising (speed control) of heavy vehicles through DDPG (for safety) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "sunDDPGBasedDecisionMakingStrategy2020"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Speed control on rough pavement through DDPG (for comfort and energy) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "duComfortableEnergyefficientSpeed2022"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Longitudinal speed control through Soft-Actor-Critic (SAC) (for safety) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jiangReinforcementLearningBased2022"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Speed control through PPO with reward shaping (for energy,
+ safety,
+ traffic efficiency) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "liuLongitudinalControlConnected2023"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Variable Speed Limit throught DQN 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kim2025reinforcement"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Adaptive Cruise Control using safe Deep Reinforcement Learning (Projected Constrained Policy Optimization) (for safety and traffic efficiency) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zhao2024adaptive"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Adaptive Cruise Control suing DDPG (for safety,
+ comfort,
+ energy) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "moghaddam2024cooperative"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Rule-based
+\end_layout
+
+\begin_layout Itemize
+Rule based geometric approach to account for curve estimation and legal constraints (mainly for safety)
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gamezsernaDynamicSpeedAdaptation2017"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Human-in-the-Loop
+\end_layout
+
+\begin_layout Itemize
+Offline planning via Dynamic Programming (before trip) but a simple reinforcement learning module looks online to maximize acceptance by steering the recommendations towards an acceptable range (for energy) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ozatayCloudBasedVelocityProfile2014"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Offline computation via Dynamic Programming of optimal speed profile to then obtain local action rules for elementary road sections.
+ These actions rules are chosen dynamically online to give speed recommendations (for energy with safety / legality constraints).
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jimenezRealtimeSpeedProfile2013"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Speed Recommendation approach that monitors state of vehicle and traffic signal's state to dynamically calculate speed recommendation set points to avoid red light dead stop based on remaining distance (for energy).
+ Safety override to avoid danger.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mahlerCellularCommunicationTraffic2017"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Particle Swarm Optimization and Deep Learning to estimate and recommend optimal average speed for upcoming road segments.
+ Balancing predicted driver stress level estimated from heart rate and driving behavior against total trip time (for comfort) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "maganaDesignSpeedAssistant2017"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Estimation of driver behavior score through a Mixture of Expert method (Neural Net),
+ then optimize to find the speed recommendation looking for a normal behavior and reduced energy consumption => Claim to be personalized but learned offline 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "vyas2021drivebfr"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Context-aware driver model that uses multiple linear regression and database of near-miss incidents to determine recommended driving speed for blind intersections (for safety) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "saitoContextawareDriverModel2021"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
 Problem Statement
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Problem-Statement"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
 Contributions
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Contributions"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -473,16 +1857,365 @@ control problem
  To establish a rigorous foundation and position our approach within the field,
  we examine state-of-the-art methods across three relevant domains:
  speed control and recommendation,
- online machine learning,
- and optimal control.
+ online machine learning and  optimal control.
 \end_layout
 
 \begin_layout Section
-Speed Recommendation and Speed Control
+Vehicle Speed Management
+\end_layout
+
+\begin_layout Subsection
+Open-Loop Speed Recommendation
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+- Absence of feedback signals from the vehicle actual state or the driver response to a recommendation set point
+\end_layout
+
+\begin_layout Plain Layout
+- Mainly information layers based on generalist rules translating environment and legal constraints into advisory set points
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+* Heuristic and Rule-Based
+\end_layout
+
+\begin_layout Plain Layout
+* Context Aware
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Open-loop speed recommendation systems can be defined as all the speed management systems that consider the driver as an external component to the system.
+ In this case the system do not receive the driver's response into the recommendation logic,
+ ignoring if the driver accepts,
+ delays or refuses the recommendation.
+ Thus,
+ the system works mainly as an information layer to the driver,
+ translating environment and legal constraints into speed recommendation set points.
+\end_layout
+
+\begin_layout Subsubsection
+Heuristic and Rule-based
+\end_layout
+
+\begin_layout Subsubsection
+Context Aware
+\end_layout
+
+\begin_layout Subsection
+Closed-Loop Speed Control
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+* State Feedback Regulation (PID,
+ LQR,
+ Hinf) => reactive approaches (not proactive),
+ hard to consider constraints,
+ do not consider driver,
+ mainly linear approaches
+\end_layout
+
+\begin_layout Plain Layout
+* Optimal Trajectory Planning [
+\end_layout
+
+\begin_layout Plain Layout
+- Offline Trajectory Planning (PMP,
+ Dynamic Programming) => computationally heavy,
+ not suited for real-time control
+\end_layout
+
+\begin_layout Plain Layout
+- Online Trajectory Planning (MPC) with receding horizon => handles constraints in real time depending on chosen optimizer
+\end_layout
+
+\begin_layout Plain Layout
+]
+\end_layout
+
+\begin_layout Plain Layout
+* Learning Based Control (model free RL) => handles complex nonlinear scenarios,
+ too sample inefficient,
+ need accurate simulators (hard reality gap),
+ MDP assumption that does not fit when considering driver in the loop
+\end_layout
+
+\begin_layout Plain Layout
+=> Rigorous framework grounded in robust optimization pipelines for optimizing speed.
+ However,
+ their primary limitations is that they treat the vehicle as a robot that follows command perfectly.
+ In a speed recommendation context,
+ the actuator is the driver who may delay or refuse the command.
+\end_layout
+
+\begin_layout Plain Layout
+To apply those tools to speed recommendation we must consider the driver-vehicle system as a whole with its uncertainties.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Human-in-the-Loop Control
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+- Speed recommendation should be treated as a control problem (unified framework).
+\end_layout
+
+\begin_layout Plain Layout
+- A signal is send to the driver which adds uncertainty into the system.
+ Indeed,
+ the driver can refuse or delay the application of speed set points.
+ Furthermore each driver is different and has a behavior that evolves over his life.
+ => NOT A TRADITIONAL ACTUATOR
+\end_layout
+
+\begin_layout Plain Layout
+- [Acceptance Hypothesis LOOK FOR LITERATURE] Acceptance of a speed recommendation inversely proportional to the behavioral proximity between the proposed set point and the driver's natural habits.
+ => need also for explainability to justify decisions to the driver to enhance acceptance
+\end_layout
+
+\begin_layout Plain Layout
+- Necessity to break down speed recommendation into 2 subproblems (modeling,
+ exploiting).
+\end_layout
+
+\begin_layout Plain Layout
+* Can't use RL because we can't simulate each driver individually
+\end_layout
+
+\begin_layout Plain Layout
+- We need to learn and update the model online to continuously model the evolution of the driver behavior
+\end_layout
+
+\begin_layout Plain Layout
+/!
+\backslash
+ INTRODUCE XAI /!
+\backslash
+ as a need to justify 
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
 Online Machine Learning
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+scalebox{.8}{
+\backslash
+begin{forest}
+\end_layout
+
+\begin_layout Plain Layout
+
+for tree={
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+[Online Machine Learning
+\end_layout
+
+\begin_layout Plain Layout
+
+	[Parametric]
+\end_layout
+
+\begin_layout Plain Layout
+
+	[Non Parametric
+\end_layout
+
+\begin_layout Plain Layout
+
+    	[Probabilistic]
+\end_layout
+
+\begin_layout Plain Layout
+
+		[Trees]
+\end_layout
+
+\begin_layout Plain Layout
+
+    	[Local Learning]
+\end_layout
+
+\begin_layout Plain Layout
+
+	]
+\end_layout
+
+\begin_layout Plain Layout
+
+]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{forest}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Taxonomy of Vehicle Speed Management approaches
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+TAXONOMY
+\end_layout
+
+\begin_layout Plain Layout
+* Parametric (Fixed Complexity) (Neural Nets + SGD,
+ RLS,
+ Kalman Filters)
+\end_layout
+
+\begin_layout Plain Layout
+// * Adaptive Drift Detection (ADWIN,
+ DDM,
+ EDDM,
+ ...)
+\end_layout
+
+\begin_layout Plain Layout
+* Non Parametric (Adaptive Complexity) [
+\end_layout
+
+\begin_layout Plain Layout
+- Probabilistic (Online GPs,
+ Bayesian,)
+\end_layout
+
+\begin_layout Plain Layout
+- Local Learning (LWPR,
+ kNN,
+ SACL) => our work falls in that
+\end_layout
+
+\begin_layout Plain Layout
+- Tree-based (Hoeffding Trees,
+ )
+\end_layout
+
+\begin_layout Plain Layout
+]
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+PLAN
+\end_layout
+
+\begin_layout Plain Layout
+- Parametric Methods => NN whole model modified,
+ risk of catastrophic forgetting;
+ RLS,
+ Kalman are linear and myopic
+\end_layout
+
+\begin_layout Plain Layout
+- Tree-based Online Learning (Hoeffding Trees,
+ EFDT,
+ Online Random Forest) => non differentiable which is a disadvantage for control
+\end_layout
+
+\begin_layout Plain Layout
+- Probabilistic and Uncertainty-aware (Online GPs) => good models but computationally heavy and memory heavy
+\end_layout
+
+\begin_layout Plain Layout
+- Local Learning & Memory-Based (LWPR,
+ kNN,
+ SACL) =>
+\end_layout
+
+\begin_layout Plain Layout
+- Ensemble Learning to enhance robustness => weighted weak learners depending on individual performances => to handle concept drift ?
+ => loss of interpretability (trade with explainability)
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -848,8 +2581,7 @@ literal "false"
 
 \end_inset
 
- ,
- and other rule-based approaches.
+  and  other rule-based approaches.
  To achieve explainability,
  white-box models are preferred.
 \end_layout
@@ -884,10 +2616,6 @@ Epistemic uncertainty
 \end_layout
 
 \begin_layout Section
-Optimal Control
-\end_layout
-
-\begin_layout Subsection
 Control with Learned Models
 \end_layout
 
@@ -1027,8 +2755,7 @@ nolink "false"
 
  discusses practical considerations for efficient implementation,
  including strategies for obtaining differentiable operations,
- GPU parallelization,
- and spatial indexing to optimize learning speed and inference.
+ GPU parallelization and  spatial indexing to optimize learning speed and inference.
 \end_layout
 
 \begin_layout Section
@@ -1225,8 +2952,7 @@ Each agent can adapt the parameters of its activation and prediction functions b
 \emph on
 when
 \emph default
- the agent predicts,
- and the prediction function specifying 
+ the agent predicts and  the prediction function specifying 
 \emph on
 what
 \emph default
@@ -2955,8 +4681,7 @@ literal "false"
 
 ),
  Booth,
- Goldstein-Price,
- and Beale functions (see Figure 
+ Goldstein-Price and  Beale functions (see Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Heatmaps"
@@ -3037,8 +4762,7 @@ literal "false"
 
 \end_inset
 
-,
- and linear regression 
+ and  linear regression 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "weisbergAppliedLinearRegression2005"
@@ -3125,8 +4849,7 @@ literal "false"
 
 \end_inset
 
-,
- and lightgbm 
+ and  lightgbm 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "keLightGBMHighlyEfficient2017"
@@ -3156,8 +4879,7 @@ nolink "false"
 
 \end_inset
 
-,
- and 
+ and  
 \emph on
 memory_length
 \emph default
@@ -3230,8 +4952,7 @@ nolink "false"
 
 ) for all four functions.
  It also attains the best mean squared error (MSE) on the SSR,
- Goldstein-Price,
- and Booth functions,
+ Goldstein-Price and  Booth functions,
  while XGBoost performs slightly better in terms of MSE on the Beale function.
  Overall,
  oCELL demonstrates comparable performances to XGBoost and LightGBM for most functions,
@@ -7440,8 +9161,7 @@ nolink "false"
 \end_inset
 
 .
- Each blue rectangle represents a context agent,
- and the red rectangle is an example of the neighborhood of an observation.
+ Each blue rectangle represents a context agent and  the red rectangle is an example of the neighborhood of an observation.
  Visualization of the context agents in the neighborhood of an observation 
 \begin_inset CommandInset ref
 LatexCommand eqref
@@ -7792,8 +9512,7 @@ nolink "false"
 \end_inset
 
 ),
- we note that areas with high agent density contain smaller agents,
- and conversely for low-density areas.
+ we note that areas with high agent density contain smaller agents and  conversely for low-density areas.
 \end_layout
 
 \begin_layout Standard
@@ -7842,8 +9561,7 @@ where
 \begin_inset Formula $N$
 \end_inset
 
- is the number of agents in the neighborhood,
- and 
+ is the number of agents in the neighborhood and  
 \begin_inset Formula $y_{\text{mean}}$
 \end_inset
 
@@ -8778,7 +10496,7 @@ Building upon the limitations of oCELL,
  we demonstrated that a population of agents can achieve competitive performance and provide valuable introspection signals such as epistemic and aleatoric uncertainty estimates and qualitative information about local function variations.
  However,
  its rigid spatial representation ultimately limits its ability to build reliable and adaptive regions of expertise.
- This constraint becomes problematic when there is need for fast adaptation in an online settings.
+ This constraint becomes problematic when there is need for fast adaptation in an online setting.
 \end_layout
 
 \begin_layout Standard
@@ -9127,8 +10845,7 @@ The activation score of a point
 \begin_inset Formula $x$
 \end_inset
 
-,
- and thus reflects the agent's degree of knowledge over the corresponding region of feature space.
+ and  thus reflects the agent's degree of knowledge over the corresponding region of feature space.
  We can draw a parallel between this activation function based on RBF kernel and the coverage index 
 \begin_inset Note Comment
 status open
@@ -9469,8 +11186,7 @@ So,
 \begin_inset Formula $\mathcal{A}_{i}$
 \end_inset
 
- might be useful locally,
- and conversely for 
+ might be useful locally and  conversely for 
 \begin_inset Formula $\Delta_{\mathcal{A}_{i}}^{\prime}<0$
 \end_inset
 
@@ -9657,8 +11373,7 @@ is selected as a neighbor to
 \begin_inset Formula $\mathcal{A}_{i}$
 \end_inset
 
- is categorized as strong compared to other neighbors or the short-term baseline predictor,
- and conversely if 
+ is categorized as strong compared to other neighbors or the short-term baseline predictor and  conversely if 
 \begin_inset Formula $\bar{C}_{\mathcal{A}_{i}}<0$
 \end_inset
 
@@ -10928,7 +12643,7 @@ low gravity
 high gravity
 \emph default
 ).
- The semi-transparent red area corresponds to the training period in which the training and test sets corresponds to the same dynamic variations.
+ The semi-transparent red area corresponds to the training period in which the training and test sets correspond to the same dynamic variations.
  The dotted vertical red lines corresponds to changes in dynamics i.e to a change of train dataset with a different value of 
 \begin_inset Formula $g$
 \end_inset
@@ -10938,7 +12653,7 @@ high gravity
 \begin_inset Formula $x$
 \end_inset
 
- axis corresponds to the number of point ingested (number of steps) and the 
+ axis corresponds to the number of points ingested (number of steps) and the 
 \begin_inset Formula $y$
 \end_inset
 
@@ -11869,8 +13584,7 @@ Experiment on SARCOS + D4RL to test raw performances
 status open
 
 \begin_layout Plain Layout
-Experiment on number of neighbors and mahalanobis distances in various dimensions,
- and mention agent growth and problems of dimensionality
+Experiment on number of neighbors and mahalanobis distances in various dimensions and  mention agent growth and problems of dimensionality
 \end_layout
 
 \end_inset
@@ -11996,8 +13710,7 @@ nolink "false"
 
  for definitions).
  kCELL's properties can then be leveraged to guide exploration,
- regularize exploitation,
- and explain control decisions in a unified framework.
+ regularize exploitation and explain control decisions in a unified framework.
 \end_layout
 
 \begin_layout Standard
@@ -12435,8 +14148,7 @@ literal "false"
  with a spatial index based on a R-tree,
  the selection process can be broken down into three ordered steps:
  searching for the k-closest agents in the R-tree,
- calculating the distances between the point and the k-closest agents,
- and finally thresholding the distances to discriminate the neighbor agents.
+ calculating the distances between the point and the k-closest agents and  finally thresholding the distances to discriminate the neighbor agents.
 \end_layout
 
 \begin_layout Standard
@@ -12706,7 +14418,7 @@ Comparison between GPU and Tree Selection
 \end_layout
 
 \begin_layout Standard
-The choice of using a geospatial index or the parallelization enabled by a GPU depends on the number of features and the quantity of agents required for learning the function underlying the data which is highly correlated to its compexity.
+The choice of using a geospatial index or the parallelization enabled by a GPU depends on the number of features and the quantity of agents required for learning the function underlying the data which is highly correlated to its complexity.
 \end_layout
 
 \begin_layout Standard
@@ -12765,7 +14477,7 @@ From a set of 1000 query points,
  Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Heatmap-of-activations-hopper"
+reference "fig:Heatmap-Relative-time-diff-comparison-R-tree-GPU"
 plural "false"
 caps "false"
 noprefix "false"
@@ -12868,7 +14580,7 @@ status open
 Relative Execution Time Difference Heatmap
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:Relative-time-diff-comparison-R-tree-GPU"
+name "fig:Heatmap-Relative-time-diff-comparison-R-tree-GPU"
 
 \end_inset
 
@@ -12959,7 +14671,7 @@ name "fig:Comparison-R-tree-GPU-agent-selection"
  
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Relative-time-diff-comparison-R-tree-GPU"
+reference "fig:Heatmap-Relative-time-diff-comparison-R-tree-GPU"
 plural "false"
 caps "false"
 noprefix "false"
@@ -13005,7 +14717,7 @@ However,
  In Figures 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Relative-time-diff-comparison-R-tree-GPU"
+reference "fig:Heatmap-Relative-time-diff-comparison-R-tree-GPU"
 plural "false"
 caps "false"
 noprefix "false"
@@ -13238,8 +14950,7 @@ where
 \begin_inset Formula $\phi_{i}:\mathbb{R}^{n}\mapsto\left]0,1\right]$
 \end_inset
 
- is an activation function that maps features to a level of expertise for predicting a given input,
- and 
+ is an activation function that maps features to a level of expertise for predicting a given input and  
 \begin_inset Formula $f_{i}:\mathbb{R}^{n}\mapsto\mathbb{R}^{m}$
 \end_inset
 
@@ -13668,8 +15379,7 @@ where
 \begin_inset Formula $J_{\text{explore}}$
 \end_inset
 
- the exploration penalty,
- and 
+ the exploration penalty and  
 \begin_inset Formula $\alpha\in\mathbb{R},\,\lambda\in\mathbb{R}$
 \end_inset
 
@@ -13960,8 +15670,7 @@ with
 \begin_inset Formula $R\in\mathbb{R}^{1\times1}$
 \end_inset
 
-,
- and 
+ and  
 \begin_inset Formula $s_{\text{ref}}$
 \end_inset
 
@@ -15259,8 +16968,7 @@ where
 \begin_inset Formula $J_{\text{conservative}}$
 \end_inset
 
- the conservative regularization term,
- and 
+ the conservative regularization term and  
 \begin_inset Formula $\alpha\in\mathbb{R},\,\lambda\in\mathbb{R}$
 \end_inset
 
@@ -15533,8 +17241,7 @@ with
 \begin_inset Formula $R\in\mathbb{R}^{1\times1}$
 \end_inset
 
-,
- and 
+ and  
 \begin_inset Formula $s_{\text{ref}}$
 \end_inset
 
@@ -16523,8 +18230,7 @@ Indeed,
  when the number of features increases,
  it is much rarer for an agent to be considered a neighbor of a new point.
  Therefore,
- the amoung of data required for training is much greater,
- and the number of agents created grows rapidly.
+ the amoung of data required for training is much greater and  the number of agents created grows rapidly.
  Thus,
  we identify a need to limit the growth in the number of agents to increase sample efficiency and limit redundancy in the knowledge base.
  Until now,
