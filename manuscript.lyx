@@ -115,6 +115,20 @@ Adaptive Control via Local Online Learning
 \end_layout
 
 \begin_layout Standard
+\align center
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Adaptive Control via Bottom-Up Local Online Learning
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset CommandInset toc
 LatexCommand tableofcontents
 
@@ -1022,7 +1036,7 @@ The review of the literature on speed management systems reveals a significant g
  Conversely,
  closed-loop autonomous systems offer high performance and theoretical guarantees but exclude the human driver from the execution loop.
  Finally,
- Human-in-the-loop methods that try to reinsert the driver in the loop through personalization and data-driven approaches,
+ HitL methods that try to reinsert the driver in the loop through personalization and data-driven approaches,
  are limited by their inability to adapt in real-time to non-stationary behavior and learn continuously.
 \end_layout
 
@@ -2475,7 +2489,7 @@ Improves control reliability and safety by guiding exploration and restricting o
 \begin_inset Text
 
 \begin_layout Plain Layout
-Explainability
+Interpretability & Explainability
 \end_layout
 
 \end_inset
@@ -2976,8 +2990,1446 @@ control problem
  online machine learning and  optimal control.
 \end_layout
 
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Enumerate
+
+\series bold
+From Global to Local Online Learning => 
+\series default
+Argue that whilc online learning exists,
+ standard 
+\begin_inset Quotes eld
+\end_inset
+
+global
+\begin_inset Quotes erd
+\end_inset
+
+ methods (like Neural Networks) fail at handling non-stationarity,
+ data-streams and are hardly interpretable => necessitating a local approach.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Foundations & Definitions => define what are data-streams,
+ how we define interpretability and explainability,
+ what is introspection in the context of the thesis.
+\end_layout
+
+\begin_layout Enumerate
+Online Learning Paradigm
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Control with Learned Models
+\end_layout
+
+\begin_layout Plain Layout
+What we want to show in SotA:
+\end_layout
+
+\begin_layout Itemize
+Online Learning
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+What is Online Learning ?
+ => define the shift from batch learning to online learning
+\end_layout
+
+\begin_layout Enumerate
+Global models => global models for online learning suffer hard from the stability-plasticity problem + global models are often black boxes
+\end_layout
+
+\begin_layout Enumerate
+local online learning can alleviate this issue by making localized updates => memory based learning (kNN),
+ RBF networks,
+ LWPR => those approaches can be very performant in control setting (ex:
+ robotics) like LWPR but hard to scale => we develop a system that can be considered similar to LWPR (kCELL in chapter 3) => In LWPR the model and update logics are closely tied => LWPR lacks modularity => we conjecture that bringing more modularity via bottom up approaches could provide a strong alternative framework
+\end_layout
+
+\begin_layout Enumerate
+multiagent local learning => SACL paradigm and filiation of our works
+\end_layout
+
+\begin_layout Enumerate
+XAI and Uncertainty => define uncertainties and explainability / interpretability => for control with learned models the model needs to be trusted => thus need for transparent interpretable inner workings as well as uncertainty quantification.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Control with Learned models
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+What is MPC ?
+ => define what is MPC => fitting architecture for using learned models (transition function to plan over horizon H)
+\end_layout
+
+\begin_layout Enumerate
+Model Reliability
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+=> Problem in control with learned models is that learned models can be unreliable for out-of-distribution data => so we use models that are able to quantify uncertainty (epistemic uncertainty) like GPs but GPs are hard to scale to online learning (despite attempts) => need for a model that is uncertainty-aware / computationally efficient / local (ref section on Online Learning)
+\end_layout
+
+\begin_layout Enumerate
+=> Problem of out-of-distribution predictions => reduction of this problem through exhaustive dataset => when no data available and no prior knowledge of dynamics there is a need for exploration => in some complex environment need for intelligent exploration strategies [WE DO NOT TACKLE SAFE EXPLORATION BUT INFORMATIVE EXPLORATION]
+\end_layout
+
+\begin_layout Enumerate
+=> Problem of out-of-distribution predictions => impossible to always get exhaustive dataset and exploration is not always tractable => so need to avoid going into unknown states => in MPC avoid optimizing on garbage => conservative optimization based on epistemic uncertainty.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Explainability in Constrained Optimization => even with perfect model,
+ a constrained optimizer is often opaque => need for constraint influence analysis to explain to the end user why a specific suboptimal set point has been chosen.
+\end_layout
+
+\end_deeper
+\begin_layout Plain Layout
+Problem 1 => how to mention Gaussian Processes (and variants used to do online learning) (maybe GPs could only be mentionned in the control part ?) and Hoeffding Trees ?
+\end_layout
+
+\begin_layout Plain Layout
+Problem 2 => where to put XAI talk in which we mention SHAP and LIME and define interpretability / explainability ?
+ and aleatoric / epistemic uncertainties ?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+Notes
+\end_layout
+
+\begin_layout Itemize
+How to justify using kCELL instead of LWPR ?
+ because with linear regressions they are very similar systems
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+LWPR is a top-down approach and CELL are bottom-up approaches
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+bottom-up approaches are more modular => possibility to change the model easily or to mofidy the spatialization layer independently of the modeling layer for example
+\end_layout
+
+\begin_layout Itemize
+bottom-up approaches are more flexible to evolving requirements
+\end_layout
+
+\begin_layout Itemize
+bottom-up approaches allow for emergent behavior to happen
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Social Feedback vs.
+ Statistical Thresholds:
+ in LWPR,
+ a model is updated based on its own incremental error (like oCELL).
+ In kCELL a leave one out contribution is used for updates.
+ An agent survival depends on its value relative to its peers.
+ It rewards agent for providing unique information.
+\end_layout
+
+\begin_layout Itemize
+Short-Term baseline:
+ use of a short-term linear predictor as a baseline for when there are 1 or 0 neighbors to create agent or update the only selected one.
+ It treats the agent as an entity that must "justify its existence" against a simpler,
+ generalist behavior.
+ LWPR lacks this comparative competitive layer.
+\end_layout
+
+\begin_layout Itemize
+We investigate social learning:
+ a different learning paradigm to achieve similar results.
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+To solve the LWPR 
+\begin_inset Quotes eld
+\end_inset
+
+Problem
+\begin_inset Quotes erd
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Enumerate
+in SotA (Chapter 2) => In LWPR the model and the update logic are closely tied => lacks modularity that could bring scalability possibilities => So we investigate more modular local learning approaches with CELL a bottom up theoretical ground for designing learning systems (contrary to LWPR which is top-down).
+ In CELL that we present in Chapter 3,
+ the social rules are agnostic of the internal model update logic => separation of spatialization layer and modeling layer.
+ Furthermore,
+ the social structure of the model allows to trace back decisions down to the negociation layer of agents.
+\end_layout
+
+\begin_layout Enumerate
+in kCELL Section (Chapter 3) => kCELL is inherently different because the agents negociate with global baseline or other neighbors => this does not create an independant collection of models but a cooperative ensemble that provide a different kind of interpretability and explainability.
+\end_layout
+
+\begin_layout Enumerate
+in Control (Chapter 4) => We justify the exploration and conservatism works not by claiming superior performance over existing local learners,
+ but by demonstrating that the Social Introspection signals emergent from the CELL paradigm can be used and be reliable for closing the loop in constrained MPC.
+ This validates that a bottom-up,
+ agent-based learning approach can satisfy the requirements for real-time control and provide a modular alternative to traditional statistical methods.
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+LWPR can be seen as a special case of CELL => LWPR corresponds to a highly constrained instance of our learning paradigm in which agent selection,
+ structural adaptation,
+ and usefulness diagnostics are collapsed into a single distance-based mechanism.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Control with Learned Models
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Online Machine Learning
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Online Learning
+\end_layout
+
+\begin_layout Enumerate
+Batch Learning towards Online Learning
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "smale2006online"
+literal "false"
+
+\end_inset
+
+ Batch Learning = several samples at a time;
+ Online Learning = one sample at a time.
+ In online learning,
+ the learner must recursively update a hypothesis using only one example at a time,
+ whereas in batch learning,
+ the learner is presented with the entire set of examples simultaneously.
+ This shift introduces a significant challenge in the form of sample error,
+ which represents the probabilistic fluctuation and "noise" caused by random sampling that does not occur in deterministic batch methods.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gomes2019machine"
+literal "false"
+
+\end_inset
+
+ Online learning arises from the industrial need of processing large volume of data in real time as they come without needing several passes over the dataset + need to be adaptive to incrementally learn new concepts.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Interleaved Phases:
+ In batch learning,
+ preprocessing,
+ fitting,
+ and testing are distinct sequential phases;
+ in online learning,
+ these operations must be interleaved and applied continuously as data arrives.
+\end_layout
+
+\begin_layout Enumerate
+Single-Pass Constraint:
+ Online learning algorithms must update models given a continuous influx of data without performing multiple passes,
+ which is essential for handling high-velocity and high-volume big data.
+\end_layout
+
+\begin_layout Enumerate
+Adaptive Learning:
+ The focus of online learning is to develop methods that can learn and forget concepts incrementally to maintain an accurate decision model over time.
+\end_layout
+
+\begin_layout Enumerate
+Unknown Global Statistics:
+ Trivial batch tasks like feature normalization are complicated in online settings because global statistics (e.g.,
+ min/max values) are unknown a priori and must be estimated incrementally.
+\end_layout
+
+\begin_layout Enumerate
+Feature and Concept Drift:
+ Online systems must account for "feature drift",
+ where the relevance of a feature changes over time,
+ and "concept drift",
+ where the underlying data distribution shifts.
+\end_layout
+
+\begin_layout Enumerate
+Model Complexity vs.
+ Utility:
+ The shift to online learning favors ensemble strategies because they can dynamically add or remove models to recover from drift,
+ though this often increases computational demand and architectural complexity.
+\end_layout
+
+\begin_layout Enumerate
+Stability vs.
+ Accuracy Trade-off:
+ The authors explicitly identify an "open challenge" in the contradiction between feature stability and selection accuracy.
+ If a model remains "stable" (converged on a fixed set of features),
+ it may lose accuracy when the importance of those features shifts over time (feature drift).
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Enumerate
+Global Models and stability-plasticity dilemma
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wang2023incorporating"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Stability-Plasticity dilemma defined as the need to properly balance memory stability (preserving knowledge of old tasks) with learning plasticity (the ability to accommodate and learn new tasks).
+\end_layout
+
+\begin_layout Enumerate
+Catastrophic Forgetting is defined as a phenomenon in artificial neural networks where parameter changes required to learn a new task well typically result in a "dramatic performance drop" on previously learned (old) tasks.
+\end_layout
+
+\begin_layout Enumerate
+Catastrophic Forgetting:
+ Parameter changes required to learn a new task often result in a dramatic performance drop on old tasks.
+\end_layout
+
+\begin_layout Enumerate
+Mutual Interference:
+ There is mutual interference between new and old tasks due to differences in their data distributions.
+\end_layout
+
+\begin_layout Enumerate
+Difficulty of New Learning:
+ Precisely remembering old tasks can increase the difficulty of learning each new task well.
+\end_layout
+
+\begin_layout Enumerate
+Gap in Current Methods:
+ Most existing advances focus primarily on preserving stability to mitigate forgetting but struggle to flexibly accommodate incremental changes as biological systems do.
+\end_layout
+
+\begin_layout Enumerate
+In the paper they suggest using ensemble learning methods (diverse learners) because it makes it easier to create or drop new models dynamically => better to handle various learning tasks [could be used to steer the reasoning toward ensemble methods]
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "xie2011comparison"
+literal "false"
+
+\end_inset
+
+ presents a comparative analysis of the properties of traditional neural networks against RBF networks.
+ They provide definitions for local learners and global learners.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Local Learning:
+ outputs are determined by specific local units (e.g RBF Networks).
+\end_layout
+
+\begin_layout Enumerate
+Global Learning:
+ outputs are decided by all the neurons within the system (e.g Multi-Layer Perceptron).
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Simple Global Models
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hue2016online"
+literal "false"
+
+\end_inset
+
+ online learning with naive bayes for classification
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "strehl2007online"
+literal "false"
+
+\end_inset
+
+ introduces an online linear regression algorithm for model based reinforcement learning.
+ It uses uncertainty signals to drive exploration and learns only on unknown or not well modeled points => limited by linearity assumption and assumes some known parameters
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jacobsen2024online"
+literal "false"
+
+\end_inset
+
+ introduces discounted variant of the Vovk-Azoury-Warmuth (VAW) forecaster designed for online linear regression in non-stationary environments.
+ The algorithm incorporates a "forgetting" or discount factor (
+\begin_inset Formula $\gamma$
+\end_inset
+
+) into its statistics to prioritize recent observations over past ones,
+ effectively allowing the model to adapt as the data-generating process changes => hard to tune discount parameter + limited by linearity assumption
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Neural Networks
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "chaudhry2019continual"
+literal "false"
+
+\end_inset
+
+ Use of Experience Replay (Episodic Memory) with tiny episodic memory to learn neural networks better online.
+ Better generalization and less forgetting however the catastrophic forgetting problem still there.
+ Global models (especially neural net) are usually more sensitive to catastrophic forgetting than local models.
+ => even with experience replay they can forget useful knowledge
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kirkpatrick2017overcoming"
+literal "false"
+
+\end_inset
+
+ Elastic weight consolidation method for overcoming catastrophic forgetting by regularization.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "aljundi2017expert"
+literal "false"
+
+\end_inset
+
+ Use of Parameter Isolation.
+ It is a meta-learning approach that creates expert models for new tasks and leverage knowledge transfer between models to warmup new experts.
+ => problem of unlimited growth of expert
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Delange_2021"
+literal "false"
+
+\end_inset
+
+ Review that exposes that neural nets suffer particularly from stability-plasticity dilemma.
+ They categorize methods for online learning with neural net into 3:
+ Parameter Isolation (update only subset of parameters per task),
+ Replay methods (use experience replay to keep learning on older experiences),
+ Regularization methods (use regularization term to consolidate old knowledge without forgetting old ones).
+ => Parameter Isolation is best for long challenging sequences => [It can be an argument toward the use of local learning methods in the thesis]
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zheng2024lifelonglearninglargelanguage"
+literal "false"
+
+\end_inset
+
+ Review that study the problem of lifelong learning for LLMs => indicates that neural networks suffer largely from catastrophic forgetting => Considered approaches in literature are Regularization-based,
+ Replay-Based,
+ Parameter Isolation (named Architetcure based in the paper),
+ Distillation based (with teacher student models).
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Trees
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "domingos2000mining"
+literal "false"
+
+\end_inset
+
+ introduces Very fast Decision Tree Learner (VFDT) or Hoeffding Trees,
+ a system that builds decision trees by processing examples from a continuous data stream in constant time and memory per example.
+ It utilizes Hoeffding bounds to statistically determine the minimum number of examples needed to select an optimal split at each node,
+ ensuring that the resulting tree is asymptotically nearly identical to one produced by a conventional batch learner => no => stationary assumption
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bifet2009adaptive"
+literal "false"
+
+\end_inset
+
+ introduces Adaptive Hoeffding Trees thet extends classic Hoeffding tree by replacing traditional static counters in nodes (to track statistics) by ADWIN 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bifet2007learning"
+literal "false"
+
+\end_inset
+
+ estimators that are more adaptive and can detect concept drift => adaptation possible but still lags behind changes
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "saffari2009line"
+literal "false"
+
+\end_inset
+
+ Online Random Forest using online bagging.
+ When new sample arrives a tree is randomly selected to be updated with it.
+ They also propose an online compliant growing tree strategy to maximize information gain.
+ Trees are removed and added dynamically to handle non stationarity.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lakshminarayanan2014mondrian"
+literal "false"
+
+\end_inset
+
+ introduces mondrian forests that represent a significant upgrade for online random forests => better batch-online consistency,
+ fast learning,
+ data efficient,
+ order independant => struggle to capture diagonal relationships between features,
+ struggle with concept drift,
+ hard to implement,
+ struggle when number of irrelevant feature is high
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Enumerate
+Local Online Learning
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zhang2010real"
+literal "false"
+
+\end_inset
+
+ Online kNN forecaster for real-time price prediction with adaptive neighbor selection through KL divergence to handle non stationarity.
+ The goal is to predict using most resembling previous data
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "han2010research"
+literal "false"
+
+\end_inset
+
+ Self organizing RBF Network with growing and pruning for non-stationary online learning.
+ Number of nodes is dynamic and updates are done with gradient descent.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jia2025online"
+literal "false"
+
+\end_inset
+
+ Self organizing RBF Networks with adding neurons via gaussian similarity (add when surely unknown data) and pruned via internally tracked metrics on neurons.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "maric2024online"
+literal "false"
+
+\end_inset
+
+ Online learning with piecewise polynomial basis functions with incremental least squares => rely on uniform grid segmentation (nb models not dynamic) => lacks estimation of epistemic uncertainty
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "atkeson1997locally"
+literal "false"
+
+\end_inset
+
+ Learning via Locally Weighted Regression.
+ It is a lazy learning approach that stores all the points and at query time fits a local linear model around the query with closest points.
+ Fast learning with only database insertion.
+ => computationally inefficient at query time + sensitive to data density + needs external mechanism for memory management to handle concept drift
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "atkeson1997LocallyControl"
+literal "false"
+
+\end_inset
+
+ LWR can be successfully leveraged for control to learn inverse or forward dynamics models => for ex:
+ vulnerable in inverse dynamics in case of ambiguity (mapping is not one to one)
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "vijayakumar2000locally"
+literal "false"
+
+\end_inset
+
+ Online Learning with Locally Weighted Projection Regression (LWPR) which is an extension of LWR that relies on multiple linear regression models instead of storing the integrality of points => can handle high number of dimensions and is often used for control.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "meier2014incremental"
+literal "false"
+
+\end_inset
+
+ Use LWPR to approximate a Gaussian Process with uncertainty quantification.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "rudin2019stop"
+literal "false"
+
+\end_inset
+
+ supports the fact that interpretable models should be preferred over black box models for explainability for high stake decisions.
+ It supports that local learning approaches are more interpretable => for trust it's better to have interpretable white box models.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Multi-Agent Local Learning
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "frenkel2021bottom"
+literal "false"
+
+\end_inset
+
+ paper on neuromorphic intelligence.
+ It provides a discussion on the current capabilities of bottom up approaches in neuromorphic intelligence.
+ => the takeaway for this thesis might be 
+\begin_inset Quotes eld
+\end_inset
+
+for tasks involving real-time,
+ continuous adaptation to an environment (like autonomous robotics),
+ bottom-up principles of online learning are highly relevant.
+\begin_inset Quotes erd
+\end_inset
+
+ => and also,
+ bottom up approaches can allow us to get inspiration from nature (e.g the brain) or by extensive from social behaviors to design learning systems.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset citation
+LatexCommand cite
+key "crespi2008top"
+literal "false"
+
+\end_inset
+
+ Defines Bottom up and Top down => provide adaptation capabilities
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Top-Down Approach:
+ The design begins with global system requirements,
+ assuming each component has global knowledge as in a centralized system.
+ This solution is then decentralized by replacing global knowledge with inter-agent communication and relaxation of constraints.
+\end_layout
+
+\begin_layout Enumerate
+Bottom-Up Approach:
+ The design starts by specifying the requirements and capabilities of individual components.
+ Global behavior is not explicitly designed but is said to emerge from the interactions between agents and their environment.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Bottom 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+XAI and Uncertainty
+\end_layout
+
+\begin_layout Plain Layout
+Control with Learned models
+\end_layout
+
+\begin_layout Plain Layout
+LWPR Problem
+\end_layout
+
+\begin_layout Itemize
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lehnert2012locally"
+literal "false"
+
+\end_inset
+
+ use LWPR model weights to alter the control effort term in the cost function to steer trajectories towards existing local models => conservative
+\end_layout
+
+\begin_layout Itemize
+\begin_inset CommandInset citation
+LatexCommand cite
+key "manzano2020online"
+literal "false"
+
+\end_inset
+
+ uses LWPR to stay or get away from model centers => exploration / conservative
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+From Batch to Online Learning
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:From-Batch-to-Online-Learning"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In machine learning and deep learning ,
+ the Batch Learning paradigm is the most popular and widely used in the industry.
+ In Batch Learning,
+ the learner has access to a complete dataset 
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+ and learns from an entire set of examples simultaneously.
+\end_layout
+
+\begin_layout Standard
+However,
+ this paradigm is not sufficient to handle every industrial use case.
+ For example,
+ in deep learning,
+ neural networks require extensive training data and several passes on data to converge 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "sarker2021deep"
+literal "false"
+
+\end_inset
+
+ which is not compatible with use cases necessitating learning and adapting in real time from a stream of data that might be non-stationary.
+ In response,
+ the Online Learning paradigm has been explored in research.
+ Unlike Batch Learning,
+ in Online Learning,
+ the learner recursively updates the model using only one example at a time,
+ possibly under strict memory and pass constraint (e.g only single pass allowed) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gomes2019machine"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+This shift from Batch to Online Learning introduces several new challenges.
+ First,
+ the traditional sequential pipeline comprising data collection,
+ pre-processing,
+ training and testing is replace by an interleaved architecture where these phases occur simultaneously without clear temporal order.
+ This makes basic operations such feature normalization non-trivial due to unknown global statistics.
+ In this case the model needs to maintain incremental estimates that evolve alonside the data 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gomes2019machine"
+literal "false"
+
+\end_inset
+
+.
+ Furtermore,
+ because the learner cannot perform multiple passes over the dataset,
+ it must balance generalization,
+ i.e the variance introduced by seeing a finite subset of data,
+ against approximation error,
+ i.e the bias of the model.
+ A higher generalization error is often tolerated for faster updates 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "smale2006online"
+literal "false"
+
+\end_inset
+
+.
+ This way,
+ online learners can reveal even less reliable on out-of-ditribution data due to the short-term bias toward recent data and lack of global regularization.
+\end_layout
+
+\begin_layout Standard
+The most important distinction lies in the assumption of stationarity.
+ While Batch Learning methods assume that the data distribution is fixed and the dataset is exhaustive enough,
+ Online Learning systems must be designed to handle concept drift 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gama2004learning"
+literal "false"
+
+\end_inset
+
+,
+ where the underlying relationship between inputs and outputs can change over time.
+ To continue being relevant,
+ the learner must also include a mechanism for adaptive learning,
+ incrementally forgetting obsolete concepts to make room for new dynamics.
+ This requirement often leads to a trade-off between model stability and prediction accuracy 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gama2014survey,shalev2025online"
+literal "false"
+
+\end_inset
+
+.
+ A model that converges too firmly,
+ without letting room for plasticity may fail to adapt to dynamic shifts.
+\end_layout
+
+\begin_layout Standard
+As new architectures are developed to handle these challenges,
+ Ensemble Learning,
+ a paradigm where multiple models are combined to solve a single task,
+ seem to offer a way to dynamically add or remove learning capacity to recover from concept drift 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gomes2019machine"
+literal "false"
+
+\end_inset
+
+.
+ This shifts adaptation from parameter space to model space.
+ However,
+ without locality,
+ ensemble of global models do not solve mutual interference.
+ If the underlying models are global approximators like neural networks,
+ updating on a single point can still lead to changes in the entire parameter space,
+ potentially corrupting previously acquired knowledge.
+ This structural vulnerability leads to a conflict known as the Stability-Plasticity dilemma 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mermillod2013stability"
+literal "false"
+
+\end_inset
+
+,
+ which is explored in the following section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Global-Models-and-Stability-Plasticity"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Global Models and the Stability-Plasticity Dilemma
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Global-Models-and-Stability-Plasticity"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The transition to the Online Learning paradigm introduces new challenges and tensions on the internal representation of the models.
+ This tension is formalized as the Stability-Plasticity dilemma which describes the challenge of balancing conservation of previously acquired knowledge (memory stability),
+ with the ability to integrate new information from a non-stationary system (learning plasticity) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wang2023incorporating"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In Batch Learning,
+ global learners are widely used.
+ In global learning models,
+ the output is decided by the collective activation of all neurons within the system 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "xie2011comparison"
+literal "false"
+
+\end_inset
+
+.
+ Because these parameters have global support,
+ the gradient updates required to learn a new task or adapt to a concept drift can lear to mutual interference between the new and old tasks 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wang2023incorporating"
+literal "false"
+
+\end_inset
+
+.
+ Indeed,
+ a single update step can potentially have an impact on the entirety of the model.
+ This interference problem is more generally referred to as the Catastrophic Forgetting problem,
+ a phenomenon where parameter changes optimized for the current data distribution result in a dramatic performance drop on previously learned regions of the feature space 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "chaudhry2019continual,wang2023incorporating"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Simple global models such as linear regressions can be learned online and handle non-stationarity by incorporating discount factors in the learning procedure to prioritize recent observations 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jacobsen2024online"
+literal "false"
+
+\end_inset
+
+.
+ These approaches are computationally efficient and can be used for solving reinforcement learning problems 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "strehl2007online"
+literal "false"
+
+\end_inset
+
+.
+ However,
+ they are limited by the linearity assumption and fail to capture the complex non-linear relationships between inputs and outputs in most dynamical systems like neural networks can.
+ 
+\end_layout
+
+\begin_layout Standard
+In contrast,
+ neural networks can capture such complexities but are highly susceptible to Catastrophic Forgetting.
+ Beyond the Stability-Plasticity dilemma,
+ these models are typically static meaning that their internal complexity (number of layers and neurons) is fixed at design time and cannot adapt to the evolving complexity of the tackled problem.
+ Several strategies have been proposed to mitigate these effects in global learners.
+ 
+\emph on
+Regularization
+\emph default
+ methods (e.g Elastic Weight Consolidation) attempt to anchor important weights to preserve stability 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kirkpatrick2017overcoming"
+literal "false"
+
+\end_inset
+
+ but this often hurt the plasticity capabilities of the model,
+ preventing it to adapt to significant concept drifts.
+ 
+\emph on
+Replay
+\emph default
+ methods leverage episodic memory to re-train on past experiences to distillate old knowledge into the new one 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "chaudhry2019continual"
+literal "false"
+
+\end_inset
+
+ to prevent forgetting.
+ This trick is extensively used in Deep Reinforcement Learning to stabilize a inherently non-stationary learning procedure 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mnihHumanlevelControlDeep2015,schaul2015prioritized,andrychowicz2017hindsight"
+literal "false"
+
+\end_inset
+
+.
+ However,
+ it violates the single-pass constraint often associated with online learning as well as increasing the computational overhead.
+ Finally,
+ 
+\emph on
+Parameter Isolation
+\emph default
+ methods create specialized experts sub-models for different tasks 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "aljundi2017expert,Delange_2021"
+literal "false"
+
+\end_inset
+
+.
+ It tackles the catastrophic forgetting problem by isolating sets of parameters allowing dynamic creation and destruction of relevant experts.
+ While promising,
+ this meta-learning approach often struggles with a problem of unlimited growth of experts and the lack of a clear spatial logic to trigger the correct expert in continuous state spaces.
+\end_layout
+
+\begin_layout Standard
+Tree-based learners,
+ such as Hoeffding Trees 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "domingos2000mining"
+literal "false"
+
+\end_inset
+
+,
+ Online Random Forests 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "saffari2009line"
+literal "false"
+
+\end_inset
+
+ and Mondrian Forests 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lakshminarayanan2014mondrian"
+literal "false"
+
+\end_inset
+
+ offer an alternative to the neural networks which are widely considered as hard to interpret black-box models 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "yangSurveyLargeLanguage2023"
+literal "false"
+
+\end_inset
+
+.
+ They provide an interpretable symbolic structure from data streams.
+ As these approaches struggle with handling concept drift,
+ adaptive variants introducing structural modifications (adding concept drift detectors like ADWIN 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bifet2007learning"
+literal "false"
+
+\end_inset
+
+) have been developed.
+ Despite this,
+ they are prone to structural instability caused by pruning strategies that can induce rough performance loss if not carefully designed 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jiang2017forest"
+literal "false"
+
+\end_inset
+
+.
+ Furthermore,
+ from a control perspective traditional trees are non-differentiable due to hard logical splits which produce a discontinuous output surface with zero gradients making them incompatible with gradient optimization methods.
+ Attempts have been made to tackle this issue but they remain computationally inefficient 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hazimeh2020tree"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Based on the limitations mentioned above,
+ it would seem that global models struggle to handle non-stationarity due to global representations or structural difficulties to handle concept drift.
+ This suggests that local learning could be more appropriate to handle the challenges inherent to Online Learning.
+\end_layout
+
+\begin_layout Subsection
+Local Online Learning
+\end_layout
+
+\begin_layout Standard
+The limitations of global learners in non-stationary environments motivates the exploration of local learning methods which provide a structural solution and architecural solution to the Stability-Plasticity dilemma.
+ In local learners,
+ the learning updates are spatially isolated and outputs are determined by specific local parameters 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "xie2011comparison"
+literal "false"
+
+\end_inset
+
+.
+ By restricting the influence of a data point to a specific neighborhood,
+ these models achieve a natural form of Parameter Isolation,
+ where adaptation to new dynamics in one region of the feature space does not disrupt the knowledge stored in another non-related one.
+ 
+\end_layout
+
+\begin_layout Standard
+Beyond structural stability,
+ the adoption of local learning is supported by the requirement for interpretability.
+ In safety-critical systems,
+ interpretable white-box models should be preferred over black-box approximators to ensure trust and safety through transparent inner workings 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "rudin2019stop"
+literal "false"
+
+\end_inset
+
+.
+ Local learning naturally provides traceability in the prediction process,
+ provided that the local models are themselves interpretable.
+ In this context,
+ any prediction can be traced back to a specific,
+ localized set of parameters rather than being the result of an opaque global activation.
+\end_layout
+
+\begin_layout Standard
+The foundation of local learning lies in the k-Nearest Neighbors (kNN) algorithm 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "stone1977consistent,yu2002kernel"
+literal "false"
+
+\end_inset
+
+.
+ As a non-parametric approach,
+ kNN makes predictions solely based on the most resembling points stored in memory.
+ kNN can provide an intuitive mechanism to handle non-stationarity in an online learning setting through adaptive neighbor selection 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zhang2010real"
+literal "false"
+
+\end_inset
+
+.
+ However it is often limited by data density,
+ by poor generalization in sparse regions and by the high computational overhead induced by the search of nearest neighbors at prediction time,
+ making it hard to use in real-time control applications.
+\end_layout
+
+\begin_layout Standard
+To provide smoother approximations,
+ Locally Weighted Regression (LWR) extends the nearest neighbor search by fitting local models to the neighborhood of an input 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "atkeson1997locally"
+literal "false"
+
+\end_inset
+
+.
+ LWR has been leveraged successfully to learn forward and inverse dynamics models for control 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "atkeson1997LocallyControl"
+literal "false"
+
+\end_inset
+
+,
+ it suffers from significant drawbacks.
+ Indeed,
+ this approach is computationally inefficient as the database of stored points grows.
+\end_layout
+
+\begin_layout Standard
+To address the inefficiencies of LWR,
+ a set of incremental local expert models is maintained to replace raw data storage.
+ For example Radial Basis Function (RBF) networks 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "moody1989fast"
+literal "false"
+
+\end_inset
+
+ are a common approach.
+ The function underlying the data is approximated from the weighted combinations of spatialized local neurons.
+ However,
+ RBF Networks require the centers of local neurons to be fixed beforehand,
+ and the location of these centers plays a crucial role in the model's performance which is a major drawback in the case of online learning.
+ This issue has been addressed by designing methods in which neurons can be dynamically added or pruned to match the non-stationarity of a data stream 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "han2010research,jia2025online"
+literal "false"
+
+\end_inset
+
+.
+ Despite these adaptations,
+ RBF networks lack the flexibility required to accomodate the potentially evolving complexity of non-stationary dynamics.
+\end_layout
+
+\begin_layout Standard
+A notable reference approach in online learning for control is an scalable extension of LWR:
+ Locally Weighted Projection Regression (LWPR).
+ LWPR manages complex,
+ non-linear dynamics by maintaining a set of local linear models that are updated incrementally.
+ Each linear model is associated with a radial basis function.
+ The final prediction of the model is obtained by computing the average of the closest models weighted by the radial basis function value for the input.
+ More recent extensions have enabled this type of models to provide uncertainty quantification 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "meier2014incremental"
+literal "false"
+
+\end_inset
+
+,
+ bridging the gap between frequentist local models and probabilistic models like Gaussian Processes to improve safety guarantees when used in control contexts.
+ However,
+ LWPR tightly couples spatialization,
+ model structure and update logic,
+ limiting modularity and constraining all local experts to the same model class,
+ in this case linear regressions.
+\end_layout
+
+\begin_layout Standard
+The structural common points between various local learning systems suggest a converging architectural philosophy.
+ For exemple the kCELL algorithm presented in this thesis in Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Context-Ensemble-Local"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ (Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:kCELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+) shares the use of radial basis functions to spatialize experts to manage non-linearity and non-stationarity.
+ However,
+ the primary distinction lies in the learning procedure.
+ While traditional local learning rely on a centralized top-down update logic,
+ kCELL is driven by decentralized social feedbacks through a bottom-up design.
+ Local experts adapt based on peer interactions,
+ competition and cooperation rules rather than global optimization objectives.
+ This shift from statistical optimization to multi-agent self-organization represents a transition from 
+\emph on
+function approximation
+\emph default
+ to 
+\emph on
+emergent collective 
+\emph default
+behavior grounded in explicit local interaction mechanisms.
+\end_layout
+
+\begin_layout Standard
+Learning methods such as LWPR exhibit a tight coupling between the spatialization logic (how the space is partitioned) and their modeling logic (the local linear regressions).
+ This design limits the modularity and heterogeneity of the system.
+ In the case of LWPR,
+ local units are typically restricted to a single model type and more specifically to linear regressions.
+ A more modular architecture,
+ where the spatialization layer is agnostic of the internal model,
+ would allow for heterogeneous local models (e.g combining linear models with non-linear approximators).
+ Such a decoupling theoretically allows for more parsimonious representative systems where the modeling complexity of an expert can be matched to the local complexity of the data.
+ 
+\end_layout
+
+\begin_layout Standard
+Despite their advantages,
+ local learning systems remain vulnerable to the curse of dimensionality and uncontrolled growth in the number of experts if pruning and growth mechanisms are not carefully designed.
+ In this thesis we mostly tackle modularity through multi-agent social self-organization mechanisms for supervised online learning (cf.
+ Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Context-Ensemble-Local"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+ These mechanisms explicitely regulate expert creation,
+ adaptation and interactions,
+ ensuring a coherent global behavior emerging from local rules.
+\end_layout
+
+\begin_layout Standard
+In the following section,
+ the foundations of multi-agent systems for supervised online learning are explored.
+\end_layout
+
+\begin_layout Subsection
+Multiagent Local Learning
+\end_layout
+
+\begin_layout Subsection
+XAI and Uncertainty
 \end_layout
 
 \begin_layout Standard
@@ -3590,6 +5042,19 @@ Context Ensemble Local Learning (CELL)
 \begin_inset CommandInset label
 LatexCommand label
 name "chap:Context-Ensemble-Local"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Through oCELL we extend the multiagent learning towards regression tasks and show potential for introspection then with kCELL we demonstrate the non-stationary learning capabilities.
+\end_layout
 
 \end_inset
 
@@ -11193,7 +12658,7 @@ A first limitation concerns the neighborhood prediction mechanism.
  Despite this,
  all agents contributing to a prediction currently receive equal weight.
  This is an artifact of the uniform-knowledge assumption.
- A more principle approach would weight each agent according to its estimated local expertise level at the query point.
+ A more principle approach would weight each agent according to its estimated local expertise level at the input point.
 \end_layout
 
 \begin_layout Standard
@@ -15422,7 +16887,7 @@ nolink "false"
 \end_layout
 
 \begin_layout Standard
-From a set of 1000 query points,
+From a set of 1000 input points,
  the time to find the 5-nearest neighbors is measured and averaged across 3 cycles.
  Figure 
 \begin_inset CommandInset ref
@@ -16012,7 +17477,7 @@ In MPC,
 \end_inset
 
 ,
- the local affine model around a query point 
+ the local affine model around a input point 
 \begin_inset Formula $x_{t}$
 \end_inset
 
@@ -16186,7 +17651,7 @@ nolink "false"
 \end_inset
 
 ,
- for a query point 
+ for a input point 
 \begin_inset Formula $x_{t}=\left[s_{t},u_{t}\right]$
 \end_inset
 
@@ -16818,6 +18283,201 @@ Coverage (in %)
 \begin_layout Plain Layout
 
 \series bold
+\begin_inset Formula $\mathbf{82.7\pm4}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset Formula $\mathbf{80.8\pm4}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $62.4\pm11$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $10.5\pm5$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset VSpace smallskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Measured state space coverage ratio (in %) after 5000 exploration steps.
+ Best scores are highlighted in bold.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Space-Coverage"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+resizebox{0.95
+\backslash
+columnwidth}{!}{
+\end_layout
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Disagreement (ours)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Distance (ours)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Random Uniform
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Full Exploitation
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Coverage (in %)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
 \begin_inset Formula $\mathbf{58.6\pm5}$
 \end_inset
 
@@ -16894,12 +18554,17 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Measured state space coverage ratio (in %) after 5000 exploration steps.
+Measured state space coverage ratio (in %) after 2000 exploration steps.
  Best scores are highlighted in bold.
  
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:Space-Coverage"
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -19664,6 +21329,19 @@ Conclusion and Future Works
 \begin_inset CommandInset label
 LatexCommand label
 name "chap:Conclusion"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Mention similarities with LWPR and 
+\end_layout
 
 \end_inset
 
