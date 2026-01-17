@@ -97,7 +97,7 @@ linguistics
 \papersides 1
 \paperpagestyle default
 \tablestyle default
-\tracking_changes false
+\tracking_changes true
 \output_changes false
 \change_bars false
 \postpone_fragile_content true
@@ -106,6 +106,7 @@ linguistics
 \html_be_strict false
 \docbook_table_output 0
 \docbook_mathml_prefix 1
+\author -94747824 "uif72473"
 \end_header
 
 \begin_body
@@ -126,6 +127,14 @@ Adaptive Control via Bottom-Up Local Online Learning
 \end_inset
 
 
+\change_inserted -94747824 1768642058
+
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted -94747824 1768642059
+Abstract
 \end_layout
 
 \begin_layout Standard
@@ -135,10 +144,684 @@ LatexCommand tableofcontents
 \end_inset
 
 
+\change_inserted -94747824 1768637069
+
+\end_layout
+
+\begin_layout Chapter*
+
+\change_inserted -94747824 1768641898
+General Introduction
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768641934
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768641973
+
+
+\backslash
+addcontentsline{toc}{chapter}{General Introduction}
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768640738
+In modern robotics,
+ a robot can be defined by its ability to sense,
+ think and act 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "siegel2003sense"
+literal "false"
+
+\end_inset
+
+.
+ As of the 21st century,
+ this paradigm is currently undergoing a profound transformation.
+ In modern systems,
+ a fourth component emerges as indispensable.
+ This evolution represents a transition from robots as isolated industrial units to robots as collaborative partners 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "baratta2023human"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768640574
+As we move from the technology-driven era of industry 4.0 toward the anthropocentric vision of Industry 5.0,
+ the focus is shifting back to the human operator 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "baratta2023human"
+literal "false"
+
+\end_inset
+
+ in the objective of building a synergy between machines and humans.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768640901
+Robots need to move beyond being mere executors of pre-programmed tasks to penetrate consumer markets and more complex social environments.
+ This requires developing social skills and advanced learning capabilities to achieve true synergy with human partners.
+ This synergy strongly relies the ability of a system to not only perceive its environment but to also adapt its behavior to the uncertain dynamics introduced by human presence.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768641068
+This shift is especially present in the field of intelligent mobility.
+ Nowadays,
+ autonomous vehicles technologies are developing rapidly.
+ Some companies in the US like Waymo or Baidu in China,
+ already moved toward a driverless future by proposing autonomous taxi services.
+ However,
+ the reality of the consumer market must be nuanced.
+ Current projections suggest that full market saturation by autonomous vehicles may not occur until the 2050s 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lavasani2016market"
+literal "false"
+
+\end_inset
+
+.
+ For now,
+ the human driver will remain a central component of the transport ecosystem.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768641156
+Consequently,
+ developing Advanced Driver Assistance Systems (ADAS) is of public utility.
+ Technologies such as Adaptive Cruise Control (ACC) and Electronic Braking Systems (EBS) are essential to bridge the gap between manual driving and full autonomy.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768641256
+In particular,
+ given the obvious correlation between speed mismanagement and road fatalities,
+ the development of Intelligent Speed Assis (ISA) systems has become a major concern for global road safety.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768641362
+In some sense,
+ an ISA system can be conceptualized as a robot.
+ Its 
+\begin_inset Quotes eld
+\end_inset
+
+body
+\begin_inset Quotes erd
+\end_inset
+
+ is the vehicle,
+ its 
+\begin_inset Quotes eld
+\end_inset
+
+senses
+\begin_inset Quotes erd
+\end_inset
+
+ are the suite of on-board sensors,
+ its 
+\begin_inset Quotes eld
+\end_inset
+
+thoughts
+\begin_inset Quotes erd
+\end_inset
+
+ are the algorithms running on electronic control units and its 
+\begin_inset Quotes eld
+\end_inset
+
+actions
+\begin_inset Quotes erd
+\end_inset
+
+ are the recommendation of speed set points communicated to the driver.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768656292
+This setting represents a unique Human-Robot Collaboration (HRC) challenge.
+ Including the human in the loop introduces a significant layer of uncertainty and non-stationrity.
+ To be effective,
+ the system cannot remain static and must be able to anticipate driver intent,
+ consider behavioral variability and adapt to continuously changing driving contexts.
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted -94747824 1768642002
+Contributions
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768656308
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768642012
+
+
+\backslash
+addcontentsline{toc}{section}{Contributions}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768656481
+In this thesis explores the foundational challenges induced by this collaboration are explored through the prism of adaptive control with a continuously learning dynamic model.
+ To address these challenges,
+ the use of self-organizing mutli-agent systems for supervised learning is explored.
+ Such systems offer rapid adaptation by decomposing a complex learning task into a set of local cooperation rules between specialized local experts.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768657447
+Throughout this research work,
+ we demonstrate that the bottom-up social feedback and the local nature of these agents do more than just enable adaptation.
+ They provide inherent introspection capabilities that can be linked to traditional interpretability and explainability literature.
+ In addition to that we show that these properties can be leveraged to enhance the optimization process in Model Predictive Control (MPC) to influence exploration or exploitation.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768658510
+Our contributions are structured along two primary axes.
+ On one hand,
+ we contribute to the field of online learning by introducing the CELL (Context Ensemble Local Learning) formalism.
+ It provides the theoretical foundations for local adaptations that allow for online learning in non-stationary envrionments from a stream of data.
+ We propose three specific instantiations of CELL,
+ namely oCELL,
+ kCELL and sgpCELL.
+ We demonstrate through experiments their ability to solve regression tasks while maintaining a meaningful spatialization of knowledge.
+ The local nature and bottom-up social feedbacks of the learning procedure leads to the emergence of powerful introspection properties 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "blanco2024explainability"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768658944
+On the other hand,
+ we provide contributions to the field of control with learned models.
+ We investigate how the introspection capabilities of the CELL models can be leveraged to improve the reliability of autonomous systems.
+ Specifically,
+ we integrate the kCELL model into a MPC pipeline,
+ where the model's introspection properties are used to guide data collection through uncertainty-aware exploration and to safeguard the system during exploitation by avoiding poorly modeled regions.
+ In addition to that,
+ we exploit the structure of the local agents to develop a novel explainability approach that quantifies the influence of constraints on the final control decisions.
+ 
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted -94747824 1768642006
+Outline of the Thesis
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768658998
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768642019
+
+
+\backslash
+addcontentsline{toc}{section}{Outline of the Thesis}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768676728
+This thesis is structured as following (cf.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Outline-of-the-Thesis"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ for the illustrated version):
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768660557
+Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Introduction"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ introduces the industrial and regulatory context of this thesis which originates from industrial requirements from AUMOVIO.
+ It establishes the scientific abstraction process from a speed recommendation task to the more generalist challenge of adaptive control for non-stationary systems with unknown dynamics.
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768659930
+Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:State-of-the-Art"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ provides a comprehensive review of literature regarding online learning methods and control strategies.
+ It positions the research works of this thesis at the intersection of these two fields by identifying the specific research gaps related to real-time adaptation.
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768660391
+Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Context-Ensemble-Local"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ introduces the CELL formalism and detail the iterative development of oCELL and kCELL algorithms.
+ It also presents some experiments that demonstrate how local cooperation rules enable for learning and adaptation.
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768659970
+Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Solving-Control-Tasks"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ presents the integration of kCELL into a MPC scheme.
+ The mechanisms of uncertainty-aware exploration and exploitation are detailed.
+ In addition to that,
+ a novel explanation method for controllers is proposed to analyze the influence of constraints in the optimization process.
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768660189
+Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Scalable-Non-Linear-CELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ exposes prospective works aimed at overcoming the curse of dimensionality and demonstrating the possibilities offered by the modularity of multi-agent systems for learning.
+ We define sgpCELL,
+ a new instantiation of CELL aiming at making Gaussian Processes scale to higher number of data points.
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768660259
+Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Industrial-use-Case"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ returns to the initial industrial motivation of this thesis discussing the applications of the developed methods for intelligent speed recommendation under an engineering point of view.
+\change_unchanged
+
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768672383
+Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Conclusion"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ summarizes the contributions of this work and discusses the broader implications for adaptive control with learned models.
+ It also highlights the future directions for research.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768637133
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768569886
+Intro générale => faire comme thibault
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637546
+1 paragraphe explicatif + contributions + plan de la thèse
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768672386
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768639062
+Definition of Robot => modern robotics defines a robot by its ability to sense,
+ think and act.
+ Nowadays,
+ some argue that the 
+\begin_inset Quotes eld
+\end_inset
+
+communicate
+\begin_inset Quotes erd
+\end_inset
+
+ functionality can be added to this list.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "siegel2003sense"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768637890
+\begin_inset CommandInset citation
+LatexCommand cite
+key "baratta2023human"
+literal "false"
+
+\end_inset
+
+ Review about human robot collaboration in industry.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\change_inserted -94747824 1768637890
+The paper identifies HRC as a foundational pillar of Industry 4.0 that is rapidly evolving into a core component of Industry 5.0.
+ While Industry 4.0 focused on technological development,
+ Industry 5.0 is expected to be more anthropocentric,
+ placing the human operator back at the center of industrial processes.
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768637890
+Robots are moving away from being simple tools to becoming partners with social skills => prerequisite for consumer market penetration
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768638233
+Need for robots with advanced learning capabilities to achieve better synergy in complex and dynamic environments => autonomous adaptation and social adaptation to human partners
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768638269
+However,
+ the autonomous vehicles industry is not mature enough and human drivers will remain for a long time 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\change_inserted -94747824 1768638140
+In mobility,
+ research around autonomous cars are developing rapidly.
+ Some companies event proposing autonomous taxi services like Waymo in the US or Baidu in China.
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768638613
+However those technologies are not mature enough at the current time.
+ Some studies predcit 80-100% market saturation by the 2050s 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lavasani2016market"
+literal "false"
+
+\end_inset
+
+.
+ So the human driver is here to stay for some time.
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768638867
+So the development of Advanced Driver Assistance Systems (ADAS) are of public utility to improve road safety.
+ => ACC,
+ EBS,
+ ISA,
+ etc...
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768638953
+Excesses and mismanagement of speed on the roads have been proven to be positively correlated to the occurence of accidents with injuries and fatalities 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "hauerSpeedSafety2009,elvikSpeedRoadSafety2005"
+literal "false"
+
+\end_inset
+
+ => This motivates the development of devices like Intelligent Speed Assist to assist drivers to modulate their speed in order to stay safe.
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768639203
+In some sense,
+ Intelligent Speed Assist systems that recommend speed to the driver can be considered as robots whose body is the car and that are able to sense from the sensors,
+ to think with on-board computation devices and to act by recommending a speed set point which is communicated to the driver on-board.
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768640235
+This human robot collaboration setting poses several engineering and research challenges.
+ Including the human in the loop adds a significant amount of uncertainties that need to be considered by the device to maximize its efficiency.
+ Moreover,
+ those systems should be able to adapt to significant behavior changes of users.
+ This force the use continuously adapting systems.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768672393
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+
+\change_inserted -94747824 1768672444
+\begin_inset Graphics
+	filename assets/PhD_Structure.pdf
+	lyxscale 30
+	darkModeSensitive
+	height 70pheight%
+
+\end_inset
+
+
+\change_unchanged
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768672393
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768676686
+Outline of the Thesis
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Outline-of-the-Thesis"
+
+\end_inset
+
+
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\change_unchanged
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter
+
+\change_deleted -94747824 1768570078
 Introduction
+\change_inserted -94747824 1768573926
+From Speed Recommendation to Adaptive Control
+\change_unchanged
+
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:Introduction"
+
+\end_inset
+
+
+\change_inserted -94747824 1768569340
+
 \end_layout
 
 \begin_layout Standard
@@ -211,18 +894,35 @@ To bridge the gap between performant autonomous approaches and speed recommendat
 \end_layout
 
 \begin_layout Standard
-This research investigates the use of local online learning methods based on multi-agent self organization mechanisms to control complex,
+This research investigates the use of local online learning methods based on self-organized multi-agent systems to control complex,
  non-stationary systems where the underlying dynamics are unknown beforehand.
  
 \end_layout
 
 \begin_layout Standard
-While this work was initiated within the industrial framework of Intelligent Speed Recommendation for the automotive sector,
+While this work was initiated within the industrial context of Intelligent Speed Recommendation for the automotive sector,
  we came to the conclusion that the fundamental scientific bottleneck lies in the ability of a controller to adapt continuously to non-stationary dynamics.
 \end_layout
 
 \begin_layout Standard
-We structure the remainder of this introductory chapter as following.
+The remainder of this introductory chapter is structured as following.
+
+\change_inserted -94747824 1768513257
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Industrial-Context"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ exposes the industrial context of this thesis.
+
+\change_unchanged
  Section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -253,7 +953,7 @@ nolink "false"
  Section 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:Contributions"
+reference "sec:Research-Questions"
 plural "false"
 caps "false"
 noprefix "false"
@@ -262,7 +962,13 @@ nolink "false"
 \end_inset
 
 ,
- exposes a summary of all the contributions of our work to the fields of 
+ exposes 
+\change_inserted -94747824 1768688633
+the research questions framing the works of this thesis into
+\change_deleted -94747824 1768688637
+a summary of all the contributions of our work to
+\change_unchanged
+ the fields of 
 \emph on
 online learning
 \emph default
@@ -271,6 +977,397 @@ online learning
 control with learned models
 \emph default
 .
+\change_inserted -94747824 1768513159
+
+\end_layout
+
+\begin_layout Section
+
+\change_inserted -94747824 1768558958
+Industrial Context
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Industrial-Context"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768558958
+This doctoral research is conducted under a CIFRE funding in partnership with AUMOVIO,
+ a global supplier specialized in automotive engineering and mobility solutions.
+ AUMOVIO develops hardware,
+ software and systems to make mobility safe,
+ connected,
+ autonomous and more intelligent.
+ The strategic vision of the company is rooted in the Software-Defined Vehicle (SDV) philosophy.
+ By decoupling hardware and software development cycles,
+ the company aims to leverage its ecosystem of sensors,
+ including radar and vision systems to build more intelligent and adaptive Advanced Driver Assistance Systems (ADAS).
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768558958
+Speed management remains the most significant lever for improving road safety.
+ Excessive speed is a primary factor in serious accidents,
+ affecting both driver's reaction time and the physical limits of the vehicle's braking.
+ Research has consistently demonstrated a direct,
+ non-linear relationship between speed and fatality risk.
+ For instance,
+ empirical crash data suggests that the probability of a fatality in a collision grows exponentially with speed,
+ while the risk is about 10% at 40km/h,
+ surging to over 80% at 80km/h 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hussain2019relationship"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768558958
+Despite these risks,
+ drivers often fail to maintain sage speeds due to environmental complexity,
+ missing signage or adverse weather conditions.
+ While passive safety systems such as airbags and seatbelts provide essential reactive protection,
+ they are often insufficient to preserve physical integrity during high-speed impacts,
+ making active speed management a priority for the automotive industry.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768559046
+To address these challenges,
+ the European Transport Safety Council (ETSC) recommends the deployment of Intelligent Speed Assistance (ISA) (cf.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Illustration-of-ISA"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+ This system is designed to inform the drivers about legal speed limits and encourage compliance.
+ They argue that it has the potential to reduce road collisions by 30% and fatalities by 20% 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "etsc2017isa"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768558958
+Beyon safety,
+ speed management increasingly intersects with broder logistical and environmental goals,
+ such as reducing fuel consumption,
+ improving passenger comfort and optimizing estimated times of arrival.
+ This has led to significant regulatory changes:
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768558958
+As of July 6,
+ 2022:
+ The European Union mandated that all new vehicle types must be equipped with ISA.
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768558958
+AS of July 7,
+ 2024:
+ This requirement was extended to all new vehicles sold within the EU market 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "eu2019regulation"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768558958
+A critical aspect of the current European regulation 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "eu2021delegated"
+literal "false"
+
+\end_inset
+
+ is the preservation of driver authority over the system.
+ The ISA system must be overridable (e.g through a maintained pressure on the accelerator) and allow for manual deactivation during a journey.
+ This ensures that the system acts as a collaborative assistant rather than an autonomous override.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768558970
+For AUMOVIO,
+ this creates a significant engineering and scientific challenge to make the most out of this kind of systems.
+ The system must provide recommendations that are effective enough to ensure safety and efficiency,
+ yet intuitive enough to be accepted by a human driver who retains ultimate control.
+ As it is explored in subsequent sections,
+ the success of such systems depends on the controller's ability to adapt to the inherent non-stationarity of human behavior under various driving contexts.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768558970
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+
+\change_inserted -94747824 1768558970
+\begin_inset Graphics
+	filename assets/images/etscISA.png
+	lyxscale 35
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768558970
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768559007
+Illustration of what is Intelligent Speed Assistance from the european safety council 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "etsc2018isa"
+literal "false"
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Illustration-of-ISA"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768515931
+\begin_inset Note Note
+status open
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768550639
+CIFRE financing by AUMOVIO
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768550713
+AUMOVIO focuses on software defined vehicles philosophy separating hardware and software development cycles to build more intelligent Advanced Driver Assistance Systems (ADAS).
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768550697
+AUMOVIO develops ADAS systems
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768550410
+AUMOVIO provides
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\change_inserted -94747824 1768550442
+various sensors (speed,
+ chassis accelerometer)
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768550555
+radar systems
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768550558
+camera systems
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768550521
+Control Units for heavy vehicles
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768550858
+Electronic Brake Systems
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\change_inserted -94747824 1768552002
+Excessive speed is a major factor for serious car accidents.
+ Speed impacts on both the driver ability to react to events and on the vehicle’s components (general structure,
+ braking systems ...).
+ There is a relationship between speed and road safety 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "elvik2004speed"
+literal "false"
+
+\end_inset
+
+ and even small increases in speed can significantly raise the risk of fatal injuries 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "elvik2009power"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768552278
+Drivers may not always be aware of the safe speed limit due to complex traffic situations,
+ missing speed limit signs,
+ or weather conditions.
+ During a high-speed impact,
+ security systems like airbag or security belt are not enough to protect physical integrity.
+ As an example,
+ fatality probability in car-to-car or car-to-pedestrian crashes is about 10% at 40 kph,
+ 50% at 60 kph,
+ and over 80% at 80 kph,
+ based on empirical models from crash data 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hussain2019relationship"
+literal "false"
+
+\end_inset
+
+ => exponential growth of fatality probability depending on speed.
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768552459
+The European Transport Safety Council (ETSC) proposes a system to inform the driver on the legal speed.
+ This system,
+ named ISA (Intelligent Speed Assistance) is expected to reduce collisions by 30% and deaths by 20% 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "etsc2017isa"
+literal "false"
+
+\end_inset
+
+.
+ The purpose of Intelligent Speed Assist (ISA) systems is to help drivers acknowledge the best speed so they can be sure that their safety will be guaranteed.
+ In addition to safety concerns,
+ speed choice impacts other driving aspects such as fuel consumption,
+ passengers’ comfort,
+ estimated time of arrival,
+ among others.
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768552646
+As of July 6,
+ 2022,
+ the EU mandated that all new types of vehicles must be equipped with ISA.
+ As of July 7,
+ 2024,
+ this requirement applies to all new vehicles sold in the EU.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "eu2019regulation"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768553377
+The system must be overridable (e.g.,
+ by pressing the accelerator harder) and must allow for manual deactivation for the duration of a journey.
+ However,
+ it must automatically reset to "On" every time the vehicle is restarted.
+ => the driver must keep ultimate authority + the driver need to be informed mearning the ISA system does not take over 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "eu2021delegated"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\change_unchanged
+
 \end_layout
 
 \begin_layout Section
@@ -323,12 +1420,12 @@ literal "false"
 
 .
  Consequently,
- developing speed management technologies that help drivers maintain safe and efficient speeds is essential for public safety and for the sustainable development of the automotive industry.
+ developing speed management systems that help drivers maintain safe and efficient speeds is essential for public safety and for the sustainable development of the automotive industry.
 \end_layout
 
 \begin_layout Standard
 From an industrial perspective,
- the main challenge for developing intelligent speed recommendation devices lies in designing a system that effectively influence vehicle speed while maintaining a high level of user acceptance,
+ the main challenge for developing intelligent speed recommendation systems lies in designing a system that effectively influence vehicle speed while maintaining a high level of user acceptance,
  safety and energy efficiency.
  As the driver can chose to 
 \emph on
@@ -365,7 +1462,9 @@ nolink "false"
 \emph on
 Open-Loop
 \emph default
- systems presented in Section 
+ systems 
+\change_deleted -94747824 1768513738
+presented in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:Open-Loop"
@@ -376,13 +1475,17 @@ nolink "false"
 
 \end_inset
 
+
+\change_unchanged
  comprise mainly advisory systems that do not consider any form of feedback from the vehicle state or driver response to recommendation set points.
  On the other hand,
  
 \emph on
 Closed-Loop
 \emph default
- systems presented in Section 
+ systems 
+\change_deleted -94747824 1768513745
+presented in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:Closed-Loop"
@@ -393,11 +1496,15 @@ nolink "false"
 
 \end_inset
 
+
+\change_unchanged
  consider feedbacks from the vehicle state,
  removing the driver from the execution loop,
  enabling for safety guarantees,
- and stability and self correction.
- Finally,
+ stability and self correction.
+ 
+\change_deleted -94747824 1768685037
+Finally,
  Section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -410,6 +1517,8 @@ nolink "false"
 \end_inset
 
  presents a synthesis of research gaps identified after analysis of the literature.
+
+\change_unchanged
  
 \begin_inset Float figure
 placement document
@@ -566,9 +1675,13 @@ Taxonomy of Vehicle Speed Management approaches
 \end_inset
 
 
+\change_inserted -94747824 1768554274
+
 \end_layout
 
 \begin_layout Subsection
+
+\change_deleted -94747824 1768513702
 Open-Loop
 \begin_inset CommandInset label
 LatexCommand label
@@ -576,6 +1689,8 @@ name "subsec:Open-Loop"
 
 \end_inset
 
+
+\change_unchanged
 
 \end_layout
 
@@ -607,7 +1722,6 @@ literal "false"
 
 \end_inset
 
-,
  into recommended speed profiles.
  Among the proposed approaches,
  some employ advanced optimization techniques like Pontryagin's Maximum Principle 
@@ -619,7 +1733,7 @@ literal "false"
 \end_inset
 
  to maximize energy efficiency.
- Others rely on passive infrastructure-based interventions ranging from physical enforcements via road bumps 
+ Others rely on passive infrastructure-based solutions ranging from physical speed enforcements via road bumps 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "salauVehicleSpeedControl2004"
@@ -635,7 +1749,6 @@ literal "false"
 
 \end_inset
 
-,
  aiming at increasing speed awareness through environmental design.
  
 \end_layout
@@ -798,6 +1911,8 @@ literal "false"
 \end_layout
 
 \begin_layout Subsection
+
+\change_deleted -94747824 1768513693
 Closed-Loop
 \begin_inset CommandInset label
 LatexCommand label
@@ -805,6 +1920,8 @@ name "subsec:Closed-Loop"
 
 \end_inset
 
+
+\change_unchanged
 
 \end_layout
 
@@ -829,7 +1946,7 @@ data-driven
 
 \begin_layout Standard
 On the one hand,
- model-based online planning approaches rely extensively on approaches on physical models of the vehicle coupled with Model Predictive Control (MPC) 
+ model-based online planning approaches rely extensively on physical models of the vehicle coupled with Model Predictive Control (MPC) 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "asadiPredictiveCruiseControl2010,kamalModelPredictiveControl2012,hanSafeEcoDrivingControl2018"
@@ -877,14 +1994,14 @@ literal "false"
  to solve the optimization problems.
  These methods offer rigorous safety and stability guarantees as they rely on pre-defined physical models coupled with control theory.
  However,
- the main limitation exposed for open-loops systems remains,
- as the human driver is excluded form the control loop,
+ the main limitation exposed for open-loops systems remains.
+ The human driver is excluded from the control loop,
  resulting in mostly unusable systems when considering a human driver controlling the vehicle.
  Moreover,
  the capabilities of the resulting controllers depend on the accuracy of the physical models used.
  To ensure the controller operates in real-time,
- it is often necessary to make compromises on the complexity and accuracy of the physical model,
- making it more difficult to handle larger number of variables.
+ it is often necessary to make compromises between the complexity and accuracy of the physical model,
+ making it difficult to handle large number of variables.
 \end_layout
 
 \begin_layout Standard
@@ -893,7 +2010,7 @@ On the other hand,
  particularly for capturing complex,
  non-linear behaviors that are difficult to formalize analytically.
  By leveraging Reinforcement Learning,
- data-driven approaches simplify multi-objective optimization through the design of reward functions that balance energy,
+ data-driven approaches also simplify multi-objective optimization through the design of reward functions that balance energy,
  safety and comfort 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -944,7 +2061,7 @@ literal "false"
  Furthermore,
  compared to model-based methods,
  data-driven controllers lack formal safety and stability guarantees.
- They mostly rely on neural networks which make enforcing hard constraints difficult in safety-critical control systems due to the brittleness of their predictions outside the training distribution and to the interpretability of their inner workings 
+ They mostly rely on neural networks which make enforcing hard constraints difficult in safety-critical control systems due to the brittleness of their predictions outside the training distribution and to the lack of interpretability of their inner workings 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "zhang2020testing"
@@ -953,8 +2070,8 @@ literal "false"
 \end_inset
 
 .
- Neural networks can be very successful but are black-boxes that are hard to trust and validate.
- Specifically in industrial safety critical use cases,
+ Neural networks can be very efficient but are black-boxes that are hard to trust and validate.
+ Specifically in industrial safety-critical use cases,
  the use of neural networks is mostly reduced to small certifiable networks,
  largely limiting the scalability potential 
 \begin_inset CommandInset citation
@@ -970,9 +2087,10 @@ literal "false"
 \begin_layout Standard
 Despite their differences,
  both model-based and data-driven closed-loop architectures share a common limitation:
- they prioritize the autonomy of the vehicle denying authority of the driver on their vehicle.
- Human-in-the-Loop (HitL) systems seek to tackle this limitation.
- These approaches attempt to reintegrate the driver into the control loop by treating human behavior as a dynamic variable of the problem rather than ignoring it by considering vehicle autonomy.
+ they prioritize the autonomy of the vehicle,
+ denying authority of the driver.
+ Human-in-the-Loop (HitL) systems seek to address this limitation.
+ These approaches attempt to reintegrate the driver into the control loop by treating human behavior as a dynamic variable of the problem rather than ignoring it.
  In this field,
  literature focuses on personalizing speed recommendations by monitoring physiological signals such as heart rate to model stress levels 
 \begin_inset CommandInset citation
@@ -992,7 +2110,7 @@ literal "false"
 \end_inset
 
 .
- Other works use simple online reinforcement learning strategies to steer cloud-based planning toward the driver's historical preferences 
+ Other works use simple online reinforcement learning strategies to steer the static cloud-based planning toward the driver's historical preferences 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "ozatayCloudBasedVelocityProfile2014"
@@ -1009,7 +2127,7 @@ literal "false"
 \end_inset
 
 .
- These approaches represent significant step toward driver consideration into closed-loop systems.
+ These approaches represent significant steps toward driver consideration into closed-loop systems.
  However,
  they still remain limited by their offline nature.
  Most of these HitL systems are built upon static databases or pre-trained driver profiles that fail to account for the variability of human driving behaviors and for the non-stationarity of those behaviors that can evolve over time.
@@ -1020,6 +2138,8 @@ literal "false"
 \end_layout
 
 \begin_layout Subsection
+
+\change_deleted -94747824 1768685053
 Synthesis and Research Gap
 \begin_inset CommandInset label
 LatexCommand label
@@ -1028,11 +2148,13 @@ name "subsec:Synthesis-and-Research-Gap"
 \end_inset
 
 
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
-The review of the literature on speed management systems reveals a significant gap in the state of the art.
- Open-loop advisory systems respect driver's autonomy but lack the consideration of feedbacks on driver's behavior to ensure high effectiveness.
+The research literature on speed management systems reveals a significant gap in the state-of-the-art.
+ Open-loop advisory systems respect driver's autonomy but lack the consideration of feedbacks on driver's behavior to ensure high effectiveness through acceptance.
  Conversely,
  closed-loop autonomous systems offer high performance and theoretical guarantees but exclude the human driver from the execution loop.
  Finally,
@@ -1545,7 +2667,7 @@ Consequently,
  Given the non-stationarity and complexity of human behavior,
  this plant cannot be described by a static physical model.
  Instead,
- it must be continuously learned online from experience.
+ it is non-stationary and it must be continuously learned online from experience.
  Formulated in this way,
  the speed recommendation problem is abstracted into a problem of Adaptive Control that can be decomposed into two subproblems:
  
@@ -1587,7 +2709,7 @@ First,
 
 \begin_layout Standard
 Then,
- the optimal control with learned model subproblem consists in the derivation of a control law that minimizes a cost function 
+ the control with learned model subproblem consists in the derivation of a control law that minimizes a cost function 
 \begin_inset Formula $J$
 \end_inset
 
@@ -1607,7 +2729,7 @@ To solve these subproblems in a non-stationary environment,
  we argue for the necessity of using a local learning approach in which the feature space is partitioned into regions managed by local experts.
  This choice is driven by the requirements for interpretability and real-time adaptability.
  In the context of HRC,
- interpretability may not be a strict mathematical requirement for control but it is a functional necessity to ensure system certifiability 
+ interpretability may not be a strict mathematical requirement for control but it is a functional necessity to ensure the certifiability of the system 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "kress2021formalizing"
@@ -1626,16 +2748,9 @@ literal "false"
 .
  For safety,
  industrial standards require that the internal models driving the system's decisions be traceable and verifiable.
- This task remains notoriously difficult with black-box global approximators.
+ This task remains notoriously difficult with black-box global approximators like neural networks.
  For HRC,
  a human is more likely to accept and cooperate with a system whose behavior is predicatble and grounded in transparent logic.
-\end_layout
-
-\begin_layout Standard
-Local learning provides transparency by decomposing complex global dynamics into a set of specialized local models.
- Unlike global architectures where a single weight update can unpredictably affect the entire model,
- a local learning approach can ensure that any update stays local.
- This spatialization ensures that any prediction is traceable to a specific region of the feature space.
 \end_layout
 
 \begin_layout Standard
@@ -1657,13 +2772,26 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
+Local learning provides transparency by decomposing complex global dynamics into a set of specialized local models.
+ Unlike global architectures where a single weight update can unpredictably affect the entire model,
+ a local learning approach can ensure that any update stays local.
+ This spatialization ensures that any prediction is traceable to a specific region of the feature space.
+\end_layout
+
+\begin_layout Standard
 The long-term goal of this research is to enable efficient HRC,
  specifically in the automotive sector.
  This goal depends on the reliability of the underlying control architecture.
  Therefore,
  this thesis does not address the high-level social or psychological aspects of HRC but rather the foundational subproblems required to make the best out of HRC:
  local online learning and control with learned models.
- The following section details our contributions to these two research fields.
+ The following section details 
+\change_deleted -94747824 1768687856
+our contributions to these two research fields
+\change_inserted -94747824 1768687869
+the research questions that shape the goal of this thesis
+\change_unchanged
+.
 \end_layout
 
 \begin_layout Standard
@@ -1730,9 +2858,95 @@ To bridge the gap between performant autonomous approaches and speed recommendat
 \end_inset
 
 
+\change_inserted -94747824 1768685126
+
 \end_layout
 
 \begin_layout Section
+
+\change_inserted -94747824 1768688561
+Research Questions
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Research-Questions"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768685153
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768687815
+RQ1:
+ How can a learning architecture continuously model non-linear,
+ non-stationary dynamics from an online stream of data while avoiding catastrophic forgetting ?
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768687815
+RQ2:
+ How can a learning-based controller adapt continuously to non-stationary dynamics while maintaining reliability and safety ?
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\change_unchanged
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768688005
+The industrial and scientific challenges detailed in previous sections highlight a tension between the need for continuous adaptation and the requirement for reliability.
+ To guide the works of this thesis and provide robust contributions,
+ we investigate the two following research questions:
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768688042
+
+\series bold
+Online Learning of Non-Stationary Dynamics
+\series default
+:
+ How can a learning architecture continuously model non-linear,
+ non-stationary dynamics from an online stream of data while avoiding catastrophic forgetting?
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768688067
+
+\series bold
+Reliability in Learning-Based Control
+\series default
+:
+ How can a learning-based controller adapt continuously to non-stationary dynamics while maintaining reliability and safety ?
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768688227
+The resolution of these questions lies at the intersection of two research fields.
+ This thesis works borrow from both machine learning and control theory.
+ The following chapter provides a comprehensive review of literature organized around these two research axes.
+\end_layout
+
+\begin_layout Section
+
+\change_deleted -94747824 1768688478
 Contributions
 \begin_inset CommandInset label
 LatexCommand label
@@ -1744,15 +2958,19 @@ name "sec:Contributions"
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -94747824 1768688478
 This thesis addresses the problem of controlling complex,
  non-stationary systems with unknown dynamics with local online learning models under interpretability and explainability requirements.
  The contributions are organized around three axes:
  local online learning,
- control using learned models and prospective directions towards scalability and handling higher-dimensional problems.
+ control using learned models and prospective directions towards scalability and refining of local representations in multi-agent systems for online learning.
  
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -94747824 1768688478
 This section is structured as following.
  Section 
 \begin_inset CommandInset ref
@@ -1778,7 +2996,7 @@ nolink "false"
 \end_inset
 
 ,
- presents the contributions about control with learned models.
+ exposes the contributions about control with learned models.
  Section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -1791,7 +3009,7 @@ nolink "false"
 \end_inset
 
 ,
- presents the contributions made as prospective works conducted towards more scalable and more performant local learning systems for control.
+ provides an overview of the contributions made as prospective works conducted towards more scalable and more performant local multi-agent learning systems for control.
  Finally,
  Section 
 \begin_inset CommandInset ref
@@ -1804,10 +3022,12 @@ nolink "false"
 
 \end_inset
 
- presents the global structure of this thesis.
+ introduces the global structure of this thesis.
 \end_layout
 
 \begin_layout Subsection
+
+\change_deleted -94747824 1768688478
 Local Online Learning
 \begin_inset CommandInset label
 LatexCommand label
@@ -1819,10 +3039,14 @@ name "subsec:Local-Online-Learning"
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -94747824 1768688478
 This section presents a set of contributions concerning the design of interpretable and adaptive learning architectures capable of improving continuously in non-stationary environments.
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -94747824 1768688478
 We introduce CELL (Context Ensemble Local Learning),
  a new formalism inspired from SACL (Self Adaptive Context Learning) 
 \begin_inset CommandInset citation
@@ -1837,6 +3061,8 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -94747824 1768688478
 Building upon the CELL formalism,
  we propose two instantiations designed for solving regression tasks and to be usable for control.
  First,
@@ -1848,6 +3074,8 @@ Building upon the CELL formalism,
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -94747824 1768688478
 Through the analysis of oCELL's limitations in terms of local representations and adaptability,
  we introduce kCELL.
  While keeping the same introspection capabilities,
@@ -1856,10 +3084,14 @@ Through the analysis of oCELL's limitations in terms of local representations an
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -94747824 1768688478
 This iterative development from oCELL to kCELL illustrates how multiagent local learning architectures can be progressively refined to address the challenges of adaptive control.
 \end_layout
 
 \begin_layout Subsection
+
+\change_deleted -94747824 1768688478
 Control with Learned Models
 \begin_inset CommandInset label
 LatexCommand label
@@ -1871,11 +3103,15 @@ name "subsec:Control-with-Reliable-Learned-Models"
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -94747824 1768688478
 This thesis also investigates how CELL online learning models can be integrated into control pipelines while maintaining safety and reliability.
  We show how kCELL can be integrated within optimization-based control schemes like MPC.
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -94747824 1768688478
 Furthermore,
  we propose exploration and exploitation strategies that leverage the introspection capabilities of kCELL.
  At exploration time,
@@ -1886,6 +3122,8 @@ Furthermore,
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -94747824 1768688478
 Finally,
  we introduce a novel explainability approach for constrained control that exploits the structure of kCELL to analyze and quantify the influence of constraints on optimization outcomes.
  This contribution addresses the loss of transparency commonly induced by the introduction of a black box optimizer in the context of MPC,
@@ -1893,6 +3131,8 @@ Finally,
 \end_layout
 
 \begin_layout Subsection
+
+\change_deleted -94747824 1768688478
 Prospective Works on Scalability
 \begin_inset CommandInset label
 LatexCommand label
@@ -1904,13 +3144,19 @@ name "subsec:Prospective-Works-on-Scalability"
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -94747824 1768688478
 Then,
  we outline prospective research directions for CELL systems.
  We discuss extensions for CELL systems aiming at improving scalability in higher-dimensional spaces through novel spatialization techniques We also discuss the use of heterogeneous local modeling approaches to increase expressiveness.
  These perspectives highlight how the CELL formalism can be extended beyond linear local models to scale to more complex local models while preserving local interpretability.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Subsection
+
+\change_deleted -94747824 1768655626
 Roadmap
 \begin_inset CommandInset label
 LatexCommand label
@@ -1922,10 +3168,14 @@ name "subsec:Roadmap"
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -94747824 1768655626
 The structure of this thesis follows the progression from theoretical foundations and local learning architectures to their application in control and industrial use case.
 \end_layout
 
 \begin_layout Itemize
+
+\change_deleted -94747824 1768655626
 Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -1942,6 +3192,8 @@ nolink "false"
 \end_layout
 
 \begin_layout Itemize
+
+\change_deleted -94747824 1768655626
 Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -1954,11 +3206,13 @@ nolink "false"
 \end_inset
 
  introduces the core contribution of this thesis.
- It details the CELL formalism and explores local learning methods based on multiagent self-organization through oCELL then kCELL,
- two specific instantiations as part of an iterative improvement process.
+ It details the CELL formalism and explores local learning methods based on multi-agent self-organization through oCELL then kCELL,
+ two specific instantiations that are part of an iterative improvement process.
 \end_layout
 
 \begin_layout Itemize
+
+\change_deleted -94747824 1768655626
 Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -1976,6 +3230,8 @@ nolink "false"
 \end_layout
 
 \begin_layout Itemize
+
+\change_deleted -94747824 1768655626
 Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -1992,6 +3248,8 @@ nolink "false"
 \end_layout
 
 \begin_layout Itemize
+
+\change_deleted -94747824 1768655626
 Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -2008,6 +3266,8 @@ nolink "false"
 \end_layout
 
 \begin_layout Itemize
+
+\change_deleted -94747824 1768655626
 Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -2021,9 +3281,13 @@ nolink "false"
 
  summarizes the contributions of this work and discusses the broader implications for adaptive control with learned models.
  It also highlights the future directions for research.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -94747824 1768637567
 As a summary,
  Table 
 \begin_inset CommandInset ref
@@ -2040,6 +3304,8 @@ nolink "false"
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -94747824 1768637567
 \begin_inset Note Note
 status collapsed
 
@@ -2295,6 +3561,8 @@ Why ?
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -94747824 1768637567
 \begin_inset Float table
 placement document
 alignment document
@@ -2639,6 +3907,8 @@ name "tab:Summary-of-the-Contributions"
 \end_inset
 
 
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -2970,24 +4240,83 @@ name "chap:State-of-the-Art"
 \end_layout
 
 \begin_layout Standard
-This chapter provides a comprehensive review of the literature on speed recommendation systems.
- We decompose the problem into two sub-problems:
- a 
-\emph on
-modeling problem
-\emph default
+The initial motivation of this thesis is to develop adaptive and personalized speed recommendation systems.
+ As formalized in Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Introduction"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
 ,
- which involves continuously estimating vehicle dynamics under driver-specific influence to enable personalized and realistic speed recommendations;
- and a 
-\emph on
-control problem
-\emph default
+ this speed recommendation problem can be abstracted into an adaptive control problem involving non-stationary dynamics and a learned model.
+ Furthermore,
+ this adaptive control problem can be broken down into a continuous modeling problem and a model exploitation problem for control (cf.
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Problem-Statement"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+ The purpose of this chapter is to provide a comprehensive review of the research landscape focusing on Online Learning and Control with Learned Models.
+\end_layout
+
+\begin_layout Standard
+This literature review is structured around two axes that mirror the subproblems tackled in this thesis.
+ First,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Online-Machine-Learning"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ examines the evolution of learning paradigms from static batch data processing to online methods capable of handling data streams.
+ We put the emphasis on the stability-plasticity dilemma inherent to global learners and argue for the architectural advantages of local online learning and local multi-agent systems for learning while preserving interpretability,
+ which is required to develop trustworthy control policies.
+ Then,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Control-with-Learned-Models"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ provides an overview of the challenges associated with controlling a dynamical system with learned models.
+ We focus on Model Predictive Control (MPC) and we investigate how are adressed the risks associated with model unreliability in literature.
+ Finally,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Positioning"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
 ,
- which leverages the learned model to optimize speed profiles with respect to predefined objectives and operational constraints.
- To establish a rigorous foundation and position our approach within the field,
- we examine state-of-the-art methods across three relevant domains:
- speed control and recommendation,
- online machine learning and  optimal control.
+ concludes on this chapter by positioning our works within these fields,
+ highlighting the specific gaps that we intend to fill.
 \end_layout
 
 \begin_layout Standard
@@ -2999,7 +4328,7 @@ status collapsed
 \series bold
 From Global to Local Online Learning => 
 \series default
-Argue that whilc online learning exists,
+Argue that while online learning exists,
  standard 
 \begin_inset Quotes eld
 \end_inset
@@ -3112,7 +4441,7 @@ Problem 2 => where to put XAI talk in which we mention SHAP and LIME and define 
 
 \begin_layout Standard
 \begin_inset Note Note
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Note Comment
@@ -3239,13 +4568,299 @@ Control with Learned Models
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+scalebox{.8}{
+\backslash
+begin{forest}
+\end_layout
+
+\begin_layout Plain Layout
+
+for tree={
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+[Online Machine Learning
+\end_layout
+
+\begin_layout Plain Layout
+
+	[Parametric]
+\end_layout
+
+\begin_layout Plain Layout
+
+	[Non Parametric
+\end_layout
+
+\begin_layout Plain Layout
+
+    	[Probabilistic]
+\end_layout
+
+\begin_layout Plain Layout
+
+		[Trees]
+\end_layout
+
+\begin_layout Plain Layout
+
+    	[Local Learning]
+\end_layout
+
+\begin_layout Plain Layout
+
+	]
+\end_layout
+
+\begin_layout Plain Layout
+
+]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{forest}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Taxonomy of Vehicle Speed Management approaches
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+TAXONOMY
+\end_layout
+
+\begin_layout Plain Layout
+* Parametric (Fixed Complexity) (Neural Nets + SGD,
+ RLS,
+ Kalman Filters)
+\end_layout
+
+\begin_layout Plain Layout
+// * Adaptive Drift Detection (ADWIN,
+ DDM,
+ EDDM,
+ ...)
+\end_layout
+
+\begin_layout Plain Layout
+* Non Parametric (Adaptive Complexity) [
+\end_layout
+
+\begin_layout Plain Layout
+- Probabilistic (Online GPs,
+ Bayesian,)
+\end_layout
+
+\begin_layout Plain Layout
+- Local Learning (LWPR,
+ kNN,
+ SACL) => our work falls in that
+\end_layout
+
+\begin_layout Plain Layout
+- Tree-based (Hoeffding Trees,
+ )
+\end_layout
+
+\begin_layout Plain Layout
+]
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+PLAN
+\end_layout
+
+\begin_layout Plain Layout
+- Parametric Methods => NN whole model modified,
+ risk of catastrophic forgetting;
+ RLS,
+ Kalman are linear and myopic
+\end_layout
+
+\begin_layout Plain Layout
+- Tree-based Online Learning (Hoeffding Trees,
+ EFDT,
+ Online Random Forest) => non differentiable which is a disadvantage for control
+\end_layout
+
+\begin_layout Plain Layout
+- Probabilistic and Uncertainty-aware (Online GPs) => good models but computationally heavy and memory heavy
+\end_layout
+
+\begin_layout Plain Layout
+- Local Learning & Memory-Based (LWPR,
+ kNN,
+ SACL) =>
+\end_layout
+
+\begin_layout Plain Layout
+- Ensemble Learning to enhance robustness => weighted weak learners depending on individual performances => to handle concept drift ?
+ => loss of interpretability (trade with explainability)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Start with supervised learning,
+ then machine learning then ensemble learning then online learning
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+We provide an overview of related works about multiagent learning,
+ ensemble methods and eXplainable AI (XAI) to better situate the CELL paradigm within the existing literature.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Online Machine Learning
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Online-Machine-Learning"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The ability to continuously build accurate representations of non-stationary system's dynamics is a requirement for effective adaptive control.
+ Traditional machine learning techniques are constrained by the assumption of stationarity,
+ thus,
+ they usually are not tailored to handle non-stationarity where the underlying data distribution can change over time.
+\end_layout
+
+\begin_layout Standard
+First,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:From-Batch-to-Online-Learning"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ distinguishes between Batch Learning and Online Learning,
+ highlighting the transition from static datasets to continuous streams.
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Global-Models-and-Stability-Plasticity"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ then exposes the limitations of global models,
+ specifically focusing on the stability-plasticity dilemma as an architectural bottleneck for global approximators like deep neural networks.
+ In response,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Local-Online-Learning-1"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ provides an overview of local learning methods which naturally mitigate the stability-plasticity dilemma through spatial isolation.
+ Finally,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Multiagent-Local-Learning"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ introduces the use of multi-agent systems for online learning where the learning procedure is defined by a set of local social rules that allow self-organization of a set of agents and the global emergence of learning behavior.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Note Note
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Online Learning
@@ -3849,6 +5464,7 @@ literal "false"
 
 \end_inset
 
+,
  which is not compatible with use cases necessitating learning and adapting in real time from a stream of data that might be non-stationary.
  In response,
  the Online Learning paradigm has been explored in research.
@@ -3871,8 +5487,8 @@ This shift from Batch to Online Learning introduces several new challenges.
  First,
  the traditional sequential pipeline comprising data collection,
  pre-processing,
- training and testing is replace by an interleaved architecture where these phases occur simultaneously without clear temporal order.
- This makes basic operations such feature normalization non-trivial due to unknown global statistics.
+ training and testing is replaced by an interleaved architecture where these phases occur simultaneously without clear temporal order.
+ This makes basic operations such as feature normalization non-trivial due to unknown global statistics.
  In this case the model needs to maintain incremental estimates that evolve alonside the data 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -3884,10 +5500,8 @@ literal "false"
 .
  Furtermore,
  because the learner cannot perform multiple passes over the dataset,
- it must balance generalization,
- i.e the variance introduced by seeing a finite subset of data,
- against approximation error,
- i.e the bias of the model.
+ it must balance generalization (i.e the variance introduced by seeing a finite subset of data),
+ against approximation error (i.e the bias of the model).
  A higher generalization error is often tolerated for faster updates 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -3897,14 +5511,14 @@ literal "false"
 \end_inset
 
 .
- This way,
- online learners can reveal even less reliable on out-of-ditribution data due to the short-term bias toward recent data and lack of global regularization.
+ However,
+ this makes online learners even less reliable on out-of-ditribution data due to the short-term bias toward recent experience and the lack of global regularization.
 \end_layout
 
 \begin_layout Standard
 The most important distinction lies in the assumption of stationarity.
  While Batch Learning methods assume that the data distribution is fixed and the dataset is exhaustive enough,
- Online Learning systems must be designed to handle concept drift 
+ Online Learning systems must be designed to handle non-stationarity that manifests through concept drift 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "gama2004learning"
@@ -3913,7 +5527,7 @@ literal "false"
 \end_inset
 
 ,
- where the underlying relationship between inputs and outputs can change over time.
+ where the underlying relationship between inputs and outputs can changes.
  To continue being relevant,
  the learner must also include a mechanism for adaptive learning,
  incrementally forgetting obsolete concepts to make room for new dynamics.
@@ -3927,7 +5541,7 @@ literal "false"
 
 .
  A model that converges too firmly,
- without letting room for plasticity may fail to adapt to dynamic shifts.
+ without letting room for plasticity may fail to adapt to concept drifts.
 \end_layout
 
 \begin_layout Standard
@@ -3946,8 +5560,9 @@ literal "false"
  This shifts adaptation from parameter space to model space.
  However,
  without locality,
- ensemble of global models do not solve mutual interference.
- If the underlying models are global approximators like neural networks,
+ ensemble of global models do not completely solve the mutual interference problem because models' functions still overlap due to the global support of individual learners.
+ Indeed,
+ if the underlying models are global approximators like neural networks,
  updating on a single point can still lead to changes in the entire parameter space,
  potentially corrupting previously acquired knowledge.
  This structural vulnerability leads to a conflict known as the Stability-Plasticity dilemma 
@@ -4012,7 +5627,7 @@ literal "false"
 
 .
  Because these parameters have global support,
- the gradient updates required to learn a new task or adapt to a concept drift can lear to mutual interference between the new and old tasks 
+ the gradient updates required to learn a new task or adapt to a concept drift can lead to mutual interference between the new and old tasks 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "wang2023incorporating"
@@ -4045,7 +5660,7 @@ literal "false"
 \end_inset
 
 .
- These approaches are computationally efficient and can be used for solving reinforcement learning problems 
+ These approaches are computationally efficient and can even be used for solving reinforcement learning problems 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "strehl2007online"
@@ -4063,7 +5678,8 @@ literal "false"
 In contrast,
  neural networks can capture such complexities but are highly susceptible to Catastrophic Forgetting.
  Beyond the Stability-Plasticity dilemma,
- these models are typically static meaning that their internal complexity (number of layers and neurons) is fixed at design time and cannot adapt to the evolving complexity of the tackled problem.
+ these models are typically static,
+ meaning that their internal complexity (number of layers and neurons) is fixed at design time and cannot adapt to the evolving complexity of the tackled problem.
  Several strategies have been proposed to mitigate these effects in global learners.
  
 \emph on
@@ -4092,7 +5708,7 @@ literal "false"
 \end_inset
 
  to prevent forgetting.
- This trick is extensively used in Deep Reinforcement Learning to stabilize a inherently non-stationary learning procedure 
+ This trick is extensively used in Deep Reinforcement Learning to stabilize an inherently non-stationary learning procedure 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "mnihHumanlevelControlDeep2015,schaul2015prioritized,andrychowicz2017hindsight"
@@ -4117,7 +5733,7 @@ literal "false"
 \end_inset
 
 .
- It tackles the catastrophic forgetting problem by isolating sets of parameters allowing dynamic creation and destruction of relevant experts.
+ They tackle the catastrophic forgetting problem by isolating sets of parameters allowing dynamic creation and destruction of relevant experts.
  While promising,
  this meta-learning approach often struggles with a problem of unlimited growth of experts and the lack of a clear spatial logic to trigger the correct expert in continuous state spaces.
 \end_layout
@@ -4149,7 +5765,7 @@ literal "false"
 
 \end_inset
 
- offer an alternative to the neural networks which are widely considered as hard to interpret black-box models 
+ offer an alternative to the neural networks which are widely considered as hard-to-interpret black-box models 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "yangSurveyLargeLanguage2023"
@@ -4160,7 +5776,7 @@ literal "false"
 .
  They provide an interpretable symbolic structure from data streams.
  As these approaches struggle with handling concept drift,
- adaptive variants introducing structural modifications (adding concept drift detectors like ADWIN 
+ adaptive variants introducing structural modifications (e.g adding concept drift detectors like ADWIN 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "bifet2007learning"
@@ -4200,10 +5816,17 @@ Based on the limitations mentioned above,
 
 \begin_layout Subsection
 Local Online Learning
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Local-Online-Learning-1"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-The limitations of global learners in non-stationary environments motivates the exploration of local learning methods which provide a structural solution and architecural solution to the Stability-Plasticity dilemma.
+The limitations of global learners in non-stationary environments motivates the exploration of local learning methods because they provide an architecural solution to the Stability-Plasticity dilemma.
  In local learners,
  the learning updates are spatially isolated and outputs are determined by specific local parameters 
 \begin_inset CommandInset citation
@@ -4250,9 +5873,8 @@ literal "false"
 \end_inset
 
 .
- As a non-parametric approach,
  kNN makes predictions solely based on the most resembling points stored in memory.
- kNN can provide an intuitive mechanism to handle non-stationarity in an online learning setting through adaptive neighbor selection 
+ It can provide an intuitive mechanism to handle non-stationarity in an online learning setting through adaptive neighbor selection 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "zhang2010real"
@@ -4285,10 +5907,9 @@ literal "false"
 
 \end_inset
 
-,
- it suffers from significant drawbacks.
- Indeed,
- this approach is computationally inefficient as the database of stored points grows.
+.
+ Howevern it suffers from significant drawbacks.
+ This approach is computationally inefficient as the database of stored points grows.
 \end_layout
 
 \begin_layout Standard
@@ -4306,7 +5927,8 @@ literal "false"
  The function underlying the data is approximated from the weighted combinations of spatialized local neurons.
  However,
  RBF Networks require the centers of local neurons to be fixed beforehand,
- and the location of these centers plays a crucial role in the model's performance which is a major drawback in the case of online learning.
+ and the location of these centers plays a crucial role in the model's performance,
+ which is a major drawback in the case of online learning.
  This issue has been addressed by designing methods in which neurons can be dynamically added or pruned to match the non-stationarity of a data stream 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -4316,18 +5938,16 @@ literal "false"
 \end_inset
 
 .
- Despite these adaptations,
- RBF networks lack the flexibility required to accomodate the potentially evolving complexity of non-stationary dynamics.
 \end_layout
 
 \begin_layout Standard
-A notable reference approach in online learning for control is an scalable extension of LWR:
+A notable reference approach in online learning for control is a scalable extension of LWR:
  Locally Weighted Projection Regression (LWPR).
  LWPR manages complex,
  non-linear dynamics by maintaining a set of local linear models that are updated incrementally.
  Each linear model is associated with a radial basis function.
  The final prediction of the model is obtained by computing the average of the closest models weighted by the radial basis function value for the input.
- More recent extensions have enabled this type of models to provide uncertainty quantification 
+ More recent extensions have enabled this type of model to provide uncertainty quantification 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "meier2014incremental"
@@ -4340,8 +5960,7 @@ literal "false"
  However,
  LWPR tightly couples spatialization,
  model structure and update logic,
- limiting modularity and constraining all local experts to the same model class,
- in this case linear regressions.
+ limiting modularity and constraining all local experts to the same model class (in this case linear regressions).
 \end_layout
 
 \begin_layout Standard
@@ -4368,7 +5987,7 @@ nolink "false"
 
 \end_inset
 
-) shares the use of radial basis functions to spatialize experts to manage non-linearity and non-stationarity.
+) shares the use of radial basis functions to spatialize experts to manage non-linearity and non-stationarity with LWPR.
  However,
  the primary distinction lies in the learning procedure.
  While traditional local learning rely on a centralized top-down update logic,
@@ -4381,19 +6000,19 @@ function approximation
 \emph default
  to 
 \emph on
-emergent collective 
+emergent collective behavior
 \emph default
-behavior grounded in explicit local interaction mechanisms.
+ grounded in explicit local interaction mechanisms.
 \end_layout
 
 \begin_layout Standard
 Learning methods such as LWPR exhibit a tight coupling between the spatialization logic (how the space is partitioned) and their modeling logic (the local linear regressions).
  This design limits the modularity and heterogeneity of the system.
- In the case of LWPR,
+ In LWPR,
  local units are typically restricted to a single model type and more specifically to linear regressions.
  A more modular architecture,
  where the spatialization layer is agnostic of the internal model,
- would allow for heterogeneous local models (e.g combining linear models with non-linear approximators).
+ would allow for the use of a different class of local models or even for heterogeneous local models (e.g combining linear models with non-linear approximators).
  Such a decoupling theoretically allows for more parsimonious representative systems where the modeling complexity of an expert can be matched to the local complexity of the data.
  
 \end_layout
@@ -4401,7 +6020,7 @@ Learning methods such as LWPR exhibit a tight coupling between the spatializatio
 \begin_layout Standard
 Despite their advantages,
  local learning systems remain vulnerable to the curse of dimensionality and uncontrolled growth in the number of experts if pruning and growth mechanisms are not carefully designed.
- In this thesis we mostly tackle modularity through multi-agent social self-organization mechanisms for supervised online learning (cf.
+ In this thesis we mostly explore a more modular architecture through multi-agent social self-organization for supervised online learning (cf.
  Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -4426,224 +6045,20 @@ In the following section,
 
 \begin_layout Subsection
 Multiagent Local Learning
-\end_layout
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Multiagent-Local-Learning"
 
-\begin_layout Subsection
-XAI and Uncertainty
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-\align center
-\begin_inset Float figure
-placement document
-alignment document
-wide false
-sideways false
+\begin_inset Note Greyedout
 status open
 
 \begin_layout Plain Layout
-\align center
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-scalebox{.8}{
-\backslash
-begin{forest}
-\end_layout
-
-\begin_layout Plain Layout
-
-for tree={
-\end_layout
-
-\begin_layout Plain Layout
-
-}
-\end_layout
-
-\begin_layout Plain Layout
-
-[Online Machine Learning
-\end_layout
-
-\begin_layout Plain Layout
-
-	[Parametric]
-\end_layout
-
-\begin_layout Plain Layout
-
-	[Non Parametric
-\end_layout
-
-\begin_layout Plain Layout
-
-    	[Probabilistic]
-\end_layout
-
-\begin_layout Plain Layout
-
-		[Trees]
-\end_layout
-
-\begin_layout Plain Layout
-
-    	[Local Learning]
-\end_layout
-
-\begin_layout Plain Layout
-
-	]
-\end_layout
-
-\begin_layout Plain Layout
-
-]
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{forest}}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Taxonomy of Vehicle Speed Management approaches
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-TAXONOMY
-\end_layout
-
-\begin_layout Plain Layout
-* Parametric (Fixed Complexity) (Neural Nets + SGD,
- RLS,
- Kalman Filters)
-\end_layout
-
-\begin_layout Plain Layout
-// * Adaptive Drift Detection (ADWIN,
- DDM,
- EDDM,
- ...)
-\end_layout
-
-\begin_layout Plain Layout
-* Non Parametric (Adaptive Complexity) [
-\end_layout
-
-\begin_layout Plain Layout
-- Probabilistic (Online GPs,
- Bayesian,)
-\end_layout
-
-\begin_layout Plain Layout
-- Local Learning (LWPR,
- kNN,
- SACL) => our work falls in that
-\end_layout
-
-\begin_layout Plain Layout
-- Tree-based (Hoeffding Trees,
- )
-\end_layout
-
-\begin_layout Plain Layout
-]
-\begin_inset Newline newline
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-PLAN
-\end_layout
-
-\begin_layout Plain Layout
-- Parametric Methods => NN whole model modified,
- risk of catastrophic forgetting;
- RLS,
- Kalman are linear and myopic
-\end_layout
-
-\begin_layout Plain Layout
-- Tree-based Online Learning (Hoeffding Trees,
- EFDT,
- Online Random Forest) => non differentiable which is a disadvantage for control
-\end_layout
-
-\begin_layout Plain Layout
-- Probabilistic and Uncertainty-aware (Online GPs) => good models but computationally heavy and memory heavy
-\end_layout
-
-\begin_layout Plain Layout
-- Local Learning & Memory-Based (LWPR,
- kNN,
- SACL) =>
-\end_layout
-
-\begin_layout Plain Layout
-- Ensemble Learning to enhance robustness => weighted weak learners depending on individual performances => to handle concept drift ?
- => loss of interpretability (trade with explainability)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Start with supervised learning,
- then machine learning then ensemble learning then online learning
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-We provide an overview of related works about multiagent learning,
- ensemble methods and eXplainable AI (XAI) to better situate the CELL paradigm within the existing literature.
-\end_layout
-
-\begin_layout Subsection
-Multi-Agent Learning
-\end_layout
-
-\begin_layout Standard
 Multi-agent systems (MAS) have gained popularity due to their ability to solve complex problems by breaking them down into simpler sub-problems that can be easily addressed by autonomous agents,
  whether interconnected or not 
 \begin_inset CommandInset citation
@@ -4688,7 +6103,7 @@ literal "false"
 .
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 In this chapter,
  we present various two instantiations of CELL,
  a MAS paradigm derived from the Self Adaptive Context Learning (SACL) 
@@ -4722,129 +6137,13 @@ literal "false"
 .
 \end_layout
 
-\begin_layout Subsection
-Ensemble Learning
-\end_layout
-
-\begin_layout Standard
-To achieve more accurate predictions and provide better approximations of nonlinear functions,
- it is common to aggregate multiple models for making predictions.
-\end_layout
-
-\begin_layout Standard
-Ensemble learning is based on the emergence of collective intelligence within a set of weak learners.
- A weak learner is a model whose performance is at least as good as a model making random predictions.
- During the learning process,
- a set of models (which may differ from one another) are trained in parallel or sequentially 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "polikarEnsembleLearning2012"
-literal "false"
-
-\end_inset
-
-.
- The objective is to encourage diversity among the models so that they do not all capture the same patterns in the data 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "dietterichEnsembleMethodsMachine2000"
-literal "false"
-
-\end_inset
-
-.
- An input is transmitted to all weak learners,
- each of which makes a prediction proposal.
- A heuristic is implemented to select one of the proposals or to weight each of them in order to construct the final prediction.
- We distinguish several major approaches in ensemble learning which are Boosting,
- Bagging and Stacking.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Add figure to compare bagging,
- boosting and stacking
-\end_layout
-
 \end_inset
 
 
-\begin_inset Float figure
-placement document
-alignment document
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Visual comparison of bagging,
- boosting and stacking
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-In Bagging 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "breiman1996bagging"
-literal "false"
-
-\end_inset
-
- multiple models (usually homogeneous) are trained in parallel on different subsets of the training data to introduce diversity,
- reduce variance and improve stability.
- Then the final prediction is obtained by averaging the predictions of the weak learners (regression) or by majority voting (classification).
- Unlike Bagging,
- in Boosting 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "freund1997decision"
-literal "false"
-
-\end_inset
-
-,
- the models are trained sequentially.
- Each new model focuses on correcting the errors of the previous ones to reduce bias and improve accuracy.
- Then the final prediction is obtained from a weighted average of the predictions of the all the weak learners.
- Finally,
- there is Stacking 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "wolpert1992stacked"
-literal "false"
-
-\end_inset
-
- that falls under meta-learning.
- We train in parallel a set of heterogeneous models and then a meta-model is trained to combine the predictions of each model to obtain the final output of the system,
- in order to capture complementary strengths of each learning algorithms involved in the learning process.
-\end_layout
-
-\begin_layout Standard
-The family of systems presented in this chapter,
- CELL,
- falls within ensemble learning and we could label it as a Bagging approach because we consider a set of weak learners as a collection of self-organizing cooperative agents.
- Each one of them is a local expert on the function to be approximated.
 \end_layout
 
 \begin_layout Subsection
-XAI
+XAI and Uncertainty
 \begin_inset CommandInset label
 LatexCommand label
 name "subsec:XAI"
@@ -4855,6 +6154,10 @@ name "subsec:XAI"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Greyedout
+status open
+
+\begin_layout Plain Layout
 The field of eXplainable Artificial Intelligence (XAI) addresses the opacity of complex models by providing insights into their decision-making processes.
  However,
  interpretability and explainability are defined in various ways 
@@ -4892,7 +6195,7 @@ is associated with the methodologies used to communicate the reasoning for a spe
  
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Approaches such as deep learning achieve good performance across a wide variety of tasks.
  However,
  these approaches generate highly complex models.
@@ -4925,7 +6228,7 @@ literal "false"
 .
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Within this discourse,
  machine learning models are typically categorized as white-box or black-box models 
 \begin_inset CommandInset citation
@@ -4988,7 +6291,7 @@ literal "false"
  white-box models are preferred.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 The explainability of a prediction is partly linked to the concept of uncertainty.
  An informed decision-making process must take uncertainty into account.
  We distinguish between epistemic uncertainty and aleatoric uncertainty 
@@ -5017,8 +6320,150 @@ Epistemic uncertainty
  This type of uncertainty is related to the lack of data in certain regions of the feature space.
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Subsection
+Ensemble Learning
+\end_layout
+
+\begin_layout Plain Layout
+To achieve more accurate predictions and provide better approximations of nonlinear functions,
+ it is common to aggregate multiple models for making predictions.
+\end_layout
+
+\begin_layout Plain Layout
+Ensemble learning is based on the emergence of collective intelligence within a set of weak learners.
+ A weak learner is a model whose performance is at least as good as a model making random predictions.
+ During the learning process,
+ a set of models (which may differ from one another) are trained in parallel or sequentially 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "polikarEnsembleLearning2012"
+literal "false"
+
+\end_inset
+
+.
+ The objective is to encourage diversity among the models so that they do not all capture the same patterns in the data 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "dietterichEnsembleMethodsMachine2000"
+literal "false"
+
+\end_inset
+
+.
+ An input is transmitted to all weak learners,
+ each of which makes a prediction proposal.
+ A heuristic is implemented to select one of the proposals or to weight each of them in order to construct the final prediction.
+ We distinguish several major approaches in ensemble learning which are Boosting,
+ Bagging and Stacking.
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Add figure to compare bagging,
+ boosting and stacking
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Visual comparison of bagging,
+ boosting and stacking
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+In Bagging 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "breiman1996bagging"
+literal "false"
+
+\end_inset
+
+ multiple models (usually homogeneous) are trained in parallel on different subsets of the training data to introduce diversity,
+ reduce variance and improve stability.
+ Then the final prediction is obtained by averaging the predictions of the weak learners (regression) or by majority voting (classification).
+ Unlike Bagging,
+ in Boosting 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "freund1997decision"
+literal "false"
+
+\end_inset
+
+,
+ the models are trained sequentially.
+ Each new model focuses on correcting the errors of the previous ones to reduce bias and improve accuracy.
+ Then the final prediction is obtained from a weighted average of the predictions of the all the weak learners.
+ Finally,
+ there is Stacking 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wolpert1992stacked"
+literal "false"
+
+\end_inset
+
+ that falls under meta-learning.
+ We train in parallel a set of heterogeneous models and then a meta-model is trained to combine the predictions of each model to obtain the final output of the system,
+ in order to capture complementary strengths of each learning algorithms involved in the learning process.
+\end_layout
+
+\begin_layout Plain Layout
+The family of systems presented in this chapter,
+ CELL,
+ falls within ensemble learning and we could label it as a Bagging approach because we consider a set of weak learners as a collection of self-organizing cooperative agents.
+ Each one of them is a local expert on the function to be approximated.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Control with Learned Models
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Control-with-Learned-Models"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -5035,6 +6480,13 @@ Exploration
 
 \begin_layout Section
 Positioning
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Positioning"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter
@@ -5950,6 +7402,10 @@ where
 \begin_inset Formula $D_{\text{selected}}$
 \end_inset
 
+
+\change_inserted -94747824 1768660759
+ 
+\change_unchanged
 is the set of selected agents (neighbors or closest) and 
 \begin_inset Formula $f_{i}\in\mathbb{R}^{m}$
 \end_inset
@@ -21346,6 +22802,910 @@ Mention similarities with LWPR and
 \end_inset
 
 
+\change_inserted -94747824 1768688488
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768688496
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Section
+
+\change_inserted -94747824 1768688497
+Contributions
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Contributions"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768688497
+This thesis addresses the problem of controlling complex,
+ non-stationary systems with unknown dynamics with local online learning models under interpretability and explainability requirements.
+ The contributions are organized around three axes:
+ local online learning,
+ control using learned models and prospective directions towards scalability and refining of local representations in multi-agent systems for online learning.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768688497
+
+\end_layout
+
+\begin_layout Subsection
+
+\change_inserted -94747824 1768688497
+Local Online Learning
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Local-Online-Learning"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768688497
+This section presents a set of contributions concerning the design of interpretable and adaptive learning architectures capable of improving continuously in non-stationary environments.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768688497
+We introduce CELL (Context Ensemble Local Learning),
+ a new formalism inspired from SACL (Self Adaptive Context Learning) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "boesSelfAdaptiveContextLearning2015"
+literal "false"
+
+\end_inset
+
+ for designing ensemble multi-agent systems that learn from local rules from an online stream of data.
+ CELL provides the theoretical foundations for local adaptations that allow for online learning in non-stationary environments while preserving spatialized representations that support interpretability and epistemic uncertainty estimation.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768688497
+Building upon the CELL formalism,
+ we propose two instantiations designed for solving regression tasks and to be usable for control.
+ First,
+ we propose oCELL,
+ a multi-agent ensemble learning algorithm that combines orthotope-based spatialization and local predictions aggregations.
+ We show that the spatial organization of agents in oCELL offers powerful introspection capabilities that can be used to enhance interpretability and explainability of the model.
+ The effectiveness of oCELL is evaluated on a low dimensional benchmark through a comparative study against state-of-the-art regression methods,
+ demonstrating competitive performance while offering additional introspection capabilities.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768688497
+Through the analysis of oCELL's limitations in terms of local representations and adaptability,
+ we introduce kCELL.
+ While keeping the same introspection capabilities,
+ kCELL is built on a smoother spatialization approach to better represent the local manifolds and to better accomodate to non-stationary dynamics.
+ Its adaptation capabilities are validated through experiments on non-stationary datasets and comparative evaluations with other learning algorithms.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768688497
+This iterative development from oCELL to kCELL illustrates how multiagent local learning architectures can be progressively refined to address the challenges of adaptive control.
+\end_layout
+
+\begin_layout Subsection
+
+\change_inserted -94747824 1768688497
+Control with Learned Models
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Control-with-Reliable-Learned-Models"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768688497
+This thesis also investigates how CELL online learning models can be integrated into control pipelines while maintaining safety and reliability.
+ We show how kCELL can be integrated within optimization-based control schemes like MPC.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768688497
+Furthermore,
+ we propose exploration and exploitation strategies that leverage the introspection capabilities of kCELL.
+ At exploration time,
+ introspection guides data collection toward regions where the model exhibits high uncertainty to improve the quality of the learned dynamics.
+ At exploitation time,
+ introspection is used to prevent optimization from going into poorly modeled regions,
+ reducing the risk of unreliable control decisions.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768688497
+Finally,
+ we introduce a novel explainability approach for constrained control that exploits the structure of kCELL to analyze and quantify the influence of constraints on optimization outcomes.
+ This contribution addresses the loss of transparency commonly induced by the introduction of a black box optimizer in the context of MPC,
+ where decision-making becomes opaque despite interpretable underlying models.
+\end_layout
+
+\begin_layout Subsection
+
+\change_inserted -94747824 1768688497
+Prospective Works on Scalability
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Prospective-Works-on-Scalability"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768688497
+Then,
+ we outline prospective research directions for CELL systems.
+ We discuss extensions for CELL systems aiming at improving scalability in higher-dimensional spaces through novel spatialization techniques We also discuss the use of heterogeneous local modeling approaches to increase expressiveness.
+ These perspectives highlight how the CELL formalism can be extended beyond linear local models to scale to more complex local models while preserving local interpretability.
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768637575
+As a summary,
+ Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Summary-of-the-Contributions"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ maps the identified research gaps and scientific challenges to the specific contributions of this thesis.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768637575
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Itemize
+
+\change_inserted -94747824 1768637575
+In this thesis we contribute to online learning and control with learned models but we do not tackle HRC as is.
+ This work represents a step toward HRC,
+ works still remain to do.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+[Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Context-Ensemble-Local"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+] Contributions:
+ Online Learning
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted -94747824 1768637575
+We propose CELL (Context Ensemble Local Learning),
+ a formalism inspired from SACL learning paradigm 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "boesSelfAdaptiveContextLearning2015"
+literal "false"
+
+\end_inset
+
+ to design ensemble multiagent systems (Bottom-up approach) that learn locally from an online stream of data.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\change_inserted -94747824 1768637575
+Why local learning?
+ local updates to address the stability-plasticity dilemma and spatialization in non parametric approaches like those based on multiagent systems for supervised learning allow to estimate epistemic uncertainty (lack of knowledge) => very powerful to detect when the model is extrapolating in control (could allow the use of fallback strategies if the model not competent to answer)
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted -94747824 1768637575
+Why new formalism?
+ Lack of formalism in this field (multiagent systems for supervised learning) and algorithms not adapted for control.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\change_inserted -94747824 1768637575
+We propose oCELL system and exposed new introspection capabilities for this kind of model.
+ We showed that we could extract interpretability and explainability properties from the spatial organization of agents in the feature space to analyze the system's behavior.
+ We also provide a low-dimensional benchmark study (on regression task in a supervised learning setting) of CELL performance against SotA algorithms.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "blanco2024explainability"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\change_inserted -94747824 1768637575
+Why new system ?
+ Need for algorithms for regression tasks in the field (before,
+ mainly classification was considered) and for smoother representations for use in control (that's why we added the aggregation function to build the global input of the model)
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted -94747824 1768637575
+Why looking for interpretability ?
+ For future certifiability and trust in HRC as shown in 
+\begin_inset Quotes eld
+\end_inset
+
+Background and Motivation
+\begin_inset Quotes erd
+\end_inset
+
+ Section.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\change_inserted -94747824 1768637575
+Then,
+ in response to oCELL limitations,
+ we introduce kCELL system and demonstrate its adaptation capabilities to non stationary dynamics through an analysis of the system using the introspection capabilities of the model.
+ We also provide a comparative study of the performance of kCELL against other learning algorithms on a robotics dataset.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\change_inserted -94747824 1768637575
+Why new system ?
+ oCELL limited in its internal representations and needed to be smoothed.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted -94747824 1768637575
+Why studying non stationarity of the model ?
+ Because we want to tackle Adaptive Control problem.
+\end_layout
+
+\end_deeper
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+[Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Solving-Control-Tasks"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+] Contributions:
+ Control with Learned Model
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted -94747824 1768637575
+We provide a discussion on the scalability and computational efficiency of CELL instantiations.
+ We suggest the use of geospatial indexing or massively parallel GPU computations to make expert agent selection faster.
+ Moreover,
+ we demonstrate the differentiability of kCELL and thus,
+ the possibility of integrating it into traditional gradient-based constrained optimization pipeline.
+ I.e we propose the formalization of a novel coupling method to integrate the kCELL learning mechanism into traditional optimization solvers for solving complex constrained control problems with learned models.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\change_inserted -94747824 1768637575
+Why seeking to scale ?
+ As non parametric methods and relying on spatialization,
+ local learning methods when ingesting too much complex data can be harder to scale in terms of computational efficiency.
+ Computational efficiency can also help to couple kCELL with population-based optimization algorithms (CEM,
+ MPPI,
+ etc...) for control in MPC scheme.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted -94747824 1768637575
+Why integrate into gradient based optimization pipelines ?
+ Because some gradient based solvers are able to handle constraints (ex:
+ OSQP) => safety;
+ and gradient based optimizers are local which fits particularly with the local structure of the considered local learning systems.
+ Indeed,
+ kCELL provides linearization 
+\begin_inset Quotes eld
+\end_inset
+
+by design
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\change_inserted -94747824 1768637575
+We propose a novel exploration method based that uses kCELL's introspection capabilities to learn the dynamics of an environment by interaction without prior knowledge of the dynamics.
+ We propose a comparative study of our approach with an uninformed random exploration strategy.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\change_inserted -94747824 1768637575
+Why Exploring ?
+ Using a learned model in a MPC scheme (model-based) condition the performance of the controller on the precision of the model.
+ Learned models often struggle with out of distribution predictions.
+ So without prior knowledge of the dynamics,
+ it's necessary to explore exhaustively the interaction environment to build the most performance model possible.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\change_inserted -94747824 1768637575
+We propose a novel exploitation method that uses kCELL's introspection capabilities to enhance safety and enhance the reliability of the learned model in the optimization pipeline in a MPC scheme.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\change_inserted -94747824 1768637575
+Why exploiting ?
+ => Learned models often struggle with out of distribution predictions.
+ At exploitation time,
+ the optimizer should be aware of the limits of the model to avoid going into unmodeled regions and optimization on ghost knowledge.
+ The goal is not to improve the model but ot make the best out of it.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\change_inserted -94747824 1768637575
+We propose a novel XAI method that leverages kCELL's structure to quantify and explain the impact of constraints on optimization outcomes for constrained control (safe control).
+ => justification of decisions
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\change_inserted -94747824 1768637575
+Why ?
+ Because using optimizers add a layer of complexity to the system making it more opaque.
+ We lose interpretability and explainability during the optimization process.
+ So we need mechanisms to explain the control law in MPC because interpretable dynamics model is not sufficient to justify the decisions if the optimizer is a black box.
+\end_layout
+
+\end_deeper
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+[Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Scalable-Non-Linear-CELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ (mainly prospective future works)] Contributions:
+ Online Learning
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted -94747824 1768637575
+The spatialization in oCELL and kCELL need to be improved to keep being informative in higher dimensions.
+ For this reason we discuss about using a new spatialization approach based on Principal Component Analysis (PCA) to leverage feature reduction.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\change_inserted -94747824 1768637575
+Why ?
+ oCELL and kCELL spatializations are limited in the number of dimensions they can handle due to the explosion of distances in higher dimensions => need for more robust spatialization techniques.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\change_inserted -94747824 1768637575
+We show that CELL formalism can be used to scale some machine learning approaches like Gaussian Processes that are notoriously difficult to scale due to computational complexity.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\change_inserted -94747824 1768637575
+Why ?
+ We mainly used CELL systems with linear regression as local expert models.
+ However,
+ linear regressions are limited,
+ and in most cases some regions of feature space are harder to model than others.
+ Thus,
+ it would be interesting to have heterogeneous agents with more complex local models in more hard to model regions and inversely.
+ Gaussian Processes,
+ as a non parametric machine learning approach,
+ could simulate this heterogeneity by being used as internal model for agents.
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -94747824 1768637575
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+
+\change_inserted -94747824 1768637575
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="4">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="15col%">
+<column alignment="left" valignment="top" width="25col%">
+<column alignment="left" valignment="top" width="25col%">
+<column alignment="left" valignment="top" width="25col%">
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+
+\series bold
+Focus Area
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+
+\series bold
+Research Challenge
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+
+\series bold
+Contribution
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+
+\series bold
+Impact
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+Local Online Learning
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+Continuous adaptation under non-stationary dynamics with interpretable models
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+CELL formalism and local learning systems (oCELL,
+ kCELL)
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+
+\emph on
+(Chapter 
+\emph default
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Context-Ensemble-Local"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+
+\emph on
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+Enables online adaptation through localized updates while preserving traceability and introspection via spatialized representations
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+Control with Learned Models
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+Unreliable control decisions due to model uncertainty and extrapolation
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+Introspection-aware integration of kCELL into constrained MPC
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+
+\emph on
+(Chapter 
+\emph default
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Solving-Control-Tasks"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+
+\emph on
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+Improves control reliability and safety by guiding exploration and restricting optimization to well-modeled regions
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+Interpretability & Explainability
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+Loss of transparency in constrained optimization-based control
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+Constraint influence analysis for learned-model control
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+
+\emph on
+(Chapter 
+\emph default
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Solving-Control-Tasks"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+
+\emph on
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+Restores explainability by quantifying and justifying the impact of constraints on control decisions
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+Scalability & Expressiveness
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+Curse of dimensionality and limited expressiveness of local models
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+Non-linear and heterogeneous extensions of CELL
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+
+\emph on
+(Chapter 
+\emph default
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Scalable-Non-Linear-CELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+
+\emph on
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+Extends local learning to higher-dimensional spaces and complex dynamics while preserving locality and interpretability
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -94747824 1768637575
+Summary of the contributions 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Summary-of-the-Contributions"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -21358,6 +23718,8 @@ encoding "default"
 
 \end_inset
 
+
+\change_inserted -94747824 1768676739
 
 \end_layout
 
