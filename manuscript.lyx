@@ -97,7 +97,7 @@ linguistics
 \papersides 1
 \paperpagestyle default
 \tablestyle default
-\tracking_changes true
+\tracking_changes false
 \output_changes false
 \change_bars false
 \postpone_fragile_content true
@@ -130,6 +130,153 @@ Adaptive Control via Bottom-Up Local Online Learning
 
 \begin_layout Section*
 Abstract
+\end_layout
+
+\begin_layout Standard
+As the automotive industry gradually moves toward fully autonomous driving,
+ the development of safe and intelligent transportation systems remains a crucial challenge,
+ specifically with regard to interactions between the driver and the vehicle.
+ The effectiveness of advanced driver assistance systems (ADAS),
+ such as speed recommendation systems,
+ depends on their ability to collaborate with the driver while taking into account the non-stationarity and uncertainty inherent in driver behavior.
+\end_layout
+
+\begin_layout Standard
+Many machine learning approaches exploit the decomposition of the input space into specialized local models in order to better capture the variability of dynamics and facilitate continuous adaptation.
+ This organization not only improves robustness in non-stationarity contexts,
+ but also provides localized uncertainty estimates,
+ facilitating the integration of learned models into safe control strategies.
+\end_layout
+
+\begin_layout Standard
+In recent years,
+ local learning based on contextual agents has emerged as a promising extension of these approaches.
+ Inspired by the principles of self-organizing multi-agent systems,
+ these methods allow each specialized model,
+ represented by an agent,
+ to cooperate and share information to enhance online adaptation,
+ uncertainty management,
+ and model interpretability.
+\end_layout
+
+\begin_layout Standard
+In this context,
+ we study the following question:
+ to what extent cooperative local learning architectures such as CELL can serve as a foundation for safe control strategies,
+ exploiting model introspection to guide exploration and support reliable decision-making ?
+\end_layout
+
+\begin_layout Standard
+This thesis models the problem of speed recommendation as a problem of adaptive control of complex systems with unknown and non-stationary dynamics.
+ We introduce the CELL (Context Ensemble Local Learning) formalism,
+ inspired by self-organizing multi-agent systems.
+ This formalism allows us to design online learning architectures capable of modeling nonlinear dynamics through the cooperation of specialized local models.
+ This theoretical framework allows us to design systems that continuously adapt to environmental changes while preserving a spatialized representation of knowledge,
+ which is essential for estimating the epistemic uncertainty required for reliable learning-based control.
+\end_layout
+
+\begin_layout Standard
+Based on this formalism,
+ we propose two systems derived from CELL:
+ oCELL,
+ in which local models are spatialized using orthotopes,
+ and kCELL,
+ which uses radial basis functions to obtain smoother approximations.
+ A first series of experiments demonstrates that the geometric organization of agents offers introspective capabilities that can be linked to the notions of explainability and interpretability in machine learning.
+ In particular,
+ kCELL proves capable of overcoming the stability-plasticity dilemma in a non-stationary environment,
+ while remaining competitive with classical approaches.
+\end_layout
+
+\begin_layout Standard
+kCELL is then integrated into a predictive control system (Model Predictive Control - MPC).
+ We exploit the model's introspective properties to direct exploration towards areas of high uncertainty and ensure safety by avoiding poorly modeled regions.
+ Finally,
+ we introduce a new method of explainability for constrained control,
+ allowing us to quantify the influence of constraints on the optimization result.
+\end_layout
+
+\begin_layout Standard
+Finally,
+ future research directions are highlighted concerning the scaling up of CELL-based systems for higher dimensional spaces and the use of heterogeneous local models,
+ paving the way for more robust and transparent adaptive learning systems.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Résumé
+\end_layout
+
+\begin_layout Standard
+Alors que l'industrie automobile évolue progressivement vers une conduite entièrement autonome,
+ le développement de systèmes de transport sûrs et intelligents demeure un enjeu crucial,
+ notamment en ce qui concerne les interactions entre le conducteur et le véhicule.
+ L'efficacité des systèmes avancés d'aide à la conduite (ADAS),
+ tels que les systèmes de recommandation de vitesse,
+ repose sur leur capacité à collaborer avec le conducteur tout en tenant compte de la non-stationnarité et de l'incertitude inhérentes à son comportement.
+\end_layout
+
+\begin_layout Standard
+Plus largement,
+ de nombreuses approches en apprentissage automatique exploitent la décomposition de l'espace d'entrée en sous-modèles locaux spécialisés afin de mieux capturer la variabilité de la dynamique et de faciliter l'adaptation continue.
+ Cette organisation permet non seulement d'améliorer la robustesse face à la non-stationarité mais aussi de fournir des estimations d'incertitude localisées,
+ facilitant l'intégration des modèles appris dans des stratégies de contrôle sûres.
+\end_layout
+
+\begin_layout Standard
+Ces dernières années l'apprentissage local fondé sur des agents contextuels a émergé comme une extension prometteuse de ces approches.
+ Inspirée des principes des systèmes multi-agents auto-organisés,
+ ces méthodes permettent à chaque modèle spécialisé,
+ modélisé par un agent,
+ de coopérer et de partager l'information pour renforcer l'adaptation en ligne,
+ la gestion de l'incertitude et l'interprétabilité du modèle.
+\end_layout
+
+\begin_layout Standard
+Dans ce contexte,
+ nous nous demandons dans quelle mesure des architectures d'apprentissage local coopératif telles que CELL peuvent-elles servir de fondation à des stratégies de contrôle sûres,
+ exploitant l'introspection du modèle pour orienter l'exploration et soutenir une prise de décision fiable en condition réelles ?
+\end_layout
+
+\begin_layout Standard
+Cette thèse modélise le problème de la recommandation de vitesse en un problème de contrôle adaptatif de systèmes complexes à dynamique inconnue et non-stationaire.
+ Nous introduisons le formalisme CELL (Context Ensemble Local Learning),
+ inspiré des systèmes multi-agents auto-organisés.
+ Ce formalisme permet de concevoir des architectures d'apprentissage en ligne capables de modéliser des dynamiques non linéaires grâce à la coopération de modèles locaux spécialisés.
+ Ce cadre théorique permet de concevoir des systèmes s'adaptant continuellement aux changements environnementaux tout en préservant une représentation spatialisée des connaissances,
+ essentielle à l'estimation de l'incertitude épistémique requise pour un contrôle fiable basé sur l'apprentissage.
+\end_layout
+
+\begin_layout Standard
+À partir de ce formalisme,
+ nous proposons deux systèmes dérivés de CELL:
+ oCELL,
+ dans lequel les modèles locaux sont spatialisés à l'aide d'orthotopes,
+ et kCELL qui utilise des fonctions de base radiales pour obtenir des approximations plus lisses.
+ Une première série d’expériences démontre que l’organisation géométrique des agents offre des capacités d’introspection qui peuvent être reliées aux notions classiques d’explicabilité et d’interprétabilité en apprentissage automatique.
+ En particulier,
+ kCELL se révèle capable de surmonter le dilemme stabilité-plasticité dans un environnement non stationnaire,
+ tout en étant compétitif avec les approches classiques.
+\end_layout
+
+\begin_layout Standard
+kCELL est ensuite intégré dans un système de contrôle prédictif (Model Predictive Control - MPC).
+ Nous exploitons les propriétés d'introspection du modèle pour orienter l'exploration vers les zones de forte incertitude et sécuriser l'exploitation en évitant les régions mal modélisées.
+ Enfin,
+ nous introduisons une nouvelle méthode d'explicabilité pour le contrôle sous contraintes,
+ permettant de quantifier l'influence des contraintes sur le résultat de l'optimisation.
+\end_layout
+
+\begin_layout Standard
+Enfin,
+ les orientations futures de la recherche sont mises en évidence concernant le passage à l'échelle des systèmes basés sur CELL pour des espaces de plus grande dimensions et l'utilisation de modèles locaux hétérogènes,
+ ouvrant la voie à des systèmes d'apprentissage adaptatifs plus robustes et transparents.
 \end_layout
 
 \begin_layout Standard
@@ -204,7 +351,7 @@ literal "false"
 \begin_layout Standard
 Robots need to move beyond being mere executors of pre-programmed tasks to penetrate consumer markets and more complex social environments.
  This requires developing social skills and advanced learning capabilities to achieve true synergy with human partners.
- This synergy strongly relies the ability of a system to not only perceive its environment but to also adapt its behavior to the uncertain dynamics introduced by human presence.
+ This synergy strongly relies on the ability of a system to not only perceive its environment but to also adapt its behavior to the uncertain dynamics introduced by human presence.
 \end_layout
 
 \begin_layout Standard
@@ -237,7 +384,7 @@ Consequently,
 \begin_layout Standard
 In particular,
  given the obvious correlation between speed mismanagement and road fatalities,
- the development of Intelligent Speed Assis (ISA) systems has become a major concern for global road safety.
+ the development of Intelligent Speed Assistance (ISA) systems has become a major concern for global road safety.
 \end_layout
 
 \begin_layout Standard
@@ -282,10 +429,27 @@ actions
 
 \begin_layout Standard
 This setting represents a unique Human-Robot Collaboration (HRC) challenge.
- Including the human in the loop introduces a significant layer of uncertainty and non-stationrity.
+ Including the human in the loop introduces a significant layer of uncertainty and non-stationarity.
  To be effective,
  the system cannot remain static and must be able to anticipate driver intent,
  consider behavioral variability and adapt to continuously changing driving contexts.
+\end_layout
+
+\begin_layout Standard
+However,
+ achieving this level of adaptation in safety-critical systems poses a dilemma:
+ how can a controller learn and adapt in real-time without sacrificing the predictability and transparency required for safe control ?
+ This tension between adaptability and reliability leads to the core research question of this thesis:
+ 
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\emph on
+To what extent can cooperative local learning architectures,
+ such as CELL,
+ serve as a foundation for adaptive safe control strategies by exploiting model introspection to guide exploration and support reliable decision-making ?
 \end_layout
 
 \begin_layout Section*
@@ -309,10 +473,12 @@ addcontentsline{toc}{section}{Contributions}
 \end_layout
 
 \begin_layout Standard
-In this thesis explores the foundational challenges induced by this collaboration are explored through the prism of adaptive control with a continuously learning dynamic model.
- To address these challenges,
- the use of self-organizing mutli-agent systems for supervised learning is explored.
- Such systems offer rapid adaptation by decomposing a complex learning task into a set of local cooperation rules between specialized local experts.
+In this thesis the foundational challenges induced by this collaboration are explored through the prism of adaptive control with a continuously learning dynamic model.
+ To address this research question,
+ we explore a paradigm shift toward self-organizing multi-agent systems for supervised learning.
+ We argue that the decomposition of complex tasks into local,
+ specialized experts governed by cooperation rules,
+ provides the necessary introspection capabilities to bridge the gap between online learning and adaptive safe control.
 \end_layout
 
 \begin_layout Standard
@@ -326,7 +492,7 @@ Throughout this research work,
 Our contributions are structured along two primary axes.
  On one hand,
  we contribute to the field of online learning by introducing the CELL (Context Ensemble Local Learning) formalism.
- It provides the theoretical foundations for local adaptations that allow for online learning in non-stationary envrionments from a stream of data.
+ It provides the theoretical foundations for local adaptations that allow for online learning in non-stationary environments from a stream of data.
  We propose three specific instantiations of CELL,
  namely oCELL,
  kCELL and sgpCELL.
@@ -654,7 +820,7 @@ status open
 	filename assets/PhD_Structure.pdf
 	lyxscale 30
 	darkModeSensitive
-	height 70pheight%
+	height 90theight%
 
 \end_inset
 
@@ -766,17 +932,25 @@ To bridge the gap between performant autonomous approaches and speed recommendat
 \end_layout
 
 \begin_layout Standard
+Before reaching a world in which every vehicle is autonomous without the need for a human driver,
+ the future of mobility in the short and medium term lies in the development of effective collaboration between humans and machines.
+ There is a need to move from theoretical collaboration to functional safety-critical control systems.
+ Thus,
+ it is necessary to address the inherent unpredictability and non-stationarity introduced by humans.
+\end_layout
+
+\begin_layout Standard
 This research investigates the use of local online learning methods based on self-organized multi-agent systems to control complex,
  non-stationary systems where the underlying dynamics are unknown beforehand.
+ This work was initiated within the industrial context of Intelligent Speed Assistance (ISA) for the automotive sector.
+ The core scientific challenge lies in the ability of a controller to adapt continuously to dynamics that evolve over time in order to incorporate more intelligence into the speed recommendation process to move beyond static recommendation systems.
+ By treating the vehicle and the driver as a whole dynamical non-stationary system,
+ the speed recommendation problem can be abstracted into a problem of Adaptive Control with a Learned Model.
 \end_layout
 
 \begin_layout Standard
-While this work was initiated within the industrial context of Intelligent Speed Recommendation for the automotive sector,
- we came to the conclusion that the fundamental scientific bottleneck lies in the ability of a controller to adapt continuously to non-stationary dynamics.
-\end_layout
-
-\begin_layout Standard
-The remainder of this introductory chapter is structured as following.
+The objective of this chapter is to detail the reasoning that leads from the specific industrial case of speed recommendation to a more generalist scientific abstraction.
+ The remainder of this chapter is structured as following.
  Section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -829,7 +1003,7 @@ nolink "false"
 \end_inset
 
 ,
- exposes the research questions framing the works of this thesis into the fields of 
+ exposes the research questions that frame the contributions of this thesis into the fields of 
 \emph on
 online learning
 \emph default
@@ -935,7 +1109,7 @@ As of July 6,
 \end_layout
 
 \begin_layout Itemize
-AS of July 7,
+As of July 7,
  2024:
  This requirement was extended to all new vehicles sold within the EU market 
 \begin_inset CommandInset citation
@@ -2348,7 +2522,7 @@ name "sec:Problem-Statement"
 To address the gaps identified in the literature,
  this thesis proposes a shift in perspective.
  Rather than viewing speed recommendation as a static recommendation task,
- we treat it as a Human-Robot Collabotation (HRC) problem.
+ we treat it as a Human-Robot Collaboration (HRC) problem.
  For a robot to work effectively with humans,
  it requires anticipatory skills 
 \begin_inset CommandInset citation
@@ -3263,17 +3437,210 @@ LWPR can be seen as a special case of CELL => LWPR corresponds to a highly const
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
+\begin_layout Section
 Control with Learned Models
-\end_layout
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Control-with-Learned-Models"
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsection
+From Reactive Regulation to Predictive Optimization
+\end_layout
+
+\begin_layout Standard
+The objective of control theory is to build a controller that interacts with a system via actuators to achieve a desired behavior.
+ For example,
+ this behavior can be defined by a setpoint or a reference trajectory.
+ Historically,
+ one of the most common approach to designing controllers was the reactive feedback laws.
+ The industry baseline for this type of controllers is the Proportional-Integral-Derivative (PID) controller 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "aastrom2001future,qin2003survey"
+literal "false"
+
+\end_inset
+
+.
+ These controllers are essentially error-driven,
+ meaning that they generate an action in response to a deviation between the reference and the measured output 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "aastrom2001future"
+literal "false"
+
+\end_inset
+
+.
+ Their ease of implementation and effectiveness in various industrial contexts have made them a default controller to try setting up before attempting more sophisticated approaches.
+ However,
+ their effectiveness diminish in a non-stationary environement and they struggle with handling several inputs and outputs,
+ limiting the possibilities in terms of manageable complexity and multiobjective consideration.
+ In addition to that,
+ this type of controller can be considered as myopic because the control action is issued in response to past or current errors,
+ lacking the ability to anticipate future changes and avoid suboptimal well solutions that can bring the system into a state from which it is impossible to recover 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "aastrom2006advanced,qin2003survey"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Control progressively tasks shifted towards the management of more complex,
+ multivariable processes.
+ In this setting,
+ purely reactive laws that do not consider a model of the environment,
+ are inherently limited.
+ To address these limitations,
+ the field moved toward Optimal Control frameworks.
+ Instead of simple gain tuning,
+ the control laws are derived by minimizing a quadratic cost function that coordinates multiple inputs and outputs simultaneously 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "schwenzer2021review"
+literal "false"
+
+\end_inset
+
+.
+ For example Linear Quadratic Regulators (LQR) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kalman1964linear"
+literal "false"
+
+\end_inset
+
+ provide an analytical solution to the optimal control problem by minimizing a quadratic cost function.
+ It ensures stability for linear systems under the assumption of perfect model knowledge giving a control law such as
+\begin_inset Formula 
+\begin{equation}
+u_{t}=Ks_{t}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $u_{t}$
+\end_inset
+
+ is the action,
+ 
+\begin_inset Formula $s_{t}$
+\end_inset
+
+ the current state of the system and 
+\begin_inset Formula $K$
+\end_inset
+
+ the gain derived from Ricatti Equations.
+\end_layout
+
+\begin_layout Standard
+To address the reality of noisy sensors and incomplete state information,
+ the Linear Quadratic Gaussian (LQG) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kalman1961new"
+literal "false"
+
+\end_inset
+
+ controller combines LQR with a Kalman Filter,
+ providing an optimal solution under Gaussian white noise.
+ However,
+ LQG can lack robustness to model mismatches.
+ To account for structural uncertainties and external disturbances,
+ 
+\begin_inset Formula $H_{\infty}$
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "francis1987linear,zames2003feedback"
+literal "false"
+
+\end_inset
+
+ controller was developed.
+ It treats control design as a minimax optimization problem,
+ aiming to minimize the worst-case gain,
+ thereby ensuring robust performance with conservative behavior.
+\end_layout
+
+\begin_layout Standard
+In classical LQR or 
+\begin_inset Formula $H_{\infty}$
+\end_inset
+
+,
+ the optimization has no hard constraint,
+ that is to say,
+ it assumes that actions have infinite range and that system states can fluctuate without bounds.
+ In reality,
+ physical systems are governed by hard limits.
+ For example,
+ an electric motor has a maximum torque it can produce before the current saturates or the windings overheat,
+ and a chemical valve can only transition between fully open (100%) and fully closed (0%) positions.
+ Beyond action constraints,
+ the system states themselves often have safety or structural boundaries.
+ For instance,
+ a robotic arm must avoid joint limit angles to prevent mechanical damage and a drone must maintain a minimum altitude above the ground to avoid a collision.
+ Ignoring these hard constraints can lead to caatstrophic system failure when the control laaw demands an action that the hardware cannot execute.
+ When these hard constraints are reached,
+ classical feedback laws often require heuristics (e.g anti-windup strategies 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "galeani2009tutorial"
+literal "false"
+
+\end_inset
+
+) which can compromise the stability and optimality of the system 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "qin2003survey"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Consequently,
+ there is a clear necessity to transition from reactive regulation from static feedback gains toward predictive optimization.
+ This paradigm transitions from pre-calculated control laws with the resolution of Optimal Control Problems (OCP) over a finite future horizon.
+ By embedding a predictive model direclty within a mathematical optimization framework (e.g Quadratic Programming),
+ the controller gains the ability to proactively plan actions.
+ In modern robotics and automotive systems,
+ this is primarily achieved through the Model Predictive Control (MPC) ,
+ which is the main control framework for online adaptive planning 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bemporad2006model,schwenzer2021review"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Unlike global optimization methods that are computationally prohibited for real-time use,
+ MPC relies on a receding horizon.
+ At each timestep,
+ the controller solves a constrained optimization problem to find the optimal sequence of future actions based on a model of the system.
 \end_layout
 
 \begin_layout Standard
@@ -3281,210 +3648,790 @@ Control with Learned Models
 status collapsed
 
 \begin_layout Plain Layout
-\align center
-\begin_inset Float figure
-placement document
-alignment document
-wide false
-sideways false
+Why MPC for learning based control and not RL or Imitation Learning?
+ => Why MPC with online models for adaptive control?
+\end_layout
+
+\begin_layout Plain Layout
+PID (Least modeling effort) => LQR & 
+\begin_inset Formula $H_{\infty}$
+\end_inset
+
+ & LQG (LQR + Kalman Filter) => MPC
+\end_layout
+
+\begin_layout Itemize
+\begin_inset CommandInset citation
+LatexCommand cite
+key "francis1987linear"
+literal "false"
+
+\end_inset
+
+ 
+\begin_inset Formula $H_{\infty}$
+\end_inset
+
+ paper
+\end_layout
+
+\begin_layout Itemize
+\begin_inset CommandInset citation
+LatexCommand cite
+key "tinoco2025review"
+literal "false"
+
+\end_inset
+
+ Review paper about advanced control methodologies.
+ The PID controller acts as the baseline reactive regulator,
+ effective for fixed industrial tasks but limited by its inability to handle the dynamic uncertainties of real-world environments like agriculture.
+ In response to this rigidity,
+ LQR and 
+\begin_inset Formula $H_{\infty}$
+\end_inset
+
+ (Robust Control) emerge as more sophisticated mathematical frameworks that explicitly account for system stability and error minimization,
+ yet they still struggle when the system parameters change unexpectedly.
+ To bridge this gap,
+ Adaptive Control and Sliding Mode Control introduce real-time flexibility—
+the former by updating its own parameters on-the-fly and the latter by "forcing" the system to follow a desired path despite disturbances.
+ However,
+ as tasks require more foresight,
+ Model Predictive Control (MPC) responds by shifting the focus from current error correction to future optimization,
+ solving a moving-horizon problem to anticipate needs before they occur.
+ Finally,
+ to overcome the heavy dependency on precise mathematical models required by MPC and robust methods,
+ Learning-Based Control (Fuzzy Logic and Neural Networks) represents the ultimate shift toward "intelligence," using data and heuristic rules to navigate complex,
+ non-linear environments that are otherwise too difficult to model or predict through classical equations.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Late Correction:
+ Traditional reactive controllers like the standard PID generate commands only after receiving feedback,
+ meaning they react to errors that have already occurred.
+\end_layout
+
+\begin_layout Itemize
+Dependency on Static Environments:
+ These regulators are suitable for industrial scenarios where variables (weights,
+ positions) are known and fixed,
+ but they fail in dynamic or uncertain environments like agriculture.
+\end_layout
+
+\begin_layout Itemize
+Predictive Optimization:
+ Unlike reactive laws that act only on past errors,
+ proactive methods like Model Predictive Control (MPC) define control laws by predicting the future output of the system and solving an optimization problem.
+\end_layout
+
+\begin_layout Itemize
+Online Adaptability:
+ There is a strong research trend toward Reinforcement Learning,
+ which provides "strong online adaptability and self-learning capabilities".
+ This allows the robot to proactively adjust its behavior when the environment changes rather than just reacting to a setpoint.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset CommandInset citation
+LatexCommand cite
+key "qin2003survey"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The PID Family:
+ Single-Input Single-Output (SISO) Regulation => The earliest "family" of feedback laws is the PID (Proportional-Integral-Derivative) controller.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The Logic:
+ It is a purely reactive,
+ error-driven feedback law.
+ It looks at the difference between the setpoint and the current output and reacts.
+\end_layout
+
+\begin_layout Itemize
+The Limitation:
+ While excellent for simple loops,
+ PID cannot "see" other variables => great complexification when trying to handle multiple inputs and outputs.
+ In a complex plant,
+ changing one PID loop often upsets another.
+ To handle constraints,
+ engineers had to add "overrides" and "select logic," making the system a fragile "jungle" of interconnected loops that was difficult to manage.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The LQG/LQR Family:
+ Multivariable State-Space Control => In the 1960s,
+ the LQG (Linear Quadratic Gaussian) and LQR (Linear Quadratic Regulator) family emerged as a more sophisticated feedback law.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The Logic:
+ It uses a mathematical model of the process to coordinate multiple inputs and outputs simultaneously.
+ It minimizes a quadratic "cost function" to find the optimal feedback gains.
+ The Kalman Filter is often used here to estimate internal states that cannot be measured directly.
+\end_layout
+
+\begin_layout Itemize
+The Limitation:
+ As the paper notes,
+ this family is "unconstrained." It assumes the process can move infinitely in any direction.
+ In reality,
+ valves can only open so far,
+ and pressures can only go so high.
+ Without explicit constraint handling,
+ these optimal laws could easily drive a plant into an unsafe or shut-down state.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The Predictor-Corrector Family:
+ Early Predictive Control (IDCOM/DMC) => In the 1970s,
+ industry began moving away from pure feedback gain matrices toward Predictive Control.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The Logic:
+ This family (like IDCOM and DMC) introduced the "Moving Horizon" concept.
+ Instead of just reacting to the current state,
+ it uses a model to predict the future plant output over a "prediction horizon."
+\end_layout
+
+\begin_layout Itemize
+The Transition:
+ It calculates a set of future moves,
+ but—
+to ensure robustness—
+it only implements the first move and then "corrects" its prediction at the next step using new feedback.
+ This is known as a Receding Horizon strategy.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Modern MPC:
+ The Synthesis of Optimization and Constraints => The final step in the flow is the modern MPC architecture,
+ which synthesizes the best of the previous families.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The Logic:
+ It takes the multivariable coordination of LQR,
+ the state estimation of the Kalman Filter,
+ and the future-looking nature of DMC,
+ but adds Mathematical Programming (Quadratic Programming).
+\end_layout
+
+\begin_layout Itemize
+The Result:
+ It doesn't just calculate a feedback law;
+ it solves an optimization problem in real-time at every single time step.
+ This allows it to honor hard constraints on valves and process limits proactively.
+ It has moved from being a simple "law" (like PID) to a "real-time strategy" that anticipates and prevents problems before they occur.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+\begin_inset CommandInset citation
+LatexCommand cite
+key "schwenzer2021review"
+literal "false"
+
+\end_inset
+
+ Model Predictive Control (MPC) represents a paradigm shift from classical "reactive" feedback laws—
+like PID,
+ which relies on past error,
+ or LQR,
+ which provides a static optimal law—
+to a "proactive" optimization strategy that utilizes a mathematical model to anticipate future system behavior.
+ By solving a constrained optimization problem over a finite,
+ receding horizon at every time step,
+ MPC allows engineers to directly incorporate physical constraints and multi-variable interactions that traditional controllers struggle to handle.
+ Ultimately,
+ this evolution moves the engineering focus away from abstract gain tuning and toward process modeling,
+ enabling the control of highly complex,
+ nonlinear systems across diverse industries.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Significant limitations and challenges associated with Model Predictive Control (MPC) => A primary drawback is its high computational burden,
+ as it requires solving complex optimization problems in real-time at every time step,
+ which remains a major factor in controller design.
+ Additionally,
+ MPC is heavily dependent on model accuracy;
+ inaccuracies in the process model directly affect the quality of output predictions and can complicate robustness analysis.
+ Ensuring mathematical stability and feasibility—
+especially for non-linear systems or those with short prediction horizons—
+is also extremely difficult and often requires complex artificial measures like terminal cost constraints or slack variables to prevent the optimization from failing.
+ Finally,
+ while MPC excels at handling constraints,
+ its sophisticated design often results in a more complex implementation compared to the well-proven and simpler "reactive" classical controllers like PID.
+\end_layout
+
+\begin_layout Itemize
+Use of MPC with learned models =>
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+1.
+ Structure for Safe Learning => MPC provides a rigorous mathematical framework that can "wrap" around learned components to ensure safety.
+ For example,
+ researchers use Gaussian process modeling to learn system dynamics while establishing confidence intervals that define safe trajectories.
+ This allows the system to learn from data without violating critical physical boundaries,
+ a major advantage over pure "black-box" learning methods.
+\end_layout
+
+\begin_layout Itemize
+2.
+ Solving the "Curse of Dimensionality" => One of the primary arguments for learning-based MPC is its ability to overcome the traditional computational burden of real-time optimization.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Approximating Explicit MPC:
+ Neural Networks (NNs) are used to learn the "solution space" of an explicit MPC,
+ effectively turning a complex optimization into a fast function evaluation.
+\end_layout
+
+\begin_layout Itemize
+Efficiency Gains:
+ The paper notes that this approach can speed up computation by factors of 65 to 200,
+ making advanced control feasible for high-speed applications like robotics and power converters.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+3.
+ Bridging Data and Physics => MPC is fundamentally based on models,
+ which allows it to naturally incorporate different types of knowledge.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Hybrid Modeling:
+ It allows for a "best of both worlds" approach where well-known physical dynamics are handled by traditional equations,
+ while complex,
+ hard-to-model uncertainties (like friction or wind) are learned from data.
+\end_layout
+
+\begin_layout Itemize
+Intuitive Integration:
+ Because MPC's parameters (like the cost function and constraints) have physical meaning,
+ engineers can more easily interpret and tune the "learned" behavior compared to other architectures.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+Historical flow described in the paper:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The Classical Feedback Era:
+ PID Control
+\end_layout
+
+\begin_layout Itemize
+Mechanism:
+ PID controllers are "reactive",
+ calculating the manipulated variable $u$ based on the deviation ($e=r-y$) between a reference and measured variable.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Perspective:
+ They only consider past and current system behavior.
+\end_layout
+
+\begin_layout Itemize
+Limitations:
+ While PID is highly effective for approximately 90% of control problems,
+ it is difficult to parameterize for nonlinear or time-variant systems.
+ It is fundamentally limited by system dynamics and cannot handle technical limitations of actuators (constraints) without heuristic,
+ hard-to-maintain solutions
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The Move Toward Optimality:
+ LQR and LQG
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Evolutionary Link:
+ The transition toward MPC was bridged by the study of infinite horizon control problems,
+ such as Linear Quadratic Gaussian (LQG) control.
+\end_layout
+
+\begin_layout Itemize
+Advancement:
+ These methods introduced the concept of a cost function to achieve "optimal" control behavior.
+\end_layout
+
+\begin_layout Itemize
+The Constraint Hurdle:
+ LQG/LQR provides global asymptotic stability for linear systems,
+ but these classical optimal methods do not directly consider hard constraints (like physical limits of a valve).
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+3.
+ The Robustness Shift:
+ 
+\begin_inset Formula $H_{\infty}$
+\end_inset
+
+ and Uncertainty
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Evolutionary Link:
+ As optimal control grew more complex,
+ research shifted toward robustness—
+ensuring performance is met despite model variations or uncertainties.
+\end_layout
+
+\begin_layout Itemize
+Mechanism (
+\begin_inset Formula $H_{\infty}$
+\end_inset
+
+ connection):
+ The paper highlights that minimizing the maximum error (
+\begin_inset Formula $L_{\infty}$
+\end_inset
+
+-norm) in a prediction horizon is a strategy used to favor robustness.
+\end_layout
+
+\begin_layout Itemize
+Trade-off:
+ This approach leads to more conservative control actions,
+ preventing the controller from making full use of the plant's potential.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The Predictive Era:
+ Model Predictive Control (MPC) => MPC emerged by combining the optimality of earlier methods with the ability to handle constraints and predict the future.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+From Infinite to Receding Horizon:
+ While LQR/LQG typically assumed an infinite horizon,
+ MPC uses a "receding horizon".
+ It solves a finite-term optimization at each time step but only implements the first value of the resulting trajectory.
+\end_layout
+
+\begin_layout Itemize
+Implicit vs.
+ Explicit Laws:
+ Unlike PID or LQR,
+ which use precomputed (explicit) control laws,
+ MPC determines the control law implicitly by repeatedly solving a constrained optimization problem in real-time.
+\end_layout
+
+\begin_layout Itemize
+Direct Constraint Handling:
+ MPC's greatest leap over previous families is its ability to directly incorporate hard input and soft output constraints into the mathematical optimization.
+\end_layout
+
+\begin_layout Itemize
+Model Flexibility:
+ While early MPC (like Dynamic Matrix Control) was restricted to linear models,
+ modern MPC can utilize nonlinear,
+ impulse response (IRF),
+ or state-space models.
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bemporad2006model"
+literal "false"
+
+\end_inset
+
+ MPC uses a dynamical model of an open-loop process to construct an optimization problem.
+ It solves this problem at each sampling time to find an optimal sequence of future control moves,
+ applying only the first move and repeating the process at the next step (receding-horizon mechanism).
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Systematic Constraint Handling:
+ MPC is uniquely capable of achieving performance while explicitly respecting restrictions on input and output variables (such as actuator saturation or safety ranges).
+ Traditional methods often require "a-posteriori patches" to handle these limits,
+ whereas MPC embeds them directly into the design flow.
+\end_layout
+
+\begin_layout Itemize
+Multivariable Complexity:
+ They are used to control highly complex multivariable processes where command inputs,
+ internal states,
+ and measured outputs are deeply interconnected.
+\end_layout
+
+\begin_layout Itemize
+Near-Optimal Performance:
+ These methods provide near-optimal performance by translating technical specifications (weights on tracking errors and actuator efforts) into a mathematical cost function that is minimized.
+\end_layout
+
+\begin_layout Itemize
+Future Anticipation (Preview):
+ Optimization allows the controller to "look ahead" and explicitly account for future reference signals or measured disturbances,
+ automatically resulting in feedforward action.
+\end_layout
+
+\begin_layout Itemize
+Hybrid Dynamics:
+ In response to systems involving logic,
+ switching,
+ and on/off inputs,
+ optimization-based hybrid MPC provides a systematic way to synthesize controllers that would otherwise be impossible to design using heuristic "trial and error" procedures (through MILP for example).
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset CommandInset citation
+LatexCommand cite
+key "tinoco2025review"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Online Adaptability:
+ There is a strong research trend toward Reinforcement Learning,
+ which provides "strong online adaptability and self-learning capabilities".
+ This allows the robot to proactively adjust its behavior when the environment changes rather than just reacting to a setpoint.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Brunke2022May"
+literal "false"
+
+\end_inset
+
+ Review of literature => From Learning-based control to safe reinforcement learning
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+How is machine learning used in control ?
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Learning Uncertain Dynamics:
+ Data is used to learn unknown or uncertain parts of a robot's dynamics.
+ This information is then integrated into standard control frameworks (like adaptive or robust control) to improve performance while maintaining safety guarantees.
+\end_layout
+
+\begin_layout Itemize
+Encouraging Safety and Robustness in RL:
+ In scenarios where a prior model is unavailable,
+ reinforcement learning (RL) uses data to "encourage" safety.
+ This is often done by penalizing dangerous actions or using risk-averse strategies.
+\end_layout
+
+\begin_layout Itemize
+Online Adaptation:
+ Data is used in real-time to adjust controller parameters,
+ dynamics models,
+ or constraint functions during operation.
+\end_layout
+
+\begin_layout Itemize
+Offline Learning:
+ Data from previous trials is recorded and used to update models in a batch manner between operations.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Why using learning in control ?
+ => related to deployment in real world complex environments
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Handling Uncertainty and unknown dynamics a priori:
+ Traditional control relies on precise models,
+ but real-world dynamics are often partially unknown (e.g.,
+ the mass of a payload).
+ Learning allows systems to reduce conservatism by "knowing what is not known".
+\end_layout
+
+\begin_layout Itemize
+Adaptability to Complex Environments:
+ Robots frequently operate in environments that are not well-characterized or include other agents with unknown plans.
+ Machine learning enables robots to adapt to these new contexts.
+\end_layout
+
+\begin_layout Itemize
+Improving Performance:
+ By extracting patterns from large volumes of data,
+ learning-based methods can safely improve a robot's performance beyond what is possible with a fixed,
+ prior model.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Challenges of learned models in control
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+1.
+ Safety and Formal Guarantees
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Safety During Learning:
+ A primary challenge is ensuring the robot's safety during the learning process itself,
+ not just for the final optimized policy.
+ This is critical to avoid costly hardware failures.
+\end_layout
+
+\begin_layout Itemize
+Providing Hard Guarantees:
+ While traditional control provides strong guarantees within specific contexts,
+ data-driven approaches like Reinforcement Learning (RL) struggle to provide formal safety and stability guarantees.
+\end_layout
+
+\begin_layout Itemize
+Difficulty in Verification:
+ Safety guarantees often rely on assumptions (like Lipschitz continuity) that are difficult to verify before a robot begins operation.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+2.
+ Generalization and Data Issues
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Distribution Shifts:
+ Learned models may struggle when they encounter data that differs from their training distribution (distribution shifts).
+\end_layout
+
+\begin_layout Itemize
+Generalization vs.
+ Safety:
+ While data-driven approaches generalize well to new contexts,
+ they often do so at the expense of formal guarantees.
+\end_layout
+
+\begin_layout Itemize
+Data Sparsity:
+ In real-world robotics,
+ data can be sparse,
+ making it difficult for expressive models to extract accurate patterns efficiently.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+3.
+ Computational and Scaling Hurdles
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Computational Complexity:
+ Applying deep RL to constrained problems is computationally expensive,
+ particularly for the off-policy evaluation of trajectory-level constraints.
+\end_layout
+
+\begin_layout Itemize
+Optimality-Complexity Trade-off:
+ There is a constant trade-off between achieving the most "optimal" performance and the computational complexity required for real-time implementations in a control loop.
+\end_layout
+
+\begin_layout Itemize
+Scalability:
+ Many current safe learning methods have only been demonstrated on small "toy" problems;
+ scaling them to high-dimensional,
+ real-world robotic systems is non-trivial.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+4.
+ Modeling and Measurement Uncertainties
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Imperfect State Measurements:
+ Most approaches assume direct access to perfect state measurements,
+ but in reality,
+ sensor noise and inaccurate state estimation (e.g.,
+ using images as measurements) introduce errors that the control system must account for.
+\end_layout
+
+\begin_layout Itemize
+Black-Box Nature:
+ The interpretability of "black-box" models like Deep Neural Networks (DNNs) remains an open challenge for safe closed-loop operation.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+Safest models ?
+ => Probabilistic Models (High Confidence Safety) => Models that provide a measure of uncertainty are considered safer for control because they allow for "cautious adaptation".
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Gaussian Processes (GPs):
+ These are frequently highlighted as a safer choice for learning unknown dynamics.
+ Because they specify a distribution over functions,
+ they provide a built-in confidence metric.
+ Controllers can be designed to rely on the learned model only when confidence is high,
+ allowing for Safety Level III (Hard Guarantees) through stochastic stability analysis.
+\end_layout
+
+\begin_layout Itemize
+Bayesian Linear Regression (BLR):
+ Similar to GPs,
+ BLR is a probabilistic model that allows the controller to account for uncertainty in its predictions.
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+From Physics-Based to Learning-Based Control
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
 status open
 
 \begin_layout Plain Layout
-\align center
-\begin_inset ERT
+PMP & DP => model-free RL => model-based RL => MPC with online learning model (interesting review paper 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hewing2020learning"
+literal "false"
+
+\end_inset
+
+ on learning based MPC)
+\end_layout
+
+\begin_layout Itemize
+In some cases,
+ environment is so complex that accurate first principle models do not exist or are hard to develop or too computationally heavy
+\end_layout
+
+\begin_layout Itemize
+In some cases MPC can be used with simple physics model (e.g linear model) and is enhanced by a learning model like a Gaussian Process to learn to compensate the errors of the simple model => physic informed learning based => limited when no first principle model exists
+\end_layout
+
+\begin_layout Itemize
+Due to these limitations approaches based on model free RL have been used to learn end to end a controller in an online fashion without prior knowledge of the environment.
+ => introduction of RL
+\end_layout
+
+\begin_layout Itemize
+RL is very performant and has seen success in many use cases.
+ However it is inherently limited by:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+its sample inefficiency => problem of exploration with learned models
+\end_layout
+
+\begin_layout Itemize
+learning instabilities
+\end_layout
+
+\begin_layout Itemize
+reality gap => need very accurate simulator
+\end_layout
+
+\begin_layout Itemize
+it obtains frozen models => the process of learning is online with interactions with the environment,
+ however at deployment the 
+\end_layout
+
+\begin_layout Itemize
+lack of safety guarantees => addressed with safety layer added on top of the model
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+To address these limitations (especially sample inefficiency) => model-based RL have been developed (very similar to MPC in some sense) => PILCO,
+ PETS
+\end_layout
+
+\begin_layout Itemize
+However MBRL still gives frozen policies and cannot be adaptive and continue learning online.
+ Furthermore,
+ it often is very computationally inefficient at deployment needing population based optimizers (e.g PETS)
+\end_layout
+
+\begin_layout Itemize
+We chose MPC
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Why MPC ?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
 status open
 
 \begin_layout Plain Layout
-
-
-\backslash
-scalebox{.8}{
-\backslash
-begin{forest}
-\end_layout
-
-\begin_layout Plain Layout
-
-for tree={
-\end_layout
-
-\begin_layout Plain Layout
-
-}
-\end_layout
-
-\begin_layout Plain Layout
-
-[Online Machine Learning
-\end_layout
-
-\begin_layout Plain Layout
-
-	[Parametric]
-\end_layout
-
-\begin_layout Plain Layout
-
-	[Non Parametric
-\end_layout
-
-\begin_layout Plain Layout
-
-    	[Probabilistic]
-\end_layout
-
-\begin_layout Plain Layout
-
-		[Trees]
-\end_layout
-
-\begin_layout Plain Layout
-
-    	[Local Learning]
-\end_layout
-
-\begin_layout Plain Layout
-
-	]
-\end_layout
-
-\begin_layout Plain Layout
-
-]
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{forest}}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Taxonomy of Vehicle Speed Management approaches
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-TAXONOMY
-\end_layout
-
-\begin_layout Plain Layout
-* Parametric (Fixed Complexity) (Neural Nets + SGD,
- RLS,
- Kalman Filters)
-\end_layout
-
-\begin_layout Plain Layout
-// * Adaptive Drift Detection (ADWIN,
- DDM,
- EDDM,
- ...)
-\end_layout
-
-\begin_layout Plain Layout
-* Non Parametric (Adaptive Complexity) [
-\end_layout
-
-\begin_layout Plain Layout
-- Probabilistic (Online GPs,
- Bayesian,)
-\end_layout
-
-\begin_layout Plain Layout
-- Local Learning (LWPR,
- kNN,
- SACL) => our work falls in that
-\end_layout
-
-\begin_layout Plain Layout
-- Tree-based (Hoeffding Trees,
- )
-\end_layout
-
-\begin_layout Plain Layout
-]
-\begin_inset Newline newline
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-PLAN
-\end_layout
-
-\begin_layout Plain Layout
-- Parametric Methods => NN whole model modified,
- risk of catastrophic forgetting;
- RLS,
- Kalman are linear and myopic
-\end_layout
-
-\begin_layout Plain Layout
-- Tree-based Online Learning (Hoeffding Trees,
- EFDT,
- Online Random Forest) => non differentiable which is a disadvantage for control
-\end_layout
-
-\begin_layout Plain Layout
-- Probabilistic and Uncertainty-aware (Online GPs) => good models but computationally heavy and memory heavy
-\end_layout
-
-\begin_layout Plain Layout
-- Local Learning & Memory-Based (LWPR,
- kNN,
- SACL) =>
-\end_layout
-
-\begin_layout Plain Layout
-- Ensemble Learning to enhance robustness => weighted weak learners depending on individual performances => to handle concept drift ?
- => loss of interpretability (trade with explainability)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Start with supervised learning,
- then machine learning then ensemble learning then online learning
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-We provide an overview of related works about multiagent learning,
- ensemble methods and eXplainable AI (XAI) to better situate the CELL paradigm within the existing literature.
+Reliability (OOD + Uncertainty),
+ Adaptability,
+ Hard Constraints
 \end_layout
 
 \end_inset
@@ -5157,29 +6104,6 @@ The family of systems presented in this chapter,
 \end_inset
 
 
-\end_layout
-
-\begin_layout Section
-Control with Learned Models
-\begin_inset CommandInset label
-LatexCommand label
-name "sec:Control-with-Learned-Models"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-Reinforcement Learning
-\end_layout
-
-\begin_layout Subsubsection
-Model-Based approaches
-\end_layout
-
-\begin_layout Subsubsection
-Exploration
 \end_layout
 
 \begin_layout Section
@@ -19646,7 +20570,7 @@ Exploration strategies relying on kCELL intrinsic multiagent structure have show
 \begin_layout Standard
 To achieve safe control with learned models,
  i.e reliability of controllers,
- the problem of compounding errors and uncertainty in the model predictions need to be addressed at exploitation time 
+ the problem of compounding errors and uncertainty in the model predictions needs to be addressed at exploitation time 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Brunke2022May"
@@ -21479,7 +22403,7 @@ Mention similarities with LWPR and
 
 \begin_layout Standard
 \begin_inset Note Note
-status collapsed
+status open
 
 \begin_layout Section
 Contributions
