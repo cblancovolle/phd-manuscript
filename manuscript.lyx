@@ -6,14 +6,18 @@
 \origin unavailable
 \textclass book
 \begin_preamble
+\usepackage{amssymb}
 \usepackage{pifont}
 \usepackage{graphicx}
 \usepackage{forest}
+
+\RestyleAlgo{ruled}
 \end_preamble
 \use_default_options true
 \begin_modules
 theorems-ams
 linguistics
+algorithm2e
 \end_modules
 \maintain_unincluded_children no
 \language english
@@ -240,13 +244,18 @@ Ces dernières années l'apprentissage local fondé sur des agents contextuels a
 
 \begin_layout Standard
 Dans ce contexte,
- nous nous demandons dans quelle mesure des architectures d'apprentissage local coopératif telles que CELL peuvent-elles servir de fondation à des stratégies de contrôle sûres,
+ nous nous posons la question question suivante:
+ dans quelle mesure des architectures d'apprentissage local coopératif telles que CELL peuvent-elles servir de fondation à des stratégies de contrôle sûres,
  exploitant l'introspection du modèle pour orienter l'exploration et soutenir une prise de décision fiable en condition réelles ?
 \end_layout
 
 \begin_layout Standard
 Cette thèse modélise le problème de la recommandation de vitesse en un problème de contrôle adaptatif de systèmes complexes à dynamique inconnue et non-stationaire.
- Nous introduisons le formalisme CELL (Context Ensemble Local Learning),
+ Nous introduisons le formalisme CELL (
+\emph on
+Context Ensemble Local Learning
+\emph default
+),
  inspiré des systèmes multi-agents auto-organisés.
  Ce formalisme permet de concevoir des architectures d'apprentissage en ligne capables de modéliser des dynamiques non linéaires grâce à la coopération de modèles locaux spécialisés.
  Ce cadre théorique permet de concevoir des systèmes s'adaptant continuellement aux changements environnementaux tout en préservant une représentation spatialisée des connaissances,
@@ -266,7 +275,15 @@ Cette thèse modélise le problème de la recommandation de vitesse en un probl�
 \end_layout
 
 \begin_layout Standard
-kCELL est ensuite intégré dans un système de contrôle prédictif (Model Predictive Control - MPC).
+kCELL est ensuite intégré dans un système de contrôle prédictif (
+\emph on
+Model Predictive Control
+\emph default
+ 
+\emph on
+- MPC
+\emph default
+).
  Nous exploitons les propriétés d'introspection du modèle pour orienter l'exploration vers les zones de forte incertitude et sécuriser l'exploitation en évitant les régions mal modélisées.
  Enfin,
  nous introduisons une nouvelle méthode d'explicabilité pour le contrôle sous contraintes,
@@ -323,7 +340,12 @@ literal "false"
  As of the 21st century,
  this paradigm is currently undergoing a profound transformation.
  In modern systems,
- a fourth component emerges as indispensable.
+ a fourth component emerges as essentia:
+ 
+\emph on
+communication
+\emph default
+.
  This evolution represents a transition from robots as isolated industrial units to robots as collaborative partners 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -378,7 +400,7 @@ literal "false"
 \begin_layout Standard
 Consequently,
  developing Advanced Driver Assistance Systems (ADAS) is of public utility.
- Technologies such as Adaptive Cruise Control (ACC) and Electronic Braking Systems (EBS) are essential to bridge the gap between manual driving and full autonomy.
+ Technologies such as Adaptive Cruise Control (ACC) and Electronic Braking Systems (EBS) are essential to assists the driver and keep road users safe.
 \end_layout
 
 \begin_layout Standard
@@ -438,7 +460,7 @@ This setting represents a unique Human-Robot Collaboration (HRC) challenge.
 \begin_layout Standard
 However,
  achieving this level of adaptation in safety-critical systems poses a dilemma:
- how can a controller learn and adapt in real-time without sacrificing the predictability and transparency required for safe control ?
+ how can a controller learn and adapt in real-time without sacrificing the predictability and transparency required for safe control?
  This tension between adaptability and reliability leads to the core research question of this thesis:
  
 \end_layout
@@ -474,7 +496,7 @@ addcontentsline{toc}{section}{Contributions}
 
 \begin_layout Standard
 In this thesis the foundational challenges induced by this collaboration are explored through the prism of adaptive control with a continuously learning dynamic model.
- To address this research question,
+ To address our research question,
  we explore a paradigm shift toward self-organizing multi-agent systems for supervised learning.
  We argue that the decomposition of complex tasks into local,
  specialized experts governed by cooperation rules,
@@ -485,7 +507,8 @@ In this thesis the foundational challenges induced by this collaboration are exp
 Throughout this research work,
  we demonstrate that the bottom-up social feedback and the local nature of these agents do more than just enable adaptation.
  They provide inherent introspection capabilities that can be linked to traditional interpretability and explainability literature.
- In addition to that we show that these properties can be leveraged to enhance the optimization process in Model Predictive Control (MPC) to influence exploration or exploitation.
+ In addition to that,
+ we show that these properties can be leveraged to enhance the optimization process in Model Predictive Control (MPC) to influence exploration or exploitation.
 \end_layout
 
 \begin_layout Standard
@@ -497,7 +520,7 @@ Our contributions are structured along two primary axes.
  namely oCELL,
  kCELL and sgpCELL.
  We demonstrate through experiments their ability to solve regression tasks while maintaining a meaningful spatialization of knowledge.
- The local nature and bottom-up social feedbacks of the learning procedure leads to the emergence of powerful introspection properties 
+ The local nature and bottom-up social feedbacks of the learning procedure leads to the emergence of introspection properties that can be linked to the notions of interpretability and explainability 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "blanco2024explainability"
@@ -516,7 +539,7 @@ On the other hand,
  we integrate the kCELL model into a MPC pipeline,
  where the model's introspection properties are used to guide data collection through uncertainty-aware exploration and to safeguard the system during exploitation by avoiding poorly modeled regions.
  In addition to that,
- we exploit the structure of the local agents to develop a novel explainability approach that quantifies the influence of constraints on the final control decisions.
+ we exploit the structure of local agents to develop a novel explainability approach that quantifies the influence of constraints on the final control decisions.
 \end_layout
 
 \begin_layout Section*
@@ -936,15 +959,14 @@ Before reaching a world in which every vehicle is autonomous without the need fo
  the future of mobility in the short and medium term lies in the development of effective collaboration between humans and machines.
  There is a need to move from theoretical collaboration to functional safety-critical control systems.
  Thus,
- it is necessary to address the inherent unpredictability and non-stationarity introduced by humans.
+ it is necessary to address the inherent unpredictability and non-stationarity introduced by humans in the context of this collaboration.
 \end_layout
 
 \begin_layout Standard
-This research investigates the use of local online learning methods based on self-organized multi-agent systems to control complex,
- non-stationary systems where the underlying dynamics are unknown beforehand.
- This work was initiated within the industrial context of Intelligent Speed Assistance (ISA) for the automotive sector.
- The core scientific challenge lies in the ability of a controller to adapt continuously to dynamics that evolve over time in order to incorporate more intelligence into the speed recommendation process to move beyond static recommendation systems.
- By treating the vehicle and the driver as a whole dynamical non-stationary system,
+This work was initiated within the industrial context of developing Intelligent Speed Assistance (ISA) for the automotive sector.
+ The core scientific challenge of this task lies in the development of a recommendation system able to adapt continuously to the behavior of a human driver that evolves over time.
+ This property is key in order to incorporate more intelligence into the speed recommendation process to move beyond static recommendation systems.
+ This chapters demonstrates that by treating the vehicle and the driver as a whole dynamical non-stationary system,
  the speed recommendation problem can be abstracted into a problem of Adaptive Control with a Learned Model.
 \end_layout
 
@@ -1047,7 +1069,7 @@ Speed management remains the most significant lever for improving road safety.
  For instance,
  empirical crash data suggests that the probability of a fatality in a collision grows exponentially with speed,
  while the risk is about 10% at 40km/h,
- surging to over 80% at 80km/h 
+ it surges to over 80% at 80km/h 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "hussain2019relationship"
@@ -1060,7 +1082,7 @@ literal "false"
 
 \begin_layout Standard
 Despite these risks,
- drivers often fail to maintain sage speeds due to environmental complexity,
+ drivers often fail to maintain safe speeds due to environmental complexity,
  missing signage or adverse weather conditions.
  While passive safety systems such as airbags and seatbelts provide essential reactive protection,
  they are often insufficient to preserve physical integrity during high-speed impacts,
@@ -1095,8 +1117,8 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-Beyon safety,
- speed management increasingly intersects with broder logistical and environmental goals,
+Beyond safety,
+ speed management increasingly intersects with broader logistical and environmental goals,
  such as reducing fuel consumption,
  improving passenger comfort and optimizing estimated times of arrival.
  This has led to significant regulatory changes:
@@ -1142,7 +1164,7 @@ For AUMOVIO,
  The system must provide recommendations that are effective enough to ensure safety and efficiency,
  yet intuitive enough to be accepted by a human driver who retains ultimate control.
  As it is explored in subsequent sections,
- the success of such systems depends on the controller's ability to adapt to the inherent non-stationarity of human behavior under various driving contexts.
+ the success of such systems depends on the ability of the developed system to adapt to the inherent non-stationarity of human behavior under various driving contexts.
 \end_layout
 
 \begin_layout Standard
@@ -1199,7 +1221,7 @@ name "fig:Illustration-of-ISA"
 
 \begin_layout Standard
 \begin_inset Note Note
-status open
+status collapsed
 
 \begin_layout Itemize
 CIFRE financing by AUMOVIO
@@ -1398,7 +1420,7 @@ literal "false"
 
 \begin_layout Standard
 From an industrial perspective,
- the main challenge for developing intelligent speed recommendation systems lies in designing a system that effectively influence vehicle speed while maintaining a high level of user acceptance,
+ the main challenge for developing intelligent speed recommendation systems lies in designing a system that effectively influences vehicle speed while maintaining a high level of user acceptance,
  safety and energy efficiency.
  As the driver can chose to 
 \emph on
@@ -1414,7 +1436,7 @@ delay
 refuse
 \emph default
  a recommended speed set point,
- the effectivenes of such recommendation systems is largely determined by the underlying control architecture and how it interacts with an unpredictable human driver.
+ the effectivenes of such recommendation systems is largely determined by the underlying system architecture and how it interacts with an unpredictable human driver.
 \end_layout
 
 \begin_layout Standard
@@ -1435,13 +1457,13 @@ nolink "false"
 \emph on
 Open-Loop
 \emph default
- systems comprise mainly advisory systems that do not consider any form of feedback from the vehicle state or driver response to recommendation set points.
+ systems comprise mainly advisory systems that do not consider any form of feedback from the vehicle or driver responses to recommendation set points.
  On the other hand,
  
 \emph on
 Closed-Loop
 \emph default
- systems consider feedbacks from the vehicle state,
+ systems solely consider feedbacks from the vehicle state,
  removing the driver from the execution loop,
  enabling for safety guarantees,
  stability and self correction.
@@ -1604,7 +1626,7 @@ Taxonomy of Vehicle Speed Management approaches
 \end_layout
 
 \begin_layout Standard
-Open loop systems correspond to systems that do not consider feedback from the driver or vehicle state.
+Open loop systems correspond to systems that do not consider feedback from the driver or vehicle current state.
  In the speed management literature,
  these works primarily focus on translating environment constraints such as traffic light timings 
 \begin_inset CommandInset citation
@@ -1981,7 +2003,7 @@ literal "false"
 Despite their differences,
  both model-based and data-driven closed-loop architectures share a common limitation:
  they prioritize the autonomy of the vehicle,
- denying authority of the driver.
+ denying the authority of the driver.
  Human-in-the-Loop (HitL) systems seek to address this limitation.
  These approaches attempt to reintegrate the driver into the control loop by treating human behavior as a dynamic variable of the problem rather than ignoring it.
  In this field,
@@ -3122,44 +3144,19 @@ name "chap:State-of-the-Art"
 \end_layout
 
 \begin_layout Standard
-The initial motivation of this thesis is to develop adaptive and personalized speed recommendation systems.
- As formalized in Chapter 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:Introduction"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-,
- this speed recommendation problem can be abstracted into an adaptive control problem involving non-stationary dynamics and a learned model.
- Furthermore,
- this adaptive control problem can be broken down into a continuous modeling problem and a model exploitation problem for control (cf.
- Section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Problem-Statement"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-).
- The purpose of this chapter is to provide a comprehensive review of the research landscape focusing on Online Learning and Control with Learned Models.
+For a robotic system to collaborate effectively with humans,
+ it must possess anticipatory skills to adapt to the uncertainty and non-stationarity introduced by humans.
+ Human-Robot Collaboration problems can be modeled as control problems in non-stationary environments that comprise humans in the loop.
+ This perspective transforms the interaction challenge into a problem of Adaptive Control with a Learned Model.
+ To solve this problem,
+ the controller must be able to continuously learn the evolving behavior of the human collaborator while simultaneously ensure that its actions remain safe and reliable.
 \end_layout
 
 \begin_layout Standard
-This literature review is structured around two axes that mirror the subproblems tackled in this thesis.
- First,
- Section 
+The objective of this chapter is to answer the research questions introduced in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:Online-Machine-Learning"
+reference "sec:Research-Questions"
 plural "false"
 caps "false"
 noprefix "false"
@@ -3167,10 +3164,9 @@ nolink "false"
 
 \end_inset
 
- examines the evolution of learning paradigms from static batch data processing to online methods capable of handling data streams.
- We put the emphasis on the stability-plasticity dilemma inherent to global learners and argue for the architectural advantages of local online learning and local multi-agent systems for learning while preserving interpretability,
- which is required to develop trustworthy control policies.
- Then,
+ by reviewing the existing research landscape.
+ This literature review is structured around two axes that mirror the subproblems tackled in this thesis.
+ First,
  Section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -3182,8 +3178,25 @@ nolink "false"
 
 \end_inset
 
- provides an overview of the challenges associated with controlling a dynamical system with learned models.
- We focus on Model Predictive Control (MPC) and we investigate how are adressed the risks associated with model unreliability in literature.
+ traces the evolution of control theory from reactive regulation to predictive optimization with Model Predictive Control (MPC).
+ Afterwards,
+ the shift from the use of first-principle models toward learning-based methods such as Reinforcement Learning is analyzed.
+ Following this,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Online-Machine-Learning"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ addresses the specific modeling requirements for a continuously learning model that could be integrated in a MPC setting.
+ This section examines the evolution of learning paradigms from static batch data processing to online methods capable of handling data streams.
+ The emphasis is put on the stability-plasticity dilemma inherent to global learners.
+ We argue for the architectural advantages of local online learning for safety and more specifically for exploring mutli-agent systems for online supervised learning.
  Finally,
  Section 
 \begin_inset CommandInset ref
@@ -3448,12 +3461,586 @@ name "sec:Control-with-Learned-Models"
 
 \end_layout
 
-\begin_layout Subsection
-From Reactive Regulation to Predictive Optimization
+\begin_layout Standard
+The design of autonomous systems capable of seamless and efficient interactions with humans requires a control architecture that is both mathematically rigorous and adaptive.
+ This section provides a review of literature about control theory aiming at answering the following question:
+ 
 \end_layout
 
 \begin_layout Standard
-The objective of control theory is to build a controller that interacts with a system via actuators to achieve a desired behavior.
+\align center
+
+\emph on
+How can a learning-based controller adapt continuously to non-stationary dynamics while maintaining reliability and safety?
+\end_layout
+
+\begin_layout Standard
+First,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Control-Theory-Formalism"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ introduces control theory to set up the formalism that will be used throughout the course of this thesis.
+ Then,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Reactive-to-Predictive"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ examines the shift from error-driven feedback laws such as Proportional-Integral-Derivatice (PID) controllers to optimization-based frameworks like Model Predictive Control (MPC).
+ It highlights how the shift toward predictive optimization was driven by the need to handle multivariable processes and to respect hard physical and safety constraints in real-world settings.
+ However,
+ as systems move from controlled industrial settings to more complex and uncertain real-world environments,
+ the use of static physics-based models represents a limitation.
+ Consequently,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Physics-to-Learning"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ explores the integration of Machine Learning into the control loop.
+ By analyzing the strengths and limitations of model-free Reinforcement Learning (RL) and Model-Based RL (MBRL),
+ we argue that pure end-to-end data-driven approaches often compromise safety and reliability established by classical methods.
+\end_layout
+
+\begin_layout Subsection
+Control Theory Formalism
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Control-Theory-Formalism"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Before dwelving into the reasoning towards learning-based control approaches,
+ it is required to establish the formalism used in this thesis regarding control theory.
+ Control Theory consists in the study of the means of influencing the behavior of a dynamical system to achieve a desired state or trajectory.
+\end_layout
+
+\begin_layout Standard
+The evolution of a physical system over time is governed by its dynamics.
+ In the context of digital control,
+ a discrete-time representation can be considered where the state at the next time step is a function of the current state 
+\begin_inset Formula $s_{t}$
+\end_inset
+
+ and the applied action 
+\begin_inset Formula $u_{t}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+s_{t+1}=f\left(s_{t},u_{t}\right)
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $f:\mathcal{S}\times\mathcal{U}\mapsto\mathcal{S}$
+\end_inset
+
+ represents the transition function.
+ In classical control theory,
+ 
+\begin_inset Formula $f$
+\end_inset
+
+ is assumed to be a known,
+ stationary first-principles model (e.g Newtonian mechanics).
+ This interaction between the system and the controller is traditionally represented as a closed-loop system as illustrated in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Control-Loop"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ One of the main challenge in Human-Robot Collaboration (HRC) is that 
+\begin_inset Formula $f$
+\end_inset
+
+ often becomes non-stationary or partially unknown due to the stochastic nature of humans leading to model mismatch,
+ i.e the model does not match the reality anymore.
+\end_layout
+
+\begin_layout Standard
+The controller can perceive the states of the system and act on it through actuators.
+ The boundaries of the states and actions are reffered to as the State Space (
+\begin_inset Formula $\mathcal{S}$
+\end_inset
+
+) and the Action Space (
+\begin_inset Formula $\mathcal{U}$
+\end_inset
+
+).
+ The State Space (
+\begin_inset Formula $\mathcal{S}$
+\end_inset
+
+) is a manifold that represents all possible configurations of the system (e.g joint angles,
+ velocities,
+ human positions).
+ The state of the system at time 
+\begin_inset Formula $t$
+\end_inset
+
+ is denoted as 
+\begin_inset Formula $s_{t}\in\mathcal{S}$
+\end_inset
+
+.
+ The Action Space (
+\begin_inset Formula $\mathcal{U}$
+\end_inset
+
+) is the set of all possible control inputs (e.g.,
+ motor torques,
+ voltage).
+ The action at time 
+\begin_inset Formula $t$
+\end_inset
+
+ that is applied on the system is denoted as 
+\begin_inset Formula $u_{t}\in\mathcal{U}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The controller follows a goal that is mathematically described by the minimization of a cost function (or the maximization of a reward in Reinforcement Learning literature).
+ For a given horizon 
+\begin_inset Formula $T$
+\end_inset
+
+ (that could be equal to 
+\begin_inset Formula $\infty$
+\end_inset
+
+),
+ the objective is to minimize the cumulative cost 
+\begin_inset Formula $J$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+J=\sum_{k=0}^{T-1}l\left(s_{t+k},u_{t+k}\right)+l_{T}\left(s_{t+T}\right)
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $l$
+\end_inset
+
+ is the stage cost (e.g.
+ tracking error or energy consumption) and 
+\begin_inset Formula $l_{T}$
+\end_inset
+
+ is the terminal cost.
+\end_layout
+
+\begin_layout Standard
+Depending on the task to be accomplished and its requirements,
+ systems can be subject to physical and safety limits.
+ These are expressed as algebraic inequalities such as 
+\begin_inset Formula 
+\[
+g\left(s_{t},u_{t}\right)\leq0\,\,\text{or}\,\,h\left(s_{t},u_{t}\right)=0
+\]
+
+\end_inset
+
+These constraints may represent hard limits (e.g.
+ maximum current) or safety boundaries (e.g.
+ speed limits,
+ minimum distance to human operator).
+\end_layout
+
+\begin_layout Standard
+Finally,
+ the control law (also referred to as policy in RL literature) 
+\begin_inset Formula $\pi$
+\end_inset
+
+ encapsulates the decision making logic such as 
+\begin_inset Formula 
+\[
+u_{t}=\pi\left(s_{t}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These elements are part of the standard Optimal Control Problem,
+ which serves as the template for the controllers discussed in the remainder of this chapter:
+\begin_inset Formula 
+\begin{align}
+\min_{U}\,\,\, & \sum_{k=0}^{T-1}l\left(s_{t+k},u_{t+k}\right)+l_{T}\left(s_{t+T}\right)\\
+\text{s.t.\,\,\, } & s_{t+1}=f\left(s_{t},u_{t}\right)\\
+ & u_{t}\in\mathcal{U},\,\,s_{t}\in\mathcal{S}\\
+ & g\left(s_{t},u_{t}\right)\leq0\\
+ & h\left(s_{t},u_{t}\right)=0
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To ground this formalism in an physical example,
+ let's consider the classical pendulum problem.
+ A mass 
+\begin_inset Formula $m$
+\end_inset
+
+ is attached to a pivot by a rod of length 
+\begin_inset Formula $L$
+\end_inset
+
+.
+ The objective is to control its angular position 
+\begin_inset Formula $\theta$
+\end_inset
+
+ using a motor that applies a torque 
+\begin_inset Formula $\tau$
+\end_inset
+
+ at the pivot (c.f Figure).
+ The components of the problem are the following
+\end_layout
+
+\begin_layout Itemize
+State 
+\begin_inset Formula $s_{t}$
+\end_inset
+
+:
+ The states are represented by the angle and angular velocity 
+\begin_inset Formula $s_{t}=\left[\theta,\dot{\theta}\right]^{\top}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Dynamics 
+\begin_inset Formula $f$
+\end_inset
+
+:
+ The dynamics are derived from Newton's Second Law,
+ where the next state depends on gravity,
+ damping and the applied torque 
+\begin_inset Formula $u_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Constraints 
+\begin_inset Formula $\left(g,h\right)$
+\end_inset
+
+:
+ An inequality constraint 
+\begin_inset Formula $g$
+\end_inset
+
+ represents the physical limit of the torque that can be applied by the motor (
+\begin_inset Formula $\left|u\right|\leq u_{\max}$
+\end_inset
+
+) while an equality constraint enforces the dynamics (
+\begin_inset Formula $s_{t+1}=f\left(s_{t},u_{t}\right)$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Itemize
+Objective 
+\begin_inset Formula $J$
+\end_inset
+
+:
+ The cost function penalizes the distance from a target angle (e.g reaching 
+\begin_inset Formula $\theta=0$
+\end_inset
+
+) while minimizing the energy 
+\begin_inset Formula $u^{2}$
+\end_inset
+
+ consumed by the motor.
+\end_layout
+
+\begin_layout Standard
+This deterministic system provides a baseline where 
+\begin_inset Formula $f$
+\end_inset
+
+ is perfectly known.
+ However,
+ even this simple system must satisfy some mathematical properties to be regulated effectively.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/pendulum.png
+	lyxscale 30
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Illustration of the Pendulum Control Task
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The existence and quality of a solution to the OCP defined above depends on the following three properties of the system:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Controllability:
+ 
+\series default
+This property assesses whether the control input 
+\begin_inset Formula $u$
+\end_inset
+
+ can drive the system from any initial state 
+\begin_inset Formula $s_{0}$
+\end_inset
+
+ to any desired state 
+\begin_inset Formula $s_{t}$
+\end_inset
+
+ within a finite time.
+ In HRC,
+ controllability is often shared.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Observability:
+ 
+\series default
+This corresponds to the ability to reconstruct the internal state 
+\begin_inset Formula $s_{t}$
+\end_inset
+
+ from available measurements.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Stabilizability:
+ 
+\series default
+Even if a system is not fully controllable,
+ it is considered stabilizable if all the unstable modes can be brought to a steady state using the available actions.
+\end_layout
+
+\begin_layout Standard
+Beyond the internal properties of the system,
+ the effectiveness of a controller is governed by the complexity of the considered system.
+ This is formalized by Ashby's Law of Requisite Variety 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ashby1956introduction"
+literal "false"
+
+\end_inset
+
+,
+ which states that for a controller to effectively manage a system,
+ its internal variety,
+ i.e the number of possible states,
+ must be at least equal to the variety of the disturbances it aims to compensate for.
+ In other words,
+ a controller must be at least as complex as the task of keeping the goal satisfied.
+\end_layout
+
+\begin_layout Standard
+Mathematically,
+ from the perspective of information theory,
+ if 
+\begin_inset Formula $D$
+\end_inset
+
+ represents the system's disturbances and 
+\begin_inset Formula $R$
+\end_inset
+
+ represents controller's actions,
+ the entropy of the viable states of the system 
+\begin_inset Formula $H\left(E\right)$
+\end_inset
+
+ is bounded such as
+\begin_inset Formula 
+\[
+H\left(E\right)\geq H\left(D\right)-H\left(R\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+An extension of this theorem,
+ the Conant-Ashby theorem 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "conant1970every"
+literal "false"
+
+\end_inset
+
+,
+ states that every good controller of a system must be a model of that system.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/Control_Loop.pdf
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Illustration of Closed-Loop Control
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Control-Loop"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+From Reactive Regulation to Predictive Optimization
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Reactive-to-Predictive"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As shown in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Control-Theory-Formalism"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ the objective of control theory is to build a controller that interacts with a system via actuators to achieve a desired behavior.
  For example,
  this behavior can be defined by a setpoint or a reference trajectory.
  Historically,
@@ -3468,7 +4055,15 @@ literal "false"
 
 .
  These controllers are essentially error-driven,
- meaning that they generate an action in response to a deviation between the reference and the measured output 
+ meaning that they generate an action in response to a deviation 
+\begin_inset Formula $e_{t}$
+\end_inset
+
+ between the reference 
+\begin_inset Formula $s_{\text{ref}}$
+\end_inset
+
+ and the measured output 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "aastrom2001future"
@@ -3476,7 +4071,19 @@ literal "false"
 
 \end_inset
 
-.
+ (cf.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:PID-Control"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
  Their ease of implementation and effectiveness in various industrial contexts have made them a default controller to try setting up before attempting more sophisticated approaches.
  However,
  their effectiveness diminish in a non-stationary environement and they struggle with handling several inputs and outputs,
@@ -3495,7 +4102,54 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-Control progressively tasks shifted towards the management of more complex,
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/PID_ Control.pdf
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Illustration of PID Control
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:PID-Control"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Control tasks progressively shifted towards the management of more complex,
  multivariable processes.
  In this setting,
  purely reactive laws that do not consider a model of the environment,
@@ -3520,7 +4174,19 @@ literal "false"
 
 \end_inset
 
- provide an analytical solution to the optimal control problem by minimizing a quadratic cost function.
+ (cf.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:LQR-Control"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+) provide an analytical solution to the optimal control problem by minimizing a quadratic cost function.
  It ensures stability for linear systems under the assumption of perfect model knowledge giving a control law such as
 \begin_inset Formula 
 \begin{equation}
@@ -3579,6 +4245,49 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/LQR_Control.pdf
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Illustration of LQR Control
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:LQR-Control"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 In classical LQR or 
 \begin_inset Formula $H_{\infty}$
 \end_inset
@@ -3596,7 +4305,7 @@ In classical LQR or
  the system states themselves often have safety or structural boundaries.
  For instance,
  a robotic arm must avoid joint limit angles to prevent mechanical damage and a drone must maintain a minimum altitude above the ground to avoid a collision.
- Ignoring these hard constraints can lead to caatstrophic system failure when the control laaw demands an action that the hardware cannot execute.
+ Ignoring these hard constraints can lead to catastrophic system failure when the control law demands an action that the hardware cannot execute.
  When these hard constraints are reached,
  classical feedback laws often require heuristics (e.g anti-windup strategies 
 \begin_inset CommandInset citation
@@ -3621,11 +4330,19 @@ literal "false"
 Consequently,
  there is a clear necessity to transition from reactive regulation from static feedback gains toward predictive optimization.
  This paradigm transitions from pre-calculated control laws with the resolution of Optimal Control Problems (OCP) over a finite future horizon.
- By embedding a predictive model direclty within a mathematical optimization framework (e.g Quadratic Programming),
+ By embedding a predictive model directly within a mathematical optimization framework (e.g Quadratic Programming),
  the controller gains the ability to proactively plan actions.
  In modern robotics and automotive systems,
- this is primarily achieved through the Model Predictive Control (MPC) ,
- which is the main control framework for online adaptive planning 
+ this is primarily achieved through Model Predictive Control (MPC) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "GARCIA1989335"
+literal "false"
+
+\end_inset
+
+,
+ which is the main control framework for online constrained planning 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "bemporad2006model,schwenzer2021review"
@@ -3637,10 +4354,470 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-Unlike global optimization methods that are computationally prohibited for real-time use,
+Unlike global optimization methods,
+ that solve the entire control problem beforehand and which are computationally prohibited for real-time use,
  MPC relies on a receding horizon.
  At each timestep,
  the controller solves a constrained optimization problem to find the optimal sequence of future actions based on a model of the system.
+\end_layout
+
+\begin_layout Standard
+The core mechanism of MPC involves the repeated resolution of an OCP at each timestep 
+\begin_inset Formula $t$
+\end_inset
+
+.
+ Given the current state 
+\begin_inset Formula $s_{0}$
+\end_inset
+
+,
+ the controller seeks an optimal sequence of future actions 
+\begin_inset Formula $U^{*}=\left\{ u_{0},\dots,u_{T-1}\right\} $
+\end_inset
+
+ that minimizes a cost function 
+\begin_inset Formula $J$
+\end_inset
+
+ over a finite prediction horizon 
+\begin_inset Formula $T$
+\end_inset
+
+ under some inequality or equality constraints
+\begin_inset Formula 
+\begin{align}
+\min_{U}\,\,\, & J\left(s_{t:t+T},U\right)\\
+\text{s.t.\,\,\, } & s_{t+1}=f\left(s_{t},u_{t}\right)\\
+ & h\left(s_{t},u_{t}\right)\leq0\\
+ & g\left(s_{t},u_{t}\right)=0
+\end{align}
+
+\end_inset
+
+where 
+\begin_inset Formula $f$
+\end_inset
+
+ denotes the internal predictive model,
+ 
+\begin_inset Formula $h$
+\end_inset
+
+ and 
+\begin_inset Formula $g$
+\end_inset
+
+ represent respectively the inequality and equality constraints.
+ 
+\end_layout
+
+\begin_layout Standard
+The defining feature of MPC is the receding-horizon principle:
+ only the first control input 
+\begin_inset Formula $u_{0}^{*}$
+\end_inset
+
+ is applied to the system.
+ After that,
+ the horizon is shifted forward and the optimization is repeated at the next timestep.
+ This control loop is summarized in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:MPC-Control-Loop"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:MPC-Control"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ illustrates the overall MPC architecture,
+ highlighting the interactions between the environment,
+ the predictive model and the optimization solver.
+ 
+\end_layout
+
+\begin_layout Standard
+Historically,
+ the model is derived from first-principles (e.g kinematic or dynamic equations of motion),
+ assuming that the underlying physics are well-understood and stationary.
+ To ensure that the resulting trajectory is physically feasible,
+ constraints on both actions 
+\begin_inset Formula $u_{t}$
+\end_inset
+
+ and states 
+\begin_inset Formula $s_{t}$
+\end_inset
+
+ are embedded direclty into the optimization problem.
+ 
+\end_layout
+
+\begin_layout Standard
+Two types of constraints can be distinguished:
+ hard and soft constraints 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "domshlak2006hard"
+literal "false"
+
+\end_inset
+
+.
+ On the one hand,
+ hard constraints correspond to conditions that must strictly be satisfied for a solution to be valid.
+ On the other hand,
+ a soft constraint is a constraint that can be violated but with an associated penalty,
+ thereby preserving feasibility at the cost of degraded perfromance.
+ When the safety or operational requirements allow for constraint relaxation,
+ hard constraints can be reformulated as soft constraint by introducing penalty terms in the cost function.
+ One of the most common approach consists in adding a regularization term 
+\begin_inset Formula $\Omega$
+\end_inset
+
+ to the cost function such as 
+\begin_inset Formula 
+\begin{equation}
+J_{\text{global}}\left(s_{t:t+T},U\right)=J\left(s_{t:t+T},U\right)+\lambda\Omega\left(s_{t:t+T},U\right)
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula 
+\begin{equation}
+\Omega\left(s_{t:t+T},U\right)=\sum_{k=0}^{T}\omega\left(g\left(s_{t+k},u_{k}\right)\right)
+\end{equation}
+
+\end_inset
+
+ is a non-negative penalty function satisfying 
+\begin_inset Formula $\omega\left(g\right)=0$
+\end_inset
+
+ (with 
+\begin_inset Formula $g$
+\end_inset
+
+ the constraint function) whenever the constraint is satisfied,
+ and 
+\begin_inset Formula $\lambda>0$
+\end_inset
+
+ weights the trade-off between optimality and constraint enforcement.
+ The choice of both 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ and the penalty structure directly impacts constraint satisfaction,
+ numerical conditioning and closed-loop behavior.
+\end_layout
+
+\begin_layout Standard
+Solving such constrained optimization problems in real-time requires efficient numerical solvers.
+ Depending on the structure of the dynamics,
+ cost function,
+ and constraints,
+ different classes of solvers may be employed.
+ For instance,
+ BFGS 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nocedal2006numerical"
+literal "false"
+
+\end_inset
+
+ can be applied to general nonlinear dynamics and cost functions but do not natively enforce hard constraints without additional mechanisms.
+ In contrast,
+ solvers such as OSQP 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "stellato2020osqp"
+literal "false"
+
+\end_inset
+
+ are designed to efficiently solve Quadratic Programs (QP) with linear constraints.
+ When the considered dynamics are linear and the cost function 
+\begin_inset Formula $J$
+\end_inset
+
+ is quadratic,
+ the MPC problem can be formulated as a QP of the form
+\begin_inset Formula 
+\begin{align}
+\min_{U}\,\,\, & \sum_{t=0}^{T-1}\left(s_{t}^{\top}Qs_{t}+q^{\top}s_{t}+u_{t}^{\top}Ru_{t}+r^{\top}u_{t}\right)\\
+\text{s.t.\,\,\, } & s_{t+1}=As_{t}+Bu_{t}+c\\
+ & h_{\text{lin}}\left(s_{t},u_{t}\right)\leq0\\
+ & g_{\text{lin}}\left(s_{t},u_{t}\right)=0
+\end{align}
+
+\end_inset
+
+where 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ 
+\begin_inset Formula $B$
+\end_inset
+
+ and 
+\begin_inset Formula $c$
+\end_inset
+
+ define the linear dynamics,
+ 
+\begin_inset Formula $h_{\text{lin}}$
+\end_inset
+
+ and 
+\begin_inset Formula $g_{\text{lin}}$
+\end_inset
+
+ represent the linear inequality and equality constraints,
+ the matrices 
+\begin_inset Formula $Q$
+\end_inset
+
+,
+ 
+\begin_inset Formula $R$
+\end_inset
+
+ and vectors 
+\begin_inset Formula $q$
+\end_inset
+
+,
+ 
+\begin_inset Formula $r$
+\end_inset
+
+ defined the quadratic cost function.
+ 
+\end_layout
+
+\begin_layout Standard
+Constraint satisfaction guarantees in MPC depend on both the problem formulation and the numerical solver used.
+ Some solvers are designed to strictly enforce hard constraints upon convergence while others provide only approximate solutions that could result in small constraint violations due to early termination,
+ numerical tolerances or limited iteration budgets imposed by real-time computation requirements 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cannon2002efficient,hosseinzadeh2023robust"
+literal "false"
+
+\end_inset
+
+.
+ Moreover,
+ enforcing hard constraints may lead to infeasible optimization problems in practice.
+ For example,
+ due to model mismatch,
+ disturbances or state estimation errors.
+ Such infeasibility must be handled explicitely at deployment time,
+ either through constraint relaxation,
+ solving a feasibility problem or leveraging fallback strategies 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cannon2002efficient,hosseinzadeh2023robust"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Despite the effectiveness of MPCs in industry,
+ these performance are contingent upon the accuracy of the used predictive model 
+\begin_inset Formula $f$
+\end_inset
+
+.
+ In complex real-world environments,
+ particularly those involving Human-Robot Collaboration (HRC),
+ deriving an analytical model that remains accurate over time is often infeasible.
+ First-principle equations struggle to capture stochastic and non-stationary nature of human behavior,
+ leading to a significant model mismatch that can compromise both performance and safety.
+ To address these limitations,
+ a shift toward Learning-Based Control is required.
+ Data-driven methods offer new possibilities to either augment or replace traditional analytical models with architectures capable of adapting to more complex environments.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+DontPrintSemicolon
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+KwIn{Initial state $s_0$,
+ prediction horizon $T$,
+ system model $f$,
+ cost function $J$,
+ constraints $
+\backslash
+mathcal{C}$}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+For{$t = 0,1,2
+\backslash
+dots$}{
+\end_layout
+
+\begin_layout Plain Layout
+
+	Measure or estimate the current state $s_t$
+\backslash
+;
+\end_layout
+
+\begin_layout Plain Layout
+
+	$U^* 
+\backslash
+gets 
+\backslash
+text{solve OCP for}
+\backslash
+left(s_t,
+ T,
+ f,
+ 
+\backslash
+mathcal{C},
+ J
+\backslash
+right)$
+\backslash
+;
+\end_layout
+
+\begin_layout Plain Layout
+
+	Apply first action $u_0^*$
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+MPC Control Loop
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:MPC-Control-Loop"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/Model_Predictive_Control.pdf
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+MPC Control Architecture
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:MPC-Control"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -4340,14 +5517,476 @@ Bayesian Linear Regression (BLR):
 
 \begin_layout Subsection
 From Physics-Based to Learning-Based Control
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Physics-to-Learning"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The effectiveness of Model Prective Control (MPC) described in previous section is contingent upon the fidelity of the internal predictive model 
+\begin_inset Formula $f$
+\end_inset
+
+.
+ Historically,
+ these models have been derived from first-principles such as kinematic or dynamic equations of motion.
+ Such analytical models are highly effective for well-characterized physical systems but they reach their limits in highly complex non-stationary environments,
+ especially in Human-Robot Collaboration settings where accurate first-principle models are either computationally too heavy or simply do not exist for describing phenomenon like human behavior.
+\end_layout
+
+\begin_layout Standard
+To address this issue,
+ early research focused on Hybrid MPC leveraging physics-informed learning.
+ In this paradigm,
+ a low-fidelity physics model (e.g linear model) is used as a baseline and is paired with a statistical learning model such as a Gaussian Process (GP) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "williams2006gaussian"
+literal "false"
+
+\end_inset
+
+,
+ to compensate for residual errors 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "aswani2013provably"
+literal "false"
+
+\end_inset
+
+.
+ This approaches preserves part of the structural safety of the physics-based controller but a gap still remains in the theoretical guarantees because they can only be guaranteed for the behavior of the baseline 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hewing2020learning"
+literal "false"
+
+\end_inset
+
+.
+ In addition to that the baseline model remains fixed which is not suitable to handle non-stationary dynamics.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/Hybrid-MPC_Control.pdf
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Hybrid-MPC Control Architecture
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Hybrid-MPC-Control"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To open up the field toward more complex control tasks,
+ model-free Reinforcement Learning (RL) has been extensively studied.
+ By interacting directly with the environment,
+ the RL agent learns a control policy 
+\begin_inset Formula $\pi$
+\end_inset
+
+ end-to-end by looking to maximize a cumulative scalar reward signal without any prior knowledge of the system's dynamics 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "sutton1998reinforcement"
+literal "false"
+
+\end_inset
+
+ (cf.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:RL-Control"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+The success of model-free RL has been demonstrated across diverse and highly complex control tasks on which traditional modeling approach struggle.
+ Algorithms such as Deep Q-Networks (DQN) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mnihHumanlevelControlDeep2015"
+literal "false"
+
+\end_inset
+
+ and Proximal Policy Optimization (PPO) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "schulmanProximalPolicyOptimization2017"
+literal "false"
+
+\end_inset
+
+ have shown that controllers learned with RL could master superhuman strategies in discrete and continuous spaces.
+ In the field of robotics,
+ model-free RL has enabled end-to-end control using only pixels as input,
+ tasks where agents learn to perform agile maneuvers (e.g quadrupeds recovering from falls 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lee2019robust"
+literal "false"
+
+\end_inset
+
+ or high-speed drone racing 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kaufmann2023champion"
+literal "false"
+
+\end_inset
+
+),
+ tasks where the aerodynamic or contact forces are too non-linear to be captured by first-principles in real-time 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hammouda2025application,hwangbo2019learning"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Despite these remarkable feats in complex robotics tasks,
+ the application of model-free RL to safety-critical tasks necessitating Human-Robot Collaboration (HRC).
+ As highlighted in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "semeraro2023human"
+literal "false"
+
+\end_inset
+
+,
+ these approaches often lack quantitative safety guarantees.
+ In RL,
+ the underlying class of models used are mostly Neural Networks.
+ Thus,
+ it results in opaque black box models that rely on reward shaping to penalize dangerous states,
+ providing only probabilistic incentives toward safety rather than hard mathematical boundaries offered by MPC.
+ This makes real-world deployment of RL still rare in unstructured safety-critical environments 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "semeraro2023human"
+literal "false"
+
+\end_inset
+
+.
+ Furthermore,
+ the trial-and-error learning procedure of model-free RL results in extreme sample inefficiency.
+ It necessitates high-fidelity simulators that often fail to bridge the gap between simulation and reality.
+ This is especially true for tasks that involves humans that can hardly be simulated.
+ Finally,
+ most deep RL implementations results in frozen policies that cannot adapt to non-stationarity.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/RL_Controller.pdf
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Model-free RL Control Architecture
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:RL-Control"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In response to the sample inefficiency of model-free RL,
+ Model-Based Reinforcement Learning (MBRL) offers an approach more closely aligned with classical control theory by explicitly learning the system dynamics.
+ Early algorithms such as PILCO 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "deisenroth2011pilco"
+literal "false"
+
+\end_inset
+
+ uses probabilistic models like GPs to account for model uncertainty,
+ significantly reducing the amount of data for obtaining efficient policies.
+ This was further improved by methods like PETS 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "chua2018deep"
+literal "false"
+
+\end_inset
+
+,
+ which employed ensembles of neural networks to capture epistemic and aleatoric uncertainty,
+ paired with Cross-Entropy Method (CEM) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "rubinstein2004cross"
+literal "false"
+
+\end_inset
+
+ for planning over the learned dynamics.
+\end_layout
+
+\begin_layout Standard
+More recently,
+ the field has entered the era of Latent World Models,
+ where algorithms such as DreamerV3 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hafner2023mastering"
+literal "false"
+
+\end_inset
+
+ and MuZero 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "schrittwieser2020mastering"
+literal "false"
+
+\end_inset
+
+ learn to predict future rewards and states within a compressed latent space.
+ By planning entirely inside a learned representation of the environment,
+ these approaches have achieved remarkable performance in tasks with complex high-dimensional observations.
+ However,
+ despite their predictive power,
+ world models remain complex to implement and necessitate vast amounts of data for their initial training phase.
+ Furthermore,
+ these approaches still lead to fixed policies lacking the lightweight recursive update mechanisms required to handle non-stationary dynamics in real-time 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "semeraro2023human"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Beyond the architectural complexity,
+ learning-based control introduces challenges regarding data availability and reliability.
+ The most prominent one is the Exploration-Exploitation trade-off.
+ In a learning paradigm like RL where the controller learns from continuous interaction with the environment,
+ the learning process itself is non-stationary because the policy is regularly updated to improve from its past self.
+ In this non-stationary setting,
+ the controller must occasionally take exploratory actions to gather new data to avoid collapsing into local optimum.
+ In RL literature this is often addressed through intrinsic motivation mechanisms,
+ such as Curiosity-driven exploration 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "pathak2017curiosity"
+literal "false"
+
+\end_inset
+
+ or Random Network Distillation (RND) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "burda2018exploration"
+literal "false"
+
+\end_inset
+
+,
+ which provide an exploration bonus to the agent for visiting unfamiliar states.
+ 
+\end_layout
+
+\begin_layout Standard
+Another closely related challenge is the risk of Out-of-Distribution (OoD) predictions.
+ When a learning-based controller encounters a state-action pair that is significantly different from its training data,
+ its predictions can become erratic or overly optimistic,
+ leading the optimizer to select unsafe trajectories.
+ This specific issue is largely studied in the field of Offline Reinforcement Learning,
+ where algorithms seek to learn conservative policies that would stay within the support of the available dataset to avoid the pitfalls of unknown state-action spaces 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "levine2020offline"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The limitations of both static physics-based control and pure RL necessitate a shift toward Model Predictive Control with a continuously learning model.
+ This way,
+ the architectural benefits of MPC regarding safety and constraints handling are preserved.
+ In addition to that,
+ replacing the static internal model with an online learning model allows to handle non-stationarity and to be able to adapt to changes in real-time.
+ Unlike the frozen policies obtained with MBRL or model-free RL or the rigid baselines of Hybrid MPC,
+ this approach allows the controller to adjust its predictions in response to a live data stream,
+ enabling it to proactively account for the non-stationary dynamics.
+\end_layout
+
+\begin_layout Standard
+However,
+ implementing such a system with strict safety requirements introduce significant challenges regarding the choice of the learning architecture.
+ Specifically,
+ the model must be capable of fast,
+ incremental updates without suffering from catastrophic forgetting or computational overhead.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+RL have non stationary learning procedure but cannot handle non stationarity at deployment
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
 \begin_inset Note Note
-status open
+status collapsed
 
 \begin_layout Plain Layout
-PMP & DP => model-free RL => model-based RL => MPC with online learning model (interesting review paper 
+PILCO 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "deisenroth2011pilco"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+PETS 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "chua2018deep"
+literal "false"
+
+\end_inset
+
+ => Ensemble Methods (for uncertainty estimation) + CEM Planning
+\end_layout
+
+\begin_layout Plain Layout
+Latent World Model Era => Dreamerv3 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hafner2023mastering"
+literal "false"
+
+\end_inset
+
+ / MuZero 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "schrittwieser2020mastering"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+=> But still fixed models and some new researches on world models are really complex and necessitate a lot of data
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+Hybrid MPC => model-free RL => model-based RL => MPC with online learning model (interesting review paper 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "hewing2020learning"
@@ -4364,7 +6003,7 @@ In some cases,
 \end_layout
 
 \begin_layout Itemize
-In some cases MPC can be used with simple physics model (e.g linear model) and is enhanced by a learning model like a Gaussian Process to learn to compensate the errors of the simple model => physic informed learning based => limited when no first principle model exists
+In some cases MPC can be used with simple physics model (e.g linear model) and is enhanced by a learning model like a Gaussian Process to learn to compensate the errors of the simple model => physic informed learning based => limited when no first principle model exists at all
 \end_layout
 
 \begin_layout Itemize
@@ -4401,7 +6040,15 @@ lack of safety guarantees => addressed with safety layer added on top of the mod
 
 \end_deeper
 \begin_layout Itemize
-To address these limitations (especially sample inefficiency) => model-based RL have been developed (very similar to MPC in some sense) => PILCO,
+To address these limitations (especially sample inefficiency) => model-based RL have been developed (very similar to MPC in some sense) => PILCO 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "deisenroth2011pilco"
+literal "false"
+
+\end_inset
+
+,
  PETS
 \end_layout
 
@@ -4412,7 +6059,827 @@ However MBRL still gives frozen policies and cannot be adaptive and continue lea
 \end_layout
 
 \begin_layout Itemize
-We chose MPC
+Best fit ?
+ MPC with a continuously learning model for stationarity
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hewing2020learning"
+literal "false"
+
+\end_inset
+
+ => using an online learning model allows the controller to adjust to changing environments (ex:
+ aging of the system) => challenges in active learning so that the controller intentionally chooses actions to better identify the system while still respecting constraints.
+ => challenges in safe exploration
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset citation
+LatexCommand cite
+key "semeraro2023human"
+literal "false"
+
+\end_inset
+
+ => problems of RL in human robot collaboration are safety (black box opaque models),
+ real-time adaptation to non-stationarity and computational efficiency (learning expensive)
+\end_layout
+
+\begin_layout Itemize
+1.
+ Addressing the "Black Box" and Safety Constraints
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The Paper’s Claim:
+ The review notes that RL is often used to model robot decision-making and actuation.
+ However,
+ a key result in many RL studies is merely a "proof of concept" rather than a quantitative safety guarantee.
+\end_layout
+
+\begin_layout Itemize
+MPC Motivation:
+ You can argue that while RL learns policies through trial-and-error which can be risky in physical HRC,
+ MPC allows for the explicit integration of hard safety constraints (e.g.,
+ joint limits,
+ collision avoidance) directly into the optimization loop.
+ This addresses the "safety and ergonomics" concerns mentioned as emerging research fields.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+2.
+ Handling Non-Stationarity and Unstructured Environments
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The Paper’s Claim:
+ The review classifies HRC environments as "unstructured," where every interaction differs,
+ making standardized control methods difficult.
+ It also highlights that many RL models rely on offline demonstrations to achieve reactive capabilities,
+ which limits their ability to handle drastically new human behaviors.
+\end_layout
+
+\begin_layout Itemize
+MPC Motivation:
+ An MPC with an online learning model can adapt its internal model of the human or environment in real-time.
+ Unlike the "frozen" policies of many deep RL implementations,
+ this hybrid approach can update its predictions as the human's behavior changes (non-stationarity),
+ providing the "actual behavioural change" the paper identifies as a selection criterion for advanced HRC.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+4.
+ Overcoming the "Rare" Status of Deep RL
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The Paper’s Claim:
+ The authors explicitly state that while deep RL is promising,
+ its use in HRC is "still rare" and faces complexity in mapping complex state spaces.
+\end_layout
+
+\begin_layout Itemize
+MPC Motivation:
+ Using MPC with a learned model (e.g.,
+ a neural network representing the human's motion) can be more sample-efficient than pure Deep RL.
+ Since the paper highlights that HRC is "extraordinarily complex to model",
+ a model-based approach like MPC can leverage known physical dynamics while using online learning to only "fill in" the uncertain parts of human behavior.
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Synthesis and Research Gaps
+\end_layout
+
+\begin_layout Standard
+The transition from reactive feedback control laws to predictive optimization and then learning-based control highlights a persistent tension between mathematical rigor and adaptive capabilities.
+ In this section we synthesize the reviewed literature to identify specific research gaps.
+\end_layout
+
+\begin_layout Standard
+In the context of Human-Robot Collaboration (HRC),
+ as introduced in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Control-Theory-Formalism"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ the 3 core problematics of control,
+ controllability,
+ observability and stabilizability take on a specific meaning regarding the positioning of the works of this thesis:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Shared Controllability:
+
+\series default
+ In HRC,
+ controllability is often shared.
+ For instance,
+ in the case of speed recommendation as defined in Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Introduction"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ the human driver acts as a biological intermediary between the controller (i.e the speed recommendation system) and the vehicle.
+ Depending on the driver and his receptivity to recommendation set points,
+ the system may become under-actuated or locally uncontrollable as the controller itself cannot enforce the required acceleration.
+ We argue that to maintain control authority,
+ the controller must be able to anticipate non-receptivity rather than reacting to it.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Partial Observability:
+ 
+\series default
+In HRC,
+ the human intent is not directly measurable.
+ In this case,
+ HRC systems often face partial observability and can necessitate the use of sophisticated state estimators.
+ The control architecture must be robust to incomplete state information,
+ favoring models that can explicitly handle uncertainty.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Stabilizability:
+
+\series default
+ In safety-critical contexts,
+ the frozen policies of model-free RL are insufficient in light of the current state of research.
+ The works of this thesis are positioned within the MPC framework because it provides structural mechanism for enforcement of hard safety constraints through the use of specialized optimizers adapted for solving constrained optimization problems.
+ It ensures the system remains in a stabilizable region even when human behavior varies.
+\end_layout
+
+\begin_layout Standard
+According to Ashby's Law of Requisite Variety,
+ a controller in the context of HRC as described in Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Introduction"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ must possess an internal variety matching the uncertainty and non-stationarity introduced by the human driver.
+ As the behavior of a specific human individual is hard to describe accuractely with first-principle models,
+ this constrains the use of models learned from data.
+ As summarized in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Summary-of-Control-Architecture"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ classical parametric models,
+ with a fixed number of parameters,
+ lack this variety.
+\end_layout
+
+\begin_layout Standard
+In learned based control,
+ a significant research gap can be identified.
+ Most learning-based controllers results in frozen policies after training.
+ While MBRL and Latent World Models offer high variety,
+ they still lack the lightweight recursive update mechanisms required to handle the non-stationarity induced by human behavior in real-time.
+ To satisfy the Conant-Ashby Theorem,
+ the model 
+\begin_inset Formula $\hat{f}$
+\end_inset
+
+ must not only exist but must also adapt its own complexity continuously.
+ This justifies the focus on non-parametric methods (with a variable number of parameters),
+ which allow the model learning capacity to grow and refine alongside the data stream,
+ ensuring growth of variety in a way that static or deep-frozen models cannot.
+\end_layout
+
+\begin_layout Standard
+To navigate the trade-offs between anticipation capabilities,
+ safety and adaptability,
+ Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Summary-of-Control-Architecture"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ provides a comparative synthesis of the control frameworks dicussed in this section.
+ It assesses their ability fo meet the requirements of HRC,
+ focusing on their resilience in non-stationary environments and their flexibility in high-variety tasks.
+ Specifically,
+ a distinction is made between the structural enforcement of constraints,
+ i.e the architectural intent to remain safe,
+ and the structural adaptability,
+ which defines the controller's ability to maintain high-fidelity representations in a complex non-stationary setting.
+\end_layout
+
+\begin_layout Standard
+We established Online Learning MPC as a promising architectural choice to address the challenges of HRC as it combines structural safety considerations with recursive online model updates.
+ However,
+ the theoretical feasibility of this approach depends entirely on the nature of the predictive model 
+\begin_inset Formula $\hat{f}$
+\end_inset
+
+.
+ While the framework allows for use of either parametric or non-parametric models,
+ the requirement for requisite variety in a non-stationary human-in-the-loop environment favors models that can adapt their own complexity.
+\end_layout
+
+\begin_layout Standard
+Having answered the question of which control architecture is the most promising,
+ the question of which model could fulfill all the critera has to be addressed.
+ Consequently,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Online-Machine-Learning"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ explores the research landscape about Online Machine Learning to identify the modeling methods best suited for providing structural compatibility,
+ uncertainty-awareness,
+ fast recursive updates and accurate predictions required in this hybrid control framework.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+resizebox{1
+\backslash
+columnwidth}{!}{
+\end_layout
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="6">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="middle" width="12col%">
+<column alignment="center" valignment="middle" width="13col%">
+<column alignment="left" valignment="middle" width="20col%">
+<column alignment="center" valignment="middle" width="20col%">
+<column alignment="center" valignment="middle" width="12col%">
+<column alignment="left" valignment="middle" width="20col%">
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Family
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Anticipation
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Structural Constraints Enforcement
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Model
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Non-Stationarity Handling
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Structural Adaptability
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Reactive Feedback Laws
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\varnothing$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Formula $\varnothing$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\varnothing$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\varnothing$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Fixed
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Optimal Control
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Formula $\varnothing$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+First-Principles
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\varnothing$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Fixed
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MPC
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Hard 
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+(optimization-based)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+First-Principles
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\varnothing$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Fixed 
+\begin_inset Newline newline
+\end_inset
+
+(analytical)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Model-Free RL
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Soft 
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+(reward penalty)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Data-Driven (batch learning)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\varnothing$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Fixed 
+\begin_inset Newline newline
+\end_inset
+
+(frozen weights)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Model-Based RL
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Soft
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Data-Driven (batch learning)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\varnothing$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Fixed 
+\begin_inset Newline newline
+\end_inset
+
+(frozen weights)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Online Learning MPC
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Hard 
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+(optimization-based)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Data-Driven (recursive online learning)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Evolving 
+\begin_inset Newline newline
+\end_inset
+
+(non-parametric)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
 \end_layout
 
 \end_inset
@@ -4420,18 +6887,141 @@ We chose MPC
 
 \end_layout
 
-\begin_layout Subsection
-Why MPC ?
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Comparison of control architectures across predictive capability,
+ constraint handling and adaptability to non-stationarity.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "Summary-of-Control-Architecture"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
 \begin_inset Note Note
 status open
 
+\begin_layout Itemize
+
+\series bold
+Controllability:
+ 
+\series default
+This property assesses whether the control input 
+\begin_inset Formula $u$
+\end_inset
+
+ can drive the system from any initial state 
+\begin_inset Formula $s_{0}$
+\end_inset
+
+ to any desired state 
+\begin_inset Formula $s_{t}$
+\end_inset
+
+ within a finite time.
+ In HRC,
+ controllability is often shared.
+ In the specific case of speed recommendation as defined in Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Introduction"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ the human driver acts as a biological intermediary between the controller (i.e the speed recommendation system) and the vehicle.
+ Depending on the driver and his receptivity to recommendation set points,
+ the system may become under-actuated or locally uncontrollable as the controller itself cannot enforce the required acceleration.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Observability:
+ 
+\series default
+This corresponds to the ability to reconstruct the internal state 
+\begin_inset Formula $s_{t}$
+\end_inset
+
+ from available measurements.
+ For instance,
+ in HRC,
+ the human intent is not directly measurable.
+ In this case,
+ HRC systems often face partial observability and can necessitate the use of sophisticated state estimators.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Stabilizability:
+ 
+\series default
+Even if a system is not fully controllable,
+ it is considered stabilizable if all the unstable modes can be brought to a steady state using the available actions.
+ This is the minimum requirement for a safe autonomous system because a controller must at least be able to prevent the system from diverging into unsafe states from which it is impossible to recover.
+\end_layout
+
 \begin_layout Plain Layout
-Reliability (OOD + Uncertainty),
- Adaptability,
- Hard Constraints
+=> Ashbys Law => Pour du HRC la variabilité est inconnue => donc nécessite un modèle d'apprentissage non paramétrique capable d'adapter sa complexité ?
+\end_layout
+
+\begin_layout Itemize
+Requisite Variety Principle:
+ Ashby's Law,
+ from W.
+ Ross Ashby's cybernetics work,
+ requires the regulator's information processing and adaptive capacity to counter the disturbances in the controlled system.
+ In human-machine settings—
+like collaborative robotics or autonomous vehicles—
+dynamics exhibit high variety due to unpredictable human behaviors,
+ unmodeled nonlinearities,
+ and environmental factors,
+ which parametric models (e.g.,
+ fixed-structure linearizations) cannot capture adequately.
+\end_layout
+
+\begin_layout Itemize
+Non-Parametric Methods' Fit:
+ Non-parametric approaches,
+ such as Gaussian Processes (GPs) used in GP-MPC,
+ inherently scale their complexity to data without assuming fixed forms,
+ providing the flexibility to represent diverse dynamics.
+ Dual MPC frameworks explicitly leverage GP posterior covariance to explore high-uncertainty regions,
+ balancing identification and control while satisfying safety constraints—
+this embodies requisite variety by adapting model capacity online.
+\end_layout
+
+\begin_layout Itemize
+Application to Human-Machine Contexts:
+ In highly interactive environments,
+ human inputs introduce stochastic,
+ non-stationary variety that rigid parametric models fail to match,
+ risking poor performance or instability.
+ Non-parametric learners enable MPC to maintain control authority by continuously refining high-fidelity approximations,
+ as shown in dual control studies for safety-critical systems with nonparametric uncertainties.
 \end_layout
 
 \end_inset
@@ -4451,14 +7041,61 @@ name "sec:Online-Machine-Learning"
 \end_layout
 
 \begin_layout Standard
-The ability to continuously build accurate representations of non-stationary system's dynamics is a requirement for effective adaptive control.
+The ability to continuously build accurate and uncertainty-aware representations of non-stationary dynamics is a requirement for effective adaptive control in a Human-Robot Collaboration (HRC) setting.
+ As shown in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Control-with-Learned-Models"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ the transition from controlled industrial contexts to the complexity of Human-in-the-Loop (HitL) interactions necessitates a Model Predictive Control (MPC) architecture that can plan under uncertainty with a learned model.
+ However,
+ the performance,
+ adaptability and safety of such a framework are contingent with the properties of its internal predictive model 
+\begin_inset Formula $\hat{f}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Transitioning from controlled standardized environments to the unstructured evolving complexity of HRC necessitates a shift in the modeling approach.
  Traditional machine learning techniques are constrained by the assumption of stationarity,
  thus,
  they usually are not tailored to handle non-stationarity where the underlying data distribution can change over time.
+ In the context of this thesis,
+ this section aims at answering the following question:
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\emph on
+How can a learning architecture continuously model non-linear,
+ non-stationary dynamics from an online stream of data while avoiding catastrophic forgetting?
 \end_layout
 
 \begin_layout Standard
 First,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Machine-Learning-Formalism"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ introduces Machine Learning to set up the formalism that will be used throughout the course of this thesis.
+ Then,
  Section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -4483,13 +7120,13 @@ nolink "false"
 
 \end_inset
 
- then exposes the limitations of global models,
+ exposes the limitations of global models,
  specifically focusing on the stability-plasticity dilemma as an architectural bottleneck for global approximators like deep neural networks.
  In response,
  Section 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "subsec:Local-Online-Learning-1"
+reference "subsec:Local-Online-Learning"
 plural "false"
 caps "false"
 noprefix "false"
@@ -5085,6 +7722,481 @@ literal "false"
 \end_layout
 
 \begin_layout Subsection
+Machine Learning Formalism
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Machine-Learning-Formalism"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Before dwelving into the reasoning towards online learning and multi-agent learning systems,
+ it is required to establish the formalism used in this thesis regarding machine learning.
+ In the context of this thesis,
+ the goal of using machine learning is to approximate the unknown transition function 
+\begin_inset Formula $f$
+\end_inset
+
+ from an available stream of observations.
+\end_layout
+
+\begin_layout Standard
+As its core,
+ supervised learning consists of learning a mapping function 
+\begin_inset Formula $\hat{f}:\mathcal{X}\mapsto\mathcal{Y}$
+\end_inset
+
+ that relates an input space 
+\begin_inset Formula $\mathcal{X}$
+\end_inset
+
+ and an output space 
+\begin_inset Formula $\mathcal{Y}$
+\end_inset
+
+ based on a set of 
+\begin_inset Formula $N$
+\end_inset
+
+ labeled examples 
+\begin_inset Formula $\mathcal{D}=\left\{ \left(x_{i},y_{i}\right)\right\} _{i=0}^{N}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Supervised learning can represent two types of tasks:
+ 
+\emph on
+regression
+\emph default
+ tasks where the output space 
+\begin_inset Formula $\mathcal{Y}$
+\end_inset
+
+ is continuous (e.g.
+ predicting house price or temperatures) and 
+\emph on
+classification
+\emph default
+ tasks where the output space 
+\begin_inset Formula $\mathcal{Y}$
+\end_inset
+
+ is discrete or categorical (e.g.
+ labeling images as cat/dog).
+\end_layout
+
+\begin_layout Standard
+In this thesis,
+ the focus is put on solving regression tasks because the goal,
+ as specified in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Control-with-Learned-Models"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ is to approximate the unknown transition function 
+\begin_inset Formula $f$
+\end_inset
+
+ of a dynamical system such as
+\begin_inset Formula 
+\[
+s_{t+1}=f\left(s_{t},u_{t}\right)
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $s_{t}\in\mathcal{S}$
+\end_inset
+
+ the states of system (
+\begin_inset Formula $\mathcal{S}$
+\end_inset
+
+ being a continuous state space) and 
+\begin_inset Formula $u_{t}\in\mathcal{U}$
+\end_inset
+
+ the actions of the controller (
+\begin_inset Formula $\mathcal{U}$
+\end_inset
+
+ being a continuous action space).
+ The objective is to minimize an empirical risk,
+ defined by a loss function 
+\begin_inset Formula $L$
+\end_inset
+
+ (such as Mean Squared Error) to ensure that the approximation remains as close as possible to the true observation.
+\end_layout
+
+\begin_layout Standard
+The nature and complexity of the mapping function 
+\begin_inset Formula $\hat{f}$
+\end_inset
+
+ is defined by its underlying structure which can be categorized into two main families:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Parametric Approaches
+\series default
+:
+ These models are defined by a fixed set of parameters 
+\begin_inset Formula $\theta$
+\end_inset
+
+ (e.g.
+ weights in a neural network or coefficients of a linear regression).
+ The complexity of the model is determined beforehand by the number of parameters and remains constant regardless the amount of data collected.
+ These models are computationally stable,
+ meaning that they have predictable computational complexity during learning.
+ However,
+ they suffer from a capacity ceiling which can lead to underfitting if the true dynamics are more complex than the model's fixed structure.
+ This can happen when the system is subjected to strict hardware constraints.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Non-Parametric Approches
+\series default
+:
+ Unlike parametric models,
+ the complexity of non-parametric approaches (e.g.
+ Gaussian Processes (GPs) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "williams2006gaussian"
+literal "false"
+
+\end_inset
+
+ or k-Nearest Neighbors 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "stone1977consistent,yu2002kernel"
+literal "false"
+
+\end_inset
+
+) is not fixed.
+ Instead,
+ the number of parameters and the model structure can grow and adapt in response to the data.
+ This provides structural adaptability at the cost of less predictable computational cost at learning time.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To address the limitations of individual learners,
+ Ensemble Learning leverages the collective intelligence of multiple models to achieve more accurate predictions and provide better approximations of nonlinear functions.
+ Ensemble learning is based on the emergence of collective intelligence within a set of weak learners.
+ A weak learner is a model whose performance is at least as good as a model making random predictions.
+ During the learning process,
+ a set of models (which may differ from one another) are trained in parallel or sequentially 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "polikarEnsembleLearning2012"
+literal "false"
+
+\end_inset
+
+.
+ The objective is to encourage diversity among the models so that they do not all capture the same patterns in the data 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "dietterichEnsembleMethodsMachine2000"
+literal "false"
+
+\end_inset
+
+.
+ An input is transmitted to all weak learners,
+ each of which makes a prediction proposal.
+ A heuristic is implemented to select one of the proposals or to weight each of them in order to construct the final prediction.
+ Several major approaches in ensemble learning can be distinguished:
+ Boosting,
+ Bagging and Stacking (c.f.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Bagging-Boosting-Stacking"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+In Bagging 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "breiman1996bagging"
+literal "false"
+
+\end_inset
+
+ multiple models (usually homogeneous) are trained in parallel on different subsets of the training data to introduce diversity,
+ reduce variance and improve stability.
+ Then the final prediction is obtained by averaging the predictions of the weak learners (regression) or by majority voting (classification).
+ Unlike Bagging,
+ in Boosting 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "freund1997decision"
+literal "false"
+
+\end_inset
+
+,
+ the models are trained sequentially.
+ Each new model focuses on correcting the errors of the previous ones to reduce bias and improve accuracy.
+ Then the final prediction is obtained from a weighted average of the predictions of the all the weak learners.
+ Finally,
+ there is Stacking 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wolpert1992stacked"
+literal "false"
+
+\end_inset
+
+ that falls under meta-learning.
+ A set of heterogeneous models are trained in parallel and then a meta-model is trained to combine the predictions of each model to obtain the final output of the system,
+ in order to capture complementary strengths of each learning algorithms involved in the learning process.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/Ensemble_Learning.pdf
+	lyxscale 30
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Visual comparison of Bagging,
+ Boosting and Stacking
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Bagging-Boosting-Stacking"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+To achieve more accurate predictions and provide better approximations of nonlinear functions,
+ it is common to aggregate multiple models for making predictions.
+\end_layout
+
+\begin_layout Plain Layout
+Ensemble learning is based on the emergence of collective intelligence within a set of weak learners.
+ A weak learner is a model whose performance is at least as good as a model making random predictions.
+ During the learning process,
+ a set of models (which may differ from one another) are trained in parallel or sequentially 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "polikarEnsembleLearning2012"
+literal "false"
+
+\end_inset
+
+.
+ The objective is to encourage diversity among the models so that they do not all capture the same patterns in the data 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "dietterichEnsembleMethodsMachine2000"
+literal "false"
+
+\end_inset
+
+.
+ An input is transmitted to all weak learners,
+ each of which makes a prediction proposal.
+ A heuristic is implemented to select one of the proposals or to weight each of them in order to construct the final prediction.
+ We distinguish several major approaches in ensemble learning which are Boosting,
+ Bagging and Stacking.
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Add figure to compare bagging,
+ boosting and stacking
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Visual comparison of bagging,
+ boosting and stacking
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+In Bagging 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "breiman1996bagging"
+literal "false"
+
+\end_inset
+
+ multiple models (usually homogeneous) are trained in parallel on different subsets of the training data to introduce diversity,
+ reduce variance and improve stability.
+ Then the final prediction is obtained by averaging the predictions of the weak learners (regression) or by majority voting (classification).
+ Unlike Bagging,
+ in Boosting 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "freund1997decision"
+literal "false"
+
+\end_inset
+
+,
+ the models are trained sequentially.
+ Each new model focuses on correcting the errors of the previous ones to reduce bias and improve accuracy.
+ Then the final prediction is obtained from a weighted average of the predictions of the all the weak learners.
+ Finally,
+ there is Stacking 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wolpert1992stacked"
+literal "false"
+
+\end_inset
+
+ that falls under meta-learning.
+ We train in parallel a set of heterogeneous models and then a meta-model is trained to combine the predictions of each model to obtain the final output of the system,
+ in order to capture complementary strengths of each learning algorithms involved in the learning process.
+\end_layout
+
+\begin_layout Plain Layout
+The family of systems presented in this chapter,
+ CELL,
+ falls within ensemble learning and we could label it as a Bagging approach because we consider a set of weak learners as a collection of self-organizing cooperative agents.
+ Each one of them is a local expert on the function to be approximated.
+\end_layout
+
+\begin_layout Plain Layout
+What to mention ?
+ (not in order)
+\end_layout
+
+\begin_layout Itemize
+Supervised Learning
+\end_layout
+
+\begin_layout Itemize
+Regression Tasks
+\end_layout
+
+\begin_layout Itemize
+Ensemble Learning => combine several weak learners (comparison bagging,
+ boosting,
+ stacking)
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+s_{t+1}=f\left(s_{t},u_{t}\right)
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $f:\mathcal{S}\times\mathcal{U}\mapsto\mathcal{S}$
+\end_inset
+
+ represents the transition function
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
 From Batch to Online Learning
 \begin_inset CommandInset label
 LatexCommand label
@@ -5152,7 +8264,8 @@ literal "false"
 
 \end_inset
 
-.
+,
+ introducing a second layer of non-stationarity into the learning process.
  Furtermore,
  because the learner cannot perform multiple passes over the dataset,
  it must balance generalization (i.e the variance introduced by seeing a finite subset of data),
@@ -5325,7 +8438,8 @@ literal "false"
 
 .
  However,
- they are limited by the linearity assumption and fail to capture the complex non-linear relationships between inputs and outputs in most dynamical systems like neural networks can.
+ they are limited by the linearity assumption and fail to capture the complex non-linear relationships between inputs and outputs in most dynamical systems,
+ whereas high-capacity approximators like neural networks can provide the necessary representational depth.
 \end_layout
 
 \begin_layout Standard
@@ -5472,7 +8586,7 @@ Based on the limitations mentioned above,
 Local Online Learning
 \begin_inset CommandInset label
 LatexCommand label
-name "subsec:Local-Online-Learning-1"
+name "subsec:Local-Online-Learning"
 
 \end_inset
 
@@ -5600,7 +8714,11 @@ A notable reference approach in online learning for control is a scalable extens
  non-linear dynamics by maintaining a set of local linear models that are updated incrementally.
  Each linear model is associated with a radial basis function.
  The final prediction of the model is obtained by computing the average of the closest models weighted by the radial basis function value for the input.
- More recent extensions have enabled this type of model to provide uncertainty quantification 
+ 
+\end_layout
+
+\begin_layout Standard
+More recent extensions have enabled this type of model to provide uncertainty quantification 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "meier2014incremental"
@@ -5610,13 +8728,77 @@ literal "false"
 
 ,
  bridging the gap between frequentist local models and probabilistic models like Gaussian Processes to improve safety guarantees when used in control contexts.
- However,
- LWPR tightly couples spatialization,
- model structure and update logic,
- limiting modularity and constraining all local experts to the same model class (in this case linear regressions).
+ 
 \end_layout
 
 \begin_layout Standard
+Despite these advancements,
+ LWPR exhibits a structural rigidity arising from the tight coupling between its spatialization and update logics.
+ Because every local unit is governed by the same predefined statistical update equations,
+ the architecture lacks the modularity to incorporate heterogeneous local knowledge (e.g combining linear models with non-linear approximators) or adapt its internal coordination logic to specific regions of the input space to obtain more parsimonious representations (where the modeling complexity of a local expert can be matched to the local complexity of data).
+ Furthermore,
+ the management of the population of units (creation and pruning) relies on fixed thresholds that do not account for the relational dynamics between overlapping experts.
+\end_layout
+
+\begin_layout Standard
+Beyond structural rigidity,
+ local learning architectures are inherently vulnerable to the curse of dimensionality and the risk of uncontrolled population growth.
+ Without carefully designed mechanisms for expert creation and pruning,
+ the number of local models can expand exponentially in high-dimensional input spaces,
+ leading to computational saturation and overfitting.
+\end_layout
+
+\begin_layout Standard
+The structural common points between various local learning systems,
+ specifically the use of local lower order models and radial basis functions,
+ suggest a converging architectural philosophy.
+ In this thesis,
+ an alternative path is explored to mitigate the aforementioned limitations by shifting the focus from purely statistical optimization to multi-agent social self-organization.
+ This approach adopts a bottom-up design philosophy,
+ introducing a clear distintion in terms of learning procedure compared to approaches like LWPR.
+ The system is described at the lowest level,
+ by social rules governing the interactions between local experts.
+ Rather than following a global objective function,
+ local experts adapt,
+ compete or cooperate locally,
+ leading to the emergence of learning.
+ This shift represents a transition from centralized function approximation to emergent collective behavior where the population size and expert behavior are regulated by local social dynamics rather than global heuristics.
+\end_layout
+
+\begin_layout Standard
+The following section provides an overview of the literature landscape in the field of Multi-Agent Systems (MAS) for supervised learning.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+More recent extensions have enabled this type of model to provide uncertainty quantification 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "meier2014incremental"
+literal "false"
+
+\end_inset
+
+,
+ bridging the gap between frequentist local models and probabilistic models like Gaussian Processes to improve safety guarantees when used in control contexts.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+However,
+ LWPR tightly couples spatialization,
+ model structure and update logic,
+ limiting modularity and constraining all local experts to the same model class (in this case linear regressions).
+ Every local unit is governed by the same predefined statistical update equations and the coordination between units is limited.
+ This creates a modeling bottleneck in the sense that the system cannot incorporate different types of local knowledge or adapt its internal coordination logic to specific regions of the input space.
+ Furthermore,
+ the management of the population of units (creation and pruning) relies on fixed thresholds that do not account for the relational dynamics between overlapping experts.
+\end_layout
+
+\begin_layout Plain Layout
 The structural common points between various local learning systems suggest a converging architectural philosophy.
  For exemple the kCELL algorithm presented in this thesis in Chapter 
 \begin_inset CommandInset ref
@@ -5658,7 +8840,7 @@ emergent collective behavior
  grounded in explicit local interaction mechanisms.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Learning methods such as LWPR exhibit a tight coupling between the spatialization logic (how the space is partitioned) and their modeling logic (the local linear regressions).
  This design limits the modularity and heterogeneity of the system.
  In LWPR,
@@ -5669,7 +8851,7 @@ Learning methods such as LWPR exhibit a tight coupling between the spatializatio
  Such a decoupling theoretically allows for more parsimonious representative systems where the modeling complexity of an expert can be matched to the local complexity of the data.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Despite their advantages,
  local learning systems remain vulnerable to the curse of dimensionality and uncontrolled growth in the number of experts if pruning and growth mechanisms are not carefully designed.
  In this thesis we mostly explore a more modular architecture through multi-agent social self-organization for supervised online learning (cf.
@@ -5688,11 +8870,13 @@ nolink "false"
  These mechanisms explicitely regulate expert creation,
  adaptation and interactions,
  ensuring a coherent global behavior emerging from local rules.
+ In the following section,
+ the foundations of multi-agent systems for supervised online learning are explored.
 \end_layout
 
-\begin_layout Standard
-In the following section,
- the foundations of multi-agent systems for supervised online learning are explored.
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -5707,8 +8891,408 @@ name "subsec:Multiagent-Local-Learning"
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Greyedout
-status open
+As shown in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Local-Online-Learning"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ local learning architectures exhibit several limitations,
+ particularly regarding local experts population management and structural rigidity.
+ These limitations motivate the exploration of an alternative research path,
+ shifting away from statistical optimization towards the emergence of learning through Multi-Agent Systems (MAS).
+\end_layout
+
+\begin_layout Standard
+MAS have gained popularity due to their ability to solve complex problems by breaking them down into simpler subproblems that can be easily addressed by autonomous agents,
+ whether interconnected or not 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "dorri2018multi"
+literal "false"
+
+\end_inset
+
+.
+ By defining interaction rules at the individual level,
+ the system can foster emergent global behaviors that are scalable and robust.
+ The use of MAS has been proven effective in fields such as civil engineering 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SHAMSHIRBAND20132105"
+literal "false"
+
+\end_inset
+
+ or electrical engineering,
+ specifically with issues related to smart grids 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "rohbogner2014design"
+literal "false"
+
+\end_inset
+
+.
+ The application of MAS also have been considered to tackle supervised learning problems,
+ representing a distinct and original trajectory in machine learning research in which learning emerges from the organization of a dynamic set of local models called context agents 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "blanco2024explainability,nigon2017smart"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+This multi-agent modeling paradigm is rooted in the Self-Adaptive Context Learning (SACL) paradigm 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "boesSelfAdaptiveContextLearning2015,verstaevel2017lifelong"
+literal "false"
+
+\end_inset
+
+.
+ The learning problem is redefined as the construction,
+ selection,
+ and adaptation of local models encapsulated within agents,
+ where the objective is to identify which local models best represent its neighborhood in the input space.
+\end_layout
+
+\begin_layout Standard
+Early research works applied this paradigm to the control of complex bioprocesses 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "videau2011controlling"
+literal "false"
+
+\end_inset
+
+ and industrial systems 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "boes2017self"
+literal "false"
+
+\end_inset
+
+.
+ These works demonstrated that by encapsulating a local context,
+ a control action and a prediction with a context agent,
+ a system could achieve high adaptivity through cooperative self-organization.
+ However,
+ these early implementations were primarily designed as myopic reactive controllers,
+ without anticipation capabilities.
+ While being able to adapt to non-stationarity,
+ they lacked the predictive horizon required for the proactive planning necessary in safety-critical use cases.
+\end_layout
+
+\begin_layout Standard
+Then,
+ this approach has been generalized beyond simple regulation.
+ It has been successfully transposed to classification tasks 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "verstaevel2016self,fourezEnsembleMultiAgentSystem2022"
+literal "false"
+
+\end_inset
+
+.
+ Recent advancements have leveraged the introspection capabilities of agents to improve generalizability through active learning 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "dato2021apprentissage"
+literal "false"
+
+\end_inset
+
+ and have demonstrated that the social behavior of agents can be used to extract novel explainability metrics 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "blanco2024explainability"
+literal "false"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Moreover,
+ the architectural modularity permitted by agents,
+ theoretically allows for heterogeneous systems where the modling complexity of an individual agent could be tailored to the local complexity of the data 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "fourez2024analyzing"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In more recent years,
+ reinforcement learning has been seriously considered to bypass the phase of designing rules that define agent behavior.
+ Indeed,
+ in Multi-Agent Reinforcement Learning (MARL),
+ agents' behaviors are learning using reinforcement signals obtained by interaction with an environment 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "canese2021multi"
+literal "false"
+
+\end_inset
+
+.
+ It is important to distinguish MARL from supervised learning with context agents.
+ While both rely on a set of local agents,
+ their learning mechanisms differ.
+ In MARL,
+ agents' behavior are typically learned end-to-end to maximize a cumulative reward signal,
+ often requiring millions of iterations to converge 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "canese2021multi"
+literal "false"
+
+\end_inset
+
+.
+ In contrast,
+ the context agent approach used in this thesis combines fixed social interaction rules with immediate,
+ simplified reinforcement signals (e.g.
+ discrete good/bad feedbacks) rather than complex reward-shaping.
+ This way,
+ learning with context agent achieves significantly faster convergence and requires fewer iterations to adapt to a data stream 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "blanco2024explainability"
+literal "false"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+By shifting from global,
+ static approximators to a bottom-up self-organization of autonomous local experts,
+ the system gains te structural adaptability required to learn in a non-stationary environment.
+ This multi-agent perspective transforms the learning problem into a self-regulating social process,
+ ensuring that the model's variety can evolve alonside the complexity of the task without suffering catastrophic interference that are typical of global architectures.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+Multi-agent systems (MAS) have gained popularity due to their ability to solve complex problems by breaking them down into simpler sub-problems that can be easily addressed by autonomous agents,
+ whether interconnected or not 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "dorri2018multi"
+literal "false"
+
+\end_inset
+
+.
+ The interaction rules between agents or with the environment are defined by the system designer to achieve a specific objective.
+ The use of MAS has proven effective in fields such as civil engineering 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SHAMSHIRBAND20132105"
+literal "false"
+
+\end_inset
+
+ or electrical engineering,
+ particularly with issues related to smart grids 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "rohbogner2014design"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+=> An original approach to learning based on multiagent systems has been developed and it results from the organization of a dynamic set of local models called context agents 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "blanco2024explainability"
+literal "false"
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nigon2017smart"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+=> This learning method inherently local and tailored for online learning.
+ Multiagent local learning is also grounded in ensemble learning => can be assimilated to Bagging in particular.
+\end_layout
+
+\begin_layout Plain Layout
+=> In more recent years,
+ reinforcement learning has been seriously considered to bypass the phase of designing rules that define agent behavior.
+ Indeed,
+ in Multi-Agent Reinforcement Learning (MARL),
+ agents' behaviors are learned using reinforcement signals obtained by continuously interacting with an environment 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "canese2021multi"
+literal "false"
+
+\end_inset
+
+.
+ => works of this thesis is not MARL.
+ Learning with context agents combines both approach:
+ fixed interaction rules and reinforcement learning.
+ Agents update using both reinforcement signals and cooperation rules.
+ Unlike MARL,
+ multiagent learning for supervised learning involves simpler reinforcement signals (e.g good,
+ bad,
+ ...) instead of complex rewards based on overall perforrmance.
+ Moreover,
+ it requires fewer iterations to converge 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "blanco2024explainability"
+literal "false"
+
+\end_inset
+
+ differing from MARL interactions with environemnt aiming at maximizing cumulative rewards.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset CommandInset citation
+LatexCommand cite
+key "videau2011controlling"
+literal "false"
+
+\end_inset
+
+ => Control of bioprocesses toward user defined objectives without prior knowledge of the system's dynamics => Limitation:
+ myopic regulation (no prediction horizon)
+\end_layout
+
+\begin_layout Itemize
+\begin_inset CommandInset citation
+LatexCommand cite
+key "boesSelfAdaptiveContextLearning2015,verstaevel2017lifelong"
+literal "false"
+
+\end_inset
+
+ Introduction of SACL Learning paradigm (inspiration of the works of this thesis) => The approach is based on the construction,
+ selection,
+ and adaptation of local models encapsulated within agents.
+ The learning problem then consists in selecting,
+ for each region of the input parameter space,
+ the context agents that contain the most effective local models.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset CommandInset citation
+LatexCommand cite
+key "boes2017self"
+literal "false"
+
+\end_inset
+
+ => Control of complex systems => bottom up approach design for controller for complex system based on adaptive multiagent systems (AMAS) with context agents => context agents contain description of the situation (context),
+ an action and estimation of action consequences on objective function (prediction) => cooperative self organization for adaptivity,
+ scalability and robustness => emergence of learned control => Limitation:
+ myopic regulation (no predictive horizon) 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset CommandInset citation
+LatexCommand cite
+key "verstaevel2016self"
+literal "false"
+
+\end_inset
+
+ => transposition of context agent learning to the problem of classification => a context agent is associated with a class => each agent is a local classifier
+\end_layout
+
+\begin_layout Itemize
+\begin_inset CommandInset citation
+LatexCommand cite
+key "dato2021apprentissage"
+literal "false"
+
+\end_inset
+
+ Generalization of Context Agent learning to regression + Active Learning => use internal properties (i.e introspection capabilities) linked to neighboring experts to improve generalizability
+\end_layout
+
+\begin_layout Itemize
+\begin_inset CommandInset citation
+LatexCommand cite
+key "fourezEnsembleMultiAgentSystem2022"
+literal "false"
+
+\end_inset
+
+ => online classification with context agents => theorically modular framework allowing for use of heterogeneous models 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "fourez2024analyzing"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset CommandInset citation
+LatexCommand cite
+key "blanco2024explainability"
+literal "false"
+
+\end_inset
+
+ => modification of the aggregation function of agents prediction to build the final prediction of the system + showed that observing the behavior of agents in the system allows to extract novel explainability metrics
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
 
 \begin_layout Plain Layout
 Multi-agent systems (MAS) have gained popularity due to their ability to solve complex problems by breaking them down into simpler sub-problems that can be easily addressed by autonomous agents,
@@ -5794,6 +9378,10 @@ literal "false"
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
 \begin_layout Subsection
 XAI and Uncertainty
 \begin_inset CommandInset label
@@ -5805,7 +9393,7 @@ name "subsec:XAI"
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Note Greyedout
 status open
 
@@ -5976,6 +9564,11 @@ Epistemic uncertainty
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 \begin_inset Note Note
 status collapsed
@@ -6099,6 +9692,152 @@ The family of systems presented in this chapter,
  CELL,
  falls within ensemble learning and we could label it as a Bagging approach because we consider a set of weak learners as a collection of self-organizing cooperative agents.
  Each one of them is a local expert on the function to be approximated.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Synthesis and Research Gaps
+\end_layout
+
+\begin_layout Standard
+The transition from Batch Learning with global learners to local self-organizing Online Learning highlights a tension between generalization capabilities and adaptability to non-stationarity (e.g stability-plasticity dilemma).
+ In this section,
+ we synthesize the reviewed literature to identify the specific research gaps that motivate the works of this thesis.
+\end_layout
+
+\begin_layout Standard
+In the context of this thesis,
+ some of the core challenges of Online Learning like catastrophic forgetting,
+ non-stationarity and uncertainty take on a specific meaning:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Mitigation of Catastrophic Forgetting
+\series default
+:
+ Traditional global approximators such as deep neural networks suffer from catastrophic forgetting because for each update,
+ every parameter of the network can be impacted,
+ potentially reshaping the entire knowledge base.
+ They remain structurally vulnerable to forgetting,
+ despite being powerful function approximators,
+ very efficient in Batch Learning.
+ The works of this thesis favor Spatial Isolation of parameters through local learning to alleviate this issue.
+ Restricting updates to specific regions of the input space ensures that newly acquired knowledge does not corrupt representations that correspond to unrelated contexts.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Handling of Non-Stationarity
+\series default
+:
+ Human behavior in HRC is inherently non-stationary.
+ Parametric models are limited by a capacity ceiling (fixed number of parameters).
+ In this thesis,
+ we argue for the use of Non-Parametric methods because they allow the model's complexity to grow and refine alongside the data stream.
+ By treating the model as an evolving population of agents rather than a frozen set of weights,
+ the Ashby's Law of Requisite Variety can be satisfied.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Estimation of Epistemic Uncertainty
+\series default
+:
+ Safety in HRC requires the controller to know when its internal model is unreliable.
+ Unlike global black-box models that may confidently extrapolate in Out-of-Distribution (OoD) regions,
+ learning with local experts provides a natural mechanism for epistemic uncertainty quantification.
+ The spatialization of experts allows the system to detect knowledge gaps in the input space.
+ For example with multi-agent local learning approaches based on a set of expert agents,
+ if no expert is close for a given input,
+ the system can signal a high epistemic uncertainty (no training data 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ no expert 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ no reliable prediction).
+\end_layout
+
+\begin_layout Standard
+This section argued for the promising nature of Local Learning approaches for HRC.
+ However,
+ most existing reference approaches such as LWPR,
+ exhibit a structural rigidity where the spatialization and update logics are tightly coupled.
+ This limits the modularity of such system,
+ presenting the use of heterogeneous models in the system that could allow for more parsimonious local learner by better representing the local complexity of the data.
+ Indeed,
+ local learners often suffer from local expert overgrowth.
+ Without carefully designed mechanisms for expert creation and pruning,
+ the number of local models can expand exponentially in high-dimensional input spaces,
+ leading to computational saturation and overfitting.
+\end_layout
+
+\begin_layout Standard
+To address these limitations,
+ this thesis works explore local learning through multi-agent systems.
+ This kind of system exhibits an architecture where spatialization and updates are decoupled,
+ in which social cooperation or competition rules regulate the population can be considered.
+ This bottom-up design philosophy introduces more possibilities in terms of modularity,
+ enabling the use for a broader diversity in the classes of local learners.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+- Synthesis of reasoning
+\end_layout
+
+\begin_layout Plain Layout
+- Recap Limitations and needed properties for safe
+\end_layout
+
+\begin_layout Plain Layout
+- Positioning through table
+\end_layout
+
+\begin_layout Itemize
+Ensemblist method ?
+\end_layout
+
+\begin_layout Itemize
+Parametric,
+ non-Parametric ?
+\end_layout
+
+\begin_layout Itemize
+Non-Stationarity Handling ?
+ => handles non-stationarity by the non-parametric anture
+\end_layout
+
+\begin_layout Itemize
+OoD (Out of Distribution) Predictions ?
+ => with non parametric local models epistemic uncertainty (if a data point has been seen or not at training time) ca be estimated through the spatialization of models => no expert = no data = no reliable predictions
+\end_layout
+
+\begin_layout Itemize
+Transparency of inner workings (black box / white box)
+\end_layout
+
+\begin_layout Itemize
+differentiable
+\end_layout
+
+\begin_layout Plain Layout
+- Why we explore mutliagent learning ?
+ => compare to LWPR because this is the closest we have and position our approach correctly
 \end_layout
 
 \end_inset
@@ -15667,7 +19406,8 @@ nolink "false"
 \begin_layout Standard
 The environments were selected to contrast a low-dimensional setting (InvertedPendulum with 4-dimensional states and 1 action) with a higher-dimensional one (Hopper with 11-dimensional state and 3 actions).
  Mahalanobis distance values become larger the higher the number of dimensions.
- Thus we want to study the impact of increasing dimensionality on the representativity of the spatialization of kCELL which was one of the main limitations of oCELL (cf 
+ Thus we want to study the impact of increasing dimensionality on the representativity of the spatialization of kCELL which was one of the main limitations of oCELL (cf.
+ 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:Limitations"
@@ -17178,7 +20918,8 @@ literal "false"
 \begin_layout Standard
 In this chapter we show that kCELL's structural transparency provides introspection tools that can be directly embedded into control and optimization pipelines.
  kCELL exposes measurable quantities such as distance-based competence,
- local prediction disagreement that provide proxies for quantifying epistemic and aleatoric uncertainties (cf Section 
+ local prediction disagreement that provide proxies for quantifying epistemic and aleatoric uncertainties (cf.
+ Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:XAI"
@@ -17453,7 +21194,8 @@ literal "false"
 
 \end_inset
 
- (cf Figure 
+ (cf.
+ Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Visualization-of-KD-tree"
@@ -17476,7 +21218,8 @@ literal "false"
 
 \end_inset
 
- (cf Figure 
+ (cf.
+ Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Visualization-of-R-tree"
@@ -18406,7 +22149,8 @@ Differentiability in CELL instantiations
 
 \begin_layout Standard
 In CELL instantiations,
- online learning is performed by maintaining a set of self-organizing spatialized agents that map the target function locally (cf Chapter 
+ online learning is performed by maintaining a set of self-organizing spatialized agents that map the target function locally (cf.
+ Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "chap:Context-Ensemble-Local"
@@ -20682,7 +24426,8 @@ Define reliability
 status open
 
 \begin_layout Plain Layout
-We use regularization to increase the confidence we can have in the model at optimization time => this is required for safety / reliability of the controller (cf paper Safe Control Review) => we advance toward safety
+We use regularization to increase the confidence we can have in the model at optimization time => this is required for safety / reliability of the controller (cf.
+ paper Safe Control Review) => we advance toward safety
 \end_layout
 
 \end_inset
@@ -20927,7 +24672,8 @@ To this objective,
 \begin_inset Formula $q_{\text{dist}}$
 \end_inset
 
- is introduced (cf Section 
+ is introduced (cf.
+ Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:Distance-based-Conservatism"

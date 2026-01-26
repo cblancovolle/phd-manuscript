@@ -131,6 +131,23 @@
   file = {C:\Users\uif72473\Zotero\storage\6BVB6LHS\Asadi and Vahidi - 2010 - Predictive Cruise Control Utilizing Upcoming Traf.pdf}
 }
 
+@article{ashby1956introduction,
+  title = {An Introduction to Cybernetics},
+  author = {Ashby, William Ross},
+  year = 1956
+}
+
+@article{aswani2013provably,
+  title = {Provably Safe and Robust Learning-Based Model Predictive Control},
+  author = {Aswani, Anil and Gonzalez, Humberto and Sastry, S Shankar and Tomlin, Claire},
+  year = 2013,
+  journal = {Automatica},
+  volume = {49},
+  number = {5},
+  pages = {1216--1226},
+  publisher = {Elsevier}
+}
+
 @article{atkeson1997locally,
   title = {Locally Weighted Learning},
   author = {Atkeson, Christopher G and Moore, Andrew W and Schaal, Stefan},
@@ -255,6 +272,16 @@
   publisher = {PMLR}
 }
 
+@article{boes2017self,
+  title = {Self-Organizing Multi-Agent Systems for the Control of Complex Systems},
+  author = {Boes, J{\'e}r{\'e}my and Migeon, Fr{\'e}d{\'e}ric},
+  year = 2017,
+  journal = {Journal of Systems and Software},
+  volume = {134},
+  pages = {12--28},
+  publisher = {Elsevier}
+}
+
 @incollection{boesSelfAdaptiveContextLearning2015,
   title = {The {{Self-Adaptive Context Learning Pattern}}: {{Overview}} and {{Proposal}}},
   booktitle = {{{SpringerLink}}},
@@ -280,6 +307,15 @@
   volume = {4},
   pages = {1--51},
   publisher = {Cambridge University Press}
+}
+
+@incollection{bottou2012stochastic,
+  title = {Stochastic Gradient Descent Tricks},
+  booktitle = {Neural Networks: Tricks of the Trade: Second Edition},
+  author = {Bottou, L{\'e}on},
+  year = 2012,
+  pages = {421--436},
+  publisher = {Springer}
 }
 
 @article{breiman1996bagging,
@@ -366,6 +402,17 @@
   file = {C:\Users\uif72473\Zotero\storage\B6Y4XPVK\Canese et al. - 2021 - Multi-agent reinforcement learning A review of ch.pdf}
 }
 
+@article{cannon2002efficient,
+  title = {Efficient Constrained Model Predictive Control with Asymptotic Optimality},
+  author = {Cannon, Mark and Kouvaritakis, Basil},
+  year = 2002,
+  journal = {SIAM journal on control and optimization},
+  volume = {41},
+  number = {1},
+  pages = {60--82},
+  publisher = {SIAM}
+}
+
 @article{chai2019review,
   title = {A Review of Optimization Techniques in Spacecraft Flight Trajectory Design},
   author = {Chai, Runqi and Savvaris, Al and Tsourdos, Antonios and Chai, Senchun and Xia, Yuanqing},
@@ -437,6 +484,15 @@
   keywords = {Machine Learning (cs.LG)}
 }
 
+@article{chua2018deep,
+  title = {Deep Reinforcement Learning in a Handful of Trials Using Probabilistic Dynamics Models},
+  author = {Chua, Kurtland and Calandra, Roberto and McAllister, Rowan and Levine, Sergey},
+  year = 2018,
+  journal = {Advances in neural information processing systems},
+  volume = {31},
+  file = {C:\Users\uif72473\Zotero\storage\YCUQ7VMQ\Chua et al. - 2018 - Deep reinforcement learning in a handful of trials using probabilistic dynamics models.pdf}
+}
+
 @article{chuaDeepReinforcementLearning2018,
   title = {Deep {{Reinforcement Learning}} in a {{Handful}} of {{Trials}} Using {{Probabilistic Dynamics Models}}},
   author = {Chua, Kurtland and Calandra, Roberto and McAllister, Rowan and Levine, Sergey},
@@ -447,6 +503,17 @@
   abstract = {Model-based reinforcement learning (RL) algorithms can attain excellent sample efficiency, but often lag behind the best model-free algorithms in terms of asymptotic performance. This is especially true with high-capacity parametric function approximators, such as deep networks. In this paper, we study how to bridge this gap, by employing uncertainty-aware dynamics models. We propose a new algorithm called probabilistic ensembles with trajectory sampling (PETS) that combines uncertainty-aware deep network dynamics models with sampling-based uncertainty propagation. Our comparison to state-of-the-art model-based and model-free deep RL algorithms shows that our approach matches the asymptotic performance of model-free algorithms on several challenging benchmark tasks, while requiring significantly fewer samples (e.g., 8 and 125 times fewer samples than Soft Actor Critic and Proximal Policy Optimization respectively on the half-cheetah task).},
   langid = {english},
   keywords = {Artificial Intelligence (cs.AI),Machine Learning (cs.LG),Machine Learning (stat.ML),Robotics (cs.RO)}
+}
+
+@article{conant1970every,
+  title = {Every Good Regulator of a System Must Be a Model of That System},
+  author = {Conant, Roger C and Ross Ashby, W},
+  year = 1970,
+  journal = {International journal of systems science},
+  volume = {1},
+  number = {2},
+  pages = {89--97},
+  publisher = {Taylor \& Francis}
 }
 
 @book{conn2000trust,
@@ -465,6 +532,19 @@
   number = {3},
   pages = {303--313},
   publisher = {Springer}
+}
+
+@article{dalalSafeExplorationContinuous2018,
+  title = {Safe {{Exploration}} in {{Continuous Action Spaces}}},
+  author = {Dalal, Gal and Dvijotham, Krishnamurthy and Vecerik, Matej and Hester, Todd and Paduraru, Cosmin and Tassa, Yuval},
+  year = 2018,
+  month = jan,
+  journal = {arXiv},
+  doi = {10.48550/arXiv.1801.08757},
+  abstract = {We address the problem of deploying a reinforcement learning (RL) agent on a physical system such as a datacenter cooling unit or robot, where critical constraints must never be violated. We show how to exploit the typically smooth dynamics of these systems and enable RL algorithms to never violate constraints during learning. Our technique is to directly add to the policy a safety layer that analytically solves an action correction formulation per each state. The novelty of obtaining an elegant closed-form solution is attained due to a linearized model, learned on past trajectories consisting of arbitrary actions. This is to mimic the real-world circumstances where data logs were generated with a behavior policy that is implausible to describe mathematically; such cases render the known safety-aware off-policy methods inapplicable. We demonstrate the efficacy of our approach on new representative physics-based environments, and prevail where reward shaping fails by maintaining zero constraint violations.},
+  langid = {english},
+  keywords = {Artificial Intelligence (cs.AI)},
+  file = {C:\Users\uif72473\Zotero\storage\QFH2FDTK\Dalal et al. - 2018 - Safe Exploration in Continuous Action Spaces.pdf}
 }
 
 @article{dani2024human,
@@ -491,6 +571,15 @@
   number = {1},
   pages = {19--67},
   publisher = {Springer}
+}
+
+@inproceedings{deisenroth2011pilco,
+  title = {{{PILCO}}: {{A}} Model-Based and Data-Efficient Approach to Policy Search},
+  booktitle = {Proceedings of the 28th International Conference on Machine Learning ({{ICML-11}})},
+  author = {Deisenroth, Marc and Rasmussen, Carl E},
+  year = 2011,
+  pages = {465--472},
+  file = {C:\Users\uif72473\Zotero\storage\GCT7ANV8\Deisenroth and Rasmussen - 2011 - PILCO A model-based and data-efficient approach to policy search.pdf}
 }
 
 @article{Delange_2021,
@@ -555,6 +644,17 @@
   author = {Domingos, Pedro and Hulten, Geoff},
   year = 2000,
   pages = {71--80}
+}
+
+@article{domshlak2006hard,
+  title = {Hard and Soft Constraints for Reasoning about Qualitative Conditional Preferences},
+  author = {Domshlak, Carmel and Prestwich, Steve and Rossi, Francesca and Venable, Kristen Brent and Walsh, Toby},
+  year = 2006,
+  journal = {Journal of Heuristics},
+  volume = {12},
+  number = {4},
+  pages = {263--285},
+  publisher = {Springer}
 }
 
 @article{dorri2018multi,
@@ -653,6 +753,13 @@
   author = {{European Commission}},
   year = 2021,
   howpublished = {Official Journal of the European Union, L 409/1}
+}
+
+@phdthesis{fourez2024analyzing,
+  title = {Analyzing Human Mobility with an Ensemblist Multi-Agent Context Learning System},
+  author = {Fourez, Thibault},
+  year = 2024,
+  school = {Universit\'e Toulouse Capitole}
 }
 
 @article{fourezEnsembleMultiAgentSystem2022,
@@ -783,6 +890,20 @@
   file = {C:\Users\uif72473\Zotero\storage\MHX2N45H\Gámez Serna et Ruichek - 2017 - Dynamic Speed Adaptation for Path Tracking Based o.pdf}
 }
 
+@article{GARCIA1989335,
+  title = {Model Predictive Control: {{Theory}} and Practice---{{A}} Survey},
+  author = {Garc{\'i}a, Carlos E. and Prett, David M. and Morari, Manfred},
+  year = 1989,
+  journal = {Automatica},
+  volume = {25},
+  number = {3},
+  pages = {335--348},
+  issn = {0005-1098},
+  doi = {10.1016/0005-1098(89)90002-2},
+  abstract = {We refer to Model Predictive Control (MPC) as that family of controllers in which there is a direct use of an explicit and separately identifiable model. Control design methods based on the MPC concept have found wide acceptance in industrial applications and have been studied by academia. The reason for such popularity is the ability of MPC designs to yield high performance control systems capable of operating without expert intervention for long periods of time. In this paper the issues of importance that any control system should address are stated. MPC techniques are then reviewed in the light of these issues in order to point out their advantages in design and implementation. A number of design techniques emanating from MPC, namely Dynamic Matrix Control, Model Algorithmic Control, Inferential Control and Internal Model Control, are put in perspective with respect to each other and the relation to more traditional methods like Linear Quadratic Control is examined. The flexible constraint handling capabilities of MPC are shown to be a significant advantage in the context of the overall operating objectives of the process industries and the 1-, 2-, and {$\infty$}-norm formulations of the performance objective are discussed. The application of MPC to non-linear systems is examined and it is shown that its main attractions carry over. Finally, it is explained that though MPC is not inherently more or less robust than classical feedback, it can be adjusted more easily for robustness.},
+  keywords = {(constrained control),Computer control,predictive control,process control,quadratic programming}
+}
+
 @article{gijsberts2013real,
   title = {Real-Time Model Learning Using Incremental Sparse Spectrum Gaussian Process Regression},
   author = {Gijsberts, Arjan and Metta, Giorgio},
@@ -866,6 +987,23 @@
   archiveprefix = {arXiv}
 }
 
+@article{hafner2023mastering,
+  title = {Mastering Diverse Domains through World Models},
+  author = {Hafner, Danijar and Pasukonis, Jurgis and Ba, Jimmy and Lillicrap, Timothy},
+  year = 2023,
+  journal = {arXiv preprint arXiv:2301.04104},
+  eprint = {2301.04104},
+  archiveprefix = {arXiv}
+}
+
+@article{hammouda2025application,
+  title = {Application of Deep Reinforcement Learning for Aerodynamic Control around an Angled Airfoil via Synthetic Jet},
+  author = {Hammouda, Nadia Ghezaiel and Khan, Rashid and Mostafa, Loghman and Musa, Veyan A and Rajab, Husam and Singh, Narinderjit Singh Sawaran and Aich, Walid and Hajlaoui, Khalil},
+  year = 2025,
+  journal = {Scientific Reports},
+  publisher = {Nature Publishing Group UK London}
+}
+
 @article{han2010research,
   title = {Research on an Online Self-Organizing Radial Basis Function Neural Network},
   author = {Han, Honggui and Chen, Qili and Qiao, Junfei},
@@ -942,18 +1080,7 @@
   number = {1},
   pages = {269--296},
   publisher = {Annual Reviews},
-  file = {C:\Users\uif72473\Zotero\storage\9YTYDWQA\Hewing et al. - 2020 - Learning-based model predictive control Toward safe learning in control.pdf}
-}
-
-@article{hewing2020learning,
-  title = {Learning-Based Model Predictive Control: {{Toward}} Safe Learning in Control},
-  author = {Hewing, Lukas and Wabersich, Kim P and Menner, Marcel and Zeilinger, Melanie N},
-  year = 2020,
-  journal = {Annual Review of Control, Robotics, and Autonomous Systems},
-  volume = {3},
-  number = {1},
-  pages = {269--296},
-  publisher = {Annual Reviews}
+  file = {C:\Users\uif72473\Zotero\storage\RD5UJVB2\Hewing et al. - 2020 - Learning-based model predictive control Toward safe learning in control.pdf}
 }
 
 @article{hoi2021online,
@@ -964,6 +1091,17 @@
   volume = {459},
   pages = {249--289},
   publisher = {Elsevier}
+}
+
+@article{hosseinzadeh2023robust,
+  title = {Robust-to-Early Termination Model Predictive Control},
+  author = {Hosseinzadeh, Mehdi and Sinopoli, Bruno and Kolmanovsky, Ilya and Baruah, Sanjoy},
+  year = 2023,
+  journal = {IEEE transactions on automatic control},
+  volume = {69},
+  number = {4},
+  pages = {2507--2513},
+  publisher = {IEEE}
 }
 
 @incollection{hue2016online,
@@ -1000,6 +1138,17 @@
   volume = {129},
   pages = {241--249},
   publisher = {Elsevier}
+}
+
+@article{hwangbo2019learning,
+  title = {Learning Agile and Dynamic Motor Skills for Legged Robots},
+  author = {Hwangbo, Jemin and Lee, Joonho and Dosovitskiy, Alexey and Bellicoso, Dario and Tsounis, Vassilios and Koltun, Vladlen and Hutter, Marco},
+  year = 2019,
+  journal = {Science Robotics},
+  volume = {4},
+  number = {26},
+  pages = {eaau5872},
+  publisher = {American Association for the Advancement of Science}
 }
 
 @article{jacobsen2024online,
@@ -1154,6 +1303,17 @@
   file = {C:\Users\uif72473\Zotero\storage\J3INFHHE\Kamal et al. - 2012 - Model Predictive Control of Vehicles on Urban Road.pdf}
 }
 
+@article{kaufmann2023champion,
+  title = {Champion-Level Drone Racing Using Deep Reinforcement Learning},
+  author = {Kaufmann, Elia and Bauersfeld, Leonard and Loquercio, Antonio and M{\"u}ller, Matthias and Koltun, Vladlen and Scaramuzza, Davide},
+  year = 2023,
+  journal = {Nature},
+  volume = {620},
+  number = {7976},
+  pages = {982--987},
+  publisher = {Nature Publishing Group UK London}
+}
+
 @article{keLightGBMHighlyEfficient2017,
   title = {{{LightGBM}}: {{A Highly Efficient Gradient Boosting Decision Tree}}},
   author = {Ke, Guolin and Meng, Qi and Finley, Thomas and Wang, Taifeng and Chen, Wei and Ma, Weidong and Ye, Qiwei and Liu, Tie-Yan},
@@ -1289,6 +1449,15 @@
   keywords = {Computer science,Mathematics and computing}
 }
 
+@article{lee2019robust,
+  title = {Robust Recovery Controller for a Quadrupedal Robot Using Deep Reinforcement Learning},
+  author = {Lee, Joonho and Hwangbo, Jemin and Hutter, Marco},
+  year = 2019,
+  journal = {arXiv preprint arXiv:1901.07517},
+  eprint = {1901.07517},
+  archiveprefix = {arXiv}
+}
+
 @article{leeModelBasedReinforcementLearning2020,
   title = {Model-{{Based Reinforcement Learning}} for {{Eco-Driving Control}} of {{Electric Vehicles}}},
   author = {Lee, Heeyun and Kim, Namwook and Cha, Suk Won},
@@ -1310,6 +1479,15 @@
   booktitle = {Australasian Conference on Robotics and Automation},
   author = {Lehnert, Christopher and Wyeth, Gordon},
   year = 2012
+}
+
+@article{levine2020offline,
+  title = {Offline Reinforcement Learning: {{Tutorial}}, Review, and Perspectives on Open Problems},
+  author = {Levine, Sergey and Kumar, Aviral and Tucker, George and Fu, Justin},
+  year = 2020,
+  journal = {arXiv preprint arXiv:2005.01643},
+  eprint = {2005.01643},
+  archiveprefix = {arXiv}
 }
 
 @article{linardatosExplainableAIReview2020,
@@ -1592,6 +1770,22 @@
   publisher = {Taylor \& Francis}
 }
 
+@inproceedings{nigon2017smart,
+  title = {Smart Is a Matter of Context},
+  booktitle = {International and Interdisciplinary Conference on Modeling and Using Context},
+  author = {Nigon, Julien and Verstaevel, Nicolas and Boes, J{\'e}r{\'e}my and Migeon, Fr{\'e}d{\'e}ric and Gleizes, Marie-Pierre},
+  year = 2017,
+  pages = {189--202},
+  publisher = {Springer}
+}
+
+@book{nocedal2006numerical,
+  title = {Numerical Optimization},
+  author = {Nocedal, Jorge and Wright, Stephen J},
+  year = 2006,
+  publisher = {Springer}
+}
+
 @article{ochukut2023research,
   title = {Research Trends in Adaptive Online Learning: {{Systematic}} Literature Review (2011--2020)},
   author = {Ochukut, Selina Atwani and Oboko, Robert Obwocha and Miriti, Evans and Maina, Elizaphan},
@@ -1810,6 +2004,13 @@
   keywords = {C4.5,CART,Decision tree,Gain Ratio,Gini Index,Information Gain,Length,Minimum Description,Oblivious Decision Trees,Pruning}
 }
 
+@book{rubinstein2004cross,
+  title = {The Cross-Entropy Method: A Unified Approach to Combinatorial Optimization, {{Monte-Carlo}} Simulation and Machine Learning},
+  author = {Rubinstein, Reuven Y and Kroese, Dirk P},
+  year = 2004,
+  publisher = {Springer Science \& Business Media}
+}
+
 @article{rudin2019stop,
   title = {Stop Explaining Black Box Machine Learning Models for High Stakes Decisions and Use Interpretable Models Instead},
   author = {Rudin, Cynthia},
@@ -1894,6 +2095,17 @@
   archiveprefix = {arXiv}
 }
 
+@article{schrittwieser2020mastering,
+  title = {Mastering Atari, Go, Chess and Shogi by Planning with a Learned Model},
+  author = {Schrittwieser, Julian and Antonoglou, Ioannis and Hubert, Thomas and Simonyan, Karen and Sifre, Laurent and Schmitt, Simon and Guez, Arthur and Lockhart, Edward and Hassabis, Demis and Graepel, Thore and others},
+  year = 2020,
+  journal = {Nature},
+  volume = {588},
+  number = {7839},
+  pages = {604--609},
+  publisher = {Nature Publishing Group UK London}
+}
+
 @inproceedings{schulman2015trust,
   title = {Trust Region Policy Optimization},
   booktitle = {International Conference on Machine Learning},
@@ -1901,6 +2113,18 @@
   year = 2015,
   pages = {1889--1897},
   publisher = {PMLR}
+}
+
+@article{schulmanProximalPolicyOptimization2017,
+  title = {Proximal {{Policy Optimization Algorithms}}},
+  author = {Schulman, John and Wolski, Filip and Dhariwal, Prafulla and Radford, Alec and Klimov, Oleg},
+  year = 2017,
+  month = jul,
+  journal = {arXiv},
+  doi = {10.48550/arXiv.1707.06347},
+  abstract = {We propose a new family of policy gradient methods for reinforcement learning, which alternate between sampling data through interaction with the environment, and optimizing a "surrogate" objective function using stochastic gradient ascent. Whereas standard policy gradient methods perform one gradient update per data sample, we propose a novel objective function that enables multiple epochs of minibatch updates. The new methods, which we call proximal policy optimization (PPO), have some of the benefits of trust region policy optimization (TRPO), but they are much simpler to implement, more general, and have better sample complexity (empirically). Our experiments test PPO on a collection of benchmark tasks, including simulated robotic locomotion and Atari game playing, and we show that PPO outperforms other online policy gradient methods, and overall strikes a favorable balance between sample complexity, simplicity, and wall-time.},
+  langid = {english},
+  keywords = {Machine Learning (cs.LG)}
 }
 
 @article{schulzTutorialGaussianProcess2018,
@@ -1958,6 +2182,16 @@
   volume = {11},
   pages = {60724--60736},
   publisher = {IEEE}
+}
+
+@article{semeraro2023human,
+  title = {Human--Robot Collaboration and Machine Learning: {{A}} Systematic Review of Recent Research},
+  author = {Semeraro, Francesco and Griffiths, Alexander and Cangelosi, Angelo},
+  year = 2023,
+  journal = {Robotics and Computer-Integrated Manufacturing},
+  volume = {79},
+  pages = {102432},
+  publisher = {Elsevier}
 }
 
 @article{shalev2025online,
@@ -2131,6 +2365,14 @@
   file = {C:\Users\uif72473\Zotero\storage\9IITBMUK\Sun et al. - 2020 - Optimal Eco-Driving Control of Connected and Auton.pdf}
 }
 
+@book{sutton1998reinforcement,
+  title = {Reinforcement Learning: {{An}} Introduction},
+  author = {Sutton, Richard S and Barto, Andrew G and others},
+  year = 1998,
+  volume = {1},
+  publisher = {MIT press Cambridge}
+}
+
 @misc{tate1997implementation,
   title = {Implementation Scenarios},
   author = {Tate, Fergus and Carsten, O and ISA, {\relax UK}},
@@ -2186,6 +2428,31 @@
   number = {5},
   pages = {823},
   publisher = {APS}
+}
+
+@phdthesis{verstaevel2016self,
+  title = {Self-Organization of Robotic Devices through Demonstrations},
+  author = {Verstaevel, Nicolas},
+  year = 2016,
+  school = {Universit\'e de Toulouse, Universit\'e Toulouse III-Paul Sabatier}
+}
+
+@inproceedings{verstaevel2017lifelong,
+  title = {Lifelong Machine Learning with Adaptive Multi-Agent Systems},
+  booktitle = {9th International Conference on Agents and Artificial Intelligence ({{ICAART}} 2017)},
+  author = {Verstaevel, Nicolas and Boes, J{\'e}r{\'e}my and Nigon, Julien and {d'Amico}, Dorian and Gleizes, Marie-Pierre},
+  year = 2017,
+  volume = {1},
+  pages = {275--286}
+}
+
+@inproceedings{videau2011controlling,
+  title = {Controlling Bioprocesses Using Cooperative Self-Organizing Agents},
+  booktitle = {Advances on Practical Applications of Agents and Multiagent Systems: 9th International Conference on Practical Applications of Agents and Multiagent Systems},
+  author = {Videau, Sylvain and Bernon, Carole and Glize, Pierre and Uribelarrea, Jean-Louis},
+  year = 2011,
+  pages = {141--150},
+  publisher = {Springer}
 }
 
 @inproceedings{vijayakumar2000locally,
@@ -2262,6 +2529,14 @@
   year = 1995,
   journal = {Advances in neural information processing systems},
   volume = {8}
+}
+
+@book{williams2006gaussian,
+  title = {Gaussian Processes for Machine Learning},
+  author = {Williams, Christopher KI and Rasmussen, Carl Edward},
+  year = 2006,
+  volume = {2},
+  publisher = {MIT press Cambridge, MA}
 }
 
 @article{wolpert1992stacked,
