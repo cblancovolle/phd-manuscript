@@ -191,6 +191,19 @@ Adaptive Control through Socially Emergent Learning of an Ensemble of Local Expe
 status open
 
 \begin_layout Plain Layout
+Contrôle Adaptatif par Apprentissage Social Emergent d'un Ensemble d'Agents Experts Locaux
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset ERT
 status open
 
@@ -12304,11 +12317,93 @@ Through this tripartite structure,
 \end_inset
 
 .
- 
 \end_layout
 
 \begin_layout Standard
-The next section details the learning and inference pipelines that allow respectively for the self-organization of agents and to obtain the predictions of the global model.
+In addition to these fundamental components,
+ agents are associated with operations that allow them to adapt individually and locally.
+ Two types of operations must be defined in the context of CELL to enable local self-organization:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Shape Update
+\series default
+:
+ It corresponds to updating the parameters of the activation function 
+\begin_inset Formula $\phi_{i}$
+\end_inset
+
+,
+ effectively changing the shape of the area of expertise of agent
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+.
+ Depending on the social feedbacks received by agent 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ for an input 
+\begin_inset Formula $x$
+\end_inset
+
+,
+ the latter can realize either that his area of expertise is well positioned within the input space,
+ or that it is not.
+ For example,
+ if 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ receives a bad feedback for its prediction on 
+\begin_inset Formula $x$
+\end_inset
+
+,
+ it might want to shrink its area of expertise to not include 
+\begin_inset Formula $x$
+\end_inset
+
+ anymore,
+ and conversely if it receives a good feedback for its prediction on 
+\begin_inset Formula $x$
+\end_inset
+
+,
+ it might want to expand its area of expertise to include 
+\begin_inset Formula $x$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Model Update
+\series default
+:
+ It corresponds to updating the parameters 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ of the internal model 
+\begin_inset Formula $f_{i}$
+\end_inset
+
+ to include a point 
+\begin_inset Formula $x$
+\end_inset
+
+.
+ For example,
+ it could consist in a gradient descent step.
+\end_layout
+
+\begin_layout Standard
+The next section details the inference and learning pipelines that allow respectively for the self-organization of agents and to obtain the predictions of the global model.
 \end_layout
 
 \begin_layout Subsection
@@ -12325,6 +12420,155 @@ name "subsec:Operational-Pipelines"
 \begin_layout Standard
 After formalizing in detail the main components that compose the agents in previous section,
  this section presents the learning loop structure of a CELL system and how the predictions of the global system are obtained from the set of local expert agents.
+\end_layout
+
+\begin_layout Standard
+A CELL system operates through 2 pipelines:
+ the inference pipeline,
+ which produces a global prediction from the ensemble of agents,
+ and the learning pipeline,
+ which governs the social self-organization of agents.
+ Both pipelines rely on a gating mechanism to manage the locallity in the system.
+\end_layout
+
+\begin_layout Standard
+For a given input 
+\begin_inset Formula $x$
+\end_inset
+
+ the gating mechanism select the a subset of relevant local expert agents to predict among the ensemble of agents.
+ This is the gating mechanism that guarantees spatial isolation of parameters inside the lerning system.
+ For any input,
+ the gating mechanism outputs two sets of agents:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Activated Agents
+\series default
+:
+ Agents for which 
+\begin_inset Formula $x$
+\end_inset
+
+ falls within their area of expertise (i.e 
+\begin_inset Formula $x$
+\end_inset
+
+ is ID for activated agents and OoD for non activated agents).
+ These agents are the most relevant agents to contribute to the final prediction.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Neighbor Agents
+\series default
+:
+ The set of neighbor agents is a superset of activated agents.
+ In addition to including activated agents,
+ it includes agents for which 
+\begin_inset Formula $x$
+\end_inset
+
+ is not yet ID but is close to their spatial boundaries.
+ These agents represent potential improvement for the system as they are candidate for updating the shape of their area fo expertise to include 
+\begin_inset Formula $x$
+\end_inset
+
+ and become expert on it.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Itemize
+CELL => 2 layers => spatialization (activation functions et gating mechanism) et modeling (internal model of agents)
+\end_layout
+
+\begin_layout Itemize
+Explication du gating mechanism pour la selection d'experts => le gating permet la selection d'experts en fonction d'un input => les experts les plus pertinents sont choisis dans le but de proposer une prédiction => on définit un agent comme activé pour 
+\begin_inset Formula $x$
+\end_inset
+
+ si 
+\begin_inset Formula $x$
+\end_inset
+
+ est la area of expertise de l'agent (i.e il est tres probablement pertinent pour cet agent de prédire) => on définit un agent comme voisin pour 
+\begin_inset Formula $x$
+\end_inset
+
+ si 
+\begin_inset Formula $x$
+\end_inset
+
+ est activé ou proche de l'area of expertise de l'agent (i.e cet agent a le potentiel de devenir expert sur 
+\begin_inset Formula $x$
+\end_inset
+
+ mais ce n'est pas encore sûr)
+\end_layout
+
+\begin_layout Itemize
+Formalisation du pipeline de prédiction
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+distance evaluation
+\end_layout
+
+\begin_layout Itemize
+expert selection (gating mechanism)
+\end_layout
+
+\begin_layout Itemize
+prediction of experts
+\end_layout
+
+\begin_layout Itemize
+aggregation of predictions
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Formalisation du pipeline d'apprentissage
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+distance evaluation
+\end_layout
+
+\begin_layout Itemize
+expert selection (gating mechanism)
+\end_layout
+
+\begin_layout Itemize
+social feedback computation => individual (ex:
+ error thresholds) or collective (relative to other expert or to baseline)
+\end_layout
+
+\begin_layout Itemize
+apply learning rules to experts => condition on feedback value + internal state of experts => update action (update model / update shape / create / destroy)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+ALGO TRAINING LOOP / ou / DIAGRAM pour les pipelines
+\end_layout
+
+\begin_layout Itemize
+Dans CELL le processus d'apprentissage de chaque instantiation peut être caractérisé en construisant un tableau contenant les règles d'apprentisssage => cest ce type de tableau qui sera utilisé dans la suite pour caractériser oCELL et kCELL => colonnes:
+ 
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -12421,6 +12665,10 @@ Formalisation du pipeline d'apprentissage
 \end_layout
 
 \begin_deeper
+\begin_layout Itemize
+distance evaluation
+\end_layout
+
 \begin_layout Itemize
 expert selection
 \end_layout
