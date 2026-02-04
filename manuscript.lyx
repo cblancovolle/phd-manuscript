@@ -129,7 +129,7 @@ algorithm2e
 \begin_body
 
 \begin_layout Title
-Adaptive Control with Social Mixture of Local Expert Agents
+Adaptive Control through Socially Emergent Learning of an Ensemble of Local Expert Agents
 \end_layout
 
 \begin_layout Standard
@@ -166,6 +166,19 @@ status open
 
 \begin_layout Plain Layout
 Adaptive Control though Social Ensemble of Local Expert Models
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Title
+Adaptive Control with Social Mixture of Local Expert Agents
 \end_layout
 
 \end_inset
@@ -9567,197 +9580,6 @@ literal "false"
 \end_inset
 
 .
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Subsection
-XAI and Uncertainty
-\begin_inset CommandInset label
-LatexCommand label
-name "subsec:XAI"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Note Greyedout
-status open
-
-\begin_layout Plain Layout
-The field of eXplainable Artificial Intelligence (XAI) addresses the opacity of complex models by providing insights into their decision-making processes.
- However,
- interpretability and explainability are defined in various ways 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "gilpin2018explaining,doshi2017towards"
-literal "false"
-
-\end_inset
-
- and often used interchangeably.
- Thus,
- following the distinction made in 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "burkart2021survey"
-literal "false"
-
-\end_inset
-
-,
- we differentiate between interpretability and explainability.
- 
-\series bold
-Interpretability
-\series default
- is defined as the inherent ability to understand how the model works as a whole,
- focusing on the model's structure and mechanisms (i.e transparency).
- In contrast,
- 
-\series bold
-Explainability 
-\series default
-is associated with the methodologies used to communicate the reasoning for a specific decision taken by a model.
-\end_layout
-
-\begin_layout Plain Layout
-Approaches such as deep learning achieve good performance across a wide variety of tasks.
- However,
- these approaches generate highly complex models.
- There must be a compromise between the model's performance and its ability to produce explainable predictions and interpretable structures 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "linardatosExplainableAIReview2020"
-literal "false"
-
-\end_inset
-
-.
- Some approaches were developed to adress the explainability of predictions.
- SHAP looks for the impact of each feature on the prediction using cooperative game theory 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "lundberg2017unified"
-literal "false"
-
-\end_inset
-
- and LIME builds an interpretable surrogate model that approximate a black-box model locally 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "ribeiro2016should"
-literal "false"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-Within this discourse,
- machine learning models are typically categorized as white-box or black-box models 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "loyola-gonzalezBlackBoxVsWhiteBox2019"
-literal "false"
-
-\end_inset
-
-.
- 
-\series bold
-Black-box
-\series default
- models have opaque and complex inner workings that are difficult for an external observer to understand.
- This categorisation includes deep learning models 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "lecunDeepLearning2015"
-literal "false"
-
-\end_inset
-
- and some ensemble models 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "breimanRandomForests2001,polikarEnsembleLearning2012,chenXGBoostScalableTree2016,keLightGBMHighlyEfficient2017"
-literal "false"
-
-\end_inset
-
-.
- Conversely,
- 
-\series bold
-White-box
-\series default
- models have simpler and less opaque inner workings.
- These models,
- considered more explainable than black-box models,
- include linear regression models 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "weisbergAppliedLinearRegression2005"
-literal "false"
-
-\end_inset
-
-,
- decision trees 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "rokachDecisionTrees2005"
-literal "false"
-
-\end_inset
-
- and other rule-based approaches.
- To achieve explainability,
- white-box models are preferred.
-\end_layout
-
-\begin_layout Plain Layout
-The explainability of a prediction is partly linked to the concept of uncertainty.
- An informed decision-making process must take uncertainty into account.
- We distinguish between epistemic uncertainty and aleatoric uncertainty 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "chuaDeepReinforcementLearning2018,hullermeierAleatoricEpistemicUncertainty2021"
-literal "false"
-
-\end_inset
-
-.
- 
-\series bold
-Aleatoric uncertainty
-\series default
- arises from the inherent natural variations in the studied phenomena.
- It may be due to random fluctuations,
- measurement errors,
- or other unpredictable factors.
- 
-\series bold
-Epistemic uncertainty
-\series default
- on the other hands,
- stems from a lack of knowledge or complete understanding of the studied phenomenon.
- This type of uncertainty is related to the lack of data in certain regions of the feature space.
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \end_inset
@@ -22236,6 +22058,154 @@ aleatoric uncertainty
  aleatoric uncertainty remains if the underlying function is stochastic or if the measurement of inputs are noisy.
 \end_layout
 
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/oCELL_comparative_study/beale_agents_english.png
+	lyxscale 30
+	width 40col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Visualization-tiling-beale"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/oCELL_comparative_study/beale_neighborhood_english.png
+	lyxscale 30
+	width 40col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Visualization-neighborhood-beale"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Visualization of the tiling of the space (normalized between 
+\begin_inset Formula $-1$
+\end_inset
+
+ and 
+\begin_inset Formula $1$
+\end_inset
+
+) by the context agents for the Beale function 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "fig:Visualization-tiling-beale"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ Each blue rectangle represents a context agent and the red rectangle is an example of the neighborhood of an observation.
+ Visualization of the context agents in the neighborhood of an observation 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "fig:Visualization-neighborhood-beale"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Paragraph
 Quantifying Epistemic Uncertainty
 \end_layout
@@ -22327,7 +22297,7 @@ If
  Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Comparison-coverage-index-1"
+reference "fig:Comparison-coverage-index"
 plural "false"
 caps "false"
 noprefix "false"
@@ -22352,422 +22322,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/experiments/oCELL_comparative_study/side_by_side_missing_data_cover_index_english.png
 	lyxscale 30
-	width 90col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Comparison-coverage-index-1"
-
-\end_inset
-
-Comparison of the distribution map of observations used to train the model (left) and the visualization of the coverage index associated with this model (right).
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The covergae index is therefore a quantitative measure of the epistemic uncertainty associated with a prediction.
- it provides a direct assessment of the model's learned boundaries and limitations.
- For the development of critical systems,
- this property is essential to observe in order to assess the risk of extrapolation or interpolation errors.
-\end_layout
-
-\begin_layout Standard
-This measure can be used either locally and globally.
- Locally,
- at the individual prediction level,
- the coverage index quantifies the reliability of the prediction of the model,
- effectively representing a degree of trustworhtiness.
- Globally,
- the aggregated coverage index allows for the systematic analysis and visualization of the entire agent organization across the input space.
- It represents a tool for understanding the model's inherent structure and mechanisms.
-\end_layout
-
-\begin_layout Paragraph
-Quantifying Aleatoric Uncertainty
-\end_layout
-
-\begin_layout Paragraph
-Analyzing Function Complexity
-\end_layout
-
-\begin_layout Subsection
-Explainability and Interpretability
-\begin_inset CommandInset label
-LatexCommand label
-name "subsec:Explainability-oCELL"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The CELL instantiations are designed to possess native mechanisms for introspection.
- While its architecture is similar to the localized approximation approach used by techniques such as LIME 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "ribeiro2016should"
-literal "false"
-
-\end_inset
-
-,
- oCELL achieves intrinsic local explainability through its structural multiagent design.
-\end_layout
-
-\begin_layout Subsubsection
-Interpretability
-\end_layout
-
-\begin_layout Standard
-oCELL's design provides a basis for full model interpretability.
- When the agents employ inherently transparent models such as linear regression,
- oCELL itself works as a structurally interpretable white-box model in accordance with the definition introduced in 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "subsec:XAI"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-.
- The system's final prediction is derived from a linear combination of predictions proposed by a restricted,
- spatially-localized subset of agents.
- This mechanism simplifies the process of credit assigment compared to traditional global ensemble models (e.g bagging or boosting),
- which often involve contributions from a large set of weak learners.
- This property makes oCELL intrinsically interpretable.
-\end_layout
-
-\begin_layout Standard
-Consequently the spatial organization and internal structures of the model can be systematically analyzed to extract essential information about the function underlying the data and its complexity.
- For didactic purposes,
- the remainder of this section is based on a training carried out on a synthetic dataset generated from the Beale function (cf.
- Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Heatmaps"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-).
- This nonlinear function exhibits regimes of amplitude variations that are very different across its domain of definition.
- The amplitude of the gradients of the Beale function varies greatly at the boundaries of the definition domain (
-\begin_inset Formula $-4\leq x,y\leq4$
-\end_inset
-
-),
- while in the central plateau,
- the variations in gradient amplitude are more subtle.
- The Beale function is frequently used as a benchmark for testing optimization algorithms 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "zhuangAdaBeliefOptimizerAdapting2020,Jamil2013ALS"
-literal "false"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-placement H
-alignment document
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset space \hfill{}
-\end_inset
-
-
-\begin_inset Float figure
-placement document
-alignment document
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename assets/images/experiments/oCELL_comparative_study/beale_agents_english.png
-	lyxscale 30
-	width 45col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Visualization-tiling-beale"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset Float figure
-placement document
-alignment document
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename assets/images/experiments/oCELL_comparative_study/beale_neighborhood_english.png
-	lyxscale 30
-	width 45col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Visualization-neighborhood-beale"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset space \hfill{}
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Visualization of the tiling of the space (normalized between 
-\begin_inset Formula $-1$
-\end_inset
-
- and 
-\begin_inset Formula $1$
-\end_inset
-
-) by the context agents for the Beale function 
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Visualization-tiling-beale"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-.
- Each blue rectangle represents a context agent and the red rectangle is an example of the neighborhood of an observation.
- Visualization of the context agents in the neighborhood of an observation 
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Visualization-neighborhood-beale"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-Uncertainty and Confidence
-\end_layout
-
-\begin_layout Standard
-The notion of neighborhood and more broadly the spatial organization of agents allows to extract various metrics of the local organization of agents in the feature space.
-\end_layout
-
-\begin_layout Paragraph
-Epistemic Uncertainty
-\end_layout
-
-\begin_layout Standard
-During training,
- the agents organize themselves in the feature space.
- Depending on the training dataset and the complexity of the underlying function,
- the results of self-organization varies.
- As illustrated in 
-\begin_inset CommandInset ref
-LatexCommand formatted
-reference "fig:Visualization-tiling-beale"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-,
- gaps (uncovered zones) in the agent tiling may remain.
- It is possible that for a given observation,
- no agent is activated.
- In such cases,
- making a prediction requires relying on the proposals of the nearest agents in the observation's neighborhood.
- To determine if the agents' prediction is reliable,
- we define the coverage index 
-\begin_inset Formula $p_{\text{coverage}}$
-\end_inset
-
- of the observation's neighborhood as
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{equation}
-p_{\text{coverage}}=\frac{V_{\text{agents}}}{V_{\text{neighborhood}}}
-\end{equation}
-
-\end_inset
-
-where 
-\begin_inset Formula $V_{\text{agents}}$
-\end_inset
-
- is the volume covered by the 
-\emph on
-Context
-\emph default
- agents in the neighborhood and 
-\begin_inset Formula $V_{\text{neighborhood}}$
-\end_inset
-
- is the volume of the hyperrectangle representing the neighborhood.
-\end_layout
-
-\begin_layout Standard
-Thus,
- if 
-\begin_inset Formula $p_{\text{coverage}}$
-\end_inset
-
- is close to 
-\begin_inset Formula $1$
-\end_inset
-
-,
- the space around the observation contains few gaps:
- our model is proficient in that region of space.
- Therefore,
- it is relevant to consider the predictions of nearby agents.
- Conversely,
- if 
-\begin_inset Formula $p_{\text{coverage}}$
-\end_inset
-
- is close to 
-\begin_inset Formula $0$
-\end_inset
-
-,
- then the space around the observation contains many gaps.
- There is a high probability that this region of space was underexplored during training.
- This may indicate either gaps in the training data specific to that area of space,
- or that training did not proceed as expected for various reasons (strong non-linearities in the function to approximate,
- presence of noise,
- discontinuity,
- etc...).
- We illustrate the utility of the coverage index in a scenario where our system learns from a dataset with an entire portion of missing data 
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Comparison-coverage-index"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-.
- We observe that the coverage index helps identify the missing portion of data in the training dataset without having directly access to the actual training dataset.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-placement H
-alignment document
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename assets/images/experiments/oCELL_comparative_study/side_by_side_missing_data_cover_index_english.png
-	lyxscale 30
-	width 90col%
+	width 80col%
 
 \end_inset
 
@@ -22798,81 +22353,79 @@ Comparison of the distribution map of observations used to train the model (left
 \end_layout
 
 \begin_layout Standard
-The covergae index is therefore a quantitative measure of the epistemic uncertainty associated with a prediction.
- it provides a direct assessment of the model's learned boundaries and limitations in various regions of the feature space.
+The coverage index is therefore a quantitative measure of the epistemic uncertainty associated with a prediction.
+ it provides a direct assessment of the model's learned boundaries and limitations.
  For the development of critical systems,
  this property is essential to observe in order to assess the risk of extrapolation or interpolation errors.
 \end_layout
 
 \begin_layout Standard
-This measure is fundamentally linked to both explainability and interpretability.
+This measure can be used either locally and globally.
  Locally,
  at the individual prediction level,
- coverage index serves as a crucial component of explanation.
- By quantifying the reliability of the output,
- it effectively represents a degree of trustworhtiness and the necessity of relying on neighborhood averaging (cf.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "subsubsec:Neighborhood-Prediction"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-).
+ the coverage index quantifies the reliability of the prediction of the model,
+ effectively representing a degree of trustworhtiness.
  Globally,
- the aggregated coverage index allows for the systematic analysis and visualization of the entire agent organization across the feature space.
- This analysis of the overall tiling pattern directly addresses interpretability by giving tools for understanding the model's inherent structure and mechanisms.
+ the aggregated coverage index allows for the systematic analysis and visualization of the entire agent organization across the input space.
+ It represents a tool for understanding the model's inherent structure and mechanisms.
 \end_layout
 
 \begin_layout Paragraph
-Aleatoric Uncertainty
+Quantifying Aleatoric Uncertainty
 \end_layout
 
 \begin_layout Standard
-After training,
- when an observation is provided to the model,
- each activated agent makes a prediction proposal.
- We can thus calculate the discrepancy between the prediction proposals from the set of proposals of the activated agents (
-\begin_inset Formula $\mathcal{D}_{\text{proposals}}$
+When multiple agents are activated for a single input 
+\begin_inset Formula $x$
 \end_inset
 
-) to deduce a measure of aleatoric uncertainty:
- 
+,
+ each proposes a prediction 
+\begin_inset Formula $\hat{y}_{i}$
+\end_inset
+
+.
+ The discrepancy between these proposals represents a measure of aleatoric uncertainty,
+ quantifying the disagreement among a group of expert agent where all of them consider themselves as relevant to predict.
+ It is defined as
 \begin_inset Formula 
 \begin{equation}
-\sigma_{\text{activated}}=\sqrt{\sum_{p\in\mathcal{D}_{\text{proposals}}}\frac{\left|p-p_{\text{mean}}\right|}{N_{A}}}
+\sigma_{\text{activated}}=\sqrt{\sum_{i\in\mathcal{D}_{\text{activated}}}\frac{\left|\hat{y}_{i}-\hat{y}_{\text{mean}}\right|^{2}}{N_{\text{activated}}}}
 \end{equation}
 
 \end_inset
 
 where 
-\begin_inset Formula $p_{\text{mean}}$
+\begin_inset Formula $\hat{y}_{\text{mean}}$
 \end_inset
 
- is the average of the proposals in the set of 
-\begin_inset Formula $\mathcal{D}_{\text{proposals}}$
-\end_inset
-
- and 
-\begin_inset Formula $N_{A}$
-\end_inset
-
- is the number of activated agents.
- This value estimates the disagreement among agents which judge themselves as equally competent to propose a prediction.
+ is the mean of the predictions of activated agents.
 \end_layout
 
 \begin_layout Standard
+A high value of discrepancy 
+\begin_inset Formula $\sigma_{\text{activated}}$
+\end_inset
+
+ suggests that the local dynamics are either highly noisy or that the local linear approximation is struggling to reconcile the local data.
+ As oCELL is agnostic to the model class used as internal model for agents,
+ using a class of models capable of inherently providing a measure of uncertainty on predictions,
+ such as Gaussian Processes (GPs),
+ could robustify this uncertainty estimate.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
 This value of discrepancy quantifies the aleatoric uncertainty associated with the model's predictions.
  It captures the inherent noise and stochasticity as a disagreement among locally activated agents.
  It's linked to explainability because it primarily relates to locality at the prediction-level,
  providing useful tools to explain predictions under the angle of trust.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Then,
  as oCELL is agnostic of the internal model of the agents that compose it,
  it is possible to use a class of models capable of inherently providing a measure of uncertainty on predictions,
@@ -22898,27 +22451,37 @@ literal "false"
  we present later a generalization of this metric so that it can be used to analyze the geometric structures formed by agents during learning.
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Paragraph
-Variations of the Underlying Function
+Analyzing Function Complexity
 \end_layout
 
 \begin_layout Standard
-The shape of an agent depends on the region of space it occupies.
- Moreover,
- within its confidence area delimited by the orthotope associated to its activation function,
- the function underlying the data is locally approximable by a simple model.
- Therefore,
- in a region containing a large number of agents,
- variations in the underlying function are likely to be more 
-\emph on
-difficult
-\emph default
- to learn.
- Thus,
- we define the density of agents around an observation as
+Alongside uncertainty,
+ the structural geometric organization of the population of local expert agents provides insights into the underlying variation regimes of the function underlying the data.
+ In oCELL,
+ the geometry of the ensemble of agents is a direct consequence of the learning processes.
+ Agents expand their area of expertise where the function is easy to approximate and are forced to specialize by shrinking it where it is complex.
+\end_layout
+
+\begin_layout Standard
+The local complexity of the underlying function can be quantified by the concentration of experts in a given region of the input space.
+ The agent density 
+\begin_inset Formula $\rho$
+\end_inset
+
+ can be defined as the number of agents intersecting a neighborhood 
+\begin_inset Formula $\mathcal{H}_{\text{neighborhood}}$
+\end_inset
+
+ normalized by its volume such as
 \begin_inset Formula 
 \begin{equation}
-\rho=\frac{N_{\text{agents}}}{V_{\text{neighborhood}}}
+\rho=\frac{N_{\text{neighbors}}}{V_{\text{neighborhood}}}
 \end{equation}
 
 \end_inset
@@ -22932,10 +22495,10 @@ where
 \end_inset
 
  is the volume of the orthotope representing the neighborhood and 
-\begin_inset Formula $N_{\text{agents}}$
+\begin_inset Formula $N_{\text{neighbors}}$
 \end_inset
 
- is the number of agents intersecting it.
+ is the number of neighbor agents intersecting it.
  Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -22947,17 +22510,11 @@ nolink "false"
 
 \end_inset
 
- shows the density of agents in the input variable space for the Beale function.
- We observe a corridor in the center of the figure for 
-\begin_inset Formula $y\in\left[-1,1\right]$
-\end_inset
-
- where the density of agents is low.
- In the rest of the figure,
- the density of agents is higher.
- By examining the distribution of the average volume of agents in the neighborhood of observations (
+ shows the density of agents in the input space for the Beale function.
+ By examining the distribution of the average volume of agents in the neighborhood of observations (cf.
+ Figure 
 \begin_inset CommandInset ref
-LatexCommand formatted
+LatexCommand ref
 reference "fig:Visualization-volume"
 plural "false"
 caps "false"
@@ -22967,17 +22524,16 @@ nolink "false"
 \end_inset
 
 ),
- we note that areas with high agent density contain smaller agents and conversely for low-density areas.
+ it can be noted that areas with high agent density contain smaller agents and conversely for low-density areas.
 \end_layout
 
 \begin_layout Standard
-These two regions correspond to very different variation regimes of the Beale function.
- Indeed,
- the region containing the largest agents (low density) corresponds to a plateau where the gradient magnitude of the function varies little.
+High-density and low-density regions correspond to very different variation regimes of the Beale function.
+ The region containing the largest agents (low-density) corresponds to a plateau where the gradient magnitude of the function varies little.
  In contrast,
- the region containing the smallest agents (higher density) corresponds to a region of space where the gradient magnitude of the function varies strongly as one approaches the boundary of the definition area (
+ the region containing the smallest agetns (higher density) corresponds to a region of space where the gradient magnitude of the function varies strongly as one approaches the boundary of the definition domain (Figure 
 \begin_inset CommandInset ref
-LatexCommand formatted
+LatexCommand ref
 reference "fig:Visualization-density"
 plural "false"
 caps "false"
@@ -22990,34 +22546,34 @@ nolink "false"
 \end_layout
 
 \begin_layout Standard
-Finally,
- to complete the analysis,
- we define the degree of discrepancy 
-\begin_inset Formula $\kappa$
-\end_inset
-
- (which is a derivative of the discrepancy of activated agents 
+As the activated discrepancy (
 \begin_inset Formula $\sigma_{\text{activated}}$
 \end_inset
 
- presented earlier) among the predictions of all agents in the neighborhood (
-\begin_inset Formula $\mathcal{D}_{\text{proposals}}$
+) measures noise among activated agents,
+ this logic can be extended to the neighbor agents of an input 
+\begin_inset Formula $x$
 \end_inset
 
-) as
+ to detect regime changes in the underlying function.
+ The degree of discrepancy (
+\begin_inset Formula $\kappa$
+\end_inset
+
+) measures the disagreement among all neighbor agents normalized by the mean prediction:
 \begin_inset Formula 
 \begin{equation}
-\kappa=\frac{\sqrt{\sum_{p\in\mathcal{D}_{\text{proposals}}}\frac{\left|p-p_{\text{mean}}\right|}{N}}}{\left|y_{\text{mean}}\right|}
+\kappa\left(x\right)=\frac{\sqrt{\sum_{i\in\mathcal{D}_{\text{neighbors}}}\frac{\left|\hat{y}_{i}-\hat{y}_{\text{mean}}\right|^{2}}{N_{\text{neighbors}}}}}{\left|\hat{y}_{\text{mean}}\right|}
 \end{equation}
 
 \end_inset
 
 where 
-\begin_inset Formula $N$
+\begin_inset Formula $N_{\text{neighbors}}$
 \end_inset
 
  is the number of agents in the neighborhood and 
-\begin_inset Formula $y_{\text{mean}}$
+\begin_inset Formula $\hat{y}_{\text{mean}}$
 \end_inset
 
  is the average of predictions from the agents in the neighborhood.
@@ -23025,21 +22581,24 @@ where
 
 \begin_layout Standard
 If 
-\begin_inset Formula $\kappa$
-\end_inset
-
- is close to 
-\begin_inset Formula $0$
+\begin_inset Formula $\kappa\approx0$
 \end_inset
 
 ,
  then the predictions of the agents in the neighborhood are very close to each other.
  This indicates that the underlying function of the data varies little around the observation.
  Conversely,
- if its value is high,
- then the agents in the neighborhood make very different predictions,
+ if 
+\begin_inset Formula $\kappa$
+\end_inset
+
+ value is high the agents in the neighborhood make very different predictions,
  suggesting that the regime of variation of the underlying function is likely to change abruptly in that area.
- The degree of discrepancy helps identify regions in the input space where approximating the underlying function is most challenging.
+ The degree of discrepancy 
+\begin_inset Formula $\kappa$
+\end_inset
+
+ helps identify regions in the input space where approximating the underlying function is the most challenging.
  For the Beale function,
  the degree of discrepancy highlights regions of the space with the most complex variations (see 
 \begin_inset CommandInset ref
@@ -23245,11 +22804,755 @@ Context
 \end_layout
 
 \begin_layout Standard
+The metrics derived from the self-organizing structure of local expert agents in oCELL offer a view on the model's internal state.
+ These introspection tools reveal capabilities that can be leveraged for critical applications such as fault detection,
+ model debugging or active learning strategies where the system should autonomously decide where more data is needed to reduce uncertainty.
+ Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Summary-of-Introspective-Metrics"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ summarizes the metrics that have been introduced in this section,
+ mapping them to their purpose.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="middle" width="20col%">
+<column alignment="center" valignment="middle" width="20col%">
+<column alignment="center" valignment="middle" width="30col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+
+\series bold
+Metric
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+
+\series bold
+Target Property
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+
+\series bold
+Primary Use Case
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Coverage Index (
+\begin_inset Formula $p_{\text{coverage}}$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Epistemic Uncertainty
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Detecting Out-of-Distribution (OoD) inputs or data gaps
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Activated Discrepancies (
+\begin_inset Formula $\sigma_{\text{activated}}$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Aleatoric Uncertainty
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Identifying local noise or model-data mismatch.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Density (
+\begin_inset Formula $\rho$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Structural Complexity
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Mapping regions of high non-linearity/gradient.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Degree of Discrepancy (
+\begin_inset Formula $\kappa$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Variation Regime Instability
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Detecting abrupt changes of variation regime in the underlying function.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Summary of the introduced introspective metrics and their purpose 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Summary-of-Introspective-Metrics"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+We observe a corridor in the center of the figure for 
+\begin_inset Formula $y\in\left[-1,1\right]$
+\end_inset
+
+ where the density of agents is low.
+ In the rest of the figure,
+ the density of agents is higher.
+ By examining the distribution of the average volume of agents in the neighborhood of observations (
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:Visualization-volume"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+),
+ we note that areas with high agent density contain smaller agents and conversely for low-density areas.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Subsection
+Explainability and Interpretability
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Explainability-oCELL"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+The CELL instantiations are designed to possess native mechanisms for introspection.
+ While its architecture is similar to the localized approximation approach used by techniques such as LIME 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ribeiro2016should"
+literal "false"
+
+\end_inset
+
+,
+ oCELL achieves intrinsic local explainability through its structural multiagent design.
+\end_layout
+
+\begin_layout Subsubsection
+Interpretability
+\end_layout
+
+\begin_layout Plain Layout
+oCELL's design provides a basis for full model interpretability.
+ When the agents employ inherently transparent models such as linear regression,
+ oCELL itself works as a structurally interpretable white-box model in accordance with the definition introduced in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:XAI"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ The system's final prediction is derived from a linear combination of predictions proposed by a restricted,
+ spatially-localized subset of agents.
+ This mechanism simplifies the process of credit assigment compared to traditional global ensemble models (e.g bagging or boosting),
+ which often involve contributions from a large set of weak learners.
+ This property makes oCELL intrinsically interpretable.
+\end_layout
+
+\begin_layout Plain Layout
+Consequently the spatial organization and internal structures of the model can be systematically analyzed to extract essential information about the function underlying the data and its complexity.
+ For didactic purposes,
+ the remainder of this section is based on a training carried out on a synthetic dataset generated from the Beale function (cf.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Heatmaps"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+ This nonlinear function exhibits regimes of amplitude variations that are very different across its domain of definition.
+ The amplitude of the gradients of the Beale function varies greatly at the boundaries of the definition domain (
+\begin_inset Formula $-4\leq x,y\leq4$
+\end_inset
+
+),
+ while in the central plateau,
+ the variations in gradient amplitude are more subtle.
+ The Beale function is frequently used as a benchmark for testing optimization algorithms 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zhuangAdaBeliefOptimizerAdapting2020,Jamil2013ALS"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Uncertainty and Confidence
+\end_layout
+
+\begin_layout Plain Layout
+The notion of neighborhood and more broadly the spatial organization of agents allows to extract various metrics of the local organization of agents in the feature space.
+\end_layout
+
+\begin_layout Paragraph
+Epistemic Uncertainty
+\end_layout
+
+\begin_layout Plain Layout
+During training,
+ the agents organize themselves in the feature space.
+ Depending on the training dataset and the complexity of the underlying function,
+ the results of self-organization varies.
+ As illustrated in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:Visualization-tiling-beale"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ gaps (uncovered zones) in the agent tiling may remain.
+ It is possible that for a given observation,
+ no agent is activated.
+ In such cases,
+ making a prediction requires relying on the proposals of the nearest agents in the observation's neighborhood.
+ To determine if the agents' prediction is reliable,
+ we define the coverage index 
+\begin_inset Formula $p_{\text{coverage}}$
+\end_inset
+
+ of the observation's neighborhood as
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{equation}
+p_{\text{coverage}}=\frac{V_{\text{agents}}}{V_{\text{neighborhood}}}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $V_{\text{agents}}$
+\end_inset
+
+ is the volume covered by the 
+\emph on
+Context
+\emph default
+ agents in the neighborhood and 
+\begin_inset Formula $V_{\text{neighborhood}}$
+\end_inset
+
+ is the volume of the hyperrectangle representing the neighborhood.
+\end_layout
+
+\begin_layout Plain Layout
+Thus,
+ if 
+\begin_inset Formula $p_{\text{coverage}}$
+\end_inset
+
+ is close to 
+\begin_inset Formula $1$
+\end_inset
+
+,
+ the space around the observation contains few gaps:
+ our model is proficient in that region of space.
+ Therefore,
+ it is relevant to consider the predictions of nearby agents.
+ Conversely,
+ if 
+\begin_inset Formula $p_{\text{coverage}}$
+\end_inset
+
+ is close to 
+\begin_inset Formula $0$
+\end_inset
+
+,
+ then the space around the observation contains many gaps.
+ There is a high probability that this region of space was underexplored during training.
+ This may indicate either gaps in the training data specific to that area of space,
+ or that training did not proceed as expected for various reasons (strong non-linearities in the function to approximate,
+ presence of noise,
+ discontinuity,
+ etc...).
+ We illustrate the utility of the coverage index in a scenario where our system learns from a dataset with an entire portion of missing data 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "fig:Comparison-coverage-index"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ We observe that the coverage index helps identify the missing portion of data in the training dataset without having directly access to the actual training dataset.
+\end_layout
+
+\begin_layout Plain Layout
+The covergae index is therefore a quantitative measure of the epistemic uncertainty associated with a prediction.
+ it provides a direct assessment of the model's learned boundaries and limitations in various regions of the feature space.
+ For the development of critical systems,
+ this property is essential to observe in order to assess the risk of extrapolation or interpolation errors.
+\end_layout
+
+\begin_layout Plain Layout
+This measure is fundamentally linked to both explainability and interpretability.
+ Locally,
+ at the individual prediction level,
+ coverage index serves as a crucial component of explanation.
+ By quantifying the reliability of the output,
+ it effectively represents a degree of trustworhtiness and the necessity of relying on neighborhood averaging (cf.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsubsec:Neighborhood-Prediction"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+ Globally,
+ the aggregated coverage index allows for the systematic analysis and visualization of the entire agent organization across the feature space.
+ This analysis of the overall tiling pattern directly addresses interpretability by giving tools for understanding the model's inherent structure and mechanisms.
+\end_layout
+
+\begin_layout Paragraph
+Aleatoric Uncertainty
+\end_layout
+
+\begin_layout Plain Layout
+After training,
+ when an observation is provided to the model,
+ each activated agent makes a prediction proposal.
+ We can thus calculate the discrepancy between the prediction proposals from the set of proposals of the activated agents (
+\begin_inset Formula $\mathcal{D}_{\text{proposals}}$
+\end_inset
+
+) to deduce a measure of aleatoric uncertainty:
+ 
+\begin_inset Formula 
+\begin{equation}
+\sigma_{\text{activated}}=\sqrt{\sum_{p\in\mathcal{D}_{\text{proposals}}}\frac{\left|p-p_{\text{mean}}\right|}{N_{A}}}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $p_{\text{mean}}$
+\end_inset
+
+ is the average of the proposals in the set of 
+\begin_inset Formula $\mathcal{D}_{\text{proposals}}$
+\end_inset
+
+ and 
+\begin_inset Formula $N_{A}$
+\end_inset
+
+ is the number of activated agents.
+ This value estimates the disagreement among agents which judge themselves as equally competent to propose a prediction.
+\end_layout
+
+\begin_layout Plain Layout
+This value of discrepancy quantifies the aleatoric uncertainty associated with the model's predictions.
+ It captures the inherent noise and stochasticity as a disagreement among locally activated agents.
+ It's linked to explainability because it primarily relates to locality at the prediction-level,
+ providing useful tools to explain predictions under the angle of trust.
+\end_layout
+
+\begin_layout Plain Layout
+Then,
+ as oCELL is agnostic of the internal model of the agents that compose it,
+ it is possible to use a class of models capable of inherently providing a measure of uncertainty on predictions,
+ such as Gaussian Processes.
+ Those are models which allow estimation of both epistemic and aleatoric uncertainties 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "schulzTutorialGaussianProcess2018"
+literal "false"
+
+\end_inset
+
+.
+ Exploiting the strength of this type of model could make the estimation of aleatoric uncertainty more robust.
+ Indeed,
+ several activated agents are needed for 
+\begin_inset Formula $\sigma_{\text{activated}}$
+\end_inset
+
+ to be informative,
+ using Gaussian Processes would allow to still have a discrepancy value to use even when only one agent is activated.
+ To overcome this drawback,
+ we present later a generalization of this metric so that it can be used to analyze the geometric structures formed by agents during learning.
+\end_layout
+
+\begin_layout Paragraph
+Variations of the Underlying Function
+\end_layout
+
+\begin_layout Plain Layout
+The shape of an agent depends on the region of space it occupies.
+ Moreover,
+ within its confidence area delimited by the orthotope associated to its activation function,
+ the function underlying the data is locally approximable by a simple model.
+ Therefore,
+ in a region containing a large number of agents,
+ variations in the underlying function are likely to be more 
+\emph on
+difficult
+\emph default
+ to learn.
+ Thus,
+ we define the density of agents around an observation as
+\begin_inset Formula 
+\begin{equation}
+\rho=\frac{N_{\text{agents}}}{V_{\text{neighborhood}}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+where 
+\begin_inset Formula $V_{\text{neighborhood}}$
+\end_inset
+
+ is the volume of the orthotope representing the neighborhood and 
+\begin_inset Formula $N_{\text{agents}}$
+\end_inset
+
+ is the number of agents intersecting it.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Visualization-density"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ shows the density of agents in the input variable space for the Beale function.
+ We observe a corridor in the center of the figure for 
+\begin_inset Formula $y\in\left[-1,1\right]$
+\end_inset
+
+ where the density of agents is low.
+ In the rest of the figure,
+ the density of agents is higher.
+ By examining the distribution of the average volume of agents in the neighborhood of observations (
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:Visualization-volume"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+),
+ we note that areas with high agent density contain smaller agents and conversely for low-density areas.
+\end_layout
+
+\begin_layout Plain Layout
+These two regions correspond to very different variation regimes of the Beale function.
+ Indeed,
+ the region containing the largest agents (low density) corresponds to a plateau where the gradient magnitude of the function varies little.
+ In contrast,
+ the region containing the smallest agents (higher density) corresponds to a region of space where the gradient magnitude of the function varies strongly as one approaches the boundary of the definition area (
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:Visualization-density"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Plain Layout
+Finally,
+ to complete the analysis,
+ we define the degree of discrepancy 
+\begin_inset Formula $\kappa$
+\end_inset
+
+ (which is a derivative of the discrepancy of activated agents 
+\begin_inset Formula $\sigma_{\text{activated}}$
+\end_inset
+
+ presented earlier) among the predictions of all agents in the neighborhood (
+\begin_inset Formula $\mathcal{D}_{\text{proposals}}$
+\end_inset
+
+) as
+\begin_inset Formula 
+\begin{equation}
+\kappa=\frac{\sqrt{\sum_{p\in\mathcal{D}_{\text{proposals}}}\frac{\left|p-p_{\text{mean}}\right|}{N}}}{\left|y_{\text{mean}}\right|}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $N$
+\end_inset
+
+ is the number of agents in the neighborhood and 
+\begin_inset Formula $y_{\text{mean}}$
+\end_inset
+
+ is the average of predictions from the agents in the neighborhood.
+\end_layout
+
+\begin_layout Plain Layout
+If 
+\begin_inset Formula $\kappa$
+\end_inset
+
+ is close to 
+\begin_inset Formula $0$
+\end_inset
+
+,
+ then the predictions of the agents in the neighborhood are very close to each other.
+ This indicates that the underlying function of the data varies little around the observation.
+ Conversely,
+ if its value is high,
+ then the agents in the neighborhood make very different predictions,
+ suggesting that the regime of variation of the underlying function is likely to change abruptly in that area.
+ The degree of discrepancy helps identify regions in the input space where approximating the underlying function is most challenging.
+ For the Beale function,
+ the degree of discrepancy highlights regions of the space with the most complex variations (see 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:Visualization-discrepancy"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ where the yellow areas represent the highest disagreement between agents).
+\end_layout
+
+\begin_layout Plain Layout
 The metrics presented above allow to extract measures of epistemic and aleatoric uncertainty on predictions,
  as well as information on function variations based on the shape and position of agents in the feature space.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 We have extracted measures of epistemic (coverage index) and aleatoric (activated discrepancy) uncertainty from the predictions of the system as well as information about the variations of underlying function from the shape (volume and density) and spatial organization of agents in the feature space (degree of discrepancy).
  These introspection tools reveal capabilities that are useful for various purposes such as fault detection,
  model debugging,
@@ -23270,7 +23573,7 @@ nolink "false"
  summarizes the scopes and links between the defined metrics and the notions of explainability and interpretability.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Float table
 placement document
 alignment document
@@ -23662,6 +23965,11 @@ name "tab:Summary-Metrics-Explainability-oCELL"
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 Discussion and Limitations
 \begin_inset CommandInset label
@@ -23674,70 +23982,17 @@ name "subsec:Limitations"
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Orthotopes => symbolic if then human interpretable
-\begin_inset Newline newline
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-Orthotopes => orthotopes provide a clear geometric representation of the areas of expertise in the feature space,
- allowing precise evaluation of local structures and facilitating shape adaptation during self-organization.
- This representation allows independent manipulation of each feature dimension,
- simplifying shape update operations (expansion and retraction).
-\begin_inset Newline newline
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-Unlike previous works that look at no overlap,
- we consider that for regression tasks overlaps are meaningful => combining the predictions of multiple overlapping agents also help to smooth the approximate function => good property for control with gradient based optimizers
-\begin_inset Newline newline
-\end_inset
-
-
-\begin_inset Newline newline
-\end_inset
-
-Use of buffer not very memory efficient
-\begin_inset Newline newline
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-Limitations of the uniformity of knowledge hypothesis
-\begin_inset Newline newline
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-Uncertainty estimations in oCELL are interesting properties for use in control setting.
- Especially epistemic uncertainty as it allows to know when the model is not reliable => potentially allowing to switch on a simpler more robust control strategy
-\end_layout
-
-\end_inset
-
-
+The previous sections established the oCELL instantiation of the CELL formalism,
+ demonstrating that a population of self-organizing local expert agents can achieve predictive performance comparable to state-of-the-art ensemble algorithms on low dimensional regression tasks while offering a rich set of introspection metrics.
+ In this section,
+ these results are discussed in light of the global objectives of this thesis and critically examine the structural limitations of oCELL that motivate the transition toward smoother representations.
 \end_layout
 
 \begin_layout Standard
-We demonstrated that oCELL can address supervised learning tasks,
- but several limitations remain,
- which are tackled partly in section 
+In the comparative study presented in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:kCELL"
+reference "subsec:Comparative-Study"
 plural "false"
 caps "false"
 noprefix "false"
@@ -23745,26 +24000,484 @@ nolink "false"
 
 \end_inset
 
+,
+ oCELL achieves competitive accuracy levels using only local linear models,
+ demonstrating that global modeling complexity effectively arise from social interactions within the ensemble of local expert agents instead of solely relying on high-capacity internal models.
+\end_layout
+
+\begin_layout Standard
+The introspective metrics that were derived from oCELL in the previous section offer valuable tools for analysis of the internal structures of the ensemble of agents.
+ We argue that they are linked to the traditional notions of explainability and interpretability in machine learning.
+ To situate oCELL within the field of eXplainable Artificial Intelligence (XAI),
+ the explainability and interpretability denominations should be defined beforehand.
+ Following 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "burkart2021survey"
+literal "false"
+
+\end_inset
+
+,
+ we define 
+\emph on
+interpretability
+\emph default
+ as the inherent ability to understand how the model works as a whole,
+ focusing on the model's structure and mechanisms,
+ i.e transparency.
+ In contrast,
+ 
+\emph on
+explainability
+\emph default
+ is associated with the methodologies used to communicate the reasoning for a specific decision taken by a model.
+\end_layout
+
+\begin_layout Standard
+As oCELL is designed,
+ it acts as a white-box model.
+ Unlike black-box models (e.g.
+ Neural Networks in Deep Learning) with opaque inner workings,
+ oCELL uses linear regression models for prediction and orthotopes for spatialization through activation functions,
+ which have simpler less opaque structure.
+ The orthotopes provide a clear geometric representation of the areas of expertise.
+ They act as symbolic 
+\begin_inset Quotes eld
+\end_inset
+
+if-then
+\begin_inset Quotes erd
+\end_inset
+
+ human-interpretable rules where each feature dimension can be manipulated independently.
+ 
+\end_layout
+
+\begin_layout Standard
+The introspection metrics introduced in previous section reveal capabilities that can be leveraged for fault detection,
+ model debugging or smart resampling strategies.
+ In a robotic controller,
+ these metrics act as operational safeguards.
+ Indeed,
+ being able to quantify epistemic uncertainty through the Coverage Index (
+\begin_inset Formula $p_{\text{coverage}}$
+\end_inset
+
+) for example,
+ allows to evaluate the reliability of the model for a given input.
+ When the model is not reliable,
+ the controller should switch to a simpler more robust control strategy to ensure safety.
+ In addition to that,
+ a high degree of discrepancy 
+\begin_inset Formula $\kappa$
+\end_inset
+
+ value acts as a warning sign that the current local modelisation of the ensemble of agents may be inaccurate due to hard-to-learn dynamics.
+ Finally,
+ Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Summary-Metrics-Explainability-oCELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ summarizes the scopes and links between the defined metrics and the notions of explainability and interpretability.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="middle" width="20col%">
+<column alignment="center" valignment="middle" width="10col%">
+<column alignment="center" valignment="middle" width="15col%">
+<column alignment="center" valignment="middle" width="15col%">
+<column alignment="center" valignment="middle" width="25col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Metric
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Scope
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Explain.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Interpret.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Functional Insight
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Coverage Index (
+\begin_inset Formula $p_{\text{coverage}}$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Local + Global
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Measures uncertainty and maps knowledge gaps
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Activated Discrepancies (
+\begin_inset Formula $\sigma_{\text{activated}}$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Local
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\times$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Quantifies local expert disagreement for a specfic input
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Density (
+\begin_inset Formula $\rho$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Local + Global
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Reveals local complexity and a map of expertise
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Degree of Discrepancy (
+\begin_inset Formula $\kappa$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Local + Global
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checkmark$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Identifies variation regime changes and structural instability
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Summary of the metrics introduced and their link to explainability or interpretability
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Summary-Metrics-Explainability-oCELL"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Alongside transparency,
+ the multi-agent nature of oCELL provides functional advanatges for regression.
+ Unlike previous works on mutli-agent systems based on an ensemble of local expert agents 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "fourez2024analyzing"
+literal "false"
+
+\end_inset
+
+,
+ oCELL embraces agent overlaps instead of avoiding them.
+ We argue that for continuous regression tasks,
+ these overlaps are highly meaningful as the consensus derived from multiple local experts helps to smooth the approximated function.
+ This smoothness is an interesting property for using oCELL in Model Predictive Control (MPC),
+ especially when using gradient-based optimizers that require smooth transitions between local models.
+\end_layout
+
+\begin_layout Standard
+Despite those encouraging results,
+ several structural bottlenecks were identified during the experimental phase.
+ These limitations mainly highlight a tension between the simplicity of the orthotope representation of areas of expertise and the complexity of real-world data manifolds.
+\end_layout
+
+\begin_layout Standard
+A primary limitation lies in the 
+\emph on
+uniform knowledge hypothesis
+\emph default
 .
-\end_layout
+ oCELL assumes an agent is equally competent across its entire area of expertise delimited by an orthotope (
+\begin_inset Formula $\mathcal{H}_{i}$
+\end_inset
 
-\begin_layout Standard
-A first limitation concerns the neighborhood prediction mechanism.
- Our current design assumes that an agent possesses uniform knwoledge throughout its activation region (the orthotope associated with its activation function).
+).
  In practice,
- an agent is typically more reliable near its centroid and less accurate near the boundaries of its region.
- Despite this,
- all agents contributing to a prediction currently receive equal weight.
- This is an artifact of the uniform-knowledge assumption.
- A more principle approach would weight each agent according to its estimated local expertise level at the input point.
+ the reliability of an agent typically decays toward its boundaries.
+ Currently,
+ agents in oCELL have binary activation functions,
+ meaning that any activated agent is weighted equally in their contribution to the final prediction.
+ In this work,
+ weighting approachs based on Euclidean distance to the agent's centroid were explored.
+ However,
+ it did not yield significant improvements.
+ This suggests that a more nuanced weighting should account for both the agent's centroid and the specific geometric support of its area of expertise.
 \end_layout
 
 \begin_layout Standard
-We explored this idea by weighting predictions using the Euclidean distance between the input and each agent's centroid,
- but this did not improve performance,
- likely because centroid distance alone does not reflect the whole geometry of each orthotope.
- A more appropriate distance measure should incorporate both the agent's centroid and the shape of its support.
- As illustrated in 
+Using orthotopes is computationally efficient for shape update operations like expansion or retraction but are limited to represent faithfully complex data manifolds.
+ As illustrated in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Limitation orthotope agents"
@@ -23776,58 +24489,13 @@ nolink "false"
 \end_inset
 
  (side by side comparison of an overgeneralizing agent and a representative agent by visualizing their respective orthotopes (represented by a blue rectangle) and training data (represented by red dots)),
- an agent may occupy a large orthotope while its training data populate only a small manifold (i.e a subregion),
- causing spurious known-region responses and false positives.
- Accurate spatialization and potentially richer base shapes is therefore essential to capture local data structures and prevent overgeneralization.
-\end_layout
+ the area of expertise of an agent may occupy a large orthotope while its training data populate only a small manifold (i.e a subregion),
+ causing abusive expertise claims as the model can report high coverage index (
+\begin_inset Formula $p_{\text{coverage}}$
+\end_inset
 
-\begin_layout Standard
-Furthermore,
- we observed that oCELL's agent destruction mechanism was inadequate.
- Agent overproduction was a frequently observed phenomenon,
- occasionally resulting in significant local redundancy and the persistence of harmful parasitic agents within the collective.
- This necessitates the development of more sophisticated destruction strategies explicitly designed to enforce local cooperation.
- In addition to that,
- the current single-point agent creation scheme seems too limited,
- as it directly contributes to local redundancy (slow local convergence).
- It should be more stable to initialize agents using multiples points to minimize local overlap and make local convergence faster.
-\end_layout
-
-\begin_layout Standard
-Moreover,
- we observed that oCELL's agent destruction system was not sufficient and that agent overproduction was fairly common,
- sometimes leading to high local redundancy and the persistence of agents that parasitize the collective without improving it.
- This highlights a need for smarter destruction mechanisms that are designed towards local cooperation and more efficient agent creation schemes because creating agents with only one point can cause high local redundancy.
-\end_layout
-
-\begin_layout Standard
-Furthermore,
- although oCELL is designed for online learning,
- it treats incoming samples as independent,
- failing to exploit temporal correlations in data streams.
- This limits its sample efficiency and reduces its ability to adapt to evolving distributions.
-\end_layout
-
-\begin_layout Standard
-Finally,
- some hyperparameters remain difficult to tune.
- In particular,
- the initial side lengths of newly created agents have a disproportionate impact on performance and require specifying a scale per feature dimension.
- Similarly,
- the error thresholds used to classify predictions as 
-\emph on
-good
-\emph default
-,
- 
-\emph on
-inaccurate
-\emph default
- or 
-\emph on
-bad
-\emph default
- are hard to tune properly to enable an efficient balence in the triggering of the various adaptation mechanisms or agents (i.e learning rules).
+) in regions where it has never actually seen data.
+ Accurate spatialization and potentially richer base shapes is therefore needed to capture local data structures and prevent overgeneralization.
 \end_layout
 
 \begin_layout Standard
@@ -23980,6 +24648,434 @@ name "fig:Limitation orthotope agents"
 \end_layout
 
 \begin_layout Standard
+In addition to that,
+ the social rules of oCELL governing the behavior of agents raised challenges regarding population stability and resource management.
+ Specifically,
+ the agent destruction mechanism proved insufficient to regulate the ensemble of local experts,
+ resulting in local redundancy where parasitic agents persisted without contributing to global accuracy.
+ 
+\end_layout
+
+\begin_layout Standard
+Moreover,
+ this problem was exacerbated by the fact that agent creation is done with a single point,
+ slowing local convergence and increasing the likelihood of redundant tiling across the feature space.
+ Then,
+ from a computational perspective,
+ maintaining individual memory buffers for each agent represents a significant overhead that put a strain on the potential for scaling up to long-term adaptation in real-world conditions.
+\end_layout
+
+\begin_layout Standard
+Furthermore,
+ oCELL treats incoming samples as independent observations,
+ failing to exploit the temporal correlations inherent to data streams.
+ This lack of temporal awareness limits the sample efficiency of the model and its ability to adapt to non-stationarity dynamic environments.
+\end_layout
+
+\begin_layout Standard
+Finally,
+ several hyperparameters remain difficult to tune,
+ particularly the initial side lengths of newly created agents and the error thresholds (
+\begin_inset Formula $\tau_{\text{good}}$
+\end_inset
+
+,
+\begin_inset Formula $\tau_{\text{bad}}$
+\end_inset
+
+).
+ These parameters require individual tuning for each input dimension while having a significant impact on final performance,
+ making it hard to scale to higher dimensional inputs.
+\end_layout
+
+\begin_layout Standard
+Taken together,
+ these limitations expose a broader structural issue.
+ oCELL relies on spatialization and prediction aggregation mechanisms that are too rigid.
+ The orthotope representation with hard boundaries is not tailored to support reliable interpolation when agents overlap too much or specialize unevenly.
+ These limitations also highlight the need for inference mechanisms that weight agents according to their estimated expertise level rather than using discrete activations.
+ These considerations motivate the design of a new CELL system in which spatialization,
+ inference and adaptation are grouned in smoother data representations.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Subsection
+XAI and Uncertainty
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:XAI"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+The field of eXplainable Artificial Intelligence (XAI) addresses the opacity of complex models by providing insights into their decision-making processes.
+ However,
+ interpretability and explainability are defined in various ways 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gilpin2018explaining,doshi2017towards"
+literal "false"
+
+\end_inset
+
+ and often used interchangeably.
+ Thus,
+ following the distinction made in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "burkart2021survey"
+literal "false"
+
+\end_inset
+
+,
+ we differentiate between interpretability and explainability.
+ 
+\series bold
+Interpretability
+\series default
+ is defined as the inherent ability to understand how the model works as a whole,
+ focusing on the model's structure and mechanisms (i.e transparency).
+ In contrast,
+ 
+\series bold
+Explainability 
+\series default
+is associated with the methodologies used to communicate the reasoning for a specific decision taken by a model.
+\end_layout
+
+\begin_layout Plain Layout
+Approaches such as deep learning achieve good performance across a wide variety of tasks.
+ However,
+ these approaches generate highly complex models.
+ There must be a compromise between the model's performance and its ability to produce explainable predictions and interpretable structures 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "linardatosExplainableAIReview2020"
+literal "false"
+
+\end_inset
+
+.
+ Some approaches were developed to adress the explainability of predictions.
+ SHAP looks for the impact of each feature on the prediction using cooperative game theory 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lundberg2017unified"
+literal "false"
+
+\end_inset
+
+ and LIME builds an interpretable surrogate model that approximate a black-box model locally 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ribeiro2016should"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+Within this discourse,
+ machine learning models are typically categorized as white-box or black-box models 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "loyola-gonzalezBlackBoxVsWhiteBox2019"
+literal "false"
+
+\end_inset
+
+.
+ 
+\series bold
+Black-box
+\series default
+ models have opaque and complex inner workings that are difficult for an external observer to understand.
+ This categorisation includes deep learning models 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lecunDeepLearning2015"
+literal "false"
+
+\end_inset
+
+ and some ensemble models 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "breimanRandomForests2001,polikarEnsembleLearning2012,chenXGBoostScalableTree2016,keLightGBMHighlyEfficient2017"
+literal "false"
+
+\end_inset
+
+.
+ Conversely,
+ 
+\series bold
+White-box
+\series default
+ models have simpler and less opaque inner workings.
+ These models,
+ considered more explainable than black-box models,
+ include linear regression models 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "weisbergAppliedLinearRegression2005"
+literal "false"
+
+\end_inset
+
+,
+ decision trees 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "rokachDecisionTrees2005"
+literal "false"
+
+\end_inset
+
+ and other rule-based approaches.
+ To achieve explainability,
+ white-box models are preferred.
+\end_layout
+
+\begin_layout Plain Layout
+The explainability of a prediction is partly linked to the concept of uncertainty.
+ An informed decision-making process must take uncertainty into account.
+ We distinguish between epistemic uncertainty and aleatoric uncertainty 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "chuaDeepReinforcementLearning2018,hullermeierAleatoricEpistemicUncertainty2021"
+literal "false"
+
+\end_inset
+
+.
+ 
+\series bold
+Aleatoric uncertainty
+\series default
+ arises from the inherent natural variations in the studied phenomena.
+ It may be due to random fluctuations,
+ measurement errors,
+ or other unpredictable factors.
+ 
+\series bold
+Epistemic uncertainty
+\series default
+ on the other hands,
+ stems from a lack of knowledge or complete understanding of the studied phenomenon.
+ This type of uncertainty is related to the lack of data in certain regions of the feature space.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Subsection
+Discussion and Limitations
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+Orthotopes => symbolic 
+\begin_inset Quotes eld
+\end_inset
+
+if then
+\begin_inset Quotes erd
+\end_inset
+
+ human interpretable
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Orthotopes => orthotopes provide a clear geometric representation of the areas of expertise in the feature space,
+ allowing precise evaluation of local structures and facilitating shape adaptation during self-organization.
+ This representation allows independent manipulation of each feature dimension,
+ simplifying shape update operations (expansion and retraction).
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Unlike previous works that look at no overlap,
+ we consider that for regression tasks overlaps are meaningful => combining the predictions of multiple overlapping agents also help to smooth the approximate function => good property for control with gradient based optimizers
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Use of buffer not very memory efficient
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Limitations of the uniformity of knowledge hypothesis
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Uncertainty estimations in oCELL are interesting properties for use in control setting.
+ Especially epistemic uncertainty as it allows to know when the model is not reliable => potentially allowing to switch on a simpler more robust control strategy
+\end_layout
+
+\begin_layout Plain Layout
+In addition to that,
+ for a robotic controller,
+ a high 
+\begin_inset Formula $\kappa$
+\end_inset
+
+ (degree of discrepancy) value acts as a "warning sign" that the current linear transition model may soon become invalid as the system moves into a new region of the state space.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Could be interesting to use other classes of models in the context agent and study of it would influence the self-organizing dynamics
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+We demonstrated that oCELL can address supervised learning tasks,
+ but several limitations remain,
+ which are tackled partly in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:kCELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+A first limitation concerns the neighborhood prediction mechanism.
+ Our current design assumes that an agent possesses uniform knwoledge throughout its activation region (the orthotope associated with its activation function).
+ In practice,
+ an agent is typically more reliable near its centroid and less accurate near the boundaries of its region.
+ Despite this,
+ all agents contributing to a prediction currently receive equal weight.
+ This is an artifact of the uniform-knowledge assumption.
+ A more principle approach would weight each agent according to its estimated local expertise level at the input point.
+\end_layout
+
+\begin_layout Plain Layout
+We explored this idea by weighting predictions using the Euclidean distance between the input and each agent's centroid,
+ but this did not improve performance,
+ likely because centroid distance alone does not reflect the whole geometry of each orthotope.
+ A more appropriate distance measure should incorporate both the agent's centroid and the shape of its support.
+ As illustrated in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Limitation orthotope agents"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ (side by side comparison of an overgeneralizing agent and a representative agent by visualizing their respective orthotopes (represented by a blue rectangle) and training data (represented by red dots)),
+ an agent may occupy a large orthotope while its training data populate only a small manifold (i.e a subregion),
+ causing spurious known-region responses and false positives.
+ Accurate spatialization and potentially richer base shapes is therefore essential to capture local data structures and prevent overgeneralization.
+\end_layout
+
+\begin_layout Plain Layout
+Furthermore,
+ we observed that oCELL's agent destruction mechanism was inadequate.
+ Agent overproduction was a frequently observed phenomenon,
+ occasionally resulting in significant local redundancy and the persistence of harmful parasitic agents within the collective.
+ This necessitates the development of more sophisticated destruction strategies explicitly designed to enforce local cooperation.
+ In addition to that,
+ the current single-point agent creation scheme seems too limited,
+ as it directly contributes to local redundancy (slow local convergence).
+ It should be more stable to initialize agents using multiples points to minimize local overlap and make local convergence faster.
+\end_layout
+
+\begin_layout Plain Layout
+Moreover,
+ we observed that oCELL's agent destruction system was not sufficient and that agent overproduction was fairly common,
+ sometimes leading to high local redundancy and the persistence of agents that parasitize the collective without improving it.
+ This highlights a need for smarter destruction mechanisms that are designed towards local cooperation and more efficient agent creation schemes because creating agents with only one point can cause high local redundancy.
+\end_layout
+
+\begin_layout Plain Layout
+Furthermore,
+ although oCELL is designed for online learning,
+ it treats incoming samples as independent,
+ failing to exploit temporal correlations in data streams.
+ This limits its sample efficiency and reduces its ability to adapt to evolving distributions.
+\end_layout
+
+\begin_layout Plain Layout
+Finally,
+ some hyperparameters remain difficult to tune.
+ In particular,
+ the initial side lengths of newly created agents have a disproportionate impact on performance and require specifying a scale per feature dimension.
+ Similarly,
+ the error thresholds used to classify predictions as 
+\emph on
+good
+\emph default
+,
+ 
+\emph on
+inaccurate
+\emph default
+ or 
+\emph on
+bad
+\emph default
+ are hard to tune properly to enable an efficient balence in the triggering of the various adaptation mechanisms or agents (i.e learning rules).
+\end_layout
+
+\begin_layout Plain Layout
 Taken together,
  these limitations expose a broader structural issue.
  oCELL relies on spatialization and prediction aggregation mechanisms that are too rigid.
@@ -23987,6 +25083,11 @@ Taken together,
  These limitations also highlight the need for inference machanisms that weight agents according to their estimated expertise level rather than using discrete activations.
  These considerations motivate the design of a new CELL system in which spatialization,
  inference and adaptation are grouned in smoother data representations.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
