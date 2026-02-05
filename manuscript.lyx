@@ -12766,7 +12766,7 @@ name "fig:CELL-Training-Pipeline"
 \end_layout
 
 \begin_layout Standard
-The learning process of a specific CELL instantiations (such as oCELL or kCELL that will be described in subsequent sections of this chapter) can be fully characterized by constructing a rule table.
+The learning process of a specific CELL instantiation (such as oCELL or kCELL that will be described in subsequent sections of this chapter) can be fully characterized by constructing a rule table.
  This table acts as the behavioral blueprint for the ensemble of agents,
  mapping the current state of the population and the received feedback to a set of discrete actions.
  By using this structured approach,
@@ -13758,7 +13758,7 @@ nolink "false"
  Section 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "subsec:Explainability-oCELL"
+reference "subsec:Introspective-Properties-oCELL"
 plural "false"
 caps "false"
 noprefix "false"
@@ -14174,6 +14174,46 @@ nolink "false"
 \end_layout
 
 \begin_layout Standard
+The global prediction 
+\begin_inset Formula $\hat{y}$
+\end_inset
+
+ is obtained by an arithmetic mean of the activated agents' proposals
+\begin_inset Formula 
+\[
+\hat{y}=\frac{1}{N_{\text{activated}}}\sum_{i\in\mathcal{D}_{\text{activated}}}\hat{y}_{i}
+\]
+
+\end_inset
+
+if 
+\begin_inset Formula $\mathcal{D}_{\text{activated}}$
+\end_inset
+
+ is empty,
+ the ensemble of neighbor agents 
+\begin_inset Formula $\mathcal{D}_{\text{neighbors}}$
+\end_inset
+
+is selected instead,
+ and if 
+\begin_inset Formula $\mathcal{D}_{\text{neighbors}}$
+\end_inset
+
+ is also empty,
+ a fallback mechanism selects the 
+\begin_inset Formula $k$
+\end_inset
+
+-closest agents to ensure continuity in the global approximated function.
+ This fallback mechanism prevents prediction failures in regions where the system has limited knowledge (i.e poor paving of the area around 
+\begin_inset Formula $x$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 placement document
 alignment document
@@ -14523,14 +14563,13 @@ name "fig:Retraction-oCELL"
 
 \end_layout
 
-\begin_layout Paragraph*
-
-\series bold
-Model Update
-\end_layout
-
 \begin_layout Standard
-The new feature-target tuple (
+An agent 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ can update its internal model.
+ The new feature-target tuple (
 \begin_inset Formula $x,y$
 \end_inset
 
@@ -23089,7 +23128,7 @@ nolink "false"
 
 \begin_layout Standard
 \begin_inset Note Note
-status open
+status collapsed
 
 \begin_layout Subsection
 Explainability and Interpretability
@@ -24091,7 +24130,7 @@ nolink "false"
 
 \begin_layout Standard
 \begin_inset Float table
-placement document
+placement H
 alignment document
 wide false
 sideways false
@@ -25092,7 +25131,7 @@ Taken together,
 
 \begin_layout Section
 kCELL:
- Multiagent Ensemble Learning with Kernel Spatialization
+ CELL with Kernel Spatialization
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:kCELL"
@@ -25103,6 +25142,150 @@ name "sec:kCELL"
 \end_layout
 
 \begin_layout Standard
+The previous section introduced oCELL,
+ the first instantiation of the CELL formalism.
+ The development of oCELL allowed to establish that a self-organizing population of agents governed by social rules could successfully decompose complex regression tasks into specialized areas of expertise.
+ It showed that the spatial organization of these agents provides valuable introspection signals related to aleatoric and epistemic uncertainties as well as to the traditional notions of interpretability and explainability in Machine Learning.
+ However,
+ oCELL's reliance on rigid orthotope-based areas of expertise limits its ability to build faithful and accurate areas of expertise.
+ While being computationally efficient and logically convenient,
+ this approach becomes a constraint when there is a need for fast adaptation in a non-stationary online setting.
+\end_layout
+
+\begin_layout Standard
+To overcome these constraints,
+ this section introduces kCELL (kernel CELL),
+ the second instantiation of the CELL paradigm presented in this thesis.
+ As oCELL focused on discrete spatial partitioning,
+ kCELL shifts toward a smoother,
+ continuous representation of areas of expertise.
+ Each agent in kCELL uses an activation function in the form of a Radial Basis Function (RBF) kernel.
+ This defines a continuous similarity metric between input features and agents,
+ drawing inspiration from RBF Networks 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lowe1988multivariable"
+literal "false"
+
+\end_inset
+
+ and MoE (Mixture of Experts) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "yukselTwentyYearsMixture2012"
+literal "false"
+
+\end_inset
+
+ gating mechanisms.
+ This change allows the ensemble of local expert agents to express spatial structures more finely,
+ with more degrees of freedom than what is permitted with orthotopes,
+ breaking the assumption of knowledge uniformity over the areas of expertise of agents that were used in oCELL.
+ 
+\end_layout
+
+\begin_layout Standard
+As a matter of fact it leads to smoother aggregation of predictions in which agents contribute to predictions proportionally to their kernel-defined relevance,
+ i.e proportionally to their estimated expertise level.
+ This brings the inference closer to the probabilistic weighting strategies used in Gaussian Processes 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "seeger2004gaussian"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In addition to that kCELL represents a step forward the complexification of the social dimension of CELL systems.
+ oCELL agents cooperated primarily through global context.
+ kCELL introduces more direct social feedback mechanisms.
+ Agent no longer act as isolated local models solely influence by the social context,
+ but they receive social feedbacks depending directly on their utility in a local collective of agents.
+ This reinforces the social processes,
+ as agents are informed by their social proximity and relative expertise levels.
+\end_layout
+
+\begin_layout Standard
+These improvements result in improved interpolation quality,
+ more faithful data representation,
+ more stable learning dynamics and a reduced hyperparameter sensitivity,
+ making kCELL well-suited for use in control tasks as discussed in later chapters.
+\end_layout
+
+\begin_layout Standard
+The remainder of this section is structured as follows.
+ First,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:kCELL-Context-Agents"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ describes the internal structure of kCELL local expert agents including how they are spatialized and their prediction mechanisms.
+ Then,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:kCELL-Learning-Rules"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ introduces the learning rules that govern the self-organizing behavior of the agents that lead to the emergence of learning from the ensemble.
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:kCELL-Online-Stationary-Modeling"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ evaluates kCELL's performance in an online stationary modeling task and Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:kCELL-Adaptation-to-Non-Stationary"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ presents a study of its capabilities in terms of adaptation in non-stationary environments.
+ Finally,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:kCELL-Discussions-and-Limitations"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ provides a critical analysis of kCELL and details the limitations that still subsist despite the improvements.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
 Building upon the limitations of oCELL,
  we introduce kCELL (kernel CELL),
  the second instantiation of the CELL paradigm.
@@ -25113,7 +25296,7 @@ Building upon the limitations of oCELL,
  This constraint becomes problematic when there is need for fast adaptation in an online setting.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 kCELL addresses these issues by replacing orthotope-based spatialization with a kernel-based representation.
  Each agent has its activation function in the form of a RBF kernel that defines a smooth continuous distance between input features and agents,
  drawing inspiration from RBF Networks 
@@ -25138,7 +25321,7 @@ literal "false"
  thus breaking the assumption of knowledge uniformity over the region of expertise of oCELL.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 In addition to that,
  kCELL introduces a smooth aggregation rule in which agents contribute to predictions proportionally to their kernel-defined relevance,
  i.e proportionally to their estimated expertise level.
@@ -25153,14 +25336,14 @@ literal "false"
 .
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 For those reasons kCELL improves interpolation quality,
  agents' data representations and yield more stable learning dynamics that are less dependent on brittle hyperparameters,
  which is better suited for online adaptive learning.
  kCELL is a more expressive and robust extension of the CELL paradigm that also preserves the explainability properties demonstrated with oCELL.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 First,
  Section 
 \begin_inset CommandInset ref
@@ -25216,11 +25399,425 @@ nolink "false"
  discusses the key differences between oCELL and kCELL and details the limitations of kCELL.
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
-Context Agents
+Local Expert Agents
 \begin_inset CommandInset label
 LatexCommand label
 name "subsec:kCELL-Context-Agents"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this section,
+ the tripartite structure of kCELL's local expert agents is described in detail.
+ Each agent
+\begin_inset Formula 
+\[
+\mathcal{A}_{i}=\left\{ \phi_{i},f_{i},\mathcal{M}_{i}\right\} 
+\]
+
+\end_inset
+
+is a specialized local expert that represents its area of expertise through a smooth RBF kernel,
+ maintains a local linear model and manages an internal state to track its performance.
+\end_layout
+
+\begin_layout Standard
+Unlike oCELL,
+ where a binary activation function is used,
+ the area of expertise of local expert agents in kCELL are spatialized differently as illustrated in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Comparison-Activation-Surfaces"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ A RBF kernel is used as a continuous and smooth activation function to represent the area of expertise in feature space.
+ Compared to using orthotope with hard boundaries,
+ this kernel-based spatialization unlocks more degrees of freedom and contributes to making the learned global function smooth and differentiable,
+ making it more optimization-friendly for use control tasks.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/orthotope_activation.png
+	lyxscale 30
+	width 40col%
+	BoundingBox 0bp 0bp 749bp 600bp
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Orthotope Activation Surface (oCELL)
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Orthotope-Activation-Surface"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/rbf_activation.png
+	lyxscale 30
+	width 40col%
+	BoundingBox 0bp 0bp 749bp 600bp
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+RBF Activation Surface (kCELL)
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:RBF-Activation-Surface"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Side-by-side comparison of the shapes in 2D of activation surface of oCELL 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "fig:Orthotope-Activation-Surface"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ and kCELL 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "fig:RBF-Activation-Surface"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ agents.
+ The yellow color corresponds to highly activated regions and blue color corresponds to lower activated regions.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Comparison-Activation-Surfaces"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A local expert agent is spatialized in the input space by the mean 
+\begin_inset Formula $\mu_{i}\in\mathbb{R}^{n}$
+\end_inset
+
+ and covariance matrix 
+\begin_inset Formula $\Sigma_{i}\in\mathbb{R}^{n\times n}$
+\end_inset
+
+ of the distribution of its training points.
+ The activation function 
+\begin_inset Formula $\phi_{i}:\mathbb{R}^{n}\mapsto\left]0,1\right]$
+\end_inset
+
+ for a given input 
+\begin_inset Formula $x\in\mathbb{R}^{n}$
+\end_inset
+
+ is given by the RBF kernel value
+\begin_inset Formula 
+\[
+\phi_{i}\left(x\right)=\exp\left(-\frac{d\left(\mathcal{A}_{i},x\right)^{2}}{2l^{2}}\right)
+\]
+
+\end_inset
+
+with 
+\begin_inset Formula $l$
+\end_inset
+
+ the lengthscale of the kernel and 
+\begin_inset Formula $d\left(\mathcal{A}_{i},x\right)$
+\end_inset
+
+ a measure of similarity between an agent 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ and an input 
+\begin_inset Formula $x$
+\end_inset
+
+.
+ In kCELL this similarity metric is defined as the Mahalanobis distance such as
+\begin_inset Formula 
+\[
+d\left(\mathcal{A}_{i},x\right)=\sqrt{\left(x-\mu_{i}\right)^{\top}\Sigma_{i}\left(x-\mu_{i}\right)}
+\]
+
+\end_inset
+
+In this context,
+ the activation score can be interpreted as the likelihood that the agent has previously been trained on points similar to 
+\begin_inset Formula $x$
+\end_inset
+
+,
+ reflecting its degree of knowledge.
+ Contrary to oCELL,
+ the knowledge uniformity hypothesis is discarded.
+ Expertise is assumed to be maximized on the center of the agent's area of expertise.
+ Even with this continuous representation,
+ some measurable mathematical quantities of oCELL can be translated to kCELL such as the notion of volume which remains relevant.
+ As the area of expertise of an agent is not clearly bounded,
+ its volume is tied to the volume of a confidence ellipsoid.
+ The volume 
+\begin_inset Formula $V\left(\mathcal{A}_{i}\right)$
+\end_inset
+
+ is proportional to the square root of the determinant of the covariance matrix 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "williams2006gaussian"
+literal "false"
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+V\left(\mathcal{A}_{i}\right)\propto\sqrt{\det\left(\Sigma_{i}\right)}
+\]
+
+\end_inset
+
+As an instantiation of the CELL formalism,
+ kCELL is model-agnostic.
+ However,
+ kCELL agents typically use a local linear regressor as their internal model 
+\begin_inset Formula $f_{i}$
+\end_inset
+
+ to make predictions
+\begin_inset Formula 
+\[
+\hat{y}_{i}=f_{i}\left(x\right)=\Theta_{i}\left[\begin{array}{c}
+x\\
+1
+\end{array}\right]
+\]
+
+\end_inset
+
+To ensure fast and accurate updates while avoiding to maintain a memory buffer 
+\begin_inset Formula $\mathcal{B}_{i}$
+\end_inset
+
+,
+ the parameter matrix 
+\begin_inset Formula $\Theta_{i}$
+\end_inset
+
+ is updated using Recursive Least Squares (RLS) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "haykin2002adaptive"
+literal "false"
+
+\end_inset
+
+.
+ RLS naturally handles the notion of forgetting and for a forgetting value of 
+\begin_inset Formula $1$
+\end_inset
+
+ (i.e no forgetting),
+ it converges rapidly to producing the same results as Ordinary Least Squares (OLS).
+\end_layout
+
+\begin_layout Standard
+The internal state 
+\begin_inset Formula $\mathcal{M}_{i}$
+\end_inset
+
+ tracks the number of point that have been used to update the shape of each local expert agent.
+ Unlike oCELL's buffer memory,
+ kCELL is designed to be lightweight by retaining as few points as possible.
+ The spatial parameters of the activation function of agents,
+ 
+\begin_inset Formula $\mu_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $\Sigma_{i}$
+\end_inset
+
+ are updated incrementally using Welford's algorithm 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "welford1962note"
+literal "false"
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{eqnarray*}
+\mu_{i\,|\,t+1} & = & \mu_{i\,|\,t}+\frac{x-\mu_{i\,|\,t}}{n_{\text{seen}}+1}\\
+\Sigma_{i\,|\,t+1} & = & \frac{1}{n_{\text{seen}}}\left(\Sigma_{i\,|\,t+1}+\left(x-\mu_{i\,|\,t}\right)\left(x-\mu_{i\,|\,t+1}\right)^{\top}\right)
+\end{eqnarray*}
+
+\end_inset
+
+where 
+\begin_inset Formula $n_{\text{seen}}$
+\end_inset
+
+ is the number of points used by the agent to update its shape.
+ With this approach,
+ the Shape Update operation is expressed purely as a mean and covariance estimation problem,
+ grounded in a clear statistical meaning.
+\end_layout
+
+\begin_layout Standard
+Additionally,
+ 
+\begin_inset Formula $\mathcal{M}_{i}$
+\end_inset
+
+ stores a running confidence value 
+\begin_inset Formula $\bar{C}_{\mathcal{A}_{i}}\in\left[-1,1\right]$
+\end_inset
+
+ which corresponds to an exponential moving average of the normalized social feedbacks received by the agent.
+ This value tracks the agent's predictive performance relative to its peers and is used for the destruction mechanism detailed in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:kCELL-Learning-Rules"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+As stated earlier,
+ kCELL discards the knowledge uniformity hypothesis to better represent the knowledge encapsulated in the ensemble of local expert agents.
+ Through the defined activation function,
+ the further a point is from the agent's center,
+ the lower its activation value.
+ In this continuous context,
+ local expert agents should have an impact on the global prediction that is proportional to their degree of expertise about the input.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
 
 \end_inset
 
@@ -26673,6 +27270,30 @@ name "fig:1D-Visualization-of-local-coop"
 \end_inset
 
 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Online Stationary Modeling
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:kCELL-Online-Stationary-Modeling"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Experiment on SARCOS + D4RL + KUKA to test raw performances with river-ml algorithms
 \end_layout
 
 \end_inset
@@ -28137,66 +28758,6 @@ nolink "false"
 ,
  showing that despite the design differences with oCELL,
  some related properties remain.
-\end_layout
-
-\begin_layout Subsection
-Online Stationary Modeling
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Experiment on SARCOS + D4RL + KUKA to test raw performances with river-ml algorithms
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
-Comparative Study of CELL Variants
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Comparison of paving for robot in maze / or pendulum between oCELL and kCELL
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Experiment on SARCOS + D4RL to test raw performances
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Experiment on number of neighbors and mahalanobis distances in various dimensions and mention agent growth and problems of dimensionality
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Subsection
