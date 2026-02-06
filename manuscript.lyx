@@ -17664,12 +17664,13 @@ The previous sections layed the theoretical blueprint of oCELL,
  self-organizing learning approach can compete with well established machine learning algorithms on a low-dimenisonal regression task.
 \end_layout
 
-\begin_layout Standard
-The primary objective of the experiment presented in this section is to evaluate how effectively the oCELL learning rules allow the ensemble of local expert agents to capture non-linear dynamics from a continuous data stream.
+\begin_layout Paragraph
+Experimental Setup
 \end_layout
 
 \begin_layout Standard
-The experiment is conducted on four two-dimensional benchmark functions commonly used in optimization research.
+The primary objective of the experiment presented in this section is to evaluate how effectively the oCELL learning rules allow the ensemble of local expert agents to capture non-linear dynamics from a dataset.
+ The experiment is conducted on four two-dimensional benchmark functions commonly used in optimization research.
  These functions were selected due to their diverse topographical challenges,
  including sharp peaks,
  flat plateaus and multiple local optima 
@@ -17899,6 +17900,10 @@ literal "false"
 \end_inset
 
  and the memory buffer size.
+\end_layout
+
+\begin_layout Paragraph
+Results
 \end_layout
 
 \begin_layout Standard
@@ -27066,6 +27071,15 @@ containing the
 \end_inset
 
  most recent observations seen by the system.
+ The buffer 
+\begin_inset Formula $\mathcal{B}_{\text{ini}}$
+\end_inset
+
+ is cleared at each 
+\series bold
+Agent Creation
+\series default
+ action to avoid redundant agent creation.
 \end_layout
 
 \begin_layout Paragraph
@@ -28508,11 +28522,1062 @@ name "subsec:kCELL-Online-Stationary-Modeling"
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
+The previous sections detailed the tripartite structure of kCELL agents and the social learning rules that govern their collective behavior.
+ This sections moves kCELL from the theoretical formalism to empirical validation by evaluating its capabilities on an online stationary modeling task.
+ Using a high-dimensional robotic benchmark,
+ we demonstrate that the proposed social learning rules allow the ensemble of local expert agents to self-organize into an accurate representation of complex dynamics by only seeing each data point once.
+\end_layout
+
+\begin_layout Paragraph
+Experimental Setup
+\end_layout
+
+\begin_layout Standard
+The experiment is conducted on the SARCOS dataset,
+ a standard benchmark for multi-dimensional robot inverse dynamics 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "vijayakumar2002statistical"
+literal "false"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Definition
+Inverse dynamics modeling is the construction of a model that maps a dynamical system's motion (positions,
+ velocities,
+ accelerations) to the internal forces or actions (e.g.
+ joint torques) required to produce that motion.
+\end_layout
+
+\begin_layout Standard
+The task involves mapping a 21-dimensional input space (comprising 7 joint positions,
+ 7 velocities and 7 accelerations) to the corresponding joint torques of a seven degrees-of-freedom anthropomorphic robot arm (illustrated in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:robot-arm"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+ The dataset contains 44484 training examples and 4449 test examples.
+ A single pass over the training dataset is performed where each feature-target tuple is presented to the models one at a time and discarded after processing.
+ No feature scaling is applied to the data.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
 status open
 
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/sarcos_illustration_7dof.png
+	lyxscale 50
+	width 50col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Illustration of the SARCOS 7 degrees of freedom robot arm as presented in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "vijayakumar2002statistical"
+literal "false"
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:robot-arm"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+kCELL is compared against several standard online learning algorithms:
+\end_layout
+
 \begin_layout Itemize
-In this section an experiment is conducted to demonstrate the capabilities of kCELL in terms of online learning in a non-stationary environment.
+
+\series bold
+Adaptive Hoeffding Trees
+\series default
+:
+ An online decision tree variant.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Mondrian Forest
+\series default
+:
+ A highly efficient adaptation of forest tree ensembles for online learning.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Linear Regression
+\series default
+:
+ Optimized with Adam optimizer 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kingma2017adammethodstochasticoptimization"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+k-Nearest Neighbors (kNN)
+\series default
+:
+ a lazy local learning algorithm.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Locally Weighted Projection Regression (LWPR)
+\series default
+:
+ The most direct competitor of kCELL as it uses a similar local linear model spatialization but employs different learning logic.
+\end_layout
+
+\begin_layout Standard
+For implementation of Adpative Hoeffding Trees,
+ Mondrian Forest,
+ Linear Regression with Adam optimizer and kNN th python library RiverML is used 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "montiel2021river"
+literal "false"
+
+\end_inset
+
+.
+ For LWPR,
+ the original python C-bindings are used.
+ Performing an exhaustive hyperparameter optimization on the whole dataset is impracticable because it is too computationally heavy.
+ For this reason,
+ hyperparameter optimization was conducted via grid search on the first 5000 steps of the stream to minimize the Area Under the Curve (AUC) of the prequential error.
+ The prequential error corresponds to the error measured for a new point of the data stream before learning on it.
+\end_layout
+
+\begin_layout Standard
+The performance of the models is evaluated through adaptation speed,
+ measured by prequential error,
+ and asynptotic convergence measured by the Root Mean Squared Error (RMSE) and Mean Absolute Error (MAE) on the fixed test set.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Prequential Error AUC
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Test MAE
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Test RMSE
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+kNN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5.59
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7.42
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Linear Regression (Adam)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.07
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4.46
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5.62
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Adaptive Hoeffding Tree
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.90
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6.45
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8.44
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Mondrian Forest
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.70
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.86
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.64
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+LWPR
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.04
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.77
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3.73
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+kCELL (ours)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.72
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.91
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+1.94
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Summary table of the final results of the SARCOS comparative experiment.
+ The reported values are the final values obtained after seeing the entirety of the dataset after a single pass.
+ Values in bold correspond to the best value among the different considered models.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:kCELL-Stationary-Results"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Prequential Error Analysis
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Evolution-of-Prequential-kCELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ illustrates the evolution of the prequential error smoothed with a window size of 2000 steps.
+ The final AUC for each model is summarized in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:kCELL-Stationary-Results"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ in column 
+\emph on
+Prequential Error AUC
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+As shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Evolution-of-Prequential-kCELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ the prequential error curve of kCELL remains systematically above those of Mondrian Forest,
+ LWPR and Linear Regression throughout the entire duration of the experiment.
+ This tendency is reflected in the final AUC of 1.72 for kCELL which is significantly higher than the top-performing Mondrian Forest (0.70).
+ This systematic gap in prequential performance seems to highlight a difficulty to extrapolate.
+ This behavior might be lined to the kCELL's implementation of the prediction mechanism in unexplored regions.
+ As the inputs are 21-dimensional,
+ it is highly frequent that a new input 
+\begin_inset Formula $x_{new}$
+\end_inset
+
+ yields a very low activation score for all agents as the mahalanobis distance used in the activation function of agents is increasingly stretched as the number of dimensions increases.
+ To maintain numerical stability in implementation and avoid dividing by 0 when normalizing the aggregation weights for the global prediction,
+ the individual activation scores are clipped to a minimal value leading all closest agents to have the same weight in prediction despite being really far from each other and from 
+\begin_inset Formula $x_{new}$
+\end_inset
+
+.
+ This can result in higher errors in uncovered area of input space.
+ This will be confirmed by further observations of the asymptotic behavior of kCELL.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/kCELL_online_stationary/smoothed_prequential error_symbols.png
+	lyxscale 30
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Evolution of the prequential error during the learning phase.
+ Each curve is smoothed with a sliding window of 2000 steps of length.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Evolution-of-Prequential-kCELL"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Asymptotic Accuracy
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:kCELL-Test-RMSE-stationary"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ and Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:kCELL-Test-MAE-stationary"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ respectively display the evolution of the RMSE and MAE on test set throughout learning.
+ It can be noted that in the initial 20000 steps,
+ kCELL has a higher test RMSE and MAE than all other algorithms.
+ However,
+ the RMSE and MAE decrease consistently as more data is processed.
+ kCELL's error curve crosses the others at approximately 25000 steps for MAE and 35000 steps for RMSE.
+ As shown in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:kCELL-Stationary-Results"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ kCELL achieves the lowest final error with an MAE of 0.91 and an RMSE of 1.94.
+\end_layout
+
+\begin_layout Standard
+While kCELL exhibits a higher prequential error during the learning phase,
+ its final performance on the test set is superior to the other algorithms.
+ The steady decrease in error indicates that the ensemble of local expert agents is effectively organizing into a meaninful representation of the inverse dynamics as the agent population tend to stabilize.
+ The fact that kCELL achieves a lower MAE than the other algorithms earlier than it does for RMSE suggests that,
+ while kCELL is highly accurate on average,
+ its performance is affected by occasional large errors,
+ to which RMSE is more sensitive.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/kCELL_online_stationary/RMSE_on_test_symbols.png
+	lyxscale 30
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Evolution of test RMSE throughout learning
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:kCELL-Test-RMSE-stationary"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/kCELL_online_stationary/MAE_on_test_symbols.png
+	lyxscale 30
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Evolution of test MAE throughout learning
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:kCELL-Test-MAE-stationary"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Activation Correlation to Errors
+\end_layout
+
+\begin_layout Standard
+To investigate the reliability of the local expert agents,
+ the relationship between the activation scores 
+\begin_inset Formula $\phi_{i}\left(x\right)$
+\end_inset
+
+ and the prediction error is evaluated.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:kCELL-Activation-Error-Correlation"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ presents a plot of the prediction errors evaluated on the test set against the activation score of the closest agent.
+\end_layout
+
+\begin_layout Standard
+The analysis reveals a strong negative Spearman correlation of 
+\begin_inset Formula $-0.68$
+\end_inset
+
+ (with a p-value 
+\begin_inset Formula $p<0.001$
+\end_inset
+
+) meaning that the more the activation is low,
+ the higher the error.
+ Indeed,
+ lower activation values,
+ particularly those below 0.2,
+ correspond to significantly higher errors.
+ As the activation value increases toward 1.0,
+ the errors plateay and reach their minimum.
+ These results validate the rejection of the uniform knowledge hypothesis of agents' areas of expertise operated with kCELL compared to oCELL.
+ The activation score represents the agent's level of expertise for a given input.
+ This correlation confirms that the model is aware of its own local limitations through the smooth areas of expertise of local expert agents.
+ This could provide an explanation for the previous observation regarding the differences between the behaviors of the MAE and RMSE curves.
+ The larger errors produced by kCELL may be due to predictions in sparsely covered regions of the input space.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/kCELL_online_stationary/test_error_vs_activation.png
+	lyxscale 30
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Illustration of the relationship between the activation score 
+\begin_inset Formula $\phi_{i}\left(x\right)$
+\end_inset
+
+ of local expert agents and the prediction errors on the test set.
+ 
+\emph on
+y
+\emph default
+-axis corresponds to the absolute error values and 
+\emph on
+x
+\emph default
+-axis corresponds to the activation score of the closest agent.
+ A spearman correlation between error values and activations equals to -0.68 is found with a p-value 
+\begin_inset Formula $p<0.001$
+\end_inset
+
+,
+ suggesting a significant negative correlation.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:kCELL-Activation-Error-Correlation"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Controlled Population Growth in kCELL
+\end_layout
+
+\begin_layout Standard
+The efficiency of the self-organization process is further analyzed by monitoring the evolution of the population of local expert agents.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:kCELL-number-of-Agents"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ tracks the number of agents in the ensemble throughout the learning process compared to a theoretical maximum.
+ The theoretical maximum is computed from the 
+\begin_inset Formula $N_{\text{ini}}$
+\end_inset
+
+ corresponding to the minimum number of points needed for the system to be able to create an agent.
+ In kCELL,
+ an agent can be created,
+ at most,
+ every 
+\begin_inset Formula $N_{\text{ini}}$
+\end_inset
+
+ steps because the 
+\begin_inset Formula $\mathcal{B}_{\text{ini}}$
+\end_inset
+
+ buffer is cleared at each new agent creation.
+\end_layout
+
+\begin_layout Standard
+The curve representing the number of agents remains strictly below the theoretical maximum.
+ Furthermore,
+ the gap between the actual number of agents and this theoretical maximum increases over time.
+ The growth rate of the population of local expert agents is visibly flattening as more data is processed.
+\end_layout
+
+\begin_layout Standard
+This behavior demonstrates that kCELL is not indiscriminately creating new models.
+ Instead the system successfully evaluates its current knowledge map through the areas of expertise of agents,
+ triggering the 
+\series bold
+Incompetence
+\series default
+ rule only when a significant gap in the input space is identified.
+ The flattening of the curve of the number of agent indicates a convergence toward a stable population.
+ This highlights the effectiveness of the population management mechanism (
+\series bold
+Uselessness
+\series default
+ rule) which prunes redundant or underperforming agents by evaluating their social confidence.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/kCELL_online_stationary/nb_agents.png
+	lyxscale 30
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Number of agents throughout the learning phase.
+ 
+\emph on
+y
+\emph default
+-axis corresponds to the number of agents and 
+\emph on
+y
+\emph default
+-axis corresponds to the learning steps.
+ The red dotted line corresponds to the theoretical maximum number of agents that could be produced by the kCELL system.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:kCELL-number-of-Agents"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Synthesis of the Results
+\end_layout
+
+\begin_layout Standard
+The results of this experiment validate the core of the design choices of kCELL for stationary,
+ high-dimensional online modeling.
+ The initial prequential error analysis shows a slower adaptation phase than Mondrian Forest or LWPR,
+ which can be explained by the difficulty of building meaningful high-dimensional spatialization when mahalanobis distance is stretched.
+ However,
+ in the long run,
+ kCELL exhibits superior modeling performance.
+ By achieving the lowest final MAE and RMSE,
+ kCELL demonstrates that an ensemble of local experts agents coordinated through social learning rules can converge to a more accurate representation of complex robot dynamics than conventional statistical local learning or forest-based methods.
+\end_layout
+
+\begin_layout Standard
+Furthermore,
+ a strong negative correlation between activation scores and errors on predictions has been found.
+ It turns the activation function of agents into a reliable metric for intropsection in the model.
+ This ability to quantify epistemic uncertainty on the fly is a useful property for control with learned models as it will be explored more in details in Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Solving-Control-Tasks"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ It provides the necessary signals to determine when a prediction can be trusted and when the system is operating in an uncovered region of the input space.
+\end_layout
+
+\begin_layout Standard
+However,
+ the SARCOS benchmark represents a stationary problem.
+ The mapping is complex and high-dimensional but the underlying physical properties of the robot arm do not evolve during the learning phase.
+ In many real-world applications,
+ particularly in the context of Human-Robot Collaboration (HRC),
+ the system must handle non-stationarity where the target function is susceptible to change over time.
+ In this section,
+ the online stationary modeling capabilities of kCELL have been established.
+ The following section explores how the ensemble of local expert agents reacts within a non-stationary environment.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Itemize
+In this section an experiment is conducted to demonstrate the capabilities of kCELL in terms of online learning in a stationary environment.
 \end_layout
 
 \begin_layout Itemize
@@ -28544,12 +29609,24 @@ literal "false"
 \end_layout
 
 \begin_layout Itemize
+No scaling
+\end_layout
+
+\begin_layout Itemize
 Compared algorithms:
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Adaptive Hoeffding Trees
+Adaptive Hoeffding Trees 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lakshminarayanan2014mondrian"
+literal "false"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
@@ -28761,6 +29838,16 @@ kCELL:
 \end_layout
 
 \end_deeper
+\begin_layout Itemize
+The worse prequential error of kCELL could be explained by the prediction mechanism that have a hard time extrapolating => we added a clipping mechanism when all activation scores are very low for numerical stability (avoid dividing by 0 when normalizing weights in prediction aggregation) => so when no expert,
+ all closest are used to predict => could cause large errors
+\end_layout
+
+\begin_layout Itemize
+Moreover we observe that kCELL starts to be better than the baselines Mondrian and LWPR faster for MAE than for RMSE.
+ RMSE is more sensitive to outliers than MAE suggesting that kCELL makes larger errors when it fails but is better in average => not a problem as kCELL is able to estimate epistemic uncertainty and to know when it does not know.
+\end_layout
+
 \end_deeper
 \begin_layout Itemize
 kCELL specific Experiment Results
