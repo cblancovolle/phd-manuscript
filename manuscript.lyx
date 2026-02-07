@@ -11082,7 +11082,11 @@ literal "false"
 One of the advantages of self-organizing multi-agent systems lies in the transparency of the internal operations and the interactions between agents.
  This transparency allows for the extraction and analysis of introspective properties about the system.
  In this work,
- introspection designates the properties that emerges naturally from the self-organizing mechanisms of the system,
+ introspection can be defined as
+\end_layout
+
+\begin_layout Definition
+Introspection designates the properties that emerges naturally from the self-organizing mechanisms of the system,
  such as the geometric structure and density of agents within the input space.
  These emergent properties provide a window into the system's inner workings,
  allowing to gather information about the learning process or the reliability of a prediction.
@@ -11179,7 +11183,7 @@ nolink "false"
 
 \end_inset
 
- concludes the chapter with a synthesis of the results and discussion on the current capabilities and limitations of the developed systems as well as about the way the emergent introspective properties that are derived from these systems can serve as foundations for safer control strategies within MPC.
+ concludes by summarizing the works presented in this chapter.
 \end_layout
 
 \begin_layout Standard
@@ -12281,9 +12285,17 @@ After formalizing in detail the main components that compose the agents in previ
 
 \begin_layout Standard
 A CELL system operates through 2 pipelines:
- the inference pipeline,
+ the 
+\series bold
+inference pipeline
+\series default
+,
  which produces a global prediction from the ensemble of agents,
- and the learning pipeline,
+ and the 
+\series bold
+learning pipeline
+\series default
+,
  which governs the social self-organization of agents.
  Both pipelines rely on a spatial gating mechanism to manage the locallity in the system.
 \end_layout
@@ -12354,7 +12366,11 @@ Neighbor Agents
 
 \begin_layout Standard
 To obtain the global prediction of the ensemble of local expert agents,
- the inference pipeline (illustrated in Figure 
+ the 
+\series bold
+inference pipeline 
+\series default
+(illustrated in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:CELL-Inference-Pipeline"
@@ -12526,7 +12542,11 @@ name "fig:CELL-Inference-Pipeline"
 
 \begin_layout Standard
 Finally,
- the learning pipeline governs the evolution of the population of agents through social rules.
+ the 
+\series bold
+learning pipeline
+\series default
+ governs the evolution of the population of agents through social rules.
  Unlike traditional gradient descent that updates all parameters globally,
  in CELL,
  the spatial gating mechanism is leveraged to ensure parameter isolation by exposing only relevant agents to new data.
@@ -12657,7 +12677,11 @@ Application of Learning Rules
 \end_layout
 
 \begin_layout Standard
-The learning rules within CELL are the primary drivers of self-organization.
+The 
+\series bold
+learning rules
+\series default
+ within CELL are the primary drivers of self-organization.
  A rule is applied only to a specific subset of agents,
  typically the activated agents,
  the neighbors or the entire set of selected agents.
@@ -12785,7 +12809,11 @@ name "fig:CELL-Training-Pipeline"
 \end_layout
 
 \begin_layout Standard
-The learning process of a specific CELL instantiation (such as oCELL or kCELL that will be described in subsequent sections of this chapter) can be fully characterized by constructing a rule table.
+The 
+\series bold
+learning process
+\series default
+ of a specific CELL instantiation (such as oCELL or kCELL that will be described in subsequent sections of this chapter) can be fully characterized by constructing a rule table.
  This table acts as the behavioral blueprint for the ensemble of agents,
  mapping the current state of the population and the received feedback to a set of discrete actions.
  By using this structured approach,
@@ -13225,7 +13253,7 @@ name "tab:Conceptual-Learning-Rules"
 
 ;
  with a condition on a feedback value like the error (e.g low or high error) or on the characteristics of the agents (e.g size of the area of expertise higher than a threshold value);
- with a target subset of agentts that will be affected by the rule (e.g.
+ with a target subset of agents that will be affected by the rule (e.g.
  
 \begin_inset Formula $\mathcal{D}_{\text{activated}}$
 \end_inset
@@ -13403,7 +13431,11 @@ The previous sections established the lineage of the CELL formalism,
 \end_layout
 
 \begin_layout Standard
-A primary challenge in online learning for dynamical system is catastrophic forgetting,
+A primary challenge in online learning for dynamical system is 
+\series bold
+catastrophic forgetting
+\series default
+,
  where new information overwrites previously learned knowledge.
  CELL inherently mitigates this through its spatial gating mechanism,
  which ensures spatial isolation of parameters.
@@ -13426,12 +13458,20 @@ While traditional machine learning often relies on top-down global optimization,
  This decentralized decision-making process brings structural adaptability.
  It allows the model to modify its own internal structure through agent creation or destruction without th ecomputational burden or re-optimizing a global topology.
  By shifting the complexity from the model's architecture to the social dynamics between agents,
- the system can autonomously expand its capacity in response to non-stationary dynamics.
+ the system can autonomously 
+\series bold
+expand its capacity in response to non-stationary dynamics
+\series default
+.
 \end_layout
 
 \begin_layout Standard
 Furthermore,
- the formalism is model-agnostic,
+ the formalism is 
+\series bold
+model-agnostic
+\series default
+,
  meaning that virtually any class of learning model could be used as the internal prediction model of the agents.
  This modularity favors a high level of transparency in the inner workings of the learning system.
  In the remainder of this thesis,
@@ -13445,7 +13485,11 @@ Furthermore,
 
 \begin_layout Standard
 Finally,
- the integration of CELL within an optimization-based control framework like MPC necessitates some properties like differentiability and fast inference (both of which are discussed in detail in Chapter 
+ the integration of CELL within an optimization-based control framework like MPC necessitates some properties like 
+\series bold
+differentiability and fast inference
+\series default
+ (both of which are discussed in detail in Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "chap:Solving-Control-Tasks"
@@ -24275,7 +24319,7 @@ name "tab:Summary-Metrics-Explainability-oCELL"
 \end_layout
 
 \begin_layout Subsection
-Discussion and Limitations
+Discussion and Limitations of oCELL
 \begin_inset CommandInset label
 LatexCommand label
 name "subsec:Limitations"
@@ -24711,7 +24755,35 @@ Identifies variation regime changes and structural instability
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Summary of the metrics introduced and their link to explainability or interpretability
+Summary of the metrics introduced and their link to explainability or interpretability.
+ The column 
+\emph on
+Metric
+\emph default
+ corresponds to the defined introspective metrics;
+ The column 
+\emph on
+Scope
+\emph default
+ indicates whether the corresponding metric should be used at a global or local scale to either study macro or micro behaviors within the ensemble of local expert agents;
+ The columns 
+\emph on
+Explain.
+
+\emph default
+ and 
+\emph on
+Intepret.
+
+\emph default
+ correspond to whether the corresponding metric can be linked to the traditional notions of Epxlainability or Interpretability in Machine Learning;
+ Finally,
+ the column 
+\emph on
+Functional Insight
+\emph default
+,
+ provides indications on the concrete use of each metrics.
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:Summary-Metrics-Explainability-oCELL"
@@ -29126,6 +29198,15 @@ status open
 \begin_layout Plain Layout
 Evolution of the prequential error during the learning phase.
  Each curve is smoothed with a sliding window of 2000 steps of length.
+ 
+\emph on
+y
+\emph default
+-axis corresponds to the absolute prequential error value and 
+\emph on
+x
+\emph default
+-axis corresponds to the number of traning steps.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:Evolution-of-Prequential-kCELL"
@@ -29231,7 +29312,16 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Evolution of test RMSE throughout learning
+Evolution of test RMSE throughout learning.
+ 
+\emph on
+y
+\emph default
+-axis corresponds to the RMSE and 
+\emph on
+x-axis
+\emph default
+ corresponds to the number of training steps.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:kCELL-Test-RMSE-stationary"
@@ -29279,7 +29369,16 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Evolution of test MAE throughout learning
+Evolution of test MAE throughout learning.
+ 
+\emph on
+y
+\emph default
+-axis corresponds to the MAE and 
+\emph on
+x-axis
+\emph default
+ corresponds to the number of training steps.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:kCELL-Test-MAE-stationary"
@@ -29300,7 +29399,7 @@ name "fig:kCELL-Test-MAE-stationary"
 \end_layout
 
 \begin_layout Paragraph
-Activation Correlation to Errors
+Correlation of Activation to Errors
 \end_layout
 
 \begin_layout Standard
@@ -29912,18 +30011,19 @@ name "subsec:kCELL-Adaptation-to-Non-Stationary"
 \end_layout
 
 \begin_layout Standard
-In kCELL,
- the agents learn a function from a stream of data through local modeling and cooperation.
- In this section we present an experiment and introspection studies to demonstrate the capabilities of kCELL in terms of online adaptation and raw performances in online non-stationary dynamics modeling.
+The previous section demonstrated kCELL's ability to self-organize and build meaningful representations of complex dynamics to achieve high asymptotic accuracy (compred to baseline online algorithms like LWPR or Mondrian Forests) in a stationary high-dimensional environment.
+ However,
+ real-world control systems often operate in non-stationary conditions where the underlying physical properties or environmental constraints evolve over time.
+ This section presents a study of kCELL's capabilities in terms of online adaptation in the presence of concept drifts.
 \end_layout
 
-\begin_layout Subsubsection
-Experimental Protocol
+\begin_layout Paragraph
+Experimental Setup
 \end_layout
 
 \begin_layout Standard
-To evaluate the capabilities of kCELL to adapt online to non-stationary dynamics,
- we conducted experiments on two MuJoCo 
+To evaluate how kCELL adapts to changing dynamics,
+ two MuJoCo simulation environments 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "todorov2012mujoco"
@@ -29931,10 +30031,354 @@ literal "false"
 
 \end_inset
 
- simulation environment:
- InvertedPendulum and Hopper.
- For each environment,
- datasets were collected under three gravitational acceleration values (
+ are used:
+ 
+\series bold
+InvertedPendulum 
+\series default
+(cf.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Inverted-Pendulum"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+) and 
+\series bold
+Hopper
+\series default
+ (cf.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Hopper"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+InvertedPendulum
+\series default
+:
+ This environment is based on the classic Cartpole problem 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "barto2012neuronlike"
+literal "false"
+
+\end_inset
+
+ presented in Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Control-Theory-Formalism"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ It consists of a cart that moves with a pole attached to it.
+ The goal is to balance the pole by applying horizontal forces to the cart.
+ The action space is 1-dimensional and the state space is 4-dimensional.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Hopper
+\series default
+:
+ The Hopper is a two-dimensional one-legged robot 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "erez2012infinite"
+literal "false"
+
+\end_inset
+
+ consisting of four main body parts (torso,
+ thigh,
+ leg and foot).
+ The goal is to move forward by applying torques to the three hinges connecting these parts.
+ This represents a higher-dimensional task with a 3-dimensional action space and a 11-dimensional state space.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/InvertedPendulum.pdf
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Inverted-Pendulum"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/hopper.png
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Hopper"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Illustration of 
+\series bold
+InvertedPendulum
+\series default
+ and 
+\series bold
+Hopper
+\series default
+ dynamical systems.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "fig:Inverted-Pendulum"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ corresponds to the 
+\series bold
+Inverted Pendulum
+\series default
+ where 
+\begin_inset Formula $m_{\text{pole}}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $l$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\theta$
+\end_inset
+
+ are the mass,
+ length and angle of the pole,
+ 
+\begin_inset Formula $m_{\text{cart}}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $v_{\text{cart}}$
+\end_inset
+
+ are the mass and horizontal velocity of the cart.
+ Finally 
+\begin_inset Formula $F$
+\end_inset
+
+ correspond to the force applied to the cart which is the action to be controlled to stabilize this dynamical system.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "fig:Hopper"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ corresponds to the 
+\series bold
+Hopper
+\series default
+ where 0 is the joint between the torso and thigh,
+ 1 is the joint between thigh and leg and 2 is the joint between leg and foot.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These environments were selected to contrast a low-dimensional setting (InvertedPendulum) with a higher-dimensional one (Hopper).
+ Mahalanobis distances become larger the higher the number of dimensions.
+ Thus we want to study the impact of increasing dimensionality on the representativity of the spatialization of kCELL which was one of the main limitations of oCELL (cf.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Limitations"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Standard
+In the context of this experiment the task to solve is a forward modeling task.
+\end_layout
+
+\begin_layout Definition
+Forward dynamics modeling is the construction of a model that maps states (such as positions and velocities) and actions to future state trajectories.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+The learning model should learn online a data stream,
+ the transition function 
+\begin_inset Formula $f$
+\end_inset
+
+ of the controlled dynamical system 
+\begin_inset Formula 
+\[
+s_{t+1}=f\left(s_{t},u_{t}\right)
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $u_{t}$
+\end_inset
+
+ is the action applied,
+ 
+\begin_inset Formula $s_{t}$
+\end_inset
+
+ is the current state of the dynamical system and 
+\begin_inset Formula $s_{t+1}$
+\end_inset
+
+ the next one.
+\end_layout
+
+\begin_layout Definition
+To simulate non-stationarity,
+ three datasets were collected under three different gravitational acceleration values:
+ 
 \emph on
 default 
 \emph default
@@ -29964,7 +30408,8 @@ high
 \begin_inset Formula $g=20$
 \end_inset
 
-) using pretrained reinforcement learning agents trained with Soft-Actor-Critic (SAC) algorithm 
+.
+ These datasets were collected using pretrained Reinforcement Learning (RL) controllers trained with Soft-Actor-Critic (SAC) algorithm 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "haarnoja2018soft"
@@ -29981,7 +30426,7 @@ literal "false"
 \end_inset
 
 ).
- Training data were streamed in the same order (
+ Training data were streamed in a sequential order (
 \emph on
 default 
 \begin_inset Formula $\rightarrow$
@@ -29993,8 +30438,8 @@ default
 
  high
 \emph default
-) to simulate abrupt changes in the underlying system dynamics.
- The characteristics of the generated datasets are presented in Table 
+) to simulate abript changes in the underlying system dynamics.
+ The characteristics of the datasets are summarized in Table
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:Characteristics-of-datasets"
@@ -30006,36 +30451,7 @@ nolink "false"
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
-The environments were selected to contrast a low-dimensional setting (InvertedPendulum with 4-dimensional states and 1 action) with a higher-dimensional one (Hopper with 11-dimensional state and 3 actions).
- Mahalanobis distance values become larger the higher the number of dimensions.
- Thus we want to study the impact of increasing dimensionality on the representativity of the spatialization of kCELL which was one of the main limitations of oCELL (cf.
  
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "subsec:Limitations"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-).
- We also compare kCELL to Adaptive Hoeffding Trees 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "bifet2009adaptive"
-literal "false"
-
-\end_inset
-
- which is an efficient adaptive online learning method based on decision trees designed to handle concept drift.
-\end_layout
-
-\begin_layout Standard
 \begin_inset Float table
 placement document
 alignment document
@@ -30234,12 +30650,12 @@ Dynamic Changes
 \begin_inset Formula $g$
 \end_inset
 
- values used to generate the datasets,
+ gravitational acceleration values used to generate the datasets,
  
 \emph on
 Nb Learning Steps
 \emph default
- corresponds to the budget in number of training steps used to train the RL agent used to generate each dataset (one RL Agent per dataset).
+ corresponds to the budget in number of training steps used to train the RL controllers used to generate each dataset (one RL controller per dataset).
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:Characteristics-of-datasets"
@@ -30259,7 +30675,192 @@ name "tab:Characteristics-of-datasets"
 
 \end_layout
 
+\begin_layout Definition
+For each of the three datasets,
+ a fraction of the data was held out to create three distinct test datasets that remain unseen to the learning algorithm during the training phase.
+ Throughout the learning process,
+ the learning algorithms are regularly evaluated against all three test datasets to measure both their adaptation to dynamic changes and their ability to retain or forget previous dynamics.
+ The Mean Absolute Error (MAE) on these test dataset is regularly measured.
+\end_layout
+
+\begin_layout Definition
+kCELL is compared to Adaptive Hoeffding Trees 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bifet2009adaptive"
+literal "false"
+
+\end_inset
+
+,
+ a baseline specifically tailored for non-stationary learning through integrated concept drift detectors.
+ Unlike Mondrian Forests or LWPR which are primarily designed for stationary dynamics,
+ Adaptive Hoeffding Trees represents a rigorous baseline for active adaptation to non-stationary dynamics.
+ 
+\end_layout
+
+\begin_layout Definition
+First,
+ in order to analyze the resulting behaviors,
+ the error on test datasets throughout learning is evaluated for both kCELL and the Adaptive Hoeffding Tree baseline.
+ Then,
+ the introspective properties of kCELL,
+ specifically the agent population growth,
+ the age of agents and activation levels,
+ are leveraged to provide a more in-depth analysis of the behavior of kCELL in response to changes in dynamics (i.e changes in 
+\begin_inset Formula $g$
+\end_inset
+
+ value).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+In kCELL,
+ the agents learn a function from a stream of data through local modeling and cooperation.
+ In this section we present an experiment and introspection studies to demonstrate the capabilities of kCELL in terms of online adaptation and raw performances in online non-stationary dynamics modeling.
+\end_layout
+
 \begin_layout Subsubsection
+Experimental Setup
+\end_layout
+
+\begin_layout Plain Layout
+To evaluate the capabilities of kCELL to adapt online to non-stationary dynamics,
+ we conducted experiments on two MuJoCo 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "todorov2012mujoco"
+literal "false"
+
+\end_inset
+
+ simulation environment:
+ InvertedPendulum and Hopper.
+ For each environment,
+ datasets were collected under three gravitational acceleration values (
+\emph on
+default 
+\emph default
+gravity
+\emph on
+ 
+\emph default
+
+\begin_inset Formula $g=9.81$
+\end_inset
+
+,
+ 
+\emph on
+low 
+\emph default
+gravity 
+\begin_inset Formula $g=4$
+\end_inset
+
+ ,
+ 
+\emph on
+high
+\emph default
+ gravity 
+\begin_inset Formula $g=20$
+\end_inset
+
+) using pretrained reinforcement learning agents trained with Soft-Actor-Critic (SAC) algorithm 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "haarnoja2018soft"
+literal "false"
+
+\end_inset
+
+ (with stable-baselines3 implementation 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "stable-baselines3"
+literal "false"
+
+\end_inset
+
+).
+ Training data were streamed in the same order (
+\emph on
+default 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ low 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ high
+\emph default
+) to simulate abrupt changes in the underlying system dynamics.
+ The characteristics of the generated datasets are presented in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Characteristics-of-datasets"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+The environments were selected to contrast a low-dimensional setting (InvertedPendulum with 4-dimensional states and 1 action) with a higher-dimensional one (Hopper with 11-dimensional state and 3 actions).
+ Mahalanobis distance values become larger the higher the number of dimensions.
+ Thus we want to study the impact of increasing dimensionality on the representativity of the spatialization of kCELL which was one of the main limitations of oCELL (cf.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Limitations"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+ We also compare kCELL to Adaptive Hoeffding Trees 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bifet2009adaptive"
+literal "false"
+
+\end_inset
+
+ which is an efficient adaptive online learning method based on decision trees designed to handle concept drift.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
 Prediction Error Analysis
 \end_layout
 
@@ -30275,14 +30876,21 @@ nolink "false"
 
 \end_inset
 
- illustrates the evolution of Mean Absolute Error (MAE) for kCELL and Adaptive Hoeffding Trees algorithms measured on the test sets associated with each value of 
-\begin_inset Formula $g$
+ illustrates the evolution of Mean Absolute Error (MAE) for kCELL and Adaptive Hoeffding Tree,
+ measured on the test datasets associated with each gravity value (
+\begin_inset Formula $g\in\left\{ 9.81,4,20\right\} $
 \end_inset
 
- for each environment.
- Across both environments,
- the MAE consistently decreases on the test set corresponding to the currently observed gravity value,
- indicating effective online adaptation to changes in dynamics (refer to semi-transparent red areas in Figure 
+).
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+In both simulation environments
+\series default
+ (Inverted Pendulum and Hopper),
+ kCELL successfully adapts to changes in dynamics as indicated by the consistently decreasing MAE on the test dataset corresponding to the currently observed gravity value (indicated by the semi-transparent red shaded areas in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Visualization-of-mae-dynamic-changes"
@@ -30297,7 +30905,11 @@ nolink "false"
 \end_layout
 
 \begin_layout Standard
-For the InvertedPendulum environment (cf.
+For the 
+\series bold
+InvertedPendulum environment
+\series default
+ (cf.
  Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -30311,9 +30923,34 @@ nolink "false"
 
 ),
  kCELL systematically outperforms Adaptive Hoeffding Trees when the training and testing gravity values coincide,
- exhibiting lower MAE throughout each stationary phase.
- This suggests that the local spatialized modeling strategy employed by kCELL allows more accurate approximation of the underlying dynamics in low-dimensional settings.
- For the Hopper environment (cf.
+ achieving a lower MAE throughout each stationary phase.
+ In the 
+\series bold
+Hopper environment
+\series default
+ (cf.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Visualization-of-mae-dynamic-changes-hopper"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+),
+ both learning algorithms achieve comparable MAE levels,
+ though kCELL's error curve exhibits higher variance.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+In the Hopper environment (cf.
  Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -30338,7 +30975,39 @@ nolink "false"
  kCELL is not designed to predict too far outside their domain of expertise leading to very low activation scores for far away points and potential numerical instabilities.
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
+A contrast can be observed in the retention of prior knowledge between both simulation environments.
+ In 
+\series bold
+Inverted Pendulum
+\series default
+ 
+\series bold
+environment
+\series default
+,
+ transitions to new gravity values lead to an increase in MAE for the previously encountered gravity values,
+ indicating a forgetting of earlier dynamics.
+ Conversely,
+ in the higher dimensional 
+\series bold
+Hopper environment
+\series default
+,
+ kCELL maintains a stable MAE on previously encountered gravity values even after multiple regime changes,
+ suggesting retention of prior knowledge.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
 For kCELL,
  we notice that for InvertedPendulum,
  transitions between gravity values lead to an increase in MAE on past test sets,
@@ -30346,7 +31015,13 @@ For kCELL,
  In contrast,
  for Hopper,
  kCELL exhibits stable MAE on previously encountered gravity values even after multiple regime changes,
- suggesting retiention of prior knowledge.
+ suggesting retention of prior knowledge.
+ 
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -30442,7 +31117,7 @@ name "fig:Visualization-of-mae-dynamic-changes-hopper"
 
 \begin_layout Plain Layout
 Evolution of test error on each test dataset.
- Each horizontal plot shows the evolution of error on a test dataset (in order top to bottom:
+ Each horizontal plot shows the evolution of error on a given test dataset (in order top to bottom:
  
 \begin_inset Formula $g=9.81$
 \end_inset
@@ -30480,11 +31155,11 @@ high gravity
 \begin_inset Formula $x$
 \end_inset
 
- axis corresponds to the number of points ingested (number of steps) and the 
+-axis corresponds to the number of points ingested (number of steps) and the 
 \begin_inset Formula $y$
 \end_inset
 
- axis corresponds to the MAE over the corresponding training set.
+-axis corresponds to the MAE over the corresponding training set.
  The blue curve corresponds to kCELL's MAE measurements.
  For example the top plot corresponds to the MAE calculated on test data for 
 \begin_inset Formula $g=9.81$
@@ -30514,11 +31189,68 @@ name "fig:Visualization-of-mae-dynamic-changes"
 
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Structural Evolution of Agent Population
 \end_layout
 
 \begin_layout Standard
+To better understand these adpatation patterns,
+ the evolution of the local expert agent population displayed in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Evolution-of-nb-agents"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ is analyzed.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Inverted Pendulum
+\series default
+:
+ Each dynamic change induces a short-term surge in the number of agents following by a reduction of this number and a stabilization.
+ This indicates a restructuration of the population.
+ New dynamics trigger agent creation while the confidence-based mechanism prunes older agents that are no longer relevant to the current dynamics.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Hopper
+\series default
+:
+ The number of agents grows monotonically.
+ Distinct growth regimes are observed for each gravity value.
+ It starts with a logarithmic growth for 
+\begin_inset Formula $g=9.81$
+\end_inset
+
+,
+ followed by a linear growth for 
+\begin_inset Formula $g=4$
+\end_inset
+
+,
+ and finally it starts to stabilize around 20000 steps for 
+\begin_inset Formula $g=20$
+\end_inset
+
+.
+ This suggests an accumulation of local expert agents rather than a replacement of the existing population.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
 We analyze the evolution of agent population during training illustrated in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -30533,7 +31265,7 @@ nolink "false"
 .
  As previously hinted by MAE analysis,
  we notice contrasting dynamics in the population evolution during learning between the two environments.
- In InvertedPendulum (cf.
+ In Inverted Pendulum (cf.
  Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -30552,7 +31284,7 @@ nolink "false"
  where novelty triggers agent creation and confidence-based mechanisms triggers destruction to eliminate less relevant agents.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 In Hopper (cf.
  Figure 
 \begin_inset CommandInset ref
@@ -30582,6 +31314,11 @@ nolink "false"
 
 ) with stabilization around 20k steps.
  This accumulation of agents suggests a continuous detection of local dynamics without systematic removal of existing agents.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -30711,11 +31448,76 @@ name "fig:Evolution-of-nb-agents"
 
 \end_layout
 
-\begin_layout Subsubsection
-Agent Age and Confidence Dynamics
+\begin_layout Paragraph
+Agent Age Analysis
 \end_layout
 
 \begin_layout Standard
+The mean age of agents (cf.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Visualization-of-age-invertedpendulum"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+) provides further insights about these observed differences between the two simulated environments.
+\end_layout
+
+\begin_layout Standard
+For 
+\series bold
+Inverted Pendulum
+\series default
+ (cf.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Visualization-of-age-invertedpendulum"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+) each change in gravity coincides with an abrupt drop in the mean age of the population.
+ This indicates that the population becomes younger.
+ Older agents are replaced by newly created ones following a change in the dynamics.
+ This behavior aligns with the confidence-driven destruction mechanism that favor the survival of agents that are expert for the current dynamics.
+\end_layout
+
+\begin_layout Standard
+In 
+\series bold
+Hopper
+\series default
+ (cf.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Visualization-of-age-hopper"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+) the mean agent age increases almost constantly with only minor slowdowns following changes in dynamics.
+ This indicates that the older agents persist over time and are not displaced by newer ones.
+ This behavioral difference between the two environments suggests that the dimenionality and the resulting geometric separation of the data play a role in whether kCELL favors forgetting or retention of knowledge.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
 The mean age of agents provides further insights on kCELL as presented in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -30747,7 +31549,7 @@ nolink "false"
  This behavior aligns with a confidence-driven selection mechanism that favors agents specialized to the current dynamics.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 In Hopper (cf.
  Figure 
 \begin_inset CommandInset ref
@@ -30765,6 +31567,11 @@ nolink "false"
  with only minor decreases follwoing the first gravity change and a slight slowdown after the second.
  This indicates that older agents persist over time and are not fully displaced by newer ones,
  despite agent creations.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -30894,11 +31701,72 @@ name "fig:Evolution-of-age"
 
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Agent Activation and Local Expertise
 \end_layout
 
 \begin_layout Standard
+The evolution of the activation of the closest agent is displayed in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Evolution-of-activations"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ In 
+\series bold
+InvertedPendulum
+\series default
+ (cf.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Visualization-of-activations-invertedpendulum"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+),
+ each gravity change results in a sharp drop in activation,
+ signaling a loss of relevance of existing local models.
+ Activation values subsequently recovers as new agents acquire expertise under the new dynamics.
+\end_layout
+
+\begin_layout Standard
+In 
+\series bold
+Hopper
+\series default
+,
+ distinct nominal mean activation values for each gravity values can be observed.
+ While slight activation drops are noticeable following changes in dynamics,
+ the effects are less pronounced than for 
+\series bold
+Inverted Pendulum
+\series default
+.
+ This suggests that in the higher-dimensional 
+\series bold
+Hopper
+\series default
+ state-action space,
+ the different dynamics occupy more disjoint regions,
+ allowing agents to remain specialized without interfering with one another.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
 Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -30930,7 +31798,7 @@ nolink "false"
  Activation values subsequently recovers as new agents acquire expertise under the new dynamics.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 In Hopper (cf.
  Figure 
 \begin_inset CommandInset ref
@@ -30948,6 +31816,11 @@ nolink "false"
  with distinct nominal mean activation value observed for each values of gravity acceleration.
  Slight activation decreases are detectable immediately following changes in dynamics,
  these effects are less visible than in InvertedPendulum and partially blurred by higher variance regimes.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -31077,23 +31950,40 @@ name "fig:Evolution-of-activations"
 
 \end_layout
 
+\begin_layout Paragraph
+Knowledge Persistence Behavior Analysis
+\end_layout
+
 \begin_layout Standard
 In the higher-dimensional Hopper environment,
  agent persistence can be explained by two non-exclusive mechanisms.
  First,
- it is possible that agents trained under earlier gravity settings retain partial competence in overlapping regions of the state-action space.
- Those agents are then incrementally adapted as new data arrives leading to multi-regime reuse.
+ it is possible that agents trained under earlier gravity values retain partial competence in overlapping regions of the state-action space and adapt incrementally adapt as new data arrives.
+ It would correspond to 
+\series bold
+knowledge reuse
+\series default
+.
  In this case the growth of agents can be explained mainly by the modeling complexity introduced by the change in dynamics.
- Second,
- high-dimensional effects may reduce the sensitivity of the Mahalanobis distance,
- yielding sparse activation of older agents that prevents both their meaningful adaption and confidence degradation.
- In this case,
- those agents can be considered as frozen because they are too tightly tied to previously visited regions that do not overlap with newly discovered ones after dynamic changes.
+ 
 \end_layout
 
 \begin_layout Standard
-To disambiguate whether agent persistence in the Hopper environment arises from adaptive reuse or from limited cross-regime activation,
- we analyze the activation patterns of the final agent population obtained after full training.
+Second,
+ high-dimensional effects may stretch the Mahalanobis distance,
+ yielding sparse activation of older agents that prevents both their meaningful adaption and confidence degradation.
+ In this case,
+ those agents become frozen in previously visited regions that do not overlap with newly discovered ones.
+ it would correspond to 
+\series bold
+non-overlapping dynamics profiles
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+To disambiguate whether agent persistence arises from adaptive knowledge reuse or from limited cross-regime activation,
+ the activation patterns of the final agent population can be analyzed.
  Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -31106,10 +31996,20 @@ nolink "false"
 \end_inset
 
  presents a heatmap of agent activations for all training samples,
- where columns correspond to agents sorted by age (from oldest to youngest) and rows correspond to training data points (in order) aggregated into bins.
- The resulting heatmap exhibits distinct block patterns,
- with older agents primarily activated for samples from the earliest dataset and progressively younger agents ddominating activation for later datasets.
- We can also observe that the shape of the number of agents curve (presented in Figure 
+ where columns correspond to agents sorted by age (from oldest to youngest 
+\begin_inset Formula $=$
+\end_inset
+
+ from left to right in the plot) and rows correspond to training data points aggregated into bins (from first seen points to last 
+\begin_inset Formula $=$
+\end_inset
+
+ from top to bottom in the plot).
+\end_layout
+
+\begin_layout Standard
+The heatmap exhibits distinct block patterns where older agents are primarily activated for samples from the earliest datasets.
+ The shape of the agent populatio growth curve (seen previously in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Visualization-of-nb-agents-hopper"
@@ -31120,46 +32020,15 @@ nolink "false"
 
 \end_inset
 
-) appears in the heatmap drawn by points where agents are the most active.
- This organization further indicates that agents remain selectively active for the dynamics under which they were trained and created rather than becoming inactive or obsolete.
+) is clearly visible in the heatmap,
+ defined by the points where agents are most activated.
 \end_layout
 
 \begin_layout Standard
-Complementary,
- we provide a two-dimensional UMAP 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "mcinnes2018umap"
-literal "false"
-
-\end_inset
-
- projection of the training data in Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:UMAP-of-training-hopper"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-,
- with samples colored according to their corresponding gravity regime.
- The projection reveals a clear separation between training datasets,
- suggesting that changes in dynamics induce distinct regions in the state-action space.
- This structural separation provides a plausible geometric explanation for the coexistence of multiple generations of agents.
- Because data from different dynamics regimes occupy largely disjoint regions,
- agents specialized to earlier dynamics remain relevant for their corresponding subspaces without interfering with those created for later regimes.
-\end_layout
-
-\begin_layout Standard
-These analyses support the claim that agent retention in the Hopper environment is primarily driven by regime-specific specialization in a high-dimensional space,
- rather than by passive survival due to insufficient confidence updates that would prevent the destruction process.
- While Mahalanobis distance may lose discriminative power in higher dimensional spaces,
- the observed seperation of state-action distributions enables kCELL to maintain multiple local experts corresponding to different dynamics.
- This results in stable prediction performance across successive dynamics changes.
+This organization indicates that agents remain selectively active for the specific dynamics under which they were created.
+ Rather than becoming obsolete,
+ they retain a specialized expertise for their original corresponding dynamics.
+ on which they were trained on and created.
 \end_layout
 
 \begin_layout Standard
@@ -31213,6 +32082,137 @@ name "fig:Heatmap-of-activations-hopper"
 \end_inset
 
 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This interpretation is further supported by a two-dimensional UMAP 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mcinnes2018umap"
+literal "false"
+
+\end_inset
+
+ projection of the training data in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:UMAP-of-training-hopper"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ with samples colored according to their corresponding gravity value.
+\end_layout
+
+\begin_layout Standard
+The projection reveals a clear geometric separation between the training datasets.
+ Each dynamics change induces the system to explore a distinct region of the state-action space.
+ This structural separation provides a geometric explanation for the coexistence of multiple generations of agents.
+ Becaue data from different dynamics occupy largely disjoint regions,
+ agents specialized to earlier gravity values remain relevant for their corresponding subspaces without interfering with those created after dynamics changes.
+ This confirms that the observed retention is driven by spcialization to specific disjoint dynamics profiles facilitated by the high-dimensional geometry of the Hopper environment that stretch Mahalanobis distances used for agent spatialization through their activation function.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+In the higher-dimensional Hopper environment,
+ agent persistence can be explained by two non-exclusive mechanisms.
+ First,
+ it is possible that agents trained under earlier gravity settings retain partial competence in overlapping regions of the state-action space.
+ Those agents are then incrementally adapted as new data arrives leading to multi-regime reuse.
+ In this case the growth of agents can be explained mainly by the modeling complexity introduced by the change in dynamics.
+ Second,
+ high-dimensional effects may reduce the sensitivity of the Mahalanobis distance,
+ yielding sparse activation of older agents that prevents both their meaningful adaption and confidence degradation.
+ In this case,
+ those agents can be considered as frozen because they are too tightly tied to previously visited regions that do not overlap with newly discovered ones after dynamic changes.
+\end_layout
+
+\begin_layout Plain Layout
+To disambiguate whether agent persistence in the Hopper environment arises from adaptive reuse or from limited cross-regime activation,
+ we analyze the activation patterns of the final agent population obtained after full training.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Heatmap-of-activations-hopper"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ presents a heatmap of agent activations for all training samples,
+ where columns correspond to agents sorted by age (from oldest to youngest) and rows correspond to training data points (in order) aggregated into bins.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+The resulting heatmap exhibits distinct block patterns,
+ with older agents primarily activated for samples from the earliest dataset and progressively younger agents ddominating activation for later datasets.
+ We can also observe that the shape of the number of agents curve (presented in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Visualization-of-nb-agents-hopper"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+) appears in the heatmap drawn by points where agents are the most active.
+ This organization further indicates that agents remain selectively active for the dynamics under which they were trained and created rather than becoming inactive or obsolete.
+\end_layout
+
+\begin_layout Plain Layout
+Complementary,
+ we provide a two-dimensional UMAP 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mcinnes2018umap"
+literal "false"
+
+\end_inset
+
+ projection of the training data in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:UMAP-of-training-hopper"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ with samples colored according to their corresponding gravity regime.
+ The projection reveals a clear separation between training datasets,
+ suggesting that changes in dynamics induce distinct regions in the state-action space.
+ This structural separation provides a plausible geometric explanation for the coexistence of multiple generations of agents.
+ Because data from different dynamics regimes occupy largely disjoint regions,
+ agents specialized to earlier dynamics remain relevant for their corresponding subspaces without interfering with those created for later regimes.
+\end_layout
+
+\begin_layout Plain Layout
+These analyses support the claim that agent retention in the Hopper environment is primarily driven by regime-specific specialization in a high-dimensional space,
+ rather than by passive survival due to insufficient confidence updates that would prevent the destruction process.
+ While Mahalanobis distance may lose discriminative power in higher dimensional spaces,
+ the observed seperation of state-action distributions enables kCELL to maintain multiple local experts corresponding to different dynamics.
+ This results in stable prediction performance across successive dynamics changes.
 \end_layout
 
 \end_inset
@@ -31276,11 +32276,71 @@ name "fig:UMAP-of-training-hopper"
 
 \end_layout
 
-\begin_layout Subsubsection
-Discussion
+\begin_layout Paragraph
+Discussion and Synthesis
 \end_layout
 
 \begin_layout Standard
+The results presented in this section suggest that kCELL adapts to non-stationary dynamics through a combination of local specialization and structural plasticity,
+ with behaviors that depend strongly on the dimensionality and geometry of the feature space (mainly if dynamic profiles spatially overlap or not).
+ In both environments,
+ kCELL successfully reduces prediction error on the currently observed dynamics without requiring explicit task or concept drift detection modules.
+\end_layout
+
+\begin_layout Standard
+For the 
+\series bold
+Inverted Pendulum environment
+\series default
+,
+ adaptation is characterized by a population renewal process.
+ Changes in dynamics induce a rapid loss of relevance for existing agents,
+ leading to their replacement.
+ Knowledge forgetting emerges as a natural consequence of the overlap between different dynamics profiles in a low-dimensional space.
+ This reflects appropriate structural adaptation rather than failure of knowledge retention.
+\end_layout
+
+\begin_layout Standard
+In contrast,
+ the 
+\series bold
+Hopper environment
+\series default
+ demonstrates kCELL's ability to maintain stable prediction performance across successive dynamics changes through knowledge retention.
+ The existence of well-separated regions in the state-action space allows for the coexistence of multiple generations of agents.
+ Although the Mahalanobis distance may lose discriminative precision as dimensionality increases,
+ the geometric separation in this 14-dimensional state-action space is sufficient to maintain effective specialization of local expert agents.
+ This indicates retention of dynamics-specific expertise rather than passive persistence of obsolete models.
+ Indeed,
+ the occurence of dynamics changes is unknown beforehand.
+\end_layout
+
+\begin_layout Standard
+Finally,
+ we highlight the ability to analyze kCELL through introspective properties such as the spatial organization and activation patterns of agents as a key advantage in terms of interpretability.
+ These introspective can prove useful to debug,
+ refine learning mechanisms or build fallback strategies when the model detects its own non-reliability.
+ This relates to the properties we presented in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Introspective-Properties-oCELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ showing that despite the design differences with oCELL,
+ some related properties remain.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
 The results presented suggest that kCELL were able to adapt to non-stationary dynamics through a combination of local specialization and structural plasticity with behaviors that depend strongly on the dimensionality and geometry of the feature space.
  In both environments,
  kCELL succesfully reduces prediction error on the currently observed dynamics demonstrating effective online adaptation without explicit task or concept drift detection modules.
@@ -31289,7 +32349,7 @@ The results presented suggest that kCELL were able to adapt to non-stationary dy
  It also achieves comparable performances for the higher-dimensional Hopper environment although with increased variability due to its structural adaptivity.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 For the InvertedPendulum environment,
  changes in dynamics induced a rapid loss of relevance of agents trained on previous dynamics leading to their destruction or adjustment.
  This is reflected by sharp drops in agent activation,
@@ -31300,7 +32360,7 @@ For the InvertedPendulum environment,
  partial forgetting emerges as a natural consequence of the overlap between the geometry of different dynamics and reflects appropriate structural adaptation rather than failure of retention.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 In contrast,
  the Hopper environment exhibits persistent agent populations and stable prediction performance across successive dynamics changes.
  Although the number of agents grows monotonically,
@@ -31314,7 +32374,7 @@ In contrast,
  the agents do not know when a new dynamics change might occur and which dynamics will replace the current one.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 This interpretation is further supported by the UMAP analysis of the training data,
  which reveals clear separation between datasets generated with different gravity values.
  The existence fo well-separated regions in the state-action space provides a plausible explanation for the coexistence of multiple generations of agents without destructive interference.
@@ -31326,7 +32386,7 @@ This interpretation is further supported by the UMAP analysis of the training da
  the geometric separation induced by gravity changes appears sufficient to maintain effective specialization.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Overall,
  the results suggest that kCELL implicitly adjusts the tradeoff between forgetting and retention based on the structure of the data distribution rather than relying on explicit task boundaries.
  In low-dimensional spaces,
@@ -31337,7 +32397,7 @@ Overall,
  It paves the way for future works on the use of more robust distance metrics and activation mechanisms to account for high-dimensional geometry.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Finally,
  we highlight the ability to analyze kCELL through the spatial organization and activation patterns of agents as a key advantage in terms of interpretability.
  Introspection of agent properties allows to identify which regions of the state-action space correspond to different dynamics.
@@ -31359,8 +32419,13 @@ nolink "false"
  some related properties remain.
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
-Discussion and Limitations
+Discussion and Limitations of kCELL
 \begin_inset CommandInset label
 LatexCommand label
 name "subsec:kCELL-Discussions-and-Limitations"
@@ -31368,6 +32433,253 @@ name "subsec:kCELL-Discussions-and-Limitations"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+The previous sections detailed the architecture of kCELL,
+ the second CELL instantiation described in this thesis,
+ designed to address some of the limitations of oCELL.
+ The performance of kCELL were evaluated across different modeling tasks demonstrating its ability to capture complex dynamics in both stationary and non-stationary settings.
+ This section discusses about the differences between oCELL and kCELL and then exposes the inherent limitations and research gaps that remain.
+\end_layout
+
+\begin_layout Paragraph
+More Advanced Social Interactions
+\end_layout
+
+\begin_layout Standard
+The kCELL learning algorithm has been built to address some limitations of oCELL.
+ It pushes the social learning paradigm further by introducing feedback mechanisms relative to a local collective of agents.
+ Coupled with a socially grounded population management mechanisms,
+ it induce a mix between competition for survival and local group cooperation to improve the accuracy of the global model.
+ These social mechanisms allow a better population management than oCELL which struggled from agent population overgrowth.
+\end_layout
+
+\begin_layout Paragraph
+Differentiable Architecture
+\end_layout
+
+\begin_layout Standard
+Unlike the discrete boundaries of the areas of expertise of agents in oCELL,
+ kCELL leverages RBF kernels to provide smooth and differentiable areas of expertise.
+ This property makes kCELL more suited than oCELL for integration into traditional optimization-based control frameworks like Model Predictive Control (MPC) with gradient-based optimizers.
+\end_layout
+
+\begin_layout Paragraph
+Refined Spatialization and Introspection
+\end_layout
+
+\begin_layout Standard
+kCELL retains the core intropsective properties of oCELL despite their design differences.
+ Those properties allow for in-depth studies of the system behavior as demonstrated in the previous section (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:kCELL-Adaptation-to-Non-Stationary"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+) through the study of kCELL's behavior in an online non-stationary modeling task.
+ Furthermore,
+ the smooth spatialization through RBF kernels seems to represent a better proxy for epistemic uncertainty compared to oCELL.
+ The experiments conducted in the previous section (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:kCELL-Adaptation-to-Non-Stationary"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+) showed a strong correlation between agent activation and prediction errors,
+ confirming that discarding the uniform knowledge assumption of oCELL was correct.
+ Indeed,
+ prediction errors are significantly slower near the center of agents kernels.
+\end_layout
+
+\begin_layout Paragraph
+Performance and Robustness
+\end_layout
+
+\begin_layout Standard
+kCELL exhibits competitive asymptotic performance with baseline state-of-the-art algorithms such as LWPR or Mondrian Forests in online learning with stationary dynamics while showing controlled agent population growth.
+ Moreover,
+ its ability to adapt to concept drift makes it a robust candidate for modeling the non-stationary dynamics inherent in Human-Robot Collaboration (HRC).
+\end_layout
+
+\begin_layout Paragraph
+Simplified Hyperparameterization
+\end_layout
+
+\begin_layout Standard
+One of the main limitation for oCELL applications was the number of hard-to-tune hyperparameters.
+ kCELL moved away from rigid error thresholds by introducing social feedbacks relative to a local group of close agents.
+ In kCELL,
+ the goal of agents is not to minimize their own prediction error but to maximize their positive contribution to a local group of agents.
+\end_layout
+
+\begin_layout Paragraph
+Limitations and Future Works
+\end_layout
+
+\begin_layout Standard
+Finally,
+ several limitations have been identified relative to kCELL or to the experiments conducted in this section:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Sensitivity to High-Dimensionality
+\series default
+:
+ As kCELL relies on Mahalanobis distance for agent spatialization,
+ it is highly sensitive to the number of dimensions of the input space.
+ As the number of dimensions increases,
+ the Mahalanobis distances stretch causing agents to become more and more isolated.
+ They become small relative to the input space,
+ which can prevent them from forming effective local neighborhood or to participate in local cooperation schemes.
+ This is a common issue of local learning approaches.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Out-of-Distribution (OoD) Predictions
+\series default
+:
+ While kCELL shows strong performance on test datasets,
+ the prediction mechanism for OoD inputs remains a concern.
+ In the stationary modeling experiment (cf.
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:kCELL-Online-Stationary-Modeling"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+) the prequential error was worse than baselines (LWPR and Mondrian Forest),
+ suggesting that the model's predictive behavior outside of the regions covered by training data requries further refinement.
+ Indeed,
+ LWPR shows a way better prequential error profiles despite the design similarities with kCELL.
+ This seems to indicate that the prediction mechanism of kCELL could be further improved.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Experimental Scope
+\series default
+:
+ The current validation of kCELL is limited.
+ The stationary experiments were conducted on a single dataset without an exhaustive hyperparameter search.
+ In addition to that the non-stationart experiments focused on only one type of concept drift.
+ Future works are needed to evluate kCELL on more diverse datasets and different drift types (e.g gradual dynamic change instead of sudden dynamic change).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Lack of Ablation Studies
+\series default
+:
+ While the combined leanring rules of kCELL show encouraging results,
+ a formal ablation study have not been conducted yet to quantify the individual impact of each learning rule.
+ Future works should prioritize these studies to identify the primary drivers of the model's performance and move from designed intuition from validated proofs.
+\end_layout
+
+\begin_layout Standard
+Through kCELL,
+ we have designed a differentiable,
+ introspective and adaptive learning algorithm that addresses some of the limitations of its predecessor.
+ Some limitations still remain to be addressed but promising research directions have been uncovered.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+The goal of this section is to summarize the works done on kCELL,
+ what were our contributions and what has been shown from the experiments.
+\end_layout
+
+\begin_layout Plain Layout
+We need to show what kCELL bring compared to oCELL and why it is interesting regarding Control:
+\end_layout
+
+\begin_layout Itemize
+kCELL pushes the social interactions further by introducing feedbacks relative a local collective of agents and socially grounded population management mechanism => agent compete for survival while cooperating locally
+\end_layout
+
+\begin_layout Itemize
+kCELL introduce differentiable architecture => for use with gradient based optimizers and more faithful data representations
+\end_layout
+
+\begin_layout Itemize
+kCELL retains properties of oCELL such as introspection properties => they allow for in-depth study of the behavior of the system as shown in the non-stationary experiment
+\end_layout
+
+\begin_layout Itemize
+kCELL spatialization of agents through smooth RBF kernels for activation functions is a better proxy for epistemic uncertainty than in oCELL => correlation between activation and prediction errors showed that discarding the uniform knowledge assumption was a good idea => less prediction errors are made on the center of agents.
+\end_layout
+
+\begin_layout Itemize
+kCELL has strong asymptotic perf for online learning with controller agent population growth
+\end_layout
+
+\begin_layout Itemize
+kCELL has non-stationary adaptation capabilities 
+\end_layout
+
+\begin_layout Plain Layout
+Then limitations must be mentionned such as:
+\end_layout
+
+\begin_layout Itemize
+sensitivity to high-dimensionality => mahalanobis distance is stretched in high dimensional input spaces => this pose spatialization problems in which agents are very small and are never neighbor for any point
+\end_layout
+
+\begin_layout Itemize
+the prediction mechanism for out of distribution points does not seem to be on point,
+ as shown in the stationary modeling experiment,
+ the prequential error was worse than the one of the baselines despite strong test performances
+\end_layout
+
+\begin_layout Itemize
+kCELL allowed to reduce the number of hyperparameters by discarding the need for thresholds on error that were hard to tune for oCELL
+\end_layout
+
+\begin_layout Itemize
+stationary experiment limited to one dataset and no exhaustive hyperparameter search has been conducted => could be interesting to validate those results with exhaustive hyperopt
+\end_layout
+
+\begin_layout Itemize
+non stationary experiment limited to one type of concept drift => could be interesting to extend these experiments to more types of concept drift
+\end_layout
+
+\begin_layout Itemize
+non stationary experiment
+\end_layout
+
+\begin_layout Itemize
+some other learning rules could be explored => we need validation of the individual impact of each rule through an ablation study,
+ which are works we did not do
+\end_layout
+
+\end_inset
+
+ 
 \end_layout
 
 \begin_layout Standard
@@ -31388,7 +32700,7 @@ Add comparison between oCELL and kCELL
 \end_layout
 
 \begin_layout Section
-Synthesis and Critical Analysis
+Synthesis and Conclusion
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Synthesis"
@@ -31396,6 +32708,89 @@ name "sec:Synthesis"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+This chapter has defined the theoretical and algorithmic foundations of the CELL formalism.
+ By detailing the iterative developemnt from the rigid spatialization of agents in oCELL to the smooth and differentiable,
+ kernel-based spatialization of agents in kCELL,
+ we demonstrated the modeling and adaptation capabilities of learning systems based on a self-organizing ensemble of local expert agents governed by social learning rules.
+\end_layout
+
+\begin_layout Standard
+Through the experiments presented in Sections 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:kCELL-Online-Stationary-Modeling"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:kCELL-Adaptation-to-Non-Stationary"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ it has been shown that kCELL effectively addresses the stability-plasticity dilemma in non-stationary ensembles through social population management strategies.
+ However,
+ the critical analysis presented in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:kCELL-Discussions-and-Limitations"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ highlighted significant remaining challenges,
+ particularly regarding the reliability of Out-of-Distribution (OoD) predictions and the curse of dimensionality.
+ Since kCELL is able to estimate when it does not know a point,
+ the OoD predictions problem can be addressed.
+ In high epistemic error regions of the input space,
+ fallback strategies can be used temporarily to allow the learning system to adapt.
+ Thus,
+ this makes the curse of dimensionality,
+ a limitation that is to be prioritized in terms of research directions.
+\end_layout
+
+\begin_layout Standard
+In Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Solving-Control-Tasks"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ of this thesis,
+ kCELL is integrated into a control pipeline and the use of its introspective properties to improve learning-based control are studied.
+ Then Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Scalable-Non-Linear-CELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ introduces prospective works on ways to mitigate the impact of high-dimensional spaces on CELL instantiations while exploring the model-agnosticity of CELL to produce more parsimonious models.
 \end_layout
 
 \begin_layout Chapter
@@ -31630,11 +33025,20 @@ literal "false"
 \end_inset
 
 ,
- require differentiable predictive models in order to compute local linearization of the dynamics and to handle hard constraints efficiently.
+ require a differentiable predictive model in order to compute local linearization of the dynamics and to handle hard constraints efficiently.
+ This enables superlinear convergence and makes real-time feasibility easier to reach compared to derivative-free methods (e.g CEM) which scale poorly with dimensionality and often fail under tight timing constraints 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nocedal2006numerical"
+literal "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
-kCELL must therefore comprise optimized implementations to enable fast batched inference and differentiable representations to support gradient-based control methods.
+kCELL must therefore comprise optimized implementations to enable fast batched inference and differentiable representations to support gradient-based non-linear optimization methods for control.
  Regarding computational efficiency,
  in kCELL,
  expert selection can be accelerated significantly through spatial indexing or parallel execution,
@@ -31811,7 +33215,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/kdtree_illustration.png
 	lyxscale 30
-	width 45col%
+	width 40col%
 
 \end_inset
 
@@ -31849,7 +33253,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/rtree_illustration.png
 	lyxscale 30
-	width 45col%
+	width 40col%
 
 \end_inset
 
@@ -32057,7 +33461,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/dynamic_reallocation_creation_destruction.png
 	lyxscale 30
-	width 70col%
+	width 60col%
 
 \end_inset
 
@@ -32115,10 +33519,7 @@ Agent creation then consists in assigning new agents data to the first index
 .
  If the agent population exceeds the predefined capacity,
  standard dynamic resizing strategies can be employed.
-\end_layout
-
-\begin_layout Standard
-Conversely,
+ Conversely,
  agent deletion sets 
 \begin_inset Formula $\mathcal{M}_{i}=0$
 \end_inset
@@ -32152,7 +33553,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/preallocated_memorpool_creation_destruction.png
 	lyxscale 30
-	width 70col%
+	width 60col%
 
 \end_inset
 
@@ -33740,7 +35141,7 @@ name "tab:Space-Coverage"
 
 
 \begin_inset Note Note
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Float table
@@ -34008,7 +35409,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/experiments/exploration/coverage_evolution_5k.png
 	lyxscale 30
-	width 70col%
+	width 60col%
 
 \end_inset
 
@@ -34114,7 +35515,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/experiments/exploration/coverage_heatmap_2x2_notitle_5k.png
 	lyxscale 15
-	width 95col%
+	width 80col%
 
 \end_inset
 
@@ -34285,7 +35686,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/experiments/exploration/activation_patterns_xy_notitle_5k.png
 	lyxscale 30
-	width 45col%
+	width 40col%
 
 \end_inset
 
@@ -34325,7 +35726,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/experiments/exploration/activation_patterns_angle_angular_velocity_5k_notitle.png
 	lyxscale 30
-	width 45col%
+	width 40col%
 
 \end_inset
 
@@ -34480,7 +35881,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/experiments/exploration/nb_agents_evolution_5k.png
 	lyxscale 30
-	width 70col%
+	width 60col%
 
 \end_inset
 
@@ -34570,7 +35971,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/experiments/exploration/RMSE_bar_no_title_5k.png
 	lyxscale 30
-	width 70col%
+	width 60col%
 
 \end_inset
 
@@ -34659,7 +36060,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/experiments/exploration/actions_KDE_5k.png
 	lyxscale 30
-	width 70col%
+	width 60col%
 
 \end_inset
 
@@ -35348,7 +36749,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/experiments/conservative/boxplot_mean_activation_vs_reg_coeff.png
 	lyxscale 30
-	width 70col%
+	width 60col%
 
 \end_inset
 
@@ -35483,7 +36884,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/experiments/conservative/boxplot_mean_absolute_error.png
 	lyxscale 30
-	width 70col%
+	width 60col%
 
 \end_inset
 
@@ -35604,7 +37005,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/experiments/conservative/mean_prediction_error_per_horizon_step.png
 	lyxscale 30
-	width 70col%
+	width 60col%
 
 \end_inset
 
@@ -35790,7 +37191,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/experiments/conservative/boxplot_cost.png
 	lyxscale 30
-	width 70col%
+	width 60col%
 
 \end_inset
 
@@ -35851,7 +37252,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/experiments/conservative/cost_diff_per_horizon_step.png
 	lyxscale 30
-	width 70col%
+	width 60col%
 
 \end_inset
 
@@ -35917,7 +37318,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/experiments/conservative/pareto_cost_vs_error.png
 	lyxscale 30
-	width 70col%
+	width 60col%
 
 \end_inset
 
@@ -35962,7 +37363,7 @@ x
 
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Discussion
 \end_layout
 
@@ -36050,7 +37451,7 @@ Overall,
  This approach is a little step further towards reliable (i.e safe) model-based control based on learned dynamics models.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Limitations
 \end_layout
 
@@ -36133,11 +37534,31 @@ Finally,
  The regularization reduces the likelihood of failure due to prediction errors by discouraging extrapolation but it does not prevent it entirely.
 \end_layout
 
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
 \begin_layout Section
 Towards Safe Explainable Control under Hard Constraints 
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Explainable-Control-(LQR)"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Synthesis and Conclusion
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Synthesis-and-Conclusion-Control"
 
 \end_inset
 
@@ -36667,16 +38088,1205 @@ name "chap:Industrial-use-Case"
 \end_layout
 
 \begin_layout Standard
-The enforcement of the EU General Safety Regulation has accelerated the adoption of Intelligent Speed Assistance (ISA) systems in new vehicles,
- emphasizing the need for reliable embedded speed recommendations.
- Unlike classical speed control approaches that are centered on vehicle dynamics modeling,
- speed recommendation requires reasoning that considers the driver in the loop,
- introducing behavioral variability and acceptance constraints.
- Designing deployable systems further demands attention to safety compliance,
- homologation requirements,
- robustness under sensor failure and potential impacts on energy consumption.
- In this chapter,
- we discuss these challenges and outline design principles for building speed recommendation systems suitable for real-world deployment and propose search directions to advance the field toward operational intelligent speed recommendation solutions.
+This thesis was rooted into a concrete industrial challenge:
+ the development of speed recommendation strategies to reduce road fatalities and environmental impact by advising drivers of an optimal speed profile they should comply to.
+ As established in Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Introduction"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ the speed recommendation problem could be abstracted as a Human-Robot Collaboration (HRC) problem.
+ This shift in perspective allowed to break down the speed recommendation problem into two sub-problems:
+ the accurate modeling of the vehicle future movements when driven by a human driver and the safe exploitation of this model to provide recommendations.
+ The relationship between HRC and Speed Recommendation is illustrated in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:HRC-Speed-Recommendation-Comparison"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/Comparison_Speed-Recommendation_HRC.pdf
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Illustration of the relationship between HRC and Speed Recommendation through the decomposition into 2 subproblems proposed in this thesis:
+ one modeling subproblem
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:HRC-Speed-Recommendation-Comparison"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the context of this thesis,
+ the proposed approach for speed recommendation,
+ is to consider it as a control problem that can be solved through Model Predictive Control (MPC) with a continuously learning model to account for the uncertainty and the potentially non-stationary behavior of the human driver (cf.
+ Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:State-of-the-Art"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+We introduced the CELL (Context Ensemble Local Learning) formalism and developed online learning algorithms based on ensembles of local expert agents self-organizing from social rules to continuously model the behavior of the vehicle driver by a human driver.
+ Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Context-Ensemble-Local"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ and Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Solving-Control-Tasks"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ demonstrated the capabilities of the developed algorithms in terms of modeling and integration into a control pipeline,
+ addressing the two sub-problems posed by speed recommendation as formulated in Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Introduction"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ Having layed out these theoretical and algorithmic foundations,
+ this chapter returns to the initial motivation of this thesis work:
+ speed recommendation.
+\end_layout
+
+\begin_layout Standard
+The goal of this chapter is to provide an industrial perspective on the progress of works towards safe and efficient intelligent speed recommendation systems and how the works of this thesis on HRC contributed to this progress.
+ While the preceding chapters established the promising aspect of the CELL instantiations,
+ real-world integration within the automotive sector requires addressing a broader set of requirements,
+ ranging from multi-objective optimization to certifiability.
+ We argue that the intrinsic properties of the CELL instantiations,
+ specifically the spatialized local knowledge representation through local expert agents and the introspection capabilities,
+ position this type of models as an interesting research topic for bridging the gap between personalized online learning and safety-critical industrial standards.
+\end_layout
+
+\begin_layout Standard
+The remainder of this chapter is structured as follows.
+ First Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Industrial-Requirements"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ identifies the industrial requirements for intelligent speed recommendation,
+ moving from basic systems that inform the driver about the current speed limit toward systems that pursue mutliple objectives,
+ balancing safety constraints,
+ efficiency and driver acceptance.
+ Then,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Proposed-Architecture"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ discusses the proposed architecture and justifies the reasons that make the combination of MPC and continuously learning models as being an appropriate technical choice to brige the gap between speed control and speed recommendation.
+ Next,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Towards-Personalized-Safe-Trustworthy-Speed-Recommendation"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ demonstrates how the works of this thesis are contributing to solve key industrial challenges.
+ Finally,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Synthesis-and-Conclusion-Industrial"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ concludes on the remaining challenges for real world deployment,
+ highlighting the needs for high-fidelity simulation and formal mathematical proofs for the long-term stability of the continuously learning predictive models.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+re-establish the Why by presenting history of ISA systems.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Speed recommendation was the initial motivation behind this thesis work,
+ this problem has been reformulated as a HRC problem in chapter 1,
+ where the speed recommendation problem is ultimately broken down into 2 subproblems:
+ driver modeling and model exploitation.
+ Then in chapter 2 the research gaps have been identified for those two subproblems and a promising function architecture based on MPC and an online learning algorithm have been proposed.
+ We decided to explore local online learning algorithms based on self-organizing ensemble of local expert agents for modeling driver + vehicle.
+ Chapter 3 demonstrate the capabilities of this approach for modeling then chapter 4 explores the applications in a control setting.
+ In Chapter 5 proposes discusses promising ideas to tackle limitations that still remains for the developed modeling approach.
+ In this chapter we come back on the initial motivation of this thesis work:
+ speed recommendation.
+ => [recontextualisation on speed recommendation going from first ISA systems to data fusion with digital maps to get legal speed limitations => more advanced optimization based approaches with offline planning etc...
+ => speed control take over for autonomous driving (few works on recommendation in comparison) => learning based approaches]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Enumerate
+[Industrial Requirements for Speed Recommendation Systems] What are the Industrial Requirements for Intelligent Speed Recommendation ?
+ => Begin by recalling that initially ISA systems were just supposed to inform the driver about the speed limit (as specified in the EU regulations it's the minimal requirement) => But in reality users do not drive at the maximum legal speed all the time depending on road conditions (e.g traffic,
+ weather,
+ ...) => With modern vehicle connectivity more data can be gathered in real time about the road conditions => Allow for more intelligent systems to advise drivers
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Multi-Objective Optimization => Need to provide an added value (ex:
+ optimize fuel consumption can be very profitable for both fleet managers and individuals) => but objectives can be conflicting with each others
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Reduction of Energy Consumption (
+\begin_inset Formula $\neq$
+\end_inset
+
+ for eletric vehicles and thermic vehicles)
+\end_layout
+
+\begin_layout Itemize
+Reduction of Travel Time
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Safety and Legal Guarantees => Need that recommendation be constrained by legal regulation and safety requirements
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Legal Regulations => Speed Limits
+\end_layout
+
+\begin_layout Itemize
+Safety => Distance to preceding vehicle,
+ speed in turns to avoid drifting,
+ speed in difficult weather conditions (eg.
+ to avoid aquaplanning in the rain or skidding on ice)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Driver Acceptance => driver can refuse,
+ delay or apply a speed recommendation => but user must keep authority on his vehicle (Overridability which justify recommendation)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Can be achieved through more or less invasive means => from indication on the vehicle dashboard to haptic resistance on the accelerator pedal
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Robustness to highly uncertain and diverse environments (even to the rarest events)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Many heterogeneous traffic participants (cars,
+ trucks,
+ pedestrians,
+ etc...) with hard-to-predict behavior
+\end_layout
+
+\begin_layout Itemize
+Drivers drive very differently in urban or rural environments,
+ when it rains or snow,
+ when there is a traffic jam or not,
+ etc...
+ => Not all driving contexts are equally frequent
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Certifiability => Definition:
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Certifiability for ADAS (Advanced Driver Assistance Systems) refers to the process of proving that these safety-critical systems meet rigorous regulatory,
+ safety,
+ and performance standards to gain formal approval for deployment in vehicles.
+ It ensures systems like automatic emergency braking or lane-keeping assist operate reliably without introducing undue risks.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Certifiability goes beyond basic testing by requiring comprehensive evidence of functional safety,
+ cybersecurity,
+ and intended functionality across diverse scenarios.
+ It addresses the complexity of ADAS,
+ where sensors,
+ AI algorithms,
+ and actuators interact in unpredictable real-world conditions,
+ demanding standards like ISO 26262 (functional safety) and ISO/PAS 21448 (SOTIF for safety of intended functionality).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Functional Safety
+\series default
+ (ISO 26262):
+ Systems must achieve Automotive Safety Integrity Levels (ASIL) through hazard analysis,
+ risk assessment (HARA),
+ and traceability from requirements to tests,
+ including hardware/software audits and fault-tolerant design.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Scenario Validation
+\series default
+:
+ Extensive testing in simulations,
+ hardware-in-the-loop (HIL),
+ closed tracks,
+ and real-world conditions covers operational design domains (ODDs),
+ edge cases,
+ corner cases,
+ and environmental stressors like fog or high traffic.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Performance and Compliance
+\series default
+:
+ Features must meet UN regulations (e.g.,
+ UN R171 for driver control assistance systems) with KPIs for metrics like time-to-collision,
+ braking profiles,
+ driver monitoring,
+ and human-machine interfaces.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Process and Lifecycle Audits
+\series default
+:
+ Parallel certification of development processes,
+ production conformity,
+ software updates (including OTA),
+ and end-of-life procedures,
+ with documentation for type approval authorities.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Enumerate
+[Proposed Architecture and Positioning] Why online learning MPC with CELL is the right technical choice ?
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Technical Gap Analysis => Taxonomy Table => Speed recommendation is way less studied than speed control (due to global industrial efforts to develop autonomous driving)
+\end_layout
+
+\begin_layout Itemize
+To bridge the gap between Speed Control and Speed Recommendation we argue in favor of the use of MPC architecture with a continuously learning predictive model of the driver + vehicle as a whole
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+[
+\series bold
+Multi-Objective Requirement
+\series default
+] Optimization-based control handles multi-objective requirement in a single cost function
+\end_layout
+
+\begin_layout Itemize
+[
+\series bold
+Safety Requirement
+\series default
+] Safety and legal constraints enforcement throught using appropriate solvers
+\end_layout
+
+\begin_layout Itemize
+[
+\series bold
+Certifiability
+\series default
+] => Need for worst-case execution times and known bounded computational complexity (ISO 26262) (need to ensure the solver finishes within deadlines on embedded hardware) => MPC allows the use of battle-tested solvers that are compliant with these requirements.
+\end_layout
+
+\begin_layout Itemize
+[
+\series bold
+Acceptability
+\series default
+] => In HRC need for the machine to include a model of the human it interacts with to better synergize => Assumption:
+ if the behavior of the driver is modeled,
+ then the recommendations given by the controller will be more easily accepted (because they take into account the behavior of the driver)
+\end_layout
+
+\begin_layout Itemize
+Online Learning allows for full personalization to the human driver at deployment time.
+ 
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Enumerate
+[Towards Personalized,
+ Safe and Trustworthy Intelligent Speed Recommendation Systems] How do the works of this thesis solve some of the requirements ?
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+[
+\series bold
+Safety
+\series default
+] Traditionally when using learned predictive models it's not sure that the model is reliable for OoD data => However our learning system is able to estimate epistemic uncertainty by leevraging the spatialization of local expert agents in input space,
+ making the system 
+\begin_inset Quotes eld
+\end_inset
+
+know when it does not know
+\begin_inset Quotes erd
+\end_inset
+
+ => which could allow for triggering the use of fallback simpler strategies when the model is not reliable => Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Solving-Control-Tasks"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ showed that the introspective properties of kCELL demonstrated in Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Context-Ensemble-Local"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ could be leveraged to improve the reliability of the predictions of the learned model.
+\end_layout
+
+\begin_layout Itemize
+[
+\series bold
+Certifiabilit
+\series default
+y] => In Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Solving-Control-Tasks"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ we demonstrate that kCELL can successfully be integrated with QP solvers like OSQP or qpAOSES in a MPC control loop => QP solvers offer strong guarantees in terms of bounded complexity and worst-case execution times.
+\end_layout
+
+\begin_layout Itemize
+[
+\series bold
+Certifiability
+\series default
+] => Continuously learning components violate core assumptions of standards like ISO 26262,
+ which requires fixed,
+ verifiable designs with full traceability from requirements to implementation.
+ Changes in model parameters (e.g.,
+ via gradient updates) can alter decision boundaries unpredictably,
+ risking regression in safety performance or emergence of new failure modes outside the original training distribution => in CELL systems forgetting of useful information is mitigated by Parameter Isolation => Parameter Isolation also provides Contextual Integrity => In an industrial ODD (Operational Design Domain),
+ a system should not apply "Highway behavior" in a "School Zone." => in kCELL the spatialization of local experts acts as a structural guardrail ensuring that the model used for recommendations is always the one learned in the relevant environment,
+ preventing dangerouse 
+\begin_inset Quotes eld
+\end_inset
+
+knowledge leaks
+\begin_inset Quotes erd
+\end_inset
+
+ between unrelated driving scenarios.
+\end_layout
+
+\begin_layout Itemize
+[
+\series bold
+Certifiability & Acceptability
+\series default
+] Transparency of the innerworkings of the predictive system to be able,
+ in the long run to justify the decisions of the controller => Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Context-Ensemble-Local"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ demonstrated that oCELL and kCELL exhibited introspective properties that could be linked to the traditional notions of explainability and interpretability.
+ Moreover,
+ when using white box models for agents the system can be considered as a white box.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+[Synthesis and Conclusion] What remains to be done for real-world deployment ?
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+[
+\series bold
+Certifiability
+\series default
+] Need for accurate simulation environments for the development process:
+ for pretraining (because online learning algos may take time to converge so a pretraining default model that will be able to adapt to the driver afterwards allow the system to work with minimal guarantees quickly) and validation (need to assess theoretical guarantees beforehand to validate the stability of the learning behavior on edge cases)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+hard to develop simulations for speed recommendation as it is almost mandatory to have a complex driver behavior models that mimicks the behavior of a human driver
+\end_layout
+
+\begin_layout Itemize
+much harder than building accurate fuel consumption models or accurate rigid body simulations even it's also important to bridge the gap between simulation and reality (Sim-to-Real Gap)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+[
+\series bold
+Safety
+\series default
+] => In Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Solving-Control-Tasks"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ we demonstrate that kCELL is differentiable and more importantly locally linearizable => can be integrated with QP solvers for local optimization like Sequential Quadratic Programming => ge
+\end_layout
+
+\begin_layout Itemize
+[
+\series bold
+Safety
+\series default
+] Still lack of mathematical proof for safety guarantees and hard constraints => introspective properties allow to increase the reliability of the model but this statement rely on empirical observations rather than mathematical proof
+\end_layout
+
+\begin_layout Itemize
+[
+\series bold
+Certifiability
+\series default
+] => Could be interesting to study Lyapunov-based formal certification for CELL systems to get guarantees about stability of optimization.
+ => In the thesis we went from unknown risk to measured risk and future directions are to target zero risk 
+\end_layout
+
+\begin_layout Itemize
+[
+\series bold
+Certifiability
+\series default
+] Certifiability remains a significantly harder challenge when including continuously learning components as in the proposed architecture => requirements that the learning stays bounded and has mathematical guarantees about convergence => which is lacking in the developed CELL systems such as oCELL and kCELL
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Runtime adaptation also conflicts with Safety of the Intended Functionality (SOTIF,
+ ISO/PAS 21448),
+ as known safe behaviors may degrade without retriggering full validation.
+ Regulatory bodies like UNECE demand evidence that learning stays within bounded operational design domains (ODDs),
+ preventing "concept drift" from real-world data
+\end_layout
+
+\begin_layout Itemize
+Our learning model is non-parametric => complexity hard to estimate in practice => depend on amount of data encountered => add uncertainty at this level
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+kCELL still struggles with higher dimensional inputs and it does not handle properly categorical inputs => In road contexts,
+ the input space can comprise continuous variables and categorical ones => currently kCELL only handles continuous variables => need to develop CELL instantations derived from kCELL that would be able to handle categorical variables properly
+\end_layout
+
+\begin_layout Itemize
+[
+\series bold
+Acceptance
+\series default
+] => our initial assumption about driver acceptance handling through online learning may be partially wrong if the model lacks some information about the driver to model his behavior => Could be interesting to add input variables related to driver state (tired,
+ angry,
+ etc...) to allow for better personalization.
+ => to summarize:
+ 
+\begin_inset Quotes eld
+\end_inset
+
+To achieve the next level of personalization,
+ the CELL agents should not only observe the vehicle's reaction but also the driver's internal state (tired,
+ stressed,
+ distracted)
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Industrial Requirements for Speed Recommendation Systems
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Industrial-Requirements"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The technical evolution of speed recommendation systems such as Intelligent Speed Assistance (ISA) has historically followed a trajectory from passive information retrieval to inform the driver about the current legal speed limit 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ehrlichLAVIAFrenchISA2003,driscollLaviaEvaluationPotential2007"
+literal "false"
+
+\end_inset
+
+ to active,
+ more intelligent recommendations.
+ Initially,
+ research and industrial efforts were primarily focused on the robust identification of legal speed limits leveraging digital maps and accurate GPS positioning 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bahlmannMultimodalSpeedLimit2008,danielFusingNavigationVision2014,danielMultilevelDempsterShaferSpeed2012"
+literal "false"
+
+\end_inset
+
+.
+ The primary goal was informational,
+ to ensure the driver is always aware of the current legal constraint.
+\end_layout
+
+\begin_layout Standard
+As ISA is becoming manatory due to EU regulations 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "etsc2017isa,etsc2018isa,eu2019regulation,eu2021delegated"
+literal "false"
+
+\end_inset
+
+,
+ modern vehicles are no longer isolated agents but connected entities capable of gathering and processing a large amount of real-time data regarding traffic density,
+ weather conditions or road surface quality,
+ etc...
+ This shift allows for a transition from static speed limit advisory to intelligent speed recommendation systems advising an optimal speed profile accounting for the dynamic complexity of the road context.
+\end_layout
+
+\begin_layout Standard
+As the industrial scope of speed recommendation expands,
+ the deployment of such intelligent systems in a commercial vehicle requires satisfying a rigorous set of requirements which are categorized in the remainder of this section.
+\end_layout
+
+\begin_layout Paragraph
+Multi-Objective Optimization
+\end_layout
+
+\begin_layout Standard
+Unlike purely advisory ISA systems,
+ intelligent speed recommendation acts as a high-level controller that must solve a multi-objective optimization problem.
+ The recommendation must provide a clear added value to the stakeholders (e.g fleet managers or individual drivers).
+ This requires the formulation of a cost function that negotiates between conflicting objectives.
+ Here are some examples:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Energy Efficiency
+\series default
+:
+ Minimizing fuel consumption for thermic vehicles or optimizing energy recovery through regenrative braking and discharge for eletric vehicles (EVs).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Temporal Efficiency
+\series default
+:
+ Reducing travel time while maintaining a smooth speed profile.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Driving Comfort
+\series default
+:
+ Avoiding aggressive longitudinal maneuvers that could degrade the passenger experience or increase the cognitive load of the driver.
+\end_layout
+
+\begin_layout Paragraph
+Safety And Legal Guarantees
+\end_layout
+
+\begin_layout Paragraph
+Driver Acceptance and Overridability
+\end_layout
+
+\begin_layout Paragraph
+Robustnes to Uncertainty and Heterogeneity
+\end_layout
+
+\begin_layout Paragraph
+Certifiability
+\end_layout
+
+\begin_layout Section
+Proposed Architecture
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Proposed-Architecture"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Towards Personalized,
+ Safe and Trustworthy Speed Recommendation
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Towards-Personalized-Safe-Trustworthy-Speed-Recommendation"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Synthesis and Conclusion
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Synthesis-and-Conclusion-Industrial"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+Plan of the Chapter
+\end_layout
+
+\begin_layout Enumerate
+Speed Recommendation => re-establish the Why by presenting history of ISA systems
+\end_layout
+
+\begin_layout Enumerate
+Simulation Requirements => provides a reflection about the necessity of using accurate simulator for pretraining and validation
+\end_layout
+
+\begin_layout Enumerate
+Speed Recommendation as HRC => details the architecture proposition of the thesis for tackling this type of problem with the challenges and core assumptions
+\end_layout
+
+\begin_layout Enumerate
+Towards Personalized,
+ Safety and Trustworthy Speed Recommendation => concretely map the challenges mentionned in previous section to the works of this thesis => the goal is to valorise the contributions in the industrial context
+\end_layout
+
+\begin_layout Enumerate
+Synthesis and Conclusion => close the loop on the industrial topic by exposing the works that have been done and what remains to be done => especially in terms of safety (hard constraint handling with more robust theoretical guarantees),
+ homologation (proovable stability,
+ etc...) and learning convergence guarantees (provable math guarantees is still a weak point of agent based bottom up design like ours)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+The goal of this chapter is to evaluate the requirements for developing a speed recommendation system that can be deployed in real-world conditions and how the work in this thesis contributes to this.
+ In this thesis the speed Recommendation Problem has been abstracted to a Human-Robot Collaboration (HRC) Problem.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Remainder of what is Intelligent Speed Assist (ISA),
+ its history,
+ the goals pursued by this type of ADAS system and finally what are the industrial requirements necessary to allow for real world deployment
+\end_layout
+
+\begin_layout Enumerate
+Solution Architecture envisaged in this thesis by framing the problem as a HRC problem => MPC with online learning predictive model
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+For HRC the controller must be able to anticipate human behaviors to better synergise with him.
+ In this thesis we chose to abstract the problem as a MPC,
+ considering learning a predictive model of the vehicle driven by the driver.
+ In this context,
+ the actuator of the system is the human (shared controllability).
+ So the goal is to influence the human decision as he is the one who influences the low level control and keeps the authority on his vehicle.
+ In this thesis work the following assumption is made:
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Acceptance will be greater if the predictive model takes into account the driving behavior of the driver than if not.
+\begin_inset Quotes erd
+\end_inset
+
+ => we tackle driver acceptance by not considering the problem as an autonomous driving problem but by considering the driver in the loop,
+ modeling his behavior.
+\end_layout
+
+\begin_layout Enumerate
+However,
+ large variety of human drivers.
+ Every profile is different.
+ So there is a need to adapt to each individual driver.
+ Solutions ?
+ either (1) a large fundational model that would be able to encapsulate every type of driver profile to then predict their behavior (it would necessitate to find the profile of the driver beforehand),
+ or (2) our solution with an online learning algorithm that continuously model the behavior of the driver => as the behavior can change,
+ there is a need to adapt to non-stationarities
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Need for accurate simulation environments for the development process for pretraining (because online learning algos may take time to converge so a pretraining default model that will be able to adapt to the driver afterwards allow the system to work with minimal guarantees quickly) and validation (need to assess theoretical guarantees beforehand to validate the stability of the learning behavior on edge cases)
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Sim-to-real gap problem
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+need for advanced driver models that would mimick human driving in some ways
+\end_layout
+
+\begin_layout Enumerate
+need for accurate vehicle models
+\end_layout
+
+\begin_layout Enumerate
+need for accurate traffic managers
+\end_layout
+
+\begin_layout Enumerate
+need for advanced fuel consumption models if energy efficiency is considered in the optimization problem
+\end_layout
+
+\begin_layout Enumerate
+Close to real simulated sensors = connected ehorizon,
+ high level object lists
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Variety of Driving Scenarios => various road profiles,
+ traffic conditions,
+ weather conditions
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Handling Driver Acceptance 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+=> our initial assumption about driver acceptance may be partially wrong especially if the model lacks some information about the driver to model him => Could be interesting to add input variables related to driver state (tired,
+ angry,
+ etc...) to allow for better personalization.
+\end_layout
+
+\begin_layout Enumerate
+Need for explainability to justify decisions of the algo
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Mutliobjective optimization
+\end_layout
+
+\begin_layout Enumerate
+Safety and Homologation
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Transparency of the system
+\end_layout
+
+\begin_layout Enumerate
+Justification of the 
+\end_layout
+
+\begin_layout Enumerate
+Fallback Strategies
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Discussion about Future Works from this thesis
+\end_layout
+
+\begin_layout Plain Layout
+link to State of the Art chapter => taxonomy classification for control and learning
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Section
+Industrial Context
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Industrial-Context"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+This doctoral research is conducted under a CIFRE funding in partnership with AUMOVIO,
+ a global supplier specialized in automotive engineering and mobility solutions.
+ AUMOVIO develops hardware,
+ software and systems to make mobility safe,
+ connected,
+ autonomous and more intelligent.
+ The strategic vision of the company is rooted in the Software-Defined Vehicle (SDV) philosophy.
+ By decoupling hardware and software development cycles,
+ the company aims to leverage its ecosystem of sensors,
+ including radar and vision systems to build more intelligent and adaptive Advanced Driver Assistance Systems (ADAS).
+\end_layout
+
+\begin_layout Plain Layout
+Speed management remains the most significant lever for improving road safety.
+ Excessive speed is a primary factor in serious accidents,
+ affecting both driver's reaction time and the physical limits of the vehicle's braking.
+ Research has consistently demonstrated a direct,
+ non-linear relationship between speed and fatality risk.
+ For instance,
+ empirical crash data suggests that the probability of a fatality in a collision grows exponentially with speed,
+ while the risk is about 10% at 40km/h,
+ it surges to over 80% at 80km/h 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hussain2019relationship"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+Despite these risks,
+ drivers often fail to maintain safe speeds due to environmental complexity,
+ missing signage or adverse weather conditions.
+ While passive safety systems such as airbags and seatbelts provide essential reactive protection,
+ they are often insufficient to preserve physical integrity during high-speed impacts,
+ making active speed management a priority for the automotive industry.
+\end_layout
+
+\begin_layout Plain Layout
+To address these challenges,
+ the European Transport Safety Council (ETSC) recommends the deployment of Intelligent Speed Assistance (ISA) (cf.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Illustration-of-ISA"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+ This system is designed to inform the drivers about legal speed limits and encourage compliance.
+ They argue that it has the potential to reduce road collisions by 30% and fatalities by 20% 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "etsc2017isa"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+Beyond safety,
+ speed management increasingly intersects with broader logistical and environmental goals,
+ such as reducing fuel consumption,
+ improving passenger comfort and optimizing estimated times of arrival.
+ This has led to significant regulatory changes:
+\end_layout
+
+\begin_layout Itemize
+As of July 6,
+ 2022:
+ The European Union mandated that all new vehicle types must be equipped with ISA.
+\end_layout
+
+\begin_layout Itemize
+As of July 7,
+ 2024:
+ This requirement was extended to all new vehicles sold within the EU market 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "eu2019regulation"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+A critical aspect of the current European regulation 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "eu2021delegated"
+literal "false"
+
+\end_inset
+
+ is the preservation of driver authority over the system.
+ The ISA system must be overridable (e.g through a maintained pressure on the accelerator) and allow for manual deactivation during a journey.
+ This ensures that the system acts as a collaborative assistant rather than an autonomous override.
+\end_layout
+
+\begin_layout Plain Layout
+For AUMOVIO,
+ this creates a significant engineering and scientific challenge to make the most out of this kind of systems.
+ The system must provide recommendations that are effective enough to ensure safety and efficiency,
+ yet intuitive enough to be accepted by a human driver who retains ultimate control.
+ As it is explored in subsequent sections,
+ the success of such systems depends on the ability of the developed system to adapt to the inherent non-stationarity of human behavior under various driving contexts.
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/etscISA.png
+	lyxscale 35
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Illustration of what is Intelligent Speed Assistance from the european safety council 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "etsc2018isa"
+literal "false"
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Illustration-of-ISA"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter
@@ -37461,18 +40071,6 @@ encoding "default"
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-
-\end_layout
-
-\begin_layout Standard
-
-\end_layout
-
-\begin_layout Standard
 
 \end_layout
 
