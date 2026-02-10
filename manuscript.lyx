@@ -118,6 +118,7 @@ algorithm2e
 \papersides 1
 \paperpagestyle default
 \tablestyle default
+\bullet 0 0 0 -1
 \tracking_changes false
 \output_changes false
 \change_bars false
@@ -37721,7 +37722,7 @@ To bypass the need for manual model selection while retaining the benefits of di
  By using the GPs ability to act as universal function approximators,
  the expressive power of each agent is not fixed,
  but emerges from its local training distribution.
- This approach not only allows agent to naturally adapt to varying local data complexities but also introduces an estimation of predictive uncertainty that is complexmentary to the epistemic uncertainty derived from the ensemble of local expert agents spatial organization (cf.
+ This approach not only allows agent to naturally adapt to varying local data complexities but also introduces an estimation of predictive uncertainty that is complementary to the epistemic uncertainty derived from the ensemble of local expert agents spatial organization (cf.
  Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -37737,11 +37738,325 @@ nolink "false"
 \end_layout
 
 \begin_layout Section
-Gaussian Processes
+Gaussian Process Regression
+\end_layout
+
+\begin_layout Standard
+Gaussian Process Regression (GPR) is a Bayesian non-parametric framework used for supervised learning.
+ Unlike traditional regression models that estimate fixed parameters for a specific function,
+ GPR provides a 
+\series bold
+probabilistic distribution over possible functions
+\series default
+ that are plausible regarding the observed data.
+\end_layout
+
+\begin_layout Standard
+GPR is widely used for modeling complex stochastic phenomena where uncertainty quantification is as critical as the prediction itself,
+ such as in signal processing 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "perez2013gaussian"
+literal "false"
+
+\end_inset
+
+,
+ in financial modeling 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gonzalvez2019financial"
+literal "false"
+
+\end_inset
+
+ or in dynamics modeling for safe control 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "berkenkamp2015safe"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+One of the main advantages of Gaussian Processes (GPs) is that,
+ with an appropriate choice of kernel (e.g.
+ RBF kernel),
+ they can represent arbitrarily complex continuous functions 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "williams2006gaussian"
+literal "false"
+
+\end_inset
+
+,
+ capturing any variation regime from highly irregular trajectories to smooth differentiable paths.
+\end_layout
+
+\begin_layout Standard
+In GPR,
+ the underlying function 
+\begin_inset Formula $f\left(x\right)$
+\end_inset
+
+ is assumed to follow a GP prior,
+ defined by a function 
+\begin_inset Formula $m\left(x\right)$
+\end_inset
+
+ (often assumed to be 
+\begin_inset Formula $0$
+\end_inset
+
+ or constant) and a covariance kernel 
+\begin_inset Formula $K\left(x,x^{\prime}\right)$
+\end_inset
+
+ such as:
+ 
+\begin_inset Formula 
+\[
+f\left(x\right)\sim\mathcal{GP}\left(m\left(x\right),K\left(x,x^{\prime}\right)\right)
+\]
+
+\end_inset
+
+For a supervised learning task with training inputs 
+\begin_inset Formula $X\in\mathbb{R}^{N\times d}$
+\end_inset
+
+ and noisy observations 
+\begin_inset Formula $y\in\mathbb{R}^{N}$
+\end_inset
+
+,
+ assuming a zero mean prior,
+ the joint distribution of the training data and the prediction 
+\begin_inset Formula $f\left(x_{*}\right)$
+\end_inset
+
+ at a new test point 
+\begin_inset Formula $x_{*}\in\mathbb{R}^{d}$
+\end_inset
+
+,
+ is a multivariate Gaussian vector:
+\begin_inset Formula 
+\[
+\left(\begin{array}{c}
+y\\
+f\left(x_{*}\right)
+\end{array}\right)\sim\mathcal{N}\left(0,\left(\begin{array}{cc}
+K\left(X,X\right)+\sigma_{N}^{2}I & K\left(X,x_{*}\right)\\
+K\left(x_{*},X\right) & K\left(x_{*},x_{*}\right)
+\end{array}\right)\right)
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\sigma_{N}^{2}$
+\end_inset
+
+ represents the observation noise variance.
+ The prediction is performed by conditioning this joint distribution on the observed data 
+\begin_inset Formula $y$
+\end_inset
+
+,
+ resulting in a posterior distribution for 
+\begin_inset Formula $f\left(x_{*}\right)$
+\end_inset
+
+ defined by:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Predictive Mean
+\series default
+:
+ 
+\begin_inset Formula 
+\[
+\mu_{*}=K\left(x_{*},X\right)\left[K\left(X,X\right)+\sigma_{N}^{2}I\right]^{-1}y
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Predictive Variance
+\series default
+:
+ 
+\begin_inset Formula 
+\[
+\sigma_{*}^{2}=K\left(x_{*},x_{*}\right)-K\left(x_{*},X\right)\left[K\left(X,X\right)+\sigma_{N}^{2}I\right]^{-1}K\left(X,x_{*}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Learning in GPR does not involve finding specific weights but rather 
+\series bold
+optimizing the hyperparameters
+\series default
+ of the kernel 
+\begin_inset Formula $K$
+\end_inset
+
+.
+ This is usually achieved by maximizing the 
+\series bold
+log marginal likelihood
+\series default
+,
+ which balances the model's fit to the training data against its complexity.
+\end_layout
+
+\begin_layout Standard
+Despite their flexibility,
+ GPs have significant constraints:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Computational Complexity
+\series default
+:
+ The inversion of the covariance matrix 
+\begin_inset Formula $\left[K\left(X,X\right)+\sigma_{N}^{2}I\right]$
+\end_inset
+
+ has a complexity in 
+\begin_inset Formula $O\left(N^{3}\right)$
+\end_inset
+
+ with the number 
+\begin_inset Formula $N$
+\end_inset
+
+ of training data which is impractical for large datasets and for online learning.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Memory Usage
+\series default
+:
+ Storing the covariance matrix requires 
+\begin_inset Formula $O\left(N^{2}\right)$
+\end_inset
+
+ space,
+ making GPR hard to scale to large datasets without using approximation methods (like Sparse Gaussian Processes 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bauer2016understanding"
+literal "false"
+
+\end_inset
+
+).
 \end_layout
 
 \begin_layout Section
 Local Expert Agents
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+GPs do not scale well => in this work we propose horizontal scaling by using GPs inside the local expert agents => many small GPs instead of one big GP
+\end_layout
+
+\begin_layout Itemize
+same spatialization as kCELL with RBF kernels for activation functions 
+\begin_inset Formula $\phi_{i}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+use of GP as internal models 
+\begin_inset Formula $f_{i}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+in 
+\begin_inset Formula $\mathcal{\mathcal{M}}_{i}$
+\end_inset
+
+ => stores confidence value 
+\begin_inset Formula $\bar{C}_{\mathcal{A}_{i}}$
+\end_inset
+
+ and a memory of points used to build the internal GP model
+\end_layout
+
+\begin_layout Itemize
+UPDATE MODEL:
+ Models updated by chosing to ignore the 
+\begin_inset Formula $x_{new}$
+\end_inset
+
+,
+ to swap 
+\begin_inset Formula $x_{new}$
+\end_inset
+
+ with a point of the memory or to add 
+\begin_inset Formula $x_{new}$
+\end_inset
+
+ to the memory.
+ For this it evaluates the cost of each configuration:
+ nominal (ignore 
+\begin_inset Formula $x_{new}$
+\end_inset
+
+),
+ swap with a given point 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+ from the memory,
+ add to the memory.
+ Then the action that leads to the minimal cost is chosen.
+ => the cost function used to evaluate the configurations is the AIC (Akaike Information Criterion) with the log likelihood associated with the configuration and the number of points in memory as the number of parameters.
+ => This way each local expert agent handles its own memory following a tradeoff between complexity and accuracy => to summarize,
+ each local expert agent performs a model selection at each update step
+\end_layout
+
+\begin_layout Itemize
+UPDATE SHAPE:
+ same as kCELL
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -37750,6 +38065,27 @@ Learning Rules
 
 \begin_layout Section
 Online Stationary Modeling 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Implementation Details:
+\end_layout
+
+\begin_layout Itemize
+The process of evaluating every swap configuration for each update can be costly with a large number of features and points in memory (even for small GPs) as it necessitates fitting as much GPs as the number of points in the memory => so for practical reasons,
+ in the implementation presented in next section,
+ the following heuristic is used:
+ only the swap with closest point configuration is evaluated.
+ 
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -39006,10 +39342,7 @@ literal "false"
  weather conditions or road surface quality,
  etc...
  This shift allows for a transition from static speed limit advisory to intelligent speed recommendation systems advising an optimal speed profile accounting for the dynamic complexity of the road context.
-\end_layout
-
-\begin_layout Standard
-As the industrial scope of speed recommendation expands,
+ As the industrial scope of speed recommendation expands,
  the deployment of such intelligent systems in a commercial vehicle requires satisfying a rigorous set of requirements which are categorized in the remainder of this section.
 \end_layout
 
@@ -39031,7 +39364,7 @@ Unlike purely advisory ISA systems,
 Energy Efficiency
 \series default
 :
- Minimizing fuel consumption for thermic vehicles or optimizing energy recovery through regenrative braking and discharge for eletric vehicles (EVs).
+ Minimizing fuel consumption for thermic vehicles or optimizing energy recovery through regenerative braking and discharge for eletric vehicles (EVs).
 \end_layout
 
 \begin_layout Itemize
@@ -39097,7 +39430,19 @@ literal "false"
 ,
  the human remains the final authority over the recommendation system.
  Furthermore,
- as speed recommendation can be formulated as a HRC problem,
+ as speed recommendation can be formulated as a HRC problem (cf.
+ Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Introduction"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+),
  driver acceptance is a major factor determining the efficiency of the recommendation system.
 \end_layout
 
@@ -39109,7 +39454,7 @@ Overridability
 :
  As the driver maintains full authority on his vehicle,
  the speed is recommended and not enforced.
- This makes the speed recommendation problem so different from the speed control problem in autonomous driving.
+ This differentiate the speed recommendation problem from the speed control problem in autonomous driving.
  The driver should be able to refuse,
  delay or accept the suggested speed recommendation at any time.
 \end_layout
@@ -39120,8 +39465,16 @@ Overridability
 Acceptance
 \series default
 :
- Acceptance is influence by how the recommendation is calculated and how it is communuicated to the driver.
- This can be achieved through more or less invasive Human-Machine Interfaces (HMI) ranging from passive visual indications on the vehicle dashboard to active haptic resistances on the accelerator pedal.
+ Acceptance is influenced by how the recommendation is calculated and how it is communuicated to the driver.
+ This can be achieved through more or less invasive Human-Machine Interfaces (HMI) ranging from passive visual indications on the vehicle dashboard to active haptic resistances on the accelerator pedal 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zhaoHowDoesMural2022,ehrlichLAVIAFrenchISA2003"
+literal "false"
+
+\end_inset
+
+.
  Therefore,
  the objective is to recommend a plausible speed set point and to communicate it in the best possible way to the driver.
 \end_layout
@@ -39166,7 +39519,8 @@ Certifiability
 \end_layout
 
 \begin_layout Standard
-In an industrial context certifiability can be defined as following:
+In an industrial context,
+ certifiability can be defined as following:
 \end_layout
 
 \begin_layout Definition
@@ -39200,8 +39554,16 @@ literal "false"
 \series bold
 Safety of the Intended Functionality
 \series default
- (SOTIF - ISO/PAS 21448):
- This addresses the complexity of ADAS where sensors and AI algorithms must interact reliably in unpredictable real-world conditions.
+ (SOTIF - ISO/PAS 21448 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ISO21448-2022"
+literal "false"
+
+\end_inset
+
+):
+ This addresses the complexity of ADAS where sensors and algorithms must interact reliably in unpredictable real-world conditions.
 \end_layout
 
 \begin_layout Itemize
@@ -39290,7 +39652,7 @@ nolink "false"
 ,
  a core distinction must be made between speed control and speed recommendation.
  In the context of autonomous driving,
- speed control aim at replacing the human driver,
+ speed control aims at replacing the human driver,
  operating in a closed-loop where the system possesses direct authority over the vehicle's actuators such as the accelerator and brake pedals.
  Conversely,
  in speed recommendation,
@@ -39390,6 +39752,42 @@ nolink "false"
 
  does not include any online learning method as the ones presented in this thesis,
  that are learning continuously a model of the environment.
+\end_layout
+
+\begin_layout Standard
+As shown in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Paper-Classification-Speed-Recommendation-Strategies"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ there is a clear absence of research works exploring the combination between Online Learning approaches and MPC.
+ Furthermore,
+ Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Paper-Classification-Speed-Recommendation-Learning"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ reveals that the majority of research relies on global parametric models with no existing works,
+ to our knowledge,
+ about using a 
+\series bold
+continuously learning,
+ local non-parametric approaches
+\series default
+ to model the dynamics of the driving context.
 \end_layout
 
 \begin_layout Standard
@@ -39992,42 +40390,6 @@ name "tab:Paper-Classification-Speed-Recommendation-Learning"
 \end_layout
 
 \begin_layout Standard
-As illustrated in Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:Paper-Classification-Speed-Recommendation-Strategies"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-,
- there is a clear absence of research works exploring the combination between Online Learning approaches and MPC.
- Furthermore,
- Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:Paper-Classification-Speed-Recommendation-Learning"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- reveals that the majority of research relies on global parametric models with no existing works,
- to our knowledge,
- about using a 
-\series bold
-continuously learning,
- local non-parametric approaches
-\series default
- to model the dynamics of the driving context.
-\end_layout
-
-\begin_layout Standard
 To bridge this gap,
  we argue in favor of an architecture that leverages 
 \series bold
@@ -40118,7 +40480,8 @@ to obtain the optimal speed recommendation
 \emph on
 driver
 \emph default
- who acts on the vehicle through the brake and accelerator pedal.
+ who acts on the vehicle through gear shifts,
+ the brake and accelerator pedal.
  The initial state 
 \begin_inset Formula $s_{t}$
 \end_inset
