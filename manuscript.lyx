@@ -37566,7 +37566,7 @@ name "sec:Synthesis-and-Conclusion-Control"
 \end_layout
 
 \begin_layout Chapter
-Scalable Non-Linear CELL
+Heterogeneous Non-Linear CELL
 \begin_inset CommandInset label
 LatexCommand label
 name "chap:Scalable-Non-Linear-CELL"
@@ -37577,6 +37577,186 @@ name "chap:Scalable-Non-Linear-CELL"
 \end_layout
 
 \begin_layout Standard
+In the previous chapters,
+ the CELL (Context Ensemble Local Learning) formalism has been established as a robust framework for designing online learning algorithms.
+ Specifically Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Scalable-Non-Linear-CELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ introduced the first instantiations of this formalism and demonstrated their ability to maintain a stable and informative spatialized representation of knowledge.
+ Building upon these foundations,
+ Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Solving-Control-Tasks"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ focused on the integration of these learning models into a Model Predictive Control (MPC) pipeline.
+ This integration highlighted how the introspective properties emerging from the structural transparency of the ensemble of local expert agents,
+ could be used to improve the reliability of the predictive model in an optimization-based control problem,
+ or to guide exploration in an unknown environment.
+\end_layout
+
+\begin_layout Standard
+This chapter moves away from control applications and gets back to the underlying predictive model layer to explore a core property of the CELL formalism:
+ 
+\series bold
+model-agnosticity
+\series default
+.
+ Because the spatial organization and local learning layers are decoupled,
+ the agents within an ensemble can theoretically use a wide range of model classes.
+ Exploiting this modularity allows for the design of heterogeneous populations.
+ In this context,
+ we define an 
+\series bold
+Heterogeneous ensemble of local expert agents
+\series default
+,
+ as a population of agents where the internal representational capacities are not uniform across the input space,
+ but instead adapts to the local complexity of the local training distribution (as illustrated in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Illustration-Heterogeneous"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/Heterogeneous_Agents.pdf
+	lyxscale 50
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Illustration of an Heterogeneous ensemble of local expert agents.
+ The
+\emph on
+ blue
+\emph default
+ 
+\emph on
+rectangles
+\emph default
+ correspond to the areas of expertise of local expert agents.
+ Each agent have a different type of internal models (
+\begin_inset Formula $f_{1},\,f_{2},\,f_{3}$
+\end_inset
+
+),
+ as illustrated by the 3 plots on top of the diagram.
+ The 
+\emph on
+red dots
+\emph default
+ correspond to the local training points used for training.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Illustration-Heterogeneous"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Traditionally,
+ in multiagent systems,
+ heterogeneity refers to a mixture of disting agent classes.
+ For example,
+ some agents would employ simple linear regressions while others would use high-order polynomials or neural networks.
+ Such approach offers theoretical flexibility but introduces a significant meta-learning challenge as the system must decide a priori or through complex heuristics which model type is best suited for a specific locality.
+\end_layout
+
+\begin_layout Standard
+To bypass the need for manual model selection while retaining the benefits of diverse local knowledge representation,
+ we propose a novel instantiation of CELL leveraging Gaussian Processes (GPs) as the internal model for each agent:
+ gpCELL.
+ By using the GPs ability to act as universal function approximators,
+ the expressive power of each agent is not fixed,
+ but emerges from its local training distribution.
+ This approach not only allows agent to naturally adapt to varying local data complexities but also introduces an estimation of predictive uncertainty that is complexmentary to the epistemic uncertainty derived from the ensemble of local expert agents spatial organization (cf.
+ Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Context-Ensemble-Local"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Section
+Gaussian Processes
+\end_layout
+
+\begin_layout Section
+Local Expert Agents
+\end_layout
+
+\begin_layout Section
+Learning Rules
+\end_layout
+
+\begin_layout Section
+Online Stationary Modeling 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
 In chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -37620,7 +37800,7 @@ A justifier avec une petite xp à la fin du chapitre 3
 .
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Indeed,
  when the number of features increases,
  it is much rarer for an agent to be considered a neighbor of a new point.
@@ -37688,7 +37868,7 @@ we demonstrate the performances and sample efficiency of SGP-CELL compared to a 
 Related Works
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Gaussian Processes (GP) are non-parametric Bayesian approaches to solve regression tasks while modeling uncertainty in predictions.
  GPs have been successful in robotics to model inverse or forward dynamics of a system to solve safe non linear control problems 
 \begin_inset Note Comment
@@ -37731,7 +37911,7 @@ literal "false"
  This makes GPs no able to handle large datasets.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Approximation methods like Sparse Gaussian Processes (SGP) alleviate this scaling issue.
  Instead of using the whole training dataset to build the model,
  a set of 
@@ -37758,7 +37938,7 @@ literal "false"
 .
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Other works have extended SGP with Variational Inference to further enhance scalability with stochastic minibatch optimization to handle large datasets,
  improve generalization and reduce overfitting 
 \begin_inset CommandInset citation
@@ -37771,7 +37951,7 @@ literal "false"
 .
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 For
 \end_layout
 
@@ -37803,7 +37983,7 @@ Experiments
 Practical Design Guidelines
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Note Comment
 status open
 
@@ -37816,13 +37996,13 @@ Add formalism for the whole CELL family
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Based on our experience designing our multiagent systems based on context agents for supervised learning,
  we present in this section comprehensive overview of common obstacles that must be overcome for such a system to work properly,
  allowing the emergence of learning.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Float table
 placement document
 alignment document
@@ -38073,6 +38253,11 @@ kCELL features
 
 \begin_layout Section
 Conclusion and limitations
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter
@@ -38329,7 +38514,7 @@ Speed recommendation was the initial motivation behind this thesis work,
 
 \begin_layout Standard
 \begin_inset Note Note
-status open
+status collapsed
 
 \begin_layout Enumerate
 [Industrial Requirements for Speed Recommendation Systems] What are the Industrial Requirements for Intelligent Speed Recommendation ?
@@ -39141,7 +39326,709 @@ robot
 human
 \emph default
  side required for effective recommendation.
- To bridge this gap,
+\end_layout
+
+\begin_layout Standard
+To highlight the specific research gap of the literature about speed control and recommendation,
+ we re-evaluate the body of literature introduced in Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Introduction"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ by applying the technical taxonomies established in Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:State-of-the-Art"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ This classification allows us to visualize the current state of the art regarding control and recommendation strategies (in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Paper-Classification-Speed-Recommendation-Strategies"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+),
+ and predictive modeling through learning approaches (in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Paper-Classification-Speed-Recommendation-Learning"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+ It should be specified that Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Paper-Classification-Speed-Recommendation-Learning"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ does not include any online learning method as the ones presented in this thesis,
+ that are learning continuously a model of the environment.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="middle" width="25col%">
+<column alignment="center" valignment="middle" width="40col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Families
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Papers
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Classic ISA
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+\begin_inset CommandInset citation
+LatexCommand cite
+key "malaterreCONTRIBUTIONLANALYSECONTROLE1984,ehrlichLAVIAFrenchISA2003,driscollLaviaEvaluationPotential2007,bahlmannMultimodalSpeedLimit2008,danielFusingNavigationVision2014,danielMultilevelDempsterShaferSpeed2012,taDevelopmentDynamicIntelligent2012"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Advanced ISA
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hazoorDevelopmentNovelIntelligent2021,jinEnergyoptimalSpeedControl2023,jimenezRealtimeSpeedProfile2013,kolmanovskyTerrainTrafficOptimized2010,mahlerCellularCommunicationTraffic2017,alsabaanOptimizationFuelCost2013,gamezsernaDynamicSpeedAdaptation2017,devosEffectivenessIntelligentSpeed2023,asadiPredictiveCruiseControl2010,saitoContextawareDriverModel2021,sunDDPGBasedDecisionMakingStrategy2020,wuCombinedConnectedVehicles2020,galanisEnvironmentalBasedSpeedRecommendation2019,messaoudiAgentbasedIntervehicleCooperative2018,ozatayVelocityProfileOptimization2017,ozatayCloudBasedVelocityProfile2014,matsumotoEvaluationProvidingRecommended2014,zhaoOntologyBasedIntelligentSpeed2015,maganaDesignSpeedAssistant2017"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Reactive Feedback Laws
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hazoorDevelopmentNovelIntelligent2021,bautista-montesanoLongitudinalControlStrategy2023,abdelghaffarDevelopmentConnectedVehicle2020,devosEffectivenessIntelligentSpeed2023,wuCombinedConnectedVehicles2020"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Optimal Control
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ozatayCloudBasedVelocityProfile2014,jinEnergyoptimalSpeedControl2023,sunOptimalEcoDrivingControl2020,jimenezRealtimeSpeedProfile2013,kolmanovskyTerrainTrafficOptimized2010,ghiasiMixedTrafficSpeed2019,jinPowerBasedOptimalLongitudinal2016,alsabaanOptimizationFuelCost2013,malikopoulosOptimalControlSpeed2018,messaoudiAgentbasedIntervehicleCooperative2018,guoEnergyManagementHEVs2019,shenFuelOptimalPeriodicControl2018,ozatayAnalyticalSolutionMinimum2014,ozatayVelocityProfileOptimization2017"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+MPC
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kamalModelPredictiveControl2012,maEcodriveExperimentRolling2019,hanSafeEcoDrivingControl2018"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Model-Free RL
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+\begin_inset CommandInset citation
+LatexCommand cite
+key "sunDDPGBasedDecisionMakingStrategy2020,chenSafeEfficientComfortable2023,qinHighAccuracyHighEfficiencyComfortable2023,wegenerAutomatedEcodrivingUrban2021,liDeepReinforcementLearning2022,liuLongitudinalControlConnected2023,zhuHumanlikeAutonomousCarfollowing2018,zhangHumanlikeAutonomousVehicle2018,zhuAccountingDynamicSpeed2014,zhuSafeEfficientComfortable2020,duComfortableEnergyefficientSpeed2022,xuHierarchicalSpeedControl2022,desjardinsCooperativeAdaptiveCruise2011,naveenDistributionalReinforcementLearning2022,jiangReinforcementLearningBased2022"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Model-Based RL
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+\begin_inset CommandInset citation
+LatexCommand cite
+key "leeEnergyEfficientSpeed2022,leeModelBasedReinforcementLearning2020"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Online Learning MPC
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+\begin_inset Formula $\varnothing$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset space \space{}
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Classification of papers obtained by conducting a review of literature on speed control and recommendation into different families,
+ each corresponding to a type of strategy.
+ It mirrors the structure of Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Summary-of-Control-Architecture"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ with two additional families,
+ 
+\emph on
+Classic ISA
+\emph default
+ and 
+\emph on
+Advanced ISA
+\emph default
+,
+ to be able to include the Intelligent Speed Assist (ISA) systems that consider the human in the loop.
+ 
+\emph on
+Classic ISA
+\emph default
+ corresponds to ISA systems that inform the driver about hte current speed limit,
+ while 
+\emph on
+Advanced ISA
+\emph default
+ includes systems that consider additional objectives like fuel consumption minimization or comfort.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Paper-Classification-Speed-Recommendation-Strategies"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="middle" width="25col%">
+<column alignment="center" valignment="middle" width="40col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Families
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Papers
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Global Parametric
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+\begin_inset CommandInset citation
+LatexCommand cite
+key "maganaDesignSpeedAssistant2017,leeModelBasedReinforcementLearning2020,chenSafeEfficientComfortable2023,qinHighAccuracyHighEfficiencyComfortable2023,leeEnergyEfficientSpeed2022,wegenerAutomatedEcodrivingUrban2021,liDeepReinforcementLearning2022,liuLongitudinalControlConnected2023,zhuHumanlikeAutonomousCarfollowing2018,zhangHumanlikeAutonomousVehicle2018,kolmanovskyTerrainTrafficOptimized2010,maEcodriveExperimentRolling2019,zhuSafeEfficientComfortable2020,mahlerCellularCommunicationTraffic2017,jinPowerBasedOptimalLongitudinal2016,duComfortableEnergyefficientSpeed2022,xuHierarchicalSpeedControl2022,desjardinsCooperativeAdaptiveCruise2011,naveenDistributionalReinforcementLearning2022,jiangReinforcementLearningBased2022,saitoContextawareDriverModel2021,sunDDPGBasedDecisionMakingStrategy2020,shenFuelOptimalPeriodicControl2018,ozatayAnalyticalSolutionMinimum2014,ozatayVelocityProfileOptimization2017,ozatayCloudBasedVelocityProfile2014,kamalModelPredictiveControl2012"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Global Non-Parametric
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+\begin_inset CommandInset citation
+LatexCommand cite
+key "sunOptimalEcoDrivingControl2020"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Global Tree-based
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+\begin_inset CommandInset citation
+LatexCommand cite
+key "galanisEnvironmentalBasedSpeedRecommendation2019"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Local Non-Parametric Lazy
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+\begin_inset Formula $\varnothing$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Local Non-Parametric
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hanSafeEcoDrivingControl2018,bautista-montesanoLongitudinalControlStrategy2023,jinEnergyoptimalSpeedControl2023,jimenezRealtimeSpeedProfile2013"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Local Multi-Agent Systems
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+\begin_inset CommandInset citation
+LatexCommand cite
+key "messaoudiAgentbasedIntervehicleCooperative2018,asadiPredictiveCruiseControl2010"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Classification of papers obtained by conducting a review of literature on speed control and recommendation into different families each corresponding to a learning approach used to build predictive models.
+ It mirrors the structure of Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Comparison-of-Online-Learning-Architectures"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ that presents a classification of various types of learning models.
+ Here,
+ online learning is not considered specifically,
+ we apply the classification to all encountered learning methods.
+ None of the papers found describe an approach dependent on a continuously learning predictive model as presented in this thesis.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Paper-Classification-Speed-Recommendation-Learning"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As illustrated in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Paper-Classification-Speed-Recommendation-Strategies"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ there is a clear absence of research works exploring the combination between Online Learning approaches and MPC.
+ Furthermore,
+ Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Paper-Classification-Speed-Recommendation-Learning"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ reveals that the majority of research relies on global parametric models with no existing works,
+ to our knowledge,
+ about using a 
+\series bold
+continuously learning,
+ local non-parametric approaches
+\series default
+ to model the dynamics of the driving context.
+\end_layout
+
+\begin_layout Standard
+To bridge this gap,
  we argue in favor of an architecture that leverages 
 \series bold
 Model Predictive Control (MPC)
@@ -39163,7 +40050,128 @@ nolink "false"
 
 \end_inset
 
-).
+) as illustrated in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Proposed-Speed-Recommendation-Architecture"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/Speed_Recommendation_Architecture.pdf
+	width 70line%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Architecture diagram of the proposed architecture for speed recommendation.
+ The 
+\emph on
+Speed Recommendation System
+\emph default
+ follows a MPC architecture.
+ It includes the 
+\emph on
+optimizer
+\emph default
+ that exploits the predictions from a 
+\emph on
+CELL predictive model 
+\emph default
+to obtain the optimal speed recommendation 
+\begin_inset Formula $v_{t}^{*}$
+\end_inset
+
+ from an initial state 
+\begin_inset Formula $s_{t}$
+\end_inset
+
+.
+ The speed recommendation set point 
+\begin_inset Formula $v_{t}$
+\end_inset
+
+ is then transmitted to the 
+\emph on
+driver
+\emph default
+ who acts on the vehicle through the brake and accelerator pedal.
+ The initial state 
+\begin_inset Formula $s_{t}$
+\end_inset
+
+ is built from the state of the vehicle 
+\begin_inset Formula $s_{\text{vehicle}}$
+\end_inset
+
+ and from the driving context 
+\begin_inset Formula $s_{\text{context}}$
+\end_inset
+
+ such as 
+\begin_inset Formula $s_{t}=\left[s_{\text{context}},\,s_{\text{vehicle}}\right]$
+\end_inset
+
+.
+ The 
+\emph on
+CELL predictive model
+\emph default
+ is continuously learning from the successive states.
+ It collects the triplets:
+ 
+\begin_inset Formula $\left\{ s_{t},v_{t}^{*},s_{t+1}\right\} $
+\end_inset
+
+ and learns to map a function 
+\begin_inset Formula $\hat{f}\left(s_{t},v_{t}^{*}\right)=s_{t+1}$
+\end_inset
+
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Proposed-Speed-Recommendation-Architecture"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -39461,13 +40469,79 @@ Urban driving
 \begin_inset Quotes erd
 \end_inset
 
- because the corresponding subsets of local expert agents are spatially separable in the input space.
+ because the corresponding subsets of local expert agents are spatially separable in the input space (as illustrated in Figure ).
  This property provides 
 \series bold
 Contextual Integrity
 \series default
  to the continuously learning predictive model.
  It ensure that the model used for speed recommendations is always the one learned in the corresponding driving context.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/Simplified_Parameter_Isolation.pdf
+	width 70line%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Explanatory diagram of Parameter Isolation.
+ The horizontal axis corresponds to the speed and the vertical axis corresponds to the slope.
+ It represents a simplified driving context.
+ The 
+\emph on
+blue
+\emph default
+ and 
+\emph on
+violet
+\emph default
+ rectangles correspond to the local expert agent spatialized in the state space.
+ This diagram illustrates the spatial separation between two groups of local expert agents that are conceptually unrelated.
+ If the vehicle drives at a low speed,
+ the learning updates will be done on the 
+\emph on
+blue
+\emph default
+ group and conversely,
+ at high speed the updates will be done on the 
+\emph on
+violet
+\emph default
+ group.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Simplified-Parameter-Isolation"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Paragraph
@@ -39619,18 +40693,7 @@ In addition to that,
  as the number of input dimensions grows,
  the spatialization of agents suffers from the curse of dimensionality.
  Thus,
- future research directions on CELL systems should focus on finding new ways to spatialize local expert agents as explored in Chapter 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:Scalable-Non-Linear-CELL"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- through dimensionality reduction.
+ future research directions on CELL systems should focus on finding new ways to spatialize local expert agents.
 \end_layout
 
 \begin_layout Paragraph
