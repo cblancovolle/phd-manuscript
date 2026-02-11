@@ -37980,11 +37980,678 @@ Local Expert Agents
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
+The previous section presented the Gaussian Process Regression (GPR) and emphasized on the 
+\begin_inset Formula $O\left(N^{3}\right)$
+\end_inset
+
+ computational complexity bottleneck that limits its application on large datasets or for online learning.
+ To address these limitations,
+ gpCELL applies the principle of 
+\series bold
+horizontal scaling
+\series default
+:
+ rather than maintaining a single global GP,
+ the system distributes the modeling task across an ensemble of local expert agents containing smaller Gaussian Processes (i.e learned with less points) that can be quickly fitted when needed.
+ This section details the tripartite structrue of the local expert agents in gpCELL,
+ following the architectural principles of the CELL formalism.
+\end_layout
+
+\begin_layout Standard
+Each agent
+\begin_inset Formula 
+\[
+\mathcal{A}_{i}=\left\{ \phi_{i},f_{i},\mathcal{M}_{i}\right\} 
+\]
+
+\end_inset
+
+in gpCELL is a local expert that manages a GP.
+ 
+\series bold
+The spatialization logic of kCELL is retained in gpCELL.
+
+\series default
+ Each agent 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ represents its area of expertise through a mean 
+\begin_inset Formula $\mu_{i}\in\mathbb{R}^{d}$
+\end_inset
+
+ and a covariance matrix 
+\begin_inset Formula $\Sigma_{i}\in\mathbb{R}^{d\times d}$
+\end_inset
+
+.
+ The activation function 
+\begin_inset Formula $\phi_{i}:\mathbb{R}^{d}\mapsto\left]0,1\right]$
+\end_inset
+
+ for a given input 
+\begin_inset Formula $x\in\mathbb{R}^{d}$
+\end_inset
+
+ is given by the RBF kernel value
+\begin_inset Formula 
+\[
+\phi_{i}\left(x\right)=\exp\left(-\frac{d\left(\mathcal{A}_{i},x\right)^{2}}{2l^{2}}\right)
+\]
+
+\end_inset
+
+with 
+\begin_inset Formula $l$
+\end_inset
+
+ the lengthscale of the kernel and 
+\begin_inset Formula $d\left(\mathcal{A}_{i},x\right)$
+\end_inset
+
+ a measure of similarity between an agent 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ and an input 
+\begin_inset Formula $x$
+\end_inset
+
+.
+ As in kCELL,
+ 
+\begin_inset Formula $d\left(\mathcal{A}_{i},x\right)$
+\end_inset
+
+ is the Mahalanobis distance allowing gpCELL to remain compatible with the 
+\series bold
+same spatial gating mechanism as kCELL
+\series default
+ (cf.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:kCELL-Context-Agents"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Unlike the linear models used in oCELL or kCELL,
+ each agent in gpCELL maintains a 
+\series bold
+local GP as the internal model 
+\begin_inset Formula $f_{i}$
+\end_inset
+
+
+\series default
+.
+ By using a GP,
+ the agent can provide not only a mean prediction 
+\begin_inset Formula $\mu_{*,i}$
+\end_inset
+
+ but also a predictive variance 
+\begin_inset Formula $\sigma_{*,i}^{2}$
+\end_inset
+
+ representing the uncertainty about the prediction for a given input 
+\begin_inset Formula $x$
+\end_inset
+
+ such as 
+\begin_inset Formula 
+\[
+f_{i}\left(x\right)=\left(\begin{array}{c}
+\mu_{*,i}\\
+\sigma_{*,i}
+\end{array}\right)=\left(\begin{array}{c}
+K\left(x,X_{i,\text{train}}\right)\left[K\left(X_{i,\text{train}},X_{i,\text{train}}\right)+\sigma_{N}^{2}I\right]^{-1}y_{i,\text{train}}\\
+K\left(x,x\right)-K\left(x,X_{i,\text{train}}\right)\left[K\left(X_{i,\text{train}},X_{i,\text{train}}\right)+\sigma_{N}^{2}I\right]^{-1}K\left(X_{i,\text{train}},x\right)
+\end{array}\right)
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $X_{i,\text{train}},y_{i,\text{train}}$
+\end_inset
+
+ correspond to the feature-target dataset of 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ stored in its internal state 
+\begin_inset Formula $\mathcal{M}_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The internal state 
+\begin_inset Formula $\mathcal{M}_{i}$
+\end_inset
+
+ tracks a confidence value 
+\begin_inset Formula $\bar{C}_{\mathcal{A}_{i}}\in\left[-1,1\right]$
+\end_inset
+
+ (an exponential moving average of received social feedback) that is described in detail in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:kCELL-Learning-Rules"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ and maintains an internal feature-target dataset 
+\begin_inset Formula $\mathcal{D}_{i}$
+\end_inset
+
+ used to retrain the internal model 
+\begin_inset Formula $f_{i}$
+\end_inset
+
+.
+ This dataset contains the features matrix 
+\begin_inset Formula $X_{i,\text{train}}\in\mathbb{R}^{n_{\text{retained}}\times d}$
+\end_inset
+
+ and the target matrix 
+\begin_inset Formula $y_{i,\text{train}}\in\mathbb{R}^{n_{\text{retained}}}$
+\end_inset
+
+.
+ This dataset is managed dynamically by the agent,
+ as it will be presented in the remainder of this section.
+\end_layout
+
+\begin_layout Standard
+As GPs predictions revert to the specified prior mean function when inputs are far from the training data support,
+ due to the covariance kernel decaying with distance,
+ it can lead to highly unreliable predictions and underestimation of predictive variance 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "williams2006gaussian"
+literal "false"
+
+\end_inset
+
+.
+ The aggregation function used to build the global prediction of the ensemble of GP-based local expert agents must take this phenomenon into consideration to avoid taking into account the proposition of an unreliable agent that would pollute the final prediction.
+ To ensure reliability of predictions,
+ gpCELL use of 
+\series bold
+winner-take-all strategy
+\series default
+ for global prediction based on predictive confidence.
+ For a given input 
+\begin_inset Formula $x$
+\end_inset
+
+,
+ the global prediction 
+\begin_inset Formula $\hat{y}$
+\end_inset
+
+ is provided by the agent within the set of neighbor agents 
+\begin_inset Formula $\mathcal{D}_{\text{neighbors}}$
+\end_inset
+
+ that reports the minimum predictive variance:
+ 
+\begin_inset Formula 
+\[
+\hat{y}=f_{j}\left(x\right)\,\,\text{where}\,\,j=\arg\min_{i\in\mathcal{D}_{\text{neighbors}}}\left(\sigma_{*,i}^{2}\right)
+\]
+
+\end_inset
+
+This aggregation function prioritizes the agent that is the most certain about the local structure of the data.
+ That is to say,
+ the selected agent is the one whose internal representation of the underlying function is best aligned with the input 
+\begin_inset Formula $x$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Paragraph
+Model and Shape Update
+\end_layout
+
+\begin_layout Standard
+In gpCELL,
+ the update of the internal model 
+\begin_inset Formula $f_{i}$
+\end_inset
+
+ and the shape of the area of expertise (
+\begin_inset Formula $\mu_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $\Sigma_{i}$
+\end_inset
+
+) are intrinsically linked.
+ Since the shape of the agent is obtained from the distribution of points stored in 
+\begin_inset Formula $\mathcal{D}_{i}$
+\end_inset
+
+ that is used to retrain 
+\begin_inset Formula $f_{i}$
+\end_inset
+
+,
+ updating 
+\begin_inset Formula $\mathcal{D}_{i}$
+\end_inset
+
+ automatically updates the area of expertise of the agent.
+\end_layout
+
+\begin_layout Standard
+When a new point 
+\begin_inset Formula $\left(x_{new},y_{new}\right)$
+\end_inset
+
+ is ingested,
+ the agent must decide if or how this information should be included to its internal model.
+ This is treated as a local model selection problem.
+ The agent evaluates several possible configurations:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Nominal
+\series default
+:
+ 
+\begin_inset Formula $\mathcal{D}_{i}$
+\end_inset
+
+ remains unchanged and the current internal model is kept without modification.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Substitution
+\series default
+ 
+\series bold
+of point 
+\begin_inset Formula $j$
+\end_inset
+
+
+\series default
+:
+ The new point replaces an existing point 
+\begin_inset Formula $\left(x_{j},y_{j}\right)$
+\end_inset
+
+ contained in 
+\begin_inset Formula $\mathcal{D}_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Augmentation
+\series default
+:
+ The new point is added to 
+\begin_inset Formula $\mathcal{D}_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Each configuration corresponds to a possibility of configuration for the internal dataset 
+\begin_inset Formula $\mathcal{D}_{i}$
+\end_inset
+
+ and by extension,
+ a possibility for the resulting internal model 
+\begin_inset Formula $f_{i}$
+\end_inset
+
+.
+ It results in a total 
+\begin_inset Formula $n_{\text{configurations}}$
+\end_inset
+
+ of configurations equal to:
+\begin_inset Formula 
+\[
+n_{\text{configurations}}=\underbrace{1}_{\text{Nominal}}+\underbrace{\left|\mathcal{D}_{i}\right|}_{\text{Subtitutions}}+\underbrace{1}_{\text{Augmentation}}
+\]
+
+\end_inset
+
+To maintain computational efficiency for large memories,
+ instead of evaluating all possible substitution possibilities by building a new model for each,
+ we use a heuristic in our implementation to select only one substitution configuration to evaluate as the one corresponding to the point 
+\begin_inset Formula $j$
+\end_inset
+
+ for which the current model predicts the highest variance.
+ Using this heuristic reduces the number of evaluated configurations to 
+\begin_inset Formula 
+\[
+n_{\text{configurations}}=3
+\]
+
+\end_inset
+
+ regardless of the memory size (
+\begin_inset Formula $\mathcal{D}_{i}$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+To chose the optimal configurations,
+ the agent computes a variant of the Akaike Information Criterion (AIC) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "akaike2003new"
+literal "false"
+
+\end_inset
+
+ for each possibility:
+\begin_inset Formula 
+\[
+AIC\left(x_{new},y_{new}\right)=\alpha\left|\mathcal{D}_{i}\right|-2\ln\left(\hat{L}\right)
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ is the weight of the number of points 
+\begin_inset Formula $\mathcal{D}_{i}$
+\end_inset
+
+ (
+\begin_inset Formula $\left|\mathcal{D}_{i}\right|$
+\end_inset
+
+ corresponds to the number of parameters representing the non-parametric complexity of the model) compared to the log-marginal likelihood (
+\begin_inset Formula $\ln\left(\hat{L}\right)$
+\end_inset
+
+) of the obtained GP given the training data contained in
+\begin_inset Formula $\mathcal{D}_{i}$
+\end_inset
+
+.
+ By selecting the configuration that minimizes the AIC,
+ the agent performs a greedy online trade-off between predictive accuracy and model parsimony.
+ When a new configuration is chosen,
+ 
+\begin_inset Formula $\mathcal{D}_{i}$
+\end_inset
+
+ is updated in consequence,
+ the internal GP is retrained,
+ and the shape of the area of expertise (
+\begin_inset Formula $\mu_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $\Sigma_{i}$
+\end_inset
+
+) is updated from the empirical mean and covariance of the new 
+\begin_inset Formula $X_{i,\text{train}}$
+\end_inset
+
+.
+ Finally,
+ for stability reasons and to obtain a bounded complexity,
+ 
+\begin_inset Formula $\mathcal{D}_{i}$
+\end_inset
+
+ should have a maximum size 
+\begin_inset Formula $N_{max}$
+\end_inset
+
+ (beyond which point can only be swapped and not added) and a minimum size analog to the 
+\begin_inset Formula $N_{ini}$
+\end_inset
+
+ in kCELL.
+\end_layout
+
+\begin_layout Paragraph
+Example of Single Agent Fit
+\end_layout
+
+\begin_layout Standard
+To visualize the result of a learning for single local expert agent,
+ a 1-dimensional example can be used.
+ A small synthetic dataset is generated from the function 
+\begin_inset Formula $f\left(x\right)=\sin\left(x\right)+\epsilon\mathcal{N}\left(0,1\right)$
+\end_inset
+
+ with 
+\begin_inset Formula $\epsilon\in\mathbb{R}$
+\end_inset
+
+ the noise scaling factor that we set to 
+\begin_inset Formula $\epsilon=10^{-2}$
+\end_inset
+
+.
+ Online learning is simulated by feeding the feature-target tuples (
+\begin_inset Formula $x_{new},y_{new}$
+\end_inset
+
+) one at a time to the agent.
+ Each point is only seen once and the agent is configured with an initial memory size of 
+\begin_inset Formula $N_{ini}=4$
+\end_inset
+
+,
+ a parameter weight 
+\begin_inset Formula $\alpha=1$
+\end_inset
+
+ and an RBF kernel with a constant prior mean 
+\begin_inset Formula $m\left(x\right)=C$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Illustration-of-GP-Agent-Learning"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ illustrates the result of learning a single agent on this dataset.
+ Several observations about the behavior of the agent can be made:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Local Anchoring
+\series default
+:
+ The gaent does not attempt to cover the entire domain that spans over 
+\begin_inset Formula $x\in\left[-6,6\right]$
+\end_inset
+
+.
+ It maintains its area of expertise within a localized region,
+ demonstrating that the model-selection with AIC prevents the model from over-stretching to include points that would require excessive model complexity.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Dynamic Memory Management
+\series default
+:
+ The final set of retained points (represented as 
+\emph on
+red
+\emph default
+ dots) is larger than the initial set of training points but remains sparse over the area of expertise meaning that the agent used both 
+\series bold
+substitutions
+\series default
+ and 
+\series bold
+augmentations
+\series default
+ to optimize its internal representation.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Complexity-Accuract Trade-off
+\series default
+:
+ The sparsity of the retained points suggests that the agent has selected only the most informative points for obtaining a high-likelihood model.
+ This results in a parsimonious model that captures the local curvature of the underlying function.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/gpCELL_single_agent/sin_rbf_4ini_large.png
+	lyxscale 30
+	width 60col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Example of the final configuration of a single agent on the function 
+\begin_inset Formula $f\left(x\right)=\sin\left(x\right)+\epsilon\mathcal{N}\left(0,1\right)$
+\end_inset
+
+ after learning.
+ Points have been fed to the agent in order from left to right.
+ 
+\emph on
+y
+\emph default
+-axis corresponds to the values of 
+\begin_inset Formula $f\left(x\right)$
+\end_inset
+
+,
+ 
+\emph on
+x
+\emph default
+-axis correspond to the values of 
+\begin_inset Formula $x$
+\end_inset
+
+.
+ 
+\emph on
+Train points
+\emph default
+ are the points used for training the agent;
+ 
+\emph on
+Inducing points 
+\emph default
+are the points retained by the agent at the end of learning and that were used to train its internal model.
+ The 
+\emph on
+blue
+\emph default
+ curve corresponds to the predictions of the agent.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Illustration-of-GP-Agent-Learning"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
 GPs do not scale well => in this work we propose horizontal scaling by using GPs inside the local expert agents => many small GPs instead of one big GP
+\end_layout
+
+\begin_layout Plain Layout
+Challenging to design a system with GPs as they are not inherently online learning models/
 \end_layout
 
 \begin_layout Itemize
@@ -38012,7 +38679,11 @@ in
 \begin_inset Formula $\bar{C}_{\mathcal{A}_{i}}$
 \end_inset
 
- and a memory of points used to build the internal GP model
+ and a memory of points used to build the internal GP model (X_train and y_train)
+\end_layout
+
+\begin_layout Itemize
+Gating mechanism works the same as for kCELL.
 \end_layout
 
 \begin_layout Itemize
@@ -38051,7 +38722,14 @@ UPDATE MODEL:
 
 \begin_layout Itemize
 UPDATE SHAPE:
- same as kCELL
+ mixed with UPDATE MODEL as the shape is determined by the covariance and mean of X_train
+\end_layout
+
+\begin_layout Itemize
+Prediction Mean and Var:
+ The global prediction corresponds to the prediction of the most confident GP,
+ i.e the agent that predicts the minimum uncertainty on its prediction.
+ => because gaussian processes are strong inside their area of expertise but outside they can be very weak => that's why we chose the closest.
 \end_layout
 
 \end_inset
@@ -38061,6 +38739,66 @@ UPDATE SHAPE:
 
 \begin_layout Section
 Learning Rules
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Learning-Rules-gpCELL"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Itemize
+Confidence 
+\begin_inset Formula $\bar{C}_{\mathcal{A}_{i}}$
+\end_inset
+
+ => same as kCELL but for the case where 
+\begin_inset Formula $n_{\text{neighbors}}=1$
+\end_inset
+
+ the baseline is computed from the weighted average of the predictions of the k closest agents excluding the closest;
+ and for the case where 
+\begin_inset Formula $n_{\text{neighbors}}>1$
+\end_inset
+
+,
+ the baseline is computed from the weighted average of the predictions of the neighbors
+\end_layout
+
+\begin_layout Itemize
+Learning rules:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Destroy when confidence gets under threshold
+\end_layout
+
+\begin_layout Itemize
+Create if 
+\begin_inset Formula $n_{\text{neighbors}}=0$
+\end_inset
+
+ and closest agent does not ingest the point (chose the nominal case)
+\end_layout
+
+\begin_layout Itemize
+if 
+\begin_inset Formula $n_{\text{neighbors}}\geq1$
+\end_inset
+
+ then try to update the closest agent ([HEURISTIC] we only try to update closest agent and not all neighbors to keep the complexity predictable)
+\end_layout
+
+\end_deeper
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -38589,6 +39327,48 @@ kCELL features
 
 \begin_layout Section
 Conclusion and limitations
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Synthesis and Conclusions
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Itemize
+Need more studies on the impact of model distribution on uncertainty calibration of the global model => can uncertainty be trusted ?
+\end_layout
+
+\begin_layout Itemize
+Need comparison with classic GPs or a minima SGPs
+\end_layout
+
+\begin_layout Itemize
+Computational efficiency of the algo better than classical GPs for large datasets,
+ however still needs improvement because currently we cannot use this approach to its maximum potential due to computational limitations (cf heuristics that we use for implemntation)
+\end_layout
+
+\begin_layout Itemize
+Memory efficiency not on point for now => competitive performances but need for better memory efficiency => work on that
+\end_layout
+
+\begin_layout Itemize
+Representativity may be limited by the heuristics chosen at implementation time to make the algo run in reasonable time.
+\end_layout
+
+\begin_layout Itemize
+Maybe the prediction method by selecting the most confident agent could be extended to the neighbors => could be studied
+\end_layout
+
+\begin_layout Itemize
+Social mechanisms could be leveraged to make agents interact more with each other
 \end_layout
 
 \end_inset
