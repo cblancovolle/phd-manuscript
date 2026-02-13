@@ -26937,7 +26937,7 @@ These feedback signals are used to update the running confidence
  is computed
 \begin_inset Formula 
 \[
-c_{i}=\tanh\left(k\times\begin{cases}
+c_{i}=\tanh\left(k_{\text{steep}}\times\begin{cases}
 \Delta_{\mathcal{A}_{i}} & \text{if}\,\,N>1\\
 \Delta_{\mathcal{A}_{i}}^{\prime} & \text{else}
 \end{cases}\right)
@@ -27189,6 +27189,10 @@ Agent Destruction
 \series default
  action is triggered.
  This ensures that the ensemble of local expert agents remains efficient and that only the most reliable experts survive.
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -27818,15 +27822,15 @@ Finally,
 \end_inset
 
 :
- the chi-squared percentile defining a threshold for the gating mechanism to extract the subset of neighbor agents from the global population.
+ The chi-squared percentile defining a threshold for the gating mechanism to extract the subset of neighbor agents from the global population.
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $k$
+\begin_inset Formula $k_{\text{steep}}$
 \end_inset
 
 :
- the steepness of the tanh function for social feedback normalization.
+ The steepness of the tanh function for social feedback normalization.
 \end_layout
 
 \begin_layout Itemize
@@ -27834,7 +27838,7 @@ Finally,
 \end_inset
 
 :
- the smoothing factor for the running exponential moving average of confidence value of agents.
+ The smoothing factor for the running exponential moving average of confidence value of agents.
 \end_layout
 
 \begin_layout Itemize
@@ -27842,7 +27846,7 @@ Finally,
 \end_inset
 
 :
- the survival threshold for agent destructuction.
+ The survival threshold for agent destructuction.
  If an agent's confidence goes below this value it is destroyed.
 \end_layout
 
@@ -27851,7 +27855,7 @@ Finally,
 \end_inset
 
 :
- the size of the 
+ The size of the 
 \begin_inset Formula $\mathcal{B}_{\text{short}}$
 \end_inset
 
@@ -27863,11 +27867,27 @@ Finally,
 \end_inset
 
 :
- the minimal number of points inside 
+ The minimal number of points inside 
 \begin_inset Formula $\mathcal{B}_{\text{ini}}$
 \end_inset
 
  needed to be able to create a new agent.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $k_{\text{social}}$
+\end_inset
+
+:
+ The number of closests agents used to compute the social baseline 
+\begin_inset Formula $y_{base}$
+\end_inset
+
+ when an agent has no neighbors (
+\begin_inset Formula $N_{\text{neighbors}}=1$
+\end_inset
+
+).
 \end_layout
 
 \begin_layout Standard
@@ -29291,7 +29311,7 @@ While kCELL exhibits a higher prequential error during the learning phase,
 
 \begin_layout Standard
 \begin_inset Float figure
-placement document
+placement H
 alignment document
 wide false
 sideways false
@@ -29348,7 +29368,7 @@ name "fig:kCELL-Test-RMSE-stationary"
 
 \begin_layout Standard
 \begin_inset Float figure
-placement document
+placement H
 alignment document
 wide false
 sideways false
@@ -32791,7 +32811,7 @@ nolink "false"
 
 \end_inset
 
- introduces prospective works on ways to mitigate the impact of high-dimensional spaces on CELL instantiations while exploring the model-agnosticity of CELL to produce more parsimonious models.
+ introduces prospective works which explore the model-agnosticity property of CELL to produce more representative models.
 \end_layout
 
 \begin_layout Chapter
@@ -32806,6 +32826,216 @@ name "chap:Solving-Control-Tasks"
 \end_layout
 
 \begin_layout Standard
+In the previous chapter,
+ the CELL (Context Ensemble Local Learning) formalism has been introduced.
+ CELL provides a theoretical framework for designing machine learning systems based on a self-organizing ensemble of local expert agents governed by social rules.
+ The development of two CELL instantiations,
+ oCELL and kCELL,
+ capable of learning online from a stream of data have been detailed.
+ We demonstrated that analyzing the geometry of the spatial organization of agents as well as the local social dynamics could provide meaningful introspective properties that can be linked to the traditional notions of explainability and interpretability in machine learning.
+ This chapter investigates how these introspective properties can be exploited for improving model-based control with learned models.
+\end_layout
+
+\begin_layout Standard
+In this chapter,
+ the integration of kCELL into a Model Predictive Control (MPC) scheme is explored.
+ In this context,
+ the kCELL model learns online the a priori unknown dynamics of the system.
+ It models the transition function 
+\begin_inset Formula $f:\mathcal{S}\times\mathcal{U}\mapsto\mathcal{S}$
+\end_inset
+
+ (with 
+\begin_inset Formula $\mathcal{S}$
+\end_inset
+
+ the state space and 
+\begin_inset Formula $\mathcal{U}$
+\end_inset
+
+ the action space) mapping state-actions to the next state such as 
+\begin_inset Formula 
+\[
+f\left(s_{t},u_{t}\right)=s_{t+1}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $s_{t}\in\mathcal{S}$
+\end_inset
+
+ is the current state,
+ 
+\begin_inset Formula $u_{t}\in\mathcal{U}$
+\end_inset
+
+ is the action applied to the controlled dynamical system and 
+\begin_inset Formula $s_{t+1}\in\mathcal{S}$
+\end_inset
+
+ is the next state.The control actions are obtained by repeatedly solving an Optimal Control Problem (OCP) over a finite horizon 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "rawlings2017model"
+literal "false"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+However,
+ without prior knowledge of the system's dynamics,
+ using a learned model in a control loop introduces several challenges 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Brunke2022May"
+literal "false"
+
+\end_inset
+
+ that need to be considered when solving OCPs involving hard constraints related to safety,
+ stability or physical feasibility.
+ This chapter specifically focuses on the following challenges:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Real-Time Predictions and Optimization
+\series default
+:
+ In MPC,
+ the predictive model and the optimizer must synergize properly to produce reliable control actions in real-time.
+ Depending on the class of optimizer used,
+ the required properties of the predictive model can vary.
+ For instance,
+ using population-based optimizers require the predictive model to be able to evaluate thousands of trajectories multiple times per control step,
+ whereas using gradient-based optimizers require the predictive model to be differentiable or be locally linearizable.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Efficient Exploration of Unknown Dynamics
+\series default
+:
+ A learned model is only as good as its training data 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ghorbani2019data"
+literal "false"
+
+\end_inset
+
+.
+ Therefore,
+ good quality data that is representative of as many different state transitions as possible must be collected.
+ When the dynamics of the system to be controlled are unknown a priori,
+ an exploration phase must be conducted to collect the data.
+ In complex non environments,
+ 
+\emph on
+uninformed
+\emph default
+ exploration strategies (e.g.
+ actions obtained with random noise) are often data-inefficient and fail to over the state-action space effectively,
+ leading to knowledge gaps in the internal representation of the learned predictive model.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Robust Exploitation through Uncertainty Awareness
+\series default
+:
+ When a model is used in MPC,
+ the optimizer might exploit the weaknesses of the model.
+ These weaknesses,
+ like the prediction inaccuracies on Out-of-Distribution (OoD) state-actions,
+ can mislead the optimizer leading it to explore bad solutions.
+ Indeed,
+ unreliable predictions lead to unreliable optimization results.
+ While data-driven control methods have achieved promising results,
+ they often rely on opaque inner workings and struggle to provide reliable guarantees when operating outside the support of the training data 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "prag2022toward,berberich2025overview"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+This chapter demonstrates how the introspective properties of kCELL can be leveraged to address these challenges.
+ The core contributions presented are threefold:
+\end_layout
+
+\begin_layout Itemize
+We provide a discussion on how kCELL can be efficiently integrated into real-time,
+ model-based control frameworks by exploiting its local linearization capabilities for gradient-based optimization and implementation strategies based on parallel computation or spatial indexing for fast trajectory unfolding in population-based MPC.
+\end_layout
+
+\begin_layout Itemize
+We introduce introspection-driven strategies based on agent spatial organization and local disagreement for exploration of a low-dimensional environment without prior knowledge of the dynamics.
+ We show that these strategies lead to more effective coverage of the state-action space than uninformed exploration mechanisms.
+\end_layout
+
+\begin_layout Itemize
+We introduce an introspection-driven conservative regularization mechanism for trajectory optimization that leverages the spatial organization of agents to minimize epistemic uncertainty,
+ reducing the risk of extrapolation errors and improving robustness of control with learned dynamics.
+\end_layout
+
+\begin_layout Standard
+This chapter is organized as follows.
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Parallelization-and-Differentiability"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ discusses the computational and differentiability properties of kCELL that make it suitable for real-time constrained control within a MPC scheme.
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Exploration-MPC"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ focuses on exploration of unknown dynamics and shows how the spatial organization and local interactions of agents can be exploited to guide exploration.
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Conservative-MPC"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ addresses robust exploitation by introducing an introspection-driven regularization for trajectory optimization with kCELL to improve the reliability of the control loop.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
 Building upon the Self Adaptive Context Learning (SACL) paradigm 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -32824,7 +33054,7 @@ literal "false"
  spatialized local learning and agent-level interactions.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 This chapter investigates how these properties can be exploited for model-based control with learned model without prior knowledge of system dynamics.
  In this setting,
  control policies are built from the combination of a learned predictive model and an optimizer.
@@ -32840,7 +33070,7 @@ literal "false"
 .
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 When the predictions of learned models lie outside the regions in the state-action space that have been sufficiently represented in the training data,
  the model is inherently limited in terms of accuracy.
  This limitation needs to be considered in optimal control problems involving hard constraints related to safety,
@@ -32867,9 +33097,9 @@ literal "false"
 .
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 In this chapter we show that kCELL's structural transparency provides introspection tools that can be directly embedded into control and optimization pipelines.
- kCELL exposes measurable quantities such as distance-based competence,
+ kCELL exposes measurable quantities such as distance-based expertise,
  local prediction disagreement that provide proxies for quantifying epistemic and aleatoric uncertainties (cf.
  Section 
 \begin_inset CommandInset ref
@@ -32887,7 +33117,7 @@ nolink "false"
  regularize exploitation and explain control decisions in a unified framework.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 More specifically,
  the core contributions presented in this chapter are fourfold:
 \end_layout
@@ -32920,7 +33150,7 @@ literal "false"
  This approach allows quantification of constraint impact and feature importance estimation in optimized control policies.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 This chapter is organized as follows.
  Section 
 \begin_inset CommandInset ref
@@ -32974,6 +33204,11 @@ nolink "false"
  highlighting how kCELL allows to obtain interpretable and explainable control decisions.
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Efficient kCELL for Real-Time Control
 \begin_inset CommandInset label
@@ -32986,8 +33221,35 @@ name "sec:Parallelization-and-Differentiability"
 \end_layout
 
 \begin_layout Standard
-kCELL provides a more robust and expressive instantiation of the CELL paradigm.
- It is capable of handling non-stationary online learning tasks and maintaining interpretability.
+As demonstrated in Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Context-Ensemble-Local"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ kCELL is capable of handling non-stationary online learning tasks while exhibiting competitive predictive accuracy with state-of-the-art baseline algorihtms such as LWPR 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "vijayakumar2000locally"
+literal "false"
+
+\end_inset
+
+ or Mondrian Forests 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lakshminarayanan2014mondrian"
+literal "false"
+
+\end_inset
+
+.
  However,
  its practical deployment in model-based control requires additional computational and structural considerations.
 \end_layout
@@ -32997,14 +33259,17 @@ Model Predictive Control (MPC) relies on repeated model evaluations within an op
  When using learned models,
  inference speed and mathematical structure are important to the feasibility and reliability of control,
  especially if real-time constraints need to be met.
+ Therefore,
+ kCELL must comply with the following requirements:
 \end_layout
 
-\begin_layout Standard
-To this end,
- two main requirements must be addressed.
- First,
- population-based optimization methods commonly employed in data-driven MPC,
- such as the Cross-Entropy Method (CEM) 
+\begin_layout Itemize
+
+\series bold
+High-Throughput Inference
+\series default
+:
+ Population-based optimization methods such as the Cross-Entropy Method (CEM) 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "de2005tutorial"
@@ -33012,11 +33277,20 @@ literal "false"
 
 \end_inset
 
-,
- require fast and batched predictions over large sets of candidate trajectories whose computational cost must remain predictable across control steps.
- Purely sequential inference with naive expert lookup in kCELL prohibitively expensive.
- Second,
- gradient-based optimization methods,
+ require the model to evaluate thousands of candidate trajectories over a single control step.
+ In this context,
+ the computational cost must not only be low but also predictable.
+ A naive sequential lookup of the local expert agents in kCELL becomes prohibitively expensive as the population of agent grows.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Differentiability and Local Linearization
+\series default
+:
+ Conversely,
+ gradient-based methods,
  such as Sequential Quadratic Programming (SQP) 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -33025,9 +33299,9 @@ literal "false"
 
 \end_inset
 
-,
- require a differentiable predictive model in order to compute local linearization of the dynamics and to handle hard constraints efficiently.
- This enables superlinear convergence and makes real-time feasibility easier to reach compared to derivative-free methods (e.g CEM) which scale poorly with dimensionality and often fail under tight timing constraints 
+ require a differentiable model to compute the local linearization of the approximated dynamics.
+ This allows for superlinear convergence,
+ which makes real-time feasibility easier to reach compared to derivative-free methods whichj scale poorly with dimensionality and often fail under tight timing constraints 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "nocedal2006numerical"
@@ -33039,15 +33313,19 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-kCELL must therefore comprise optimized implementations to enable fast batched inference and differentiable representations to support gradient-based non-linear optimization methods for control.
- Regarding computational efficiency,
- in kCELL,
- expert selection can be accelerated significantly through spatial indexing or parallel execution,
- enabling efficient batched inference on modern hardware such as GPUs.
- Regarding differentiability,
- when activation functions and internal models are differentiable,
- kCELL admits analytic gradients and straightforward local linearization,
- making it naturally compatible with gradient-based MPC formulations.
+Consequently,
+ kCELL must be implemented to provide both fast batched inference and differentiable,
+ locally linearizable representations.
+ In terms of computational efficiency,
+ as agents in kCELL have a defined spatial support,
+ it allows local expert selection to be greatly accelerated through spatial indexing.
+ In addition to that,
+ expert selection in kCELL is embarrassingly parallel.
+ This property can be exploited to leverage massively parallel execution for efficient batched inference on modern hardware such as GPUs.
+ Moreover,
+ in kCELL the activation functions and linear internal models are differentiable.
+ Thus,
+ kCELL provides analytical gradients and straightforward local linearizations that naturally align with gradient-based optimizers.
 \end_layout
 
 \begin_layout Standard
@@ -33063,7 +33341,7 @@ nolink "false"
 \end_inset
 
  discusses strategies that can be implemented to accelerate inference and learning in kCELL,
- making it suitable for use with random shooting optimization methods like CEM.
+ making it compatible with population-based optimizers like CEM.
  Then,
  Section 
 \begin_inset CommandInset ref
@@ -33077,7 +33355,67 @@ nolink "false"
 \end_inset
 
  shows how the local structure of kCELL lead to trivial local linearizations of the learned dynamics,
- making kCELL suited for constrained MPC solved using SQP.
+ making it compatible with constrained MPC formulation that can be solved using SQP.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+To this end,
+ two main requirements must be addressed.
+ First,
+ population-based optimization methods commonly employed in data-driven MPC,
+ such as the Cross-Entropy Method (CEM) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "de2005tutorial"
+literal "false"
+
+\end_inset
+
+,
+ require fast and batched predictions over large sets of candidate trajectories whose computational cost must remain predictable across control steps.
+ Purely sequential inference with naive expert lookup in kCELL is prohibitively expensive.
+ Second,
+ gradient-based optimization methods,
+ such as Sequential Quadratic Programming (SQP) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "rawlings2017model"
+literal "false"
+
+\end_inset
+
+,
+ require a differentiable predictive model in order to compute local linearization of the approximated dynamics.
+ This enables superlinear convergence and makes real-time feasibility easier to reach compared to derivative-free methods (e.g CEM) which scale poorly with dimensionality and often fail under tight timing constraints 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nocedal2006numerical"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+kCELL must therefore be carefully implemented to enable fast batched inference and differentiable representations to support gradient-based non-linear optimization methods for control.
+ Regarding computational efficiency,
+ in kCELL,
+ expert selection can be accelerated significantly through spatial indexing or parallel execution,
+ enabling efficient batched inference on modern hardware such as GPUs.
+ Regarding differentiability,
+ when activation functions and internal models are differentiable,
+ kCELL admits analytic gradients and straightforward local linearization,
+ making it naturally compatible with gradient-based MPC formulations.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -33092,7 +33430,7 @@ name "subsec:Efficient-Implementation"
 \end_layout
 
 \begin_layout Standard
-Population based trajectory optimization algorithms are broadly used in robotics for their robustness to non-convex and non-smooth dynamics or cost functions 
+Population-based trajectory optimization algorithms are broadly used in robotics for their robustness to non-convex and non-smooth dynamics or cost functions 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "chai2019review"
@@ -33101,7 +33439,15 @@ literal "false"
 \end_inset
 
 .
- This includes stochastic shooting methods such as Model Path Predictive Integral (MPPI) or CEM (which is used in Section 
+ This includes stochastic shooting methods such as Model Path Predictive Integral (MPPI) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "williams2017model"
+literal "false"
+
+\end_inset
+
+ or CEM (which is used in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Exploration-MPC"
@@ -33113,9 +33459,11 @@ nolink "false"
 \end_inset
 
 ).
- These methods rely heavily on parallel evaluation of large population of candidate trajectories at each control step within the MPC framework.
+ These methods rely heavily on parallel evaluation of large population of candidate trajectories at each control step.
  In this section,
- we show that GPU parallel brute force is more reliable than geospatial indexing for nearest neighbor selection to speed up learning and inference process in kCELL for population based MPC.
+ we discuss about the use geospatial indexing and massively parallel computing to accelerate local expert selection.
+ Through a simple case study,
+ we show that GPU parallel brute force is more reliable than geospatial indexing for fast inference with kCELL.
 \end_layout
 
 \begin_layout Subsubsection
@@ -33123,20 +33471,19 @@ Geospatial Tree Indexing
 \end_layout
 
 \begin_layout Standard
-In CELL instanciations like kCELL and oCELL,
+In CELL instantiations like kCELL and oCELL,
  a learning step always begins with a neighboring agent selection phase.
  Since the agents are spatially distributed in the feature space,
  then the selection of neighboring agents can be broken down into two components:
- distance calculation to find the closest agents and thresholding of those distances to discriminate neighbors.
+ distance computation (to find the set of closest local experts) and thresholding of those distances to discriminate neighbors.
 \end_layout
 
 \begin_layout Standard
-Because agents are spatially distributed within the feature space,
+Because agents are spatially distributed within the input space,
  managing the ensemble of agents as a geospatial database can be considered.
- In this case,
- to speed up nearest neighbor searches,
+ To speed up nearest neighbor searches,
  spatial indexing techniques can be leveraged to select the k-closest agents with a reduced complexity.
- Indexing in geospatial databases is most commonly performances using tree-based methods such as KD-tree or R-tree 
+ Indexing in geospatial databases is most commonly performed using trees such as KD-tree or R-tree 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "guting1994introduction"
@@ -33145,9 +33492,17 @@ literal "false"
 \end_inset
 
 .
- The KD-tree (for k-dimensional tree) is a binary tree data structure.
- It recursively partition space by splitting along alternating dimensions,
- making it efficient for range queries and nearest neighbor searches on point data 
+ The 
+\series bold
+KD-tree
+\series default
+ (for k-dimensional tree) is a binary tree data structure.
+ It recursively partition the input space by splitting along alternating dimensions,
+ making it efficient for range queries and nearest neighbor searches on a 
+\series bold
+set of points
+\series default
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "bentley1975multidimensional"
@@ -33168,10 +33523,18 @@ nolink "false"
 \end_inset
 
 ).
- The R-tree is a hierarchical tree structure designed for indexing multi-dimensional objects like rectangles or polygons.
+ The 
+\series bold
+R-tree
+\series default
+ is a hierarchical tree structure designed for indexing multi-dimensional objects like 
+\series bold
+rectangles or polygons
+\series default
+.
  Each node of the tree represents a bounding rectangle that encloses child nodes.
  R-trees are particularly suited for range,
- intersection and nearest neighbor queries in GIS and geospatial databases 
+ intersection and nearest neighbor queries in GIS (Geographic Information System) and geospatial databases 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "guttman1984r"
@@ -33307,18 +33670,38 @@ name "fig:Illustration-of-KD-tree-and-R-tree"
 \end_layout
 
 \begin_layout Standard
-In the context of CELL instantiations,
- R-trees are better suited than KD-trees because they are designed to handle polygons and orthotopes,
- i.e 
-\begin_inset Formula $n$
-\end_inset
-
--dimensional generalizations of rectangles.
+For CELL instantiations,
+ R-trees are better suited than KD-trees because they are designed to handle polygons and orthotopes.
  Therefore,
  agents can be indexed by their bounding orthotope.
  For kCELL,
- this is the orthotope encompassing the agent's confidence interval specified as a parameter.
- Furthermore,
+ this corresponds to the orthotope encompassing the agent's confidence interval,
+ i.e the ellipsoid defined by 
+\begin_inset Formula 
+\[
+d\left(x,\mathcal{A}_{i}\right)^{2}<\chi_{d,\frac{\xi}{100}}^{2}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\chi_{d,\frac{\xi}{100}}^{2}$
+\end_inset
+
+denotes the 
+\begin_inset Formula $\xi$
+\end_inset
+
+th percentile of the chi-squared distribution with 
+\begin_inset Formula $d$
+\end_inset
+
+ degrees of freedom.
+ 
+\end_layout
+
+\begin_layout Standard
+Furthermore,
  R-trees can be incrementally updated,
  making them compatible with the online learning nature of CELL instantiations 
 \begin_inset CommandInset citation
@@ -33329,11 +33712,24 @@ literal "false"
 \end_inset
 
 .
- Finally,
- with a spatial index based on a R-tree,
+ With a spatial index based on a R-tree,
  the selection process can be broken down into three ordered steps:
- searching for the k-closest agents in the R-tree,
- calculating the distances between the point and the k-closest agents and finally thresholding the distances to discriminate the neighbor agents.
+\end_layout
+
+\begin_layout Enumerate
+Searching for the 
+\begin_inset Formula $k$
+\end_inset
+
+-closest agents in the R-tree.
+\end_layout
+
+\begin_layout Enumerate
+Computing the similarities between the point and the k-closest agents.
+\end_layout
+
+\begin_layout Enumerate
+Thresholding the distances to discriminate the neighbor agents.
 \end_layout
 
 \begin_layout Standard
@@ -33356,9 +33752,9 @@ Implementing a R-tree as a geospatial index over the agents reduces the neighbor
 \begin_inset Formula $O\left(\log n\right)$
 \end_inset
 
- with geospatial indexing.
+.
  While geospatial indexing seems less advantageous in terms of insertion and deletion,
- it should be remembered that agent creations and destructions are generally less frequent then neighborhood searches in kCELL.
+ it should be remembered that agent creations and destructions are usually a lot less frequent than neighborhood searches in kCELL.
 \end_layout
 
 \begin_layout Subsubsection
@@ -33366,9 +33762,9 @@ GPU Parallelization
 \end_layout
 
 \begin_layout Standard
-However,
- as the dimensionality of the feature space increases,
- the structural advantages of the R-tree diminish due to distance distention and bounding box overlap making the search complexity degenerate to 
+As the dimensionality of the feature space increases,
+ the structural advantages of the R-tree diminish due to distance stretching and bounding box overlap,
+ making the search complexity degenerate to 
 \begin_inset Formula $O\left(n\right)$
 \end_inset
 
@@ -33378,7 +33774,7 @@ However,
  To address these limitations,
  the embarrassingly parallelizable nature of neighborhood search in kCELL (and oCELL) can be exploited through GPU acceleration.
  By shifting from pointer-based tree structures to dense tensor representations,
- kCELL (and oCELL) can leverage massive parallel throughput as the selection phase can be executed as a vectorized linear algebra operation.
+ kCELL (and oCELL) can leverage massively parallel throughput because the selection phase can be executed as a vectorized linear algebra operation.
 \end_layout
 
 \begin_layout Paragraph
@@ -33387,13 +33783,13 @@ Memory Layout
 
 \begin_layout Standard
 To maximize the efficiency of using the GPU for agent selection,
- agent data is stored in contiguous memory block.
+ agent data is stored in a contiguous memory block.
  For example,
- for kCELL system,
- we define two global agent tensors for storing the parameters of the activation functions,
+ for kCELL,
+ two global agent tensors are defined for storing the parameters of the activation functions,
 \begin_inset Formula 
 \[
-\mathcal{T}_{\mu}\in\mathbb{R}^{N\times n},\,\,\mathcal{T}_{\Sigma}\in\mathbb{R}^{N\times n\times n}
+\mathcal{T}_{\mu}\in\mathbb{R}^{N\times d},\,\,\mathcal{T}_{\Sigma}\in\mathbb{R}^{N\times d\times d}
 \]
 
 \end_inset
@@ -33403,19 +33799,19 @@ To maximize the efficiency of using the GPU for agent selection,
 \end_inset
 
  is the maximum agent capacity of the agent pool and 
-\begin_inset Formula $n$
+\begin_inset Formula $d$
 \end_inset
 
- is the number of features.
+ the number of features.
  
 \begin_inset Formula $\mathcal{T}_{\mu}$
 \end_inset
 
- is for storing the means and 
+ stores the means and 
 \begin_inset Formula $\mathcal{T}_{\Sigma}$
 \end_inset
 
- is for storing the covariance matrices.
+ stores the covariance matrices.
  With this layout,
  the GPU hardware can easily saturate its bandwith for efficient distance computations.
 \end_layout
@@ -33425,11 +33821,11 @@ Dynamic Agent Population
 \end_layout
 
 \begin_layout Standard
-In CELL systems,
+In kCELL,
  the number of agents is dynamic.
- Agents can be created or destroyed depending on the needs of the system.
+ Agents can be created or destroyed depending on the social interactions between the local expert agents.
  In a GPU parallelization context with contiguous memory storage,
- managing a dynamic set of agents requires efficient creation and deletion strategies to avoid costly memory allocations.
+ managing a dynamic set of agents requires carefully designed creation and deletion strategies to avoid costly memory allocations.
 \end_layout
 
 \begin_layout Standard
@@ -33446,7 +33842,7 @@ nolink "false"
 
 .
  Although easy to implement,
- this approach is unsuitable for high-frequency learning loops due to the overhead induced by re-allocating GPU memory and copying of existing data.
+ this approach is inappropriate for high-frequency learning loops due to the overhead induced by re-allocating GPU memory and by copying existing data.
 \end_layout
 
 \begin_layout Standard
@@ -33494,15 +33890,15 @@ name "fig:Illustration-of-dynamic-reallocation"
 \end_layout
 
 \begin_layout Standard
-To achieve 
+To obtain a complexity close to 
 \begin_inset Formula $O\left(1\right)$
 \end_inset
 
- updated complexity,
+,
  another strategy can be considered.
  Fixed-capacity tensors are pre-allocated to store agents data.
  A boolean masking vector 
-\begin_inset Formula $\mathcal{M}\in\left\{ 0,1\right\} ^{N}$
+\begin_inset Formula $M\in\left\{ 0,1\right\} ^{N}$
 \end_inset
 
  is maintained to track which memory slot contains an agent or not.
@@ -33514,7 +33910,7 @@ Agent creation then consists in assigning new agents data to the first index
 \end_inset
 
  such that 
-\begin_inset Formula $\mathcal{M}_{i}=0$
+\begin_inset Formula $M_{i}=0$
 \end_inset
 
 .
@@ -33522,7 +33918,7 @@ Agent creation then consists in assigning new agents data to the first index
  standard dynamic resizing strategies can be employed.
  Conversely,
  agent deletion sets 
-\begin_inset Formula $\mathcal{M}_{i}=0$
+\begin_inset Formula $M_{i}=0$
 \end_inset
 
 ,
@@ -33538,7 +33934,7 @@ nolink "false"
 \end_inset
 
 .
- This effectively hide the agent from the selection kernel without moving data.
+ This effectively hides the agent from the selection kernel without moving data or having to free a memory slot.
 \end_layout
 
 \begin_layout Standard
@@ -33588,10 +33984,11 @@ name "fig:Illustration-of-preallocated-memory-pool"
 \begin_layout Standard
 For selection,
  the mask 
-\begin_inset Formula $\mathcal{M}$
+\begin_inset Formula $M$
 \end_inset
 
- is used to filter the active memory slots and retrieve only relevant distance computations (i.e those corresponding to existing agents).
+ is used to filter the active memory slots and retrieve only relevant distance computations,
+ i.e those corresponding to existing agents.
 \end_layout
 
 \begin_layout Subsubsection
@@ -33599,10 +33996,66 @@ Comparison between GPU and Tree Selection
 \end_layout
 
 \begin_layout Standard
-The choice of using a geospatial index or the parallelization enabled by a GPU depends on the number of features and the quantity of agents required for learning the function underlying the data which is highly correlated to its complexity.
+The choice of using a geospatial index or GPU parallelization depends on the number of input dimensions and the quantity of agents required for learning the function underlying the data which is highly correlated to its complexity.
 \end_layout
 
 \begin_layout Standard
+To assesss the efficiency of each of the two approaches,
+ we benchmark neighborhood selection in Python using 
+\emph on
+PyTorch
+\emph default
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "paszke2019pytorch"
+literal "false"
+
+\end_inset
+
+ for GPU-accelerated computations and the 
+\emph on
+Rtree
+\emph default
+ package 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gilliesRtreeSpatialIndexing"
+literal "false"
+
+\end_inset
+
+ for efficient R-tree indexing.
+ Both selection strategies are compared on a synthetic nearest-neighbor selection task,
+ varying both the number of input dimensions and the number of agents.
+ As discussed in Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Context-Ensemble-Local"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ in kCELL,
+ the local expert agents are self-organizing according to the encountered data.
+ In real-world scenarios,
+ these data points are rarely uniformly distributed.
+ Thereore,
+ a set of 100 clusters of synthetic agent centroids is generated to emulate high-density manifolds.
+ Compared to uniform sampling which may exaggerate the effective search volume,
+ generating a clustered distribution can allow for a more balanced comparison,
+ especially for R-trees whose main advantage lies in efficiently pruning empty spaces.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
 To evaluate the impact of this structural shift,
  we benchmark neighborhood selection in Python using 
 \emph on
@@ -33652,6 +34105,11 @@ nolink "false"
  Using clustered centroid distribution allows a fairer comparison for R-trees whose main strength is to prune empty space.
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 From a set of 1000 input points,
  the time to find the 5-nearest neighbors is measured and averaged across 3 cycles.
@@ -33666,7 +34124,7 @@ nolink "false"
 
 \end_inset
 
- exposes a heatmap of the relative execution time difference in percentage expressed as
+ exposes a heatmap of the relative execution time difference in percentage computed as
 \begin_inset Formula 
 \[
 \Delta_{t}=\frac{\Delta_{\text{GPU}}-\Delta_{\text{R-tree}}}{\Delta_{\text{R-tree}}}\times100
@@ -33682,7 +34140,7 @@ nolink "false"
 \begin_inset Formula $\Delta_{\text{R-tree}}$
 \end_inset
 
- the execution time of a nearest neighbor query averaged over 3 cycles.
+ the average query execution times for the GPU and R-tree approaches.
  Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -33694,12 +34152,12 @@ nolink "false"
 
 \end_inset
 
- shows which strategy has obtained lowest execution time in each studied configuration.
+ illustrates which strategy has obtained lowest execution time in each tested configuration.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Note Comment
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Spatial Indexing:
@@ -33875,13 +34333,14 @@ nolink "false"
 \end_layout
 
 \begin_layout Standard
-The benchmarking results show that R-tree maintains a competitive edge in low-dimensional regimes (
+It can be noted that R-tree maintains a competitive edge in low-dimensional regimes (
 \begin_inset Formula $n\leq5$
 \end_inset
 
 ).
- This is an expected result as R-trees struggles in higher dimensions due to the curse of dimensionality.
- In higher dimensional regimes the distinction between nearest and farthest points becomes meaningless and pruning becomes ineffective 
+ Indeed,
+ R-trees struggle in higher dimensions due to the curse of dimensionality.
+ In higher dimensional regimes the distinction between nearest and farthest points becomes meaningless due to distance stretching and pruning becomes ineffective 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "kouiroukidis2011effects"
@@ -33961,11 +34420,11 @@ nolink "false"
 
 ,
  the competitive advantage of R-trees within the non linear phase transition area fades when the centroids are uniformly distributed.
- In this case the R-trees are almost never faster than GPU computation.
- It shows that the structure of data needs to be analyzed beforehand to make sure R-tree indexing is a pertinent indexing option.
- This is an expected result because R-trees are particularly adapted to prune large empty spaces.
+ In this case the R-trees are almost never faster than GPU computations.
+ It shows that the structure of data needs to be analyzed beforehand to make sure R-tree is a pertinent indexing option.
+ This is an expected result because R-trees are very efficient to prune large empty spaces.
  The uniform distribution of centroids does not exhibit exploitable structures for the R-tree.
- This is not an issue for the GPU based nearest neighbor computations that is a brute force approach that does not rely on structure.
+ This is not an issue for the GPU-based approach which leverages brute force which is not influenced by data structure.
 \end_layout
 
 \begin_layout Standard
@@ -34013,11 +34472,11 @@ name "fig:Winner-binary-heatmap-uniform"
 \end_layout
 
 \begin_layout Standard
-These observations indicate that the performance of nearest neighbor selection with R-trees compared to using GPUs is better in low dimensional regimes (
+These observations indicate that the performance of nearest neighbor selection using R-trees compared to using GPUs is better in low dimensional regimes (
 \begin_inset Formula $n\leq5$
 \end_inset
 
-) and depends heavily on the underlying data structures when the number of dimensions increases (
+) and depends heavily on the underlying structure of data when the number of dimensions increases (
 \begin_inset Formula $n\geq5$
 \end_inset
 
@@ -34029,14 +34488,14 @@ From an engineering standpoint,
  GPU-based selection provides a more predictable and stable latency profile,
  independent of data distribution.
  While R-tree indexing can provide large gains in very specific sparse regimes,
- its performance is highly sensitive to the latent structure of the learned model (i.e the distribution of agents).
+ its performance is highly sensitive to the data distribution.
 \end_layout
 
 \begin_layout Standard
 In an online learning setting for adaptive control in a MPC scheme without prior knowledge of the dynamics of the environment,
  the data distribution is not known in advance and may evolve over time.
  For this reason,
- the GPU-based brute-force selection is preferred for its 
+ the GPU-based brute-force selection should be preferred for its 
 \emph on
 deterministic latency
 \emph default
@@ -34045,12 +34504,11 @@ deterministic latency
 hardware scalability
 \emph default
 .
- Indeed,
- GPU execution time scales predictably with 
-\begin_inset Formula $n$
+ GPU execution time scales predictably with the number of input dimensions 
+\begin_inset Formula $d$
 \end_inset
 
- and 
+ and the number of samples 
 \begin_inset Formula $N$
 \end_inset
 
@@ -34064,14 +34522,8 @@ hardware scalability
 \begin_layout Standard
 The implementation strategies discussed in this section address the primary computational bottleneck of kCELL for use in a MPC scheme,
  namely the repeated selection and evaluation of local experts under strict real-time constraints.
- By leveraging either spatial indexing or GPU brute force selection,
+ By leveraging either spatial indexing or GPU parallelization for selecting neighbor agents,
  kCELL can be integrated into population-based trajectory optimizers while maintaining predictable inference and learning latency.
-\end_layout
-
-\begin_layout Standard
-However,
- computational efficiency alone is not sufficient for kCELL to be deployed with gradient-based optimizers that could potentially handle hard constraints.
- Such approaches require predictive models to admit local linearizations.
 \end_layout
 
 \begin_layout Subsection
@@ -34088,17 +34540,37 @@ name "subsec:MPC-and-Local-Linearization"
 \begin_layout Standard
 Fast and scalable inference in kCELL is essential for its integration into real-time MPC frameworks,
  especially when using population-based or gradient-based trajectory optimization methods that rely on repeated model evaluations.
+ The previous section discussed about leveraging geospatial indexing with R-trees and GPU parallelization to make kCELL compatible with real-time inference and population-based optimization even with a large population of local expert agents.
 \end_layout
 
 \begin_layout Standard
 However,
- computational efficiency alone is insufficient when MPC formulation rely on gradient-based optimization methods that exploit local structures to enforce hard constraints.
+ computational efficiency alone can reveal insufficient.
+ Population-based optimizers are able to handle non-differentiale or noisy objectives and offer better global search capabilities.
+ However,
+ their computational cost per iteration is high,
+ they exhibit slower convergence near optima and they offer fewer theoretical convergence guarantees unlike gradient-based optimizers 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "friedl2014population"
+literal "false"
+
+\end_inset
+
+.
+ This section argues that kCELL naturally provides local affine approximations of the dynamics that are directly compatible with gradient-based optimization approaches such as Sequential Quadratic Programming (SQP).
+ 
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+when the MPC formulation rely on gradient-based optimization methods that exploit local structures to enforce hard constraints.
  Such approaches require predictive models that admit reliable local linearizations of the learned system dynamics.
 \end_layout
 
-\begin_layout Standard
-In this section,
- we show that kCELL naturally provides local affine approximations of the dynamics that are directly compatible with gradient-based optimization approaches such as Sequential Quadratic Programming (SQP).
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -34106,8 +34578,8 @@ Differentiability in CELL instantiations
 \end_layout
 
 \begin_layout Standard
-In CELL instantiations,
- online learning is performed by maintaining a set of self-organizing spatialized agents that map the target function locally (cf.
+In kCELL,
+ online learning is performed by maintaining an ensemble of self-organizing local expert agents that each map the target function locally (cf.
  Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -34120,44 +34592,55 @@ nolink "false"
 \end_inset
 
 ).
- A context agent is denoted as
+ As specified in the CELL formalism,
+ a local expert agent is denoted as
 \begin_inset Formula 
 \[
-\mathcal{A}_{i}=\left\{ \phi_{i},f_{i}\right\} 
+\mathcal{A}_{i}=\left\{ \phi_{i},f_{i},\mathcal{M}_{i}\right\} 
 \]
 
 \end_inset
 
 where 
-\begin_inset Formula $\phi_{i}:\mathbb{R}^{n}\mapsto\left]0,1\right]$
+\begin_inset Formula $\phi_{i}:\mathbb{R}^{d}\mapsto\left]0,1\right]$
 \end_inset
 
- is an activation function that maps features to a level of expertise for predicting a given input and 
-\begin_inset Formula $f_{i}:\mathbb{R}^{n}\mapsto\mathbb{R}^{m}$
+ is the activation function that maps features to value representing the level of expertise of 
+\begin_inset Formula $\mathcal{A}_{i}$
 \end_inset
 
- is local internal prediction function that maps features to target outputs.
+ for predicting a given input,
+ 
+\begin_inset Formula $f_{i}:\mathbb{R}^{d}\mapsto\mathbb{R}^{m}$
+\end_inset
+
+ is the local internal model that maps inputs to target outputs,
+ 
+\begin_inset Formula $\mathcal{M}_{i}$
+\end_inset
+
+ is the internal state of 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
 In CELL instantiations,
- the global prediction is obtained by aggregating the predictions of agents,
- leveraging activation and prediction functions through an aggregation function.
+ the global prediction is obtained by aggregating the predictions of most relevant local experts.
  If the activation function,
- the prediction function and the aggregation function are differentiable,
+ the internal model and the aggregation function are differentiable,
  then,
  by standard composition rule,
- the global prediction function of the system is differentiable.
-\end_layout
-
-\begin_layout Standard
-For kCELL,
- we consider a RBF kernel as the activation function,
- an affine function as the prediction function and a weighted average as the aggregation function.
+ the global prediction function is differentiable.
+ In kCELL,
+ the activation function corresponds to a RBF kernel,
+ the internal model is an affine function and the aggregation function is a weighted average.
  The final prediction is obtained by 
 \begin_inset Formula 
 \begin{equation}
-f\left(x\right)=\frac{\sum_{i}\phi_{i}\left(x\right)f_{i}\left(x\right)}{\sum_{i}\phi_{i}\left(x\right)}=\sum_{i}w_{i}\left(x\right)f_{i}\left(x\right)
+\hat{f}\left(x\right)=\frac{\sum_{i}\phi_{i}\left(x\right)f_{i}\left(x\right)}{\sum_{j}\phi_{j}\left(x\right)}=\sum_{i}w_{i}\left(x\right)f_{i}\left(x\right)
 \end{equation}
 
 \end_inset
@@ -34167,22 +34650,26 @@ where
 \end_inset
 
  are the normalized weights such as 
-\begin_inset Formula $\sum_{i}w_{i}\left(x\right)=1$
+\begin_inset Formula 
+\[
+\sum_{i}w_{i}\left(x\right)=1
+\]
+
 \end_inset
 
-.
+
 \end_layout
 
 \begin_layout Standard
-As all the involved functions are differentiable with respect to 
+As all the involved operations are differentiable with respect to 
 \begin_inset Formula $x$
 \end_inset
 
 ,
- the derivative of the prediction function of the system if given by
+ the derivative of the prediction function of the system is given by
 \begin_inset Formula 
 \begin{equation}
-\frac{\partial f}{\partial x}\left(x\right)=\sum_{i}\left(\frac{\partial w_{i}}{\partial x}\left(x\right)f_{i}\left(x\right)+w_{i}\left(x\right)\frac{\partial f_{i}}{\partial x}\left(x\right)\right)
+\frac{\partial\hat{f}}{\partial x}\left(x\right)=\sum_{i}\left(\frac{\partial w_{i}}{\partial x}\left(x\right)f_{i}\left(x\right)+w_{i}\left(x\right)\frac{\partial f_{i}}{\partial x}\left(x\right)\right)
 \end{equation}
 
 \end_inset
@@ -34193,9 +34680,9 @@ As all the involved functions are differentiable with respect to
 \begin_layout Standard
 This property makes kCELL usable in gradient-based nonlinear optimization frameworks.
  However,
- we argue that a principled approach to linearization can be leveraged by exploiting kCELL's internal structure.
+ we argue that a principled approach to local linearization can be leveraged by exploiting kCELL's internal structure.
  In typical model-based control,
- non-linear dynamics are lienarized via a first-order Taylor expansion to fit the requirements of convex optimization 
+ non-linear dynamics are linearized via a first-order Taylor expansion to fit the requirements of convex optimization 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "rawlings2017model"
@@ -34208,7 +34695,7 @@ literal "false"
  when the predictive model is already an ensemble of local linear structures,
  applying a Taylor expansion becomes conceptually redundant.
  For this reason,
- we propose to bypass standard differentiation in favor of the structural local linearization capabilities of kCELL.
+ using kCELL allows to bypass standard differentiation in favor of structural local linearization capabilities.
 \end_layout
 
 \begin_layout Subsubsection
@@ -34217,7 +34704,7 @@ Local Linearization
 
 \begin_layout Standard
 In kCELL,
- the spatial organization of agents and their linear internal models allows to extract local affine models without computing full Jacobians or Taylor expansions.
+ the spatial organization of agents and their affine internal model allow to extract local linearization of the approximated function without computing full Jacobians or Taylor expansions.
 \end_layout
 
 \begin_layout Standard
@@ -34238,13 +34725,13 @@ In MPC,
 \begin_inset Formula $u_{t}$
 \end_inset
 
- is the action to take.
- Assuming agents have linear internal models 
+ is the action to apply.
+ Assuming agents have affine internal models 
 \begin_inset Formula $f_{i}\left(x_{t}\right)=A_{i}s_{t}+B_{i}u_{t}+c_{i}$
 \end_inset
 
 ,
- the local affine model around a input point 
+ the local linearization around a input point 
 \begin_inset Formula $x_{t}$
 \end_inset
 
@@ -34258,11 +34745,7 @@ A\left(x_{t}\right)s+B\left(x_{t}\right)u+c\left(x_{t}\right) & = & \sum_{i}w_{i
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-This approach offers a significant advanatge for control because it preserves the dynamics as learned by the model in the first place.
+This approach offers a significant advanatge for control as it preserves the dynamics as learned by the model in the first place without introducing an additional differentiation step.
 \end_layout
 
 \begin_layout Subsubsection
@@ -34270,7 +34753,9 @@ Sequential Quadratic Programming (SQP)
 \end_layout
 
 \begin_layout Standard
-Sequential Quadratic Programming (SQP) is a local optimization method designed for solving nonlinear constrained problems.
+In this section,
+ the use of Sequential Quadratic Programming (SQP) is discussed as being an optimization technique that synergizes well with kCELL.
+ SQP is a local optimization method designed for solving nonlinear constrained optimization problems.
  The optimization problem to solve is a nonlinear program formulated as
 \begin_inset Formula 
 \begin{align*}
@@ -34283,15 +34768,15 @@ Sequential Quadratic Programming (SQP) is a local optimization method designed f
 \end_inset
 
 where 
-\begin_inset Formula $J:\mathbb{R}^{n\times T}\mapsto\mathbb{R}$
+\begin_inset Formula $J:\mathcal{S}^{T+1}\times\mathcal{U}^{T}\mapsto\mathbb{R}$
 \end_inset
 
  is the cost function,
  
-\begin_inset Formula $f$
+\begin_inset Formula $f:\mathcal{S}\times\mathcal{U}\mapsto\mathcal{S}$
 \end_inset
 
- the dynamic function describing the system,
+ is the transition function describing the dynamics of the system,
  
 \begin_inset Formula $h$
 \end_inset
@@ -34398,13 +34883,13 @@ literal "false"
 \end_inset
 
  is typically employed to determine an appropriate step size that keeps linearization error contained and ensures sufficient cost decrease.
- This mechanism guarantees stable convergence when optimization trajectories with learned dynamics.
+ This mechanism offers stable convergence when optimizing trajectories with a learned model.
  The process is repeated until convergence.
 \end_layout
 
 \begin_layout Standard
-Due to its spatialized agent-based structure,
- kCELL provides naturally the linearized dynamics needed for the local QP.
+Due to its spatialized agent-based architecture,
+ kCELL naturally provides the local linearization of the dynamics needed for the local QP.
  As shown in Equation 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -34417,12 +34902,12 @@ nolink "false"
 \end_inset
 
 ,
- for a input point 
+ for an input state-action tuple 
 \begin_inset Formula $x_{t}=\left[s_{t},u_{t}\right]$
 \end_inset
 
 ,
- the local affine model
+ the local affine model is defined as
 \begin_inset Formula 
 \[
 s_{t+1}\approx\underbrace{A\left(x_{t}\right)}_{A_{t}}s_{t}+\underbrace{B\left(x_{t}\right)}_{B_{t}}u_{t}+\underbrace{c\left(x_{t}\right)}_{c_{t}}
@@ -34430,9 +34915,8 @@ s_{t+1}\approx\underbrace{A\left(x_{t}\right)}_{A_{t}}s_{t}+\underbrace{B\left(x
 
 \end_inset
 
-provides exactly the matrices needed for the linearized dynamics in the QP.
- This way the approximated QP subproblem is fully compliant with the dynamics initially learned by the model,
- without having to build a proxy through differentiation and Taylor expansion.
+and provides exactly the matrices needed for the linearized dynamics in the QP.
+ The approximated QP subproblem is fully compliant with the dynamics initially learned by kCELL without having to build a proxy through differentiation and Taylor expansion.
  Consequently,
  SQP-based MPC provides a principled and efficient way to exploit kCELL's local structure while being able to enforce hard constraints.
 \end_layout
@@ -34440,22 +34924,20 @@ provides exactly the matrices needed for the linearized dynamics in the QP.
 \begin_layout Standard
 In this section we discussed about the integration of kCELL into real-time MPC pipelines by exploiting both its computational and structural properties.
  First the differentiable and modular nature of kCELL enables highly parallel trajectory unfolding,
- making population-based optimizer tractable through GPU based implmentations.
- This approach is particularly adapted for large-scale trajectory sampling and global solution exploration.
+ making population-based optimizer tractable through GPU parallelization.
+ This approach is particularly adapted for large-scale trajectory sampling and global solution exploration with a non-convex and highly non-linear cost function.
  Then,
- we showed that kCELL's agent-based structure provides both differentiability and explicit local affine models of the learned dynamicsk for gradientt-based MPC.
- This property naturally allow the use of SQP,
+ we showed that kCELL's agent-based architecture provided both differentiability and explicit local affine models of the learned dynamics,
+ making it suitable for being coupled with a gradient-based optimizer.
+ The properties of kCELL naturally allows the use of SQP,
  which exploits local linear models to efficiently enforce hard constraints and produce smooth control trajectories.
- Ultimately,
- we showed that using a kCELL predictive dynamics model,
- both population-based and gradient-based optimization schemes could be leveraged.
 \end_layout
 
 \begin_layout Standard
 Beyond computational efficiency,
- kCELL exposes introspection signals such as distance-based competence and local model disagreement that quantify the reliability of the predictions along candidate trajectories.
- in the remainder of this chapter,
- we explore the use of these introspection signals to improve control in terms of exploration and exploitation under operational constraints.
+ kCELL exposes introspection signals such as distance-based expertise and local model disagreement that quantify the reliability of the predictions along candidate trajectories.
+ In the remainder of this chapter,
+ the use of these introspection signals is explored to improve control in terms of exploration and exploitation under operational constraints.
 \end_layout
 
 \begin_layout Section
@@ -34470,11 +34952,19 @@ name "sec:Exploration-MPC"
 \end_layout
 
 \begin_layout Standard
-The integration of kCELL into SQP framework provides a solid and efficient way of exploiting current model knowledge.
+The previous section described the ways of integrating kCELL into real-time MPC,
+ focusing on high-throughput inference,
+ differentiability and local linearization.
  However,
- the performances of any model-based controller is bounded by the quality of the learned dynamics.
- In settings where no prior knowledge of the system is available,
- the controller must balance the minization of the task cost with the need to collect informative data in unknownn or poorly modeled regions of the state-action space.
+ the performance of any model-based controller is bounded by the quality of the learned dynamics.
+ In contexts where no prior knowledge about the system's dynamics is available,
+ the controller must balance the minimization of the task cost with the necessity of collecting informative data in unknown or poorly modeled regions of the stat-action space.
+ This section addresses the second challenge identified in the introduction of this chapter:
+ the
+\series bold
+ efficient exploration of an unknown environment
+\series default
+.
 \end_layout
 
 \begin_layout Standard
@@ -34487,7 +34977,7 @@ literal "false"
 \end_inset
 
 ) or on uncertainty-based mechanisms derived from auxiliary models,
- such bayesian posterior variances in Gaussian Processes 
+ such as Bayesian posterior variances in Gaussian Processes 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "srinivas2009gaussian,ruiz2015general"
@@ -34515,13 +35005,22 @@ literal "false"
 
 .
  While effective in many situations,
- these approaches quantify uncertainty through probabilistic inference or learned proxies that are determined by model design choices,
- whereas kCELL exposes uncertainty as a structural and geometric property of its spatialized local learning architecture.
+ these approaches quantify uncertainty through probabilistic inference or learned proxies that are determined by model design choices.
+ In contrast,
+ kCELL exposes uncertainty as a structural and geometric property emerging from its ensemble of self-organizing local expert agents.
 \end_layout
 
 \begin_layout Standard
-kCELL's spatialized agent-based architecture provides two distinct introspection signals that can be directly embedded into the MPC objective function to drive exploration of unknown states:
- distance-based competence and local model disagreement.
+kCELL's spatialized agent-based architecture provides two distinct introspection signals that can be directly embedded into the MPC objective function to drive exploration:
+ 
+\series bold
+distance-based expertise
+\series default
+ and 
+\series bold
+local model disagreement
+\series default
+.
 \end_layout
 
 \begin_layout Standard
@@ -34538,7 +35037,7 @@ Distance-based competence quantifies how far a state-action pair lies from regio
 \begin_layout Standard
 Exploration can therefore be formulated as a deterministic,
  introspection-based regularization of the control objective,
- leading to the following augmented cost function
+ leading to an augmented cost function:
 \begin_inset Formula 
 \[
 J\left(s_{t},u_{t}\right)=\alpha J_{\text{task}}\left(s_{t},u_{t}\right)+\lambda J_{\text{explore}}\left(s_{t},u_{t}\right)
@@ -34563,7 +35062,7 @@ where
 \begin_inset Formula $\alpha\in\mathbb{R},\,\lambda\in\mathbb{R}$
 \end_inset
 
- the adjustment weights to trade-off task exploitation and exploration.
+ are the weights used to trade-off exploitation and exploration.
 \end_layout
 
 \begin_layout Subsection
@@ -34579,15 +35078,14 @@ name "subsec:Distance-based-Competence"
 
 \begin_layout Standard
 Unlike opaque black-box models,
- kCELL provides an explicit measure of its degree of knowledge about specific regions of the feature space through the spatial distribution of agents.
+ kCELL provides an explicit measure of its degree of knowledge about specific regions of the state-action space through the spatial distribution of local expert agents.
  To encourage exploration,
- the model must acquire data that lie outside the currently covered regions,
- i.e outside regions that have been sufficiently visited.
- The degree of knowledge associated with a state-action pair can be quantified by evaluating the Mahalanobis distance between the pair and the closest agents.
+ the model must acquire data that lie outside the currently covered regions.
+ The degree of knowledge can be quantified by evaluating the Mahalanobis distance between a state-action pair and the closest agents.
 \end_layout
 
 \begin_layout Standard
-The objective is to deliberately drive the state-action trajectories away from the currently covered regions of the feature space to collect informative samples in poorly modeled areas.
+The objective is to deliberately drive the state-action trajectories away from the currently covered regions of the input space to collect informative samples in poorly modeled areas.
  To achieve this,
  we introduce a distance-based penalty term 
 \begin_inset Formula $p_{\text{dist}}\left(x_{t}\right)$
@@ -34596,8 +35094,8 @@ The objective is to deliberately drive the state-action trajectories away from t
  that augments the MPC cost function by promoting exploration of unknown regions such as
 \begin_inset Formula 
 \begin{eqnarray}
-p_{\text{dist}}\left(x_{t}\right) & = & -\sum_{i\in D_{\text{closest}}}w_{i}\left(x_{t}\right)\left(\left(x_{t}-\mu_{i}\right)^{\top}\Sigma_{i}^{-1}\left(x_{t}-\mu_{i}\right)\right)\\
- & = & -\sum_{i\in D_{\text{closest}}}w_{i}\left(x_{t}\right)d\left(\mathcal{A}_{i},x_{t}\right)^{2}
+p_{\text{dist}}\left(x_{t}\right) & = & -\sum_{i\in\mathcal{D}_{\text{closest}}}w_{i}\left(x_{t}\right)\left(\left(x_{t}-\mu_{i}\right)^{\top}\Sigma_{i}^{-1}\left(x_{t}-\mu_{i}\right)\right)\\
+ & = & -\sum_{i\in\mathcal{D}_{\text{closest}}}w_{i}\left(x_{t}\right)d\left(\mathcal{A}_{i},x_{t}\right)^{2}
 \end{eqnarray}
 
 \end_inset
@@ -34608,7 +35106,7 @@ where
 
 ,
  
-\begin_inset Formula $D_{\text{closest}}$
+\begin_inset Formula $\mathcal{D}_{\text{closest}}$
 \end_inset
 
 is the set of the 
@@ -34629,17 +35127,13 @@ is the set of the
 \begin_inset Formula $w_{i}\left(x_{t}\right)=\frac{\phi_{i}\left(x_{t}\right)}{\sum_{j}\phi_{j}\left(x_{t}\right)}$
 \end_inset
 
- are the weights depending on the activation of each agent on 
-\begin_inset Formula $x_{t}$
-\end_inset
-
-.
+ are the normalized weights obtained from the activation value of each agent.
 \end_layout
 
 \begin_layout Standard
 Because the penalty is negative,
  minimizing the augmented MPC objective encourages trajectories that maximize the distance to the currently well-covered regions.
- in this context,
+ In this context,
  
 \begin_inset Formula $p_{\text{dist}}\ll0$
 \end_inset
@@ -34648,7 +35142,7 @@ Because the penalty is negative,
 \begin_inset Formula $x_{t}$
 \end_inset
 
- is currently not supported by the agents' training data.
+ is currently not represented in the training data.
  Conversely,
  
 \begin_inset Formula $p_{\text{dist}}\approx0$
@@ -34658,7 +35152,7 @@ Because the penalty is negative,
 \begin_inset Formula $x_{t}$
 \end_inset
 
- is close to a well-covered (known) region of feature space and is therefore likely to be already included in the current knowledge base.
+ is close to a well-covered region and is therefore likely to be represented in the training data.
 \end_layout
 
 \begin_layout Subsection
@@ -34673,7 +35167,7 @@ name "subsec:Local-Disagreement"
 \end_layout
 
 \begin_layout Standard
-In regions where multiple agents are close in feature space,
+In regions where multiple agents are close in state-action space,
  the variance between their individual predictions serves as a proxy for local predictive inconsistency.
  High disagreement suggests that the local dynamics are either stochastic,
  noisy or that the model has not yet converged to a stable local representation.
@@ -34689,20 +35183,18 @@ literal "false"
 
 \end_inset
 
- while remaining fully intrinsic to the kCELL architecture.
+ but remains fully intrinsic to the kCELL architecture as it is driven by the social dynamics of the ensemble of local expert agents.
 \end_layout
 
 \begin_layout Standard
-To achieve this,
- we introduce a disagreement-based penalty term 
+A disagreement-based penalty term 
 \begin_inset Formula $p_{\text{disagree}}\left(x_{t}\right)$
 \end_inset
 
- that augments the MPC cost function by promoting exploration of highly uncertain regions of feature space,
- such as
+ is defined such as
 \begin_inset Formula 
 \begin{eqnarray}
-p_{\text{disagree}}\left(x_{t}\right) & = & -\sum_{i\in D_{\text{closest}}}w_{i}\left(x_{t}\right)\left\Vert f\left(x_{t}\right)-f_{i}\left(x_{t}\right)\right\Vert ^{2}
+p_{\text{disagree}}\left(x_{t}\right) & = & -\sum_{i\in D_{\text{closest}}}w_{i}\left(x_{t}\right)\left\Vert \hat{f}\left(x_{t}\right)-f_{i}\left(x_{t}\right)\right\Vert ^{2}
 \end{eqnarray}
 
 \end_inset
@@ -34722,28 +35214,31 @@ is the set of the
 
 -closest agents,
  
-\begin_inset Formula $f\left(x_{t}\right)$
+\begin_inset Formula $\hat{f}\left(x_{t}\right)$
 \end_inset
 
- is the global prediction of the system obtained by aggregating the predictions of the closest agents,
+ is the global prediction,
  
 \begin_inset Formula $f_{i}\left(x_{t}\right)$
 \end_inset
 
- is the prediction of the 
+ is the prediction of the agent 
 \begin_inset Formula $i$
 \end_inset
 
--th agent,
- 
+,
+ and 
 \begin_inset Formula $w_{i}\left(x_{t}\right)=\frac{\phi_{i}\left(x_{t}\right)}{\sum_{j}\phi_{j}\left(x_{t}\right)}$
 \end_inset
 
- are the weights depending on the activation of each agent on 
-\begin_inset Formula $x_{t}$
-\end_inset
-
-.
+ are the normalized weights obtained from the activation value of each agent.
+ By minimizing this negative term,
+ the optimizer seeks out state-actions where the local 
+\emph on
+social consensus
+\emph default
+ among expert agents is low,
+ thereby prioritizing data collection where the model is most uncertain.
 \end_layout
 
 \begin_layout Subsection
@@ -34758,7 +35253,7 @@ name "subsec:Exploration-Comparative-Study"
 \end_layout
 
 \begin_layout Standard
-This section evaluates the effectiveness of the proposed introspection-driven exploration strategies based on distance-based competence and local model disagreement.
+This section evaluates the effectiveness of the proposed introspection-driven exploration strategies based on distance-based expertise and local model disagreement.
  The objective is to assess whether embedding these signals into the MPC objective leads to improved coverage of feature space in an online learning setup,
  compared to random uninform or purely exploitative exploration strategies.
 \end_layout
@@ -34778,10 +35273,7 @@ literal "false"
 
 ,
  which exhibits nonlinear dynamics and presents a nontrivial exploration challenge.
-\end_layout
-
-\begin_layout Standard
-States are composed of the 
+ States are composed of the 
 \begin_inset Formula $x,y$
 \end_inset
 
@@ -34802,10 +35294,7 @@ States are composed of the
 \end_inset
 
  to allow for 2D representations.
-\end_layout
-
-\begin_layout Standard
-The pendulum is initialized at the bottom equilibrium with zero angular velocity (
+ The pendulum is initialized at the bottom equilibrium with zero angular velocity (
 \begin_inset Formula $\left\{ \theta=\pi,\,\dot{\theta}=0\right\} $
 \end_inset
 
@@ -34875,7 +35364,7 @@ Four exploration strategies are evaluated:
 
 \begin_layout Enumerate
 Distance intrinsic exploration,
- where the cost function to minimize is the distance-based competence penalty introduced in Section 
+ where the cost function to minimize is the distance-based expertise penalty introduced in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:Distance-based-Competence"
@@ -35344,7 +35833,7 @@ name "tab:Space-Coverage"
 \end_layout
 
 \begin_layout Standard
-The results show that both introspection-driven strategies (distance-based competence and local disagreement) achieve significantly higher state-space coverage than the uninformed random uniform strategy under the same interaction budget:
+The results show that both introspection-driven strategies (distance-based expertise and local disagreement) achieve significantly higher state-space coverage than the uninformed random uniform strategy under the same interaction budget:
  
 \begin_inset Formula $\approx10\%$
 \end_inset
@@ -36106,7 +36595,7 @@ Discussion
 
 \begin_layout Standard
 The experimental results presented in this section demonstrate that introspection-driven exploration strategies based on kCELL online modeling improve exploration efficiency in model-based control settings without prior knowledge of the system dynamics.
- By embedding distance-based competence and local model disagreement directly into the MPC objective,
+ By embedding distance-based expertise and local model disagreement directly into the MPC objective,
  the controller is able to consistently escape well-modeled regions and acquire informative data in unknown regions of the state-action space.
 \end_layout
 
@@ -36237,7 +36726,7 @@ nolink "false"
 
 \begin_layout Standard
 Finally,
- this study considers distance-based competence and local disagreement as independent exploration objectives.
+ this study considers distance-based expertise and local disagreement as independent exploration objectives.
  A combined approach was not explored,
  primarily because thses introspection signals operate on very different scales and have distinct geometrical interpretations.
  Investigating principled combinations or adaptive weighting schemes between distance-based and disagreement-based objectives could reveal complementary effects and lead to more exhaustive exploration strategies.
@@ -36319,7 +36808,7 @@ kCELL's spatialized agent-based architecture provides valuable introspection sig
 \end_layout
 
 \begin_layout Standard
-In this chapter we focus specifically on distance-based competence introspection signals that quantify how far a state lies from regions that are sufficiently covered by agents.
+In this chapter we focus specifically on distance-based expertise introspection signals that quantify how far a state lies from regions that are sufficiently covered by agents.
  It provides a geometrically grounded measure of epistemic uncertainty.
 \end_layout
 
@@ -37464,7 +37953,7 @@ The comparative study that we conducted as well as the proposed introspection-ba
 In the presented experiments,
  proximity to agent centers correlates well with prediction accuracy.
  However,
- the distance-based competence measure used in this study is only a proxy for epistemic uncertainty.
+ the distance-based expertise measure used in this study is only a proxy for epistemic uncertainty.
  It is not a calibrated uncertainty estimate.
  As such,
  this regularization approach should be interpreted as a heuristic for risk reduction rather than a formal safety guarantee.
@@ -38350,12 +38839,51 @@ n_{\text{configurations}}=\underbrace{1}_{\text{Nominal}}+\underbrace{\left|\mat
 
 To maintain computational efficiency for large memories,
  instead of evaluating all possible substitution possibilities by building a new model for each,
- we use a heuristic in our implementation to select only one substitution configuration to evaluate as the one corresponding to the point 
-\begin_inset Formula $j$
+ heuristics can be used to select only one substitution configuration.
+ Here are examples of heuristics than can be used in this context:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Random Selection
+\series default
+:
+ A random substitution configuration is selected.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Influence-Based Selection
+\series default
+:
+ This heuristic aims at selecting the less influencial point that contributes the less to the final predictions of the GP.
+ Points that are highly correlated with others in the memory of the agent tend to have low influence,
+ meaning their removal would minimally affect the model's predictive performance.
+ Influence can be estimated from the inverse of the covariance matrix 
+\begin_inset Formula $K$
 \end_inset
 
- for which the current model predicts the highest variance.
- Using this heuristic reduces the number of evaluated configurations to 
+.
+ Smaller diagonal entries indicate points that are less influencial.
+ The less influencial point 
+\begin_inset Formula $j^{*}$
+\end_inset
+
+ is obtained by 
+\begin_inset Formula 
+\[
+j^{*}=\arg\min_{j\in X_{i,\text{train}}}\left[K^{-1}\right]_{jj}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Using a heuristic allows to reduce the number of evaluated configurations to 
 \begin_inset Formula 
 \[
 n_{\text{configurations}}=3
@@ -38749,6 +39277,796 @@ name "sec:Learning-Rules-gpCELL"
 \end_layout
 
 \begin_layout Standard
+The previous section detailed the tripartite structure of gpCELL agents.
+ It focused on how GP-based local expert agents manage their local complexity through AIC model selection.
+ This section describes the social learning rules that govern the behavior of the ensemble of local expert agents.
+ 
+\end_layout
+
+\begin_layout Standard
+In gpCELL the reliability of an agent 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ is tracked via its running confidence 
+\begin_inset Formula $\bar{C}_{\mathcal{A}_{i}}\in\left[-1,1\right]$
+\end_inset
+
+.
+ This confidence is updated using an exponential moving average of normalized social feedbacks.
+ The agents are compared to a predictive baseline 
+\begin_inset Formula $y_{base}$
+\end_inset
+
+ derived from the weighted contributions of other close experts in the ensemble.
+\end_layout
+
+\begin_layout Paragraph
+Social Baseline Definition
+\end_layout
+
+\begin_layout Standard
+The baseline 
+\begin_inset Formula $y_{base}$
+\end_inset
+
+ is defined as a weighted average of the predictions 
+\begin_inset Formula $\mu_{*,i}$
+\end_inset
+
+ (the predictive means) from a specific set of agents 
+\begin_inset Formula $\mathcal{D}_{\text{social}}$
+\end_inset
+
+.
+ The contribution of each agent is proportional to its activation value 
+\begin_inset Formula $\phi_{i}\left(x\right)$
+\end_inset
+
+,
+ representing its expertise:
+\begin_inset Formula 
+\[
+y_{base}=\sum_{i\in\mathcal{D}_{\text{social}}}w_{i}\left(x\right)\mu_{*,i}\,\,\text{with}\,\,w_{i}\left(x\right)=\frac{\phi_{i}}{\sum_{j\in\mathcal{D}_{\text{social}}}\phi_{j}\left(x\right)}
+\]
+
+\end_inset
+
+The composition of 
+\begin_inset Formula $\mathcal{D}_{\text{social}}$
+\end_inset
+
+ depends on the local social context:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Neighbor Feedback
+\series default
+ (
+\begin_inset Formula $N_{\text{neighbors}}>1$
+\end_inset
+
+):
+ When several agents are neighbors to the given input 
+\begin_inset Formula $x_{new}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\mathcal{D}_{\text{social}}$
+\end_inset
+
+ contains the neighbor agents such as 
+\begin_inset Formula 
+\[
+\mathcal{D}_{\text{social}}=\mathcal{D}_{\text{neighbors}}
+\]
+
+\end_inset
+
+In this context,
+ the baseline prediction represents the collective group optinion of the local experts.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Closest Feedback
+\series default
+ (
+\begin_inset Formula $N_{\text{neighbors}}=1$
+\end_inset
+
+):
+ When there is only a single neighbor to the given input 
+\begin_inset Formula $x_{new}$
+\end_inset
+
+,
+ it's prediction is compared against the set of the 
+\begin_inset Formula $k$
+\end_inset
+
+-closest agents 
+\begin_inset Formula $\mathcal{D}_{k\text{-closest}}$
+\end_inset
+
+,
+ excluding itself such as 
+\begin_inset Formula 
+\[
+\mathcal{D}_{\text{social}}=\mathcal{D}_{k\text{-closest}}\backslash\left\{ \mathcal{A}_{i}\right\} 
+\]
+
+\end_inset
+
+This allows the prediction of the neighbor agent to be benchmarked against a default broader baseline.
+\end_layout
+
+\begin_layout Standard
+The relative performance of agent 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ is evaluated as the fractional difference in error:
+\begin_inset Formula 
+\[
+\Delta_{\mathcal{A}_{i}}=\frac{\left|y_{base}-y_{new}\right|-\left|\hat{y}_{i}-y_{new}\right|}{\left|y_{base}-y_{new}\right|}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\hat{y}_{i}$
+\end_inset
+
+ is the prediction mean 
+\begin_inset Formula $\mu_{*,i}$
+\end_inset
+
+ of 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+.
+ If 
+\begin_inset Formula $\Delta_{\mathcal{A}_{i}}>0$
+\end_inset
+
+,
+ it indicates that the agent is more accurate than the broader social consensus and thus a strong expert that should be rewarded.
+ Conversely,
+ if 
+\begin_inset Formula $\Delta_{\mathcal{A}_{i}}<0$
+\end_inset
+
+,
+ it suggests that the agent's internal model is not relevant compared to the collective knowledge,
+ and thus a weak expert that should be penalized.
+\end_layout
+
+\begin_layout Standard
+To ensure the stability of the running confidence 
+\begin_inset Formula $\bar{C}_{\mathcal{A}_{i}}$
+\end_inset
+
+ against outliers,
+ the raw feedback is normalized into an instantaneous confidence 
+\begin_inset Formula $c_{i}\in\left[-1,1\right]$
+\end_inset
+
+ using a hyperbolic tangent function such as 
+\begin_inset Formula 
+\[
+c_{i}=\tanh\left(k_{\text{steepness}}\Delta_{\mathcal{A}_{i}}\right)
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $k$
+\end_inset
+
+ is a hyperparameter representing the steepness of the normalization curve.
+ This ensures that extremely large relative errors do not cause catastrophic drops in confidence.
+ The running confidence is then update as an exponential moving average of the instantaneous confidence values:
+\begin_inset Formula 
+\[
+\bar{C}_{\mathcal{A}_{i}|t+1}=\left(1-\lambda\right)\bar{C}_{\mathcal{A}_{i}|t}+\lambda c_{i}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is the smoothing factor.
+ This value is used as the primary metric for pruning bad agents in the ensemble.
+\end_layout
+
+\begin_layout Standard
+The learning rules in gpCELL translate the social context and the result of the AIC model selection into discrete actions and meta-actions.
+ To maintain a predictable computational complexity,
+ we introduce an heuristic for implementation.
+ While multiple agents are neighbors for an input,
+ only the closest agent is considered to be updated.
+ The learning rules are detailed in the subsequent paragraphs.
+\end_layout
+
+\begin_layout Paragraph
+Inaccuracy
+\end_layout
+
+\begin_layout Standard
+When 
+\begin_inset Formula $N_{\text{neighbors}}\geq1$
+\end_inset
+
+,
+ the closest agent performs its AIC-based selection.
+ If the new point is informative enough to be included in the internal dataset 
+\begin_inset Formula $\mathcal{D}_{i}$
+\end_inset
+
+,
+ the internal GP model and the shape of its area of expertise are updated (
+\series bold
+Model and Shape Update
+\series default
+).
+\end_layout
+
+\begin_layout Paragraph
+Incompetence
+\end_layout
+
+\begin_layout Standard
+When 
+\begin_inset Formula $N_{\text{neighbors}}=0$
+\end_inset
+
+,
+ the system identifies a gap in the local representation of the function to be approximated.
+ The closest agent in the ensemble attempts to ingest the new feature-target tuple (
+\begin_inset Formula $x_{new},y_{new}$
+\end_inset
+
+) by evaluating the AIC configurations.
+ If the AIC selection results in keeping the 
+\series bold
+nominal
+\series default
+ configuration,
+ it means an update is likely to corrupt its internal representation degrading the complexity-accuracy trade-off.
+ In this case,
+ an 
+\series bold
+Agent Creation
+\series default
+ meta-action is triggered to spawn a new agent into the ensemble.
+ This new agent is initialized from the 
+\begin_inset Formula $N_{ini}$
+\end_inset
+
+ most recent feature-target tuples encountered in the data stream.
+\end_layout
+
+\begin_layout Paragraph
+Uselessness
+\end_layout
+
+\begin_layout Standard
+If an agent's running confidence 
+\begin_inset Formula $\bar{C}_{\mathcal{A}_{i}}$
+\end_inset
+
+ falls below a survival threshold 
+\begin_inset Formula $\tau_{\text{confidence}}$
+\end_inset
+
+,
+ the agent is considered as too inaccurate relative to the social consensus and is removed from the ensemble.
+ This prevents uncontrolled population growth.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:gpCELL-Learning-Rules"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ summarizes these learning rules by mapping social contexts and conditions to the corresponding triggered action or meta-action.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+resizebox{1
+\backslash
+columnwidth}{!}{
+\end_layout
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="middle">
+<column alignment="center" valignment="middle" width="20col%">
+<column alignment="center" valignment="middle" width="30col%">
+<column alignment="center" valignment="middle" width="20col%">
+<column alignment="center" valignment="middle" width="20col%">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Social Context
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Condition
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Targeted Subset
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Action
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Incompetence
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $N_{\text{neighbors}}=0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+model selection leads to 
+\series bold
+Nominal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Closest
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Agent Creation
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $N_{\text{neighbors}}=0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+model selection lead to 
+\series bold
+Substitution
+\series default
+ or 
+\series bold
+Augmentation
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Closest
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Model + Shape Update
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Inaccuracy
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $N_{\text{neighbors}}\geq1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Formula $\varnothing$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Closest
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Model + Shape Update
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Uselessness
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\varnothing$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Formula $\bar{C}_{\mathcal{A}_{i}}\leq\tau_{\text{confidence}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+All
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Agent Destruction
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Learning rules of gpCELL.
+ The far left column corresponds to the title of the paragraph in which the rules are presented.
+ Each line corresponds to a given learning rule associated with a social context representing a condition on the number 
+\begin_inset Formula $N_{\text{neighbors}}$
+\end_inset
+
+ of local experts around a new input 
+\begin_inset Formula $x_{new}$
+\end_inset
+
+;
+ with a condition on the outcome of the model selection process (nominal,
+ substitution,
+ augmentation) or on the running confidence 
+\begin_inset Formula $\bar{C}_{\mathcal{A}_{i}}$
+\end_inset
+
+;
+ with a target set of agents that will be affected by the rule;
+ with actions or meta-actions to perform on the agents of the targeted set.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:gpCELL-Learning-Rules"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Finally,
+ implementation-wise,
+ the learning behavior of gpCELL is governed by a set of hyperparameters that balance local modeling accuracy with global computational efficiency.
+ Some of the hyperparameters of gpCELL are shared with kCELL but new ones are introduced to manage the AIC model selection process of the local GPs.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\xi$
+\end_inset
+
+:
+ the chi-squared percentile defining the threshold for the spatial gating mechanism to determine the set of neighbor agents.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $l$
+\end_inset
+
+:
+ the lengthscale of the RBF kernel used for agent activation,
+ defining the ssmoothness of the spatialization.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $k_{\text{steep}}$
+\end_inset
+
+:
+ the steepness of the 
+\begin_inset Formula $\tanh$
+\end_inset
+
+ function used to normalize the social feedbacks 
+\begin_inset Formula $\Delta_{\mathcal{A}_{i}}$
+\end_inset
+
+ into the instantaneous confidence 
+\begin_inset Formula $c_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\lambda$
+\end_inset
+
+:
+ The smoothing factor for the exponential moving average that updates the running confidence 
+\begin_inset Formula $\bar{C}_{\mathcal{A}_{i}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\tau_{\text{confidence}}$
+\end_inset
+
+:
+ The survival threshold for agent destruction.
+ Agents whose confidence falls below this value are pruned from the ensemble.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\alpha$
+\end_inset
+
+:
+ The complexity penalty weight used in the AIC calculation (
+\begin_inset Formula $AIC=\alpha\left|\mathcal{D}_{i}\right|-2\ln\left(\hat{L}\right)$
+\end_inset
+
+).
+ It controls the trade-off between the number of points retained in an agent's memory and its likelihood fit.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $N_{ini}$
+\end_inset
+
+:
+ The minimum number of points required in the initialization buffer to create an agent.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $k_{\text{social}}$
+\end_inset
+
+:
+ The number of closest agents used to compute the social baseline 
+\begin_inset Formula $y_{base}$
+\end_inset
+
+ when an agent has no neighbors (
+\begin_inset Formula $N_{\text{neighbors}}=1$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
 \begin_inset Note Note
 status open
 
@@ -38796,6 +40114,13 @@ if
 \end_layout
 
 \end_deeper
+\begin_layout Plain Layout
+While kCELL relied on a short-term linear baseline predictor to evaluate the relevancy of isolated agents,
+ gpCELL leverages a social consensus mechanism to prune the useless agents.
+ In gpCELL,
+ the collective knowledge of the close agents is used as a benchmark
+\end_layout
+
 \end_inset
 
 
@@ -38810,15 +40135,80 @@ Online Stationary Modeling
 status open
 
 \begin_layout Plain Layout
-Implementation Details:
+Experimental Setup:
+ Same as Online Stationary Modeling for kCELL with SARCOS dataset.
+ For gpCELL we could not do the same hyperopt procedure (too long) so we took the same hyperparameters as kCELL with manually tuned specific gpCELL hyperparams (RBF kernel,
+ 
+\begin_inset Formula $\alpha=0.2$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+Implementation Details for gpCELL to maintain complexity under reasonable levels:
 \end_layout
 
 \begin_layout Itemize
-The process of evaluating every swap configuration for each update can be costly with a large number of features and points in memory (even for small GPs) as it necessitates fitting as much GPs as the number of points in the memory => so for practical reasons,
- in the implementation presented in next section,
- the following heuristic is used:
- only the swap with closest point configuration is evaluated.
- 
+For the AIC model selection phase:
+ we use Influence Based Selection as heuristic
+\end_layout
+
+\begin_layout Itemize
+For the neighbor to update selection:
+ the closest agent is selected for update
+\end_layout
+
+\begin_layout Plain Layout
+Results:
+\end_layout
+
+\begin_layout Itemize
+Table of Prequential Error AUC,
+ Test MAE and Test RMSE
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+gpCELL worse than kCELL on final Prequential Error AUC => explainable by the fact that GPs are very unreliable on OoD points
+\end_layout
+
+\begin_layout Itemize
+gpCELL best final Test MAE and final Test RMSE => seems to have 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Prequential Error Analysis => gpCELL has worse prequential error in general than kCELL
+\end_layout
+
+\begin_layout Itemize
+Asymptotic Accuracy (Evolution of RMSE and MAE on test set) => gpCELL has smoother decrease than for kCELL;
+ gpCELL becomes better than baselines (Mondrian Forest and LWPR) for RMSE later than kCELL (around 38k steps for RMSE);
+ gpCELL becomes better than kCELL at around 30k steps for MAE,
+ and around 38k steps for RMSE
+\end_layout
+
+\begin_layout Itemize
+Correlation of Predictive Variance to Errors
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+spearman correlation + final plot of prediction errors against the predictive variance
+\end_layout
+
+\begin_layout Itemize
+PICP => over 90% for each output dimensions => the model seems to be able to estimate predictive uncertainty
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Population Growth => plot of the growth of agents => shows that the growth curve is under the theoretical maximum number of created agents so it indicates a selection of poitns => However we can notice that there are more agents than for kCELL whereas we would have expected fewer agente
+\end_layout
+
+\begin_layout Itemize
+s
 \end_layout
 
 \end_inset
@@ -39369,6 +40759,10 @@ Maybe the prediction method by selecting the most confident agent could be exten
 
 \begin_layout Itemize
 Social mechanisms could be leveraged to make agents interact more with each other
+\end_layout
+
+\begin_layout Itemize
+Hyperopt of the kernel parameters can give variable results because some solvers use randomness
 \end_layout
 
 \end_inset
@@ -42234,6 +43628,27 @@ Conclusion and Future Works
 \begin_inset CommandInset label
 LatexCommand label
 name "chap:Conclusion"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Future works:
+\end_layout
+
+\begin_layout Itemize
+LQR Explainer because introducing black box optimizer opacify the process of obtaining control actions
+\end_layout
+
+\begin_layout Itemize
+More robust spatialization layer to handle higher dimensions effectively => suggestion of using PCA
+\end_layout
 
 \end_inset
 
