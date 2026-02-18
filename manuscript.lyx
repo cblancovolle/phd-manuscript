@@ -1274,152 +1274,6 @@ name "fig:Illustration-of-ISA"
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Itemize
-CIFRE financing by AUMOVIO
-\end_layout
-
-\begin_layout Itemize
-AUMOVIO focuses on software defined vehicles philosophy separating hardware and software development cycles to build more intelligent Advanced Driver Assistance Systems (ADAS).
-\end_layout
-
-\begin_layout Itemize
-AUMOVIO develops ADAS systems
-\end_layout
-
-\begin_layout Itemize
-AUMOVIO provides
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-various sensors (speed,
- chassis accelerometer)
-\end_layout
-
-\begin_layout Itemize
-radar systems
-\end_layout
-
-\begin_layout Itemize
-camera systems
-\end_layout
-
-\begin_layout Itemize
-Control Units for heavy vehicles
-\end_layout
-
-\begin_layout Itemize
-Electronic Brake Systems
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Excessive speed is a major factor for serious car accidents.
- Speed impacts on both the driver ability to react to events and on the vehicle’s components (general structure,
- braking systems ...).
- There is a relationship between speed and road safety 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "elvik2004speed"
-literal "false"
-
-\end_inset
-
- and even small increases in speed can significantly raise the risk of fatal injuries 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "elvik2009power"
-literal "false"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Itemize
-Drivers may not always be aware of the safe speed limit due to complex traffic situations,
- missing speed limit signs,
- or weather conditions.
- During a high-speed impact,
- security systems like airbag or security belt are not enough to protect physical integrity.
- As an example,
- fatality probability in car-to-car or car-to-pedestrian crashes is about 10% at 40 kph,
- 50% at 60 kph,
- and over 80% at 80 kph,
- based on empirical models from crash data 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "hussain2019relationship"
-literal "false"
-
-\end_inset
-
- => exponential growth of fatality probability depending on speed.
-\end_layout
-
-\begin_layout Itemize
-The European Transport Safety Council (ETSC) proposes a system to inform the driver on the legal speed.
- This system,
- named ISA (Intelligent Speed Assistance) is expected to reduce collisions by 30% and deaths by 20% 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "etsc2017isa"
-literal "false"
-
-\end_inset
-
-.
- The purpose of Intelligent Speed Assist (ISA) systems is to help drivers acknowledge the best speed so they can be sure that their safety will be guaranteed.
- In addition to safety concerns,
- speed choice impacts other driving aspects such as fuel consumption,
- passengers’ comfort,
- estimated time of arrival,
- among others.
-\end_layout
-
-\begin_layout Itemize
-As of July 6,
- 2022,
- the EU mandated that all new types of vehicles must be equipped with ISA.
- As of July 7,
- 2024,
- this requirement applies to all new vehicles sold in the EU.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "eu2019regulation"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-The system must be overridable (e.g.,
- by pressing the accelerator harder) and must allow for manual deactivation for the duration of a journey.
- However,
- it must automatically reset to "On" every time the vehicle is restarted.
- => the driver must keep ultimate authority + the driver need to be informed mearning the ISA system does not take over 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "eu2021delegated"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Section
 Background and Motivation
 \begin_inset CommandInset label
@@ -2029,455 +1883,6 @@ We identified a research gap in the lack of approaches that can continuously lea
  which is the core focus of this thesis.
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-Feedback Laws
-\end_layout
-
-\begin_layout Itemize
-Offline Policy computation via Stochastic Dynamic Programming from Markov Chains then online exploitation of the policy from feedback on terrain (for tradeoff between energy and travel speed) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "kolmanovskyTerrainTrafficOptimized2010"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-\begin_inset Formula $H_{\infty}$
-\end_inset
-
- control for eco-driving speed control for car following scenario (for energy and safety) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "chenComparativeStudyModel2021"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-Online Planning
-\end_layout
-
-\begin_layout Itemize
-Eco-driving speed control approach using Relaxed PMP from V2I data for planning and PID for speed trajectory tracking (for energy with safety constraints).
- Similar to MPC.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "maEcodriveExperimentRolling2019"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Dynamic Programming speed control in space (not time) to make it suitable for online planning.
- Method to handle traffic lights intersections (for energy with safety constraints).
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "sunOptimalEcoDrivingControl2020"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Predictive Cuise Control using MPC + Rules to determine target speed to handle traffic light intersections (for energy,
- travel time,
- safety,
- comfort).
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "asadiPredictiveCruiseControl2010"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-MPC for speed control with real time traffic information and V2V / V2I communication (vehicles / traffic signals).
- Mainly an advanced ACC system (for energy,
- safety,
- comfort) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "kamalModelPredictiveControl2012"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-MPC with analytical solution (for energy,
- safety and legality) for autonomous connected vehicle.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "hanSafeEcoDrivingControl2018"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-MPC optimized with Mixed Integer Linear Programming (MILP) for speed control.
- Discretization of states to make the optimization faster in an online setting.
- Heavy offline computations to compute costs for discretized map.
- (for energy and safety).
-\begin_inset CommandInset citation
-LatexCommand cite
-key "jinPowerBasedOptimalLongitudinal2016"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-MPC optimized with MILP for speed control (for energy and safety) for buses.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "jinEnergyoptimalSpeedControl2023"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Analytical solution to PMP for speed control (intelligent cruise control) under some assumptions to allow for real time recomputations and embedding on board of the vehicle (for energy).
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "ozatayAnalyticalSolutionMinimum2014"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Analytical solution for speed control based on Hamiltonian analysis to tackle approach of speed reduction zones or bottlenecks (for energy and safety).
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "malikopoulosOptimalControlSpeed2018"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-MinMax on learned transition model to control the speed of the vehicle (for safety) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "messaoudiAgentbasedIntervehicleCooperative2018"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Model-based RL for eco-driving (for energy).
- Maintain domain knowledge of vehicle dynamics while maintaining model-free adaptability.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "leeModelBasedReinforcementLearning2020"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-Model-Free
-\end_layout
-
-\begin_layout Itemize
-Policy gradient RL for speed control for safe longitudinal car following (safety and efficiency).
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "desjardinsCooperativeAdaptiveCruise2011"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-RL based dynamic speed limit control model for stochastic traffic networks (for energy consumption of vehicles in the network) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "zhuAccountingDynamicSpeed2014"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Human-like speed control through Deep Q Learning (for human-like behavior) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "zhangHumanlikeAutonomousVehicle2018"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Human-like speed control through DDPG for car following (for human-like behavior) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "zhuHumanlikeAutonomousCarfollowing2018"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Speed control through variant of PPO (for safety,
- energy and comfort) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "xuHierarchicalSpeedControl2022"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Adaptive Cruising (speed control) of heavy vehicles through DDPG (for safety) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "sunDDPGBasedDecisionMakingStrategy2020"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Speed control on rough pavement through DDPG (for comfort and energy) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "duComfortableEnergyefficientSpeed2022"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Longitudinal speed control through Soft-Actor-Critic (SAC) (for safety) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "jiangReinforcementLearningBased2022"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Speed control through PPO with reward shaping (for energy,
- safety,
- traffic efficiency) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "liuLongitudinalControlConnected2023"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Variable Speed Limit throught DQN 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "kim2025reinforcement"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Adaptive Cruise Control using safe Deep Reinforcement Learning (Projected Constrained Policy Optimization) (for safety and traffic efficiency) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "zhao2024adaptive"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Adaptive Cruise Control suing DDPG (for safety,
- comfort,
- energy) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "moghaddam2024cooperative"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-Rule-based
-\end_layout
-
-\begin_layout Itemize
-Rule based geometric approach to account for curve estimation and legal constraints (mainly for safety)
-\begin_inset CommandInset citation
-LatexCommand cite
-key "gamezsernaDynamicSpeedAdaptation2017"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-Human-in-the-Loop
-\end_layout
-
-\begin_layout Itemize
-Offline planning via Dynamic Programming (before trip) but a simple reinforcement learning module looks online to maximize acceptance by steering the recommendations towards an acceptable range (for energy) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "ozatayCloudBasedVelocityProfile2014"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Offline computation via Dynamic Programming of optimal speed profile to then obtain local action rules for elementary road sections.
- These actions rules are chosen dynamically online to give speed recommendations (for energy with safety / legality constraints).
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "jimenezRealtimeSpeedProfile2013"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Speed Recommendation approach that monitors state of vehicle and traffic signal's state to dynamically calculate speed recommendation set points to avoid red light dead stop based on remaining distance (for energy).
- Safety override to avoid danger.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "mahlerCellularCommunicationTraffic2017"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Particle Swarm Optimization and Deep Learning to estimate and recommend optimal average speed for upcoming road segments.
- Balancing predicted driver stress level estimated from heart rate and driving behavior against total trip time (for comfort) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "maganaDesignSpeedAssistant2017"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Estimation of driver behavior score through a Mixture of Expert method (Neural Net),
- then optimize to find the speed recommendation looking for a normal behavior and reduced energy consumption => Claim to be personalized but learned offline 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "vyas2021drivebfr"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Context-aware driver model that uses multiple linear regression and database of near-miss incidents to determine recommended driving speed for blind intersections (for safety) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "saitoContextawareDriverModel2021"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Section
 Problem Statement
 \begin_inset CommandInset label
@@ -2509,7 +1914,6 @@ literal "false"
 \end_inset
 
 .
- 
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
 symbol "Human-Robot Collaboration"
@@ -2518,7 +1922,7 @@ literal "true"
 
 \end_inset
 
-
+ 
 \end_layout
 
 \begin_layout Standard
@@ -2789,72 +2193,6 @@ control with learned models
  The following section details the research questions that shape the goal of this thesis.
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Itemize
-For successful human-robot collaboration,
- the robot must infer the human's intended motion to synchronize its actions.
- Anticipatory skills are required for robots to work effectively with humans.
- By forecasting a human's trajectory,
- the robot can set a control set point that is complementary to the human's current and future behavior rather than being reactionary or disruptive.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "dani2024human"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Thus,
- from the previous statement,
- we deduce that to bridge the gap between performant autonomous approaches and speed recommendation systems,
- the speed recommendation problem can be tackled as a control problem under the assumption that the vehicle-driver system is continuously modeled to account for the non-stationarity of the driver behavior.
- Formulated in this way,
- the speed recommendation problem can be abstracted into an adaptive control problem with a learned model.
-\end_layout
-
-\begin_layout Itemize
-Therefore,
- the problem can be broken down into 2 subproblems:
- Online modeling and Control with learned model [HOW TO JUSTIFY THIS MPC ARCHITECTURE ?]
-\end_layout
-
-\begin_layout Itemize
-[SHOULD WE INTRODUCE LOCAL LEARNING HERE OR WAIT FOR STATE OF THE ART ?]
-\end_layout
-
-\begin_layout Plain Layout
-We notice that both approaches are inherently limited in their consideration of the driver.
- Indeed,
- in a speed recommendation context,
- the driver can delay,
- accept or refuse a speed recommendation set point.
- Moreover,
- as introducing the driver in the loop generates uncertainty because all human drivers are different,
- speed recommendations should be personalized to each one to better align with their driving style to maximize acceptance of recommendation set points.
- In addition to that,
- to maximize acceptance and the positive behavioral impact on driving,
- speed recommendation strategies should be interpretable to be able to justify their decisions to some extent to the driver.
-\end_layout
-
-\begin_layout Plain Layout
-To bridge the gap between performant autonomous approaches and speed recommendation systems,
- we propose to tackle the speed recommendation problem as a control problem under the assumption that the vehicle-driver system is continuously modeled to account for the non-stationarity of the driver behavior over his life.
- Formulated in this way,
- the speed recommendation problem is reduced to an adaptive control problem with a learned model.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Section
 Research Questions
 \begin_inset CommandInset label
@@ -2908,323 +2246,6 @@ control theory
 The following chapter provides a comprehensive review of literature organized around these two research axes.
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Float table
-placement H
-alignment document
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="8" columns="2">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="left" valignment="top" width="95col%">
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:oCELL"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Intrinsic XAI through Self-Organization Analysis:
- Developed the oCELL algorithm and formalized a novel methodology leveraging agent self-organization structures to perform model introspection and infer underlying function properties for enhanced explainability and interpretability.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "blanco2024explainability"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:oCELL"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Empirical Evaluation of oCELL Performance:
- A low-dimensional comparative study demonstrating oCELL's competitive performance against SotA ensemble algorithms.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "blanco2024explainability"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:kCELL"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Non-Stationary Adaptation Capabilities:
- Development of the kCELL algorithm and a study demonstrating its ability to adapt to non-stationary dynamics for forward prediction,
- using introspection to analyze the system's behavior.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:Solving-Control-Tasks"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Integration for Constrained Optimal Control:
- Formalization of a novel coupling method to integrate the kCELL learning mechanism into traditional optimization solvers for solving complex constrained optimal control problems with learned models.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:Solving-Control-Tasks"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Introspection-Enhanced Safe Control:
- Proposal of a novel methodology that utilizes kCELL's intrinsic introspection capabilities to enhance the safety and performance of the solved constrained optimal control problems with learned models.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:Solving-Control-Tasks"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Constraint-Impact Explainability Method:
- Proposal of a novel XAI method leveraging kCELL's structure to quantify and explain the impact of constraints on optimization outcomes in safe control.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:Scalable-Non-Linear-CELL"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Scalable CELL Spatialization:
- Proposal of Principal Component Analysis (PCA) as a novel technique to scale the CELL paradigm to higher-dimensional feature spaces,
- including a comparative evaluation.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:Scalable-Non-Linear-CELL"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Scalable Gaussian Process Learning (SGP-CELL):
- Development of the SGP-CELL algorithm,
- a novel machine learning model that leverages the CELL paradigm to achieve online learning and scalability in Gaussian Processes (GP) with respect to the number of data points.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Summary of Contributions
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Chapter
 State of the Art
 \begin_inset CommandInset label
@@ -3237,6 +2258,37 @@ name "chap:State-of-the-Art"
 \end_layout
 
 \begin_layout Standard
+The previous chapter showed how the industrial use case of speed recommendation can be generalized into a broader scientific problem.
+ When considering the human in the loop,
+ the speed recommendation problem naturally fits within the context of 
+\series bold
+Human-Robot Collaboration
+\series default
+ (HRC).
+ By explicitly modeling the driver-vehicle pair as a single dynamical system,
+ this HRC formulation can further be abstracted as an 
+\series bold
+Adaptive Control
+\series default
+ problem.
+ In contrast to traditional robotics,
+ which often focuses on autonomous execution in static or isolated environments,
+ this thesis addresses HRC challenges where the developed system must anticipate and adapt to the 
+\series bold
+uncertainty
+\series default
+ and 
+\series bold
+non-stationarity
+\series default
+ introduced by human behavior.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
 For a robotic system to collaborate effectively with humans,
  it must possess anticipatory skills to adapt to the uncertainty and non-stationarity introduced by humans.
  Human-Robot Collaboration problems can be modeled as control problems in non-stationary environments that comprise humans in the loop.
@@ -3245,8 +2297,13 @@ For a robotic system to collaborate effectively with humans,
  the controller must be able to continuously learn the evolving behavior of the human collaborator while simultaneously ensure that its actions remain safe and reliable.
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
-The objective of this chapter is to answer the research questions introduced in Section 
+The objective of this chapter is to review the existing research landscape to address the two research questions formulated in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Research-Questions"
@@ -3257,8 +2314,37 @@ nolink "false"
 
 \end_inset
 
- by reviewing the existing research landscape.
- This literature review is structured around two axes that mirror the subproblems tackled defined in Section 
+:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Online Learning of Non-Stationary Dynamics
+\series default
+:
+ How can a learning architecture continuously model non-linear,
+ non-stationary dynamics from an online stream of data while avoiding catastrophic forgetting?
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Reliability in Learning-Based Control
+\series default
+:
+ How can a learning-based controller adapt continuously to non-stationary dynamics while maintaining reliability and safety ?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This literature review is structured around two axes that mirror the subproblems defined in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Problem-Statement"
@@ -3270,12 +2356,10 @@ nolink "false"
 \end_inset
 
 .
- 
 \end_layout
 
 \begin_layout Standard
-First,
- Section 
+Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Control-with-Learned-Models"
@@ -3287,10 +2371,12 @@ nolink "false"
 \end_inset
 
  traces the evolution of control theory from reactive regulation to predictive optimization with Model Predictive Control (MPC).
- Afterwards,
- the shift from the use of first-principle models toward learning-based methods such as Reinforcement Learning is analyzed.
- Following this,
- Section 
+ It analyzes the shift from the use of first-principle models toward learning-based methods such as Reinforcement Learning (RL).
+ 
+\end_layout
+
+\begin_layout Standard
+Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Online-Machine-Learning"
@@ -3302,9 +2388,13 @@ nolink "false"
 \end_inset
 
  addresses the specific modeling requirements for a continuously learning model that could be integrated in a MPC setting and satisfy the requirements of HRC.
- This section examines the evolution of learning paradigms from static batch data processing to online methods capable of handling data streams.
+ This section examines the evolution of learning paradigms from static batch processing to online methods capable of handling data streams.
  The emphasis is put on the stability-plasticity dilemma inherent to global learners.
- This section argues in favor of the architectural advantages of local online learning for safety and more specifically for exploring mutli-agent systems for online supervised learning.
+ This section argues in favor of the architectural advantages of 
+\series bold
+local online learning
+\series default
+ and more specifically for the exploration of multi-agent systems for online supervised learning.
  Finally,
  Section 
 \begin_inset CommandInset ref
@@ -3317,9 +2407,7 @@ nolink "false"
 
 \end_inset
 
-,
- concludes on this chapter by positioning our works within these fields,
- highlighting the specific gaps that we intend to fill.
+ concludes on this chapter by positioning our works within these fields and highlights the specific gaps that we intend to fill.
 \end_layout
 
 \begin_layout Standard
@@ -3583,8 +2671,7 @@ How can a learning-based controller adapt continuously to non-stationary dynamic
 \end_layout
 
 \begin_layout Standard
-First,
- Section 
+Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:Control-Theory-Formalism"
@@ -3595,7 +2682,7 @@ nolink "false"
 
 \end_inset
 
- introduces control theory to set up the formalism that will be used throughout the course of this thesis.
+ introduces control theory to introduce the formalism that will be used throughout this thesis.
  Then,
  Section 
 \begin_inset CommandInset ref
@@ -3608,11 +2695,12 @@ nolink "false"
 
 \end_inset
 
- examines the shift from error-driven feedback laws such as Proportional-Integral-Derivatice (PID) controllers to optimization-based frameworks like Model Predictive Control (MPC).
- It highlights how the shift toward predictive optimization was driven by the need to handle multivariable processes and to respect hard physical and safety constraints in real-world settings.
+ examines the shift from error-driven feedback laws such as Proportional-Integral-Derivative (PID) controllers to optimization-based frameworks like Model Predictive Control (MPC).
+ It highlights how the shift toward predictive optimization was driven by the need to handle multivariable processes and,
+ to respect hard physical and safety constraints in real-world settings.
  However,
- as systems transition from controlled industrial settings to more complex and uncertain real-world environments,
- the use of static physics-based models represents a limitation.
+ as systems move from controlled industrial conditions to complex and uncertain real-world environments,
+ relying on static physics-based models becomes a limiting factor.
  Consequently,
  Section 
 \begin_inset CommandInset ref
@@ -3627,7 +2715,7 @@ nolink "false"
 
  explores the integration of Machine Learning into the control loop.
  By analyzing the strengths and limitations of model-free Reinforcement Learning (RL) and Model-Based RL (MBRL),
- we argue that pure end-to-end data-driven approaches often compromise safety and reliability established by classical methods.
+ we argue that pure end-to-end learning-based approaches often compromise safety and reliability established by classical methods.
  Finally,
  Section 
 \begin_inset CommandInset ref
@@ -3655,9 +2743,9 @@ name "subsec:Control-Theory-Formalism"
 \end_layout
 
 \begin_layout Standard
-Before dwelving into the reasoning towards learning-based control approaches,
- it is required to establish the formalism used in this thesis regarding control theory.
- Control Theory consists in the study of the means of influencing the behavior of a dynamical system (or environment in the Reinforcement Learning literature) to achieve a desired state 
+Prior to exploring the motivations for learning-based control methods,
+ the control theory formalism underlying this thesis must be defined.
+ Control theory consists in studying the means of influencing the behavior of a dynamical system to achieve a desired state 
 \begin_inset Formula $s_{\text{ref}}$
 \end_inset
 
@@ -3667,7 +2755,11 @@ Before dwelving into the reasoning towards learning-based control approaches,
 \begin_layout Standard
 The evolution of a physical system over time is governed by its dynamics.
  In the context of digital control,
- a discrete-time representation can be considered where the state at the next timestep is a function of the current state 
+ a discrete-time representation is defined such as the next state 
+\begin_inset Formula $s_{t+1}$
+\end_inset
+
+ is a function of the current state 
 \begin_inset Formula $s_{t}$
 \end_inset
 
@@ -3677,9 +2769,9 @@ The evolution of a physical system over time is governed by its dynamics.
 
 :
 \begin_inset Formula 
-\[
+\begin{equation}
 s_{t+1}=f\left(s_{t},u_{t}\right)
-\]
+\end{equation}
 
 \end_inset
 
@@ -3694,8 +2786,37 @@ where
 \end_inset
 
  is assumed to be a known,
- stationary first-principles model (e.g Newtonian mechanics).
- This interaction between the system and the controller is traditionally represented as a closed-loop system as illustrated in Figure 
+ stationary first-principles model.
+ 
+\end_layout
+
+\begin_layout Definition
+A first-principles model is a mathematical model of a dynamical system derived directly from fundamental physical laws (such as conservation of mass,
+ energy,
+ momentum or Newton's laws).
+ The states and parameters of the model have a clear physical meaning rather than being fitted purely from data 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "johnson2021using"
+literal "false"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "First-principles model"
+description "A first-principles model is a mathematical model of a dynamical system derived directly from fundamental physical laws (such as conservation of mass, energy, momentum or Newton's laws). The states and parameters of the model have a clear physical meaning rather than being fitted purely from data \\cite{johnson2021using}. "
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This interaction between the system and the controller is traditionally represented as a closed-loop system as illustrated in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Control-Loop"
@@ -3707,30 +2828,22 @@ nolink "false"
 \end_inset
 
 .
- One of the main challenge in Human-Robot Collaboration (HRC) is that 
-\begin_inset Formula $f$
-\end_inset
-
- often becomes non-stationary or partially unknown due to the stochastic nature of humans leading to model mismatch,
- i.e the model does not match the reality anymore.
-\end_layout
-
-\begin_layout Standard
-The controller can perceive the states of the system and act on it through actuators.
- The boundaries of the states and actions are reffered to as the State Space (
+ The controller can perceive the states of the system and act on it through actuators.
+ The sets representing the possible states (respectively actions) are reffered to as the state space 
 \begin_inset Formula $\mathcal{S}$
 \end_inset
 
-) and the Action Space (
+,
+ (respectively action space 
 \begin_inset Formula $\mathcal{U}$
 \end_inset
 
 ).
- The State Space (
+ The state space 
 \begin_inset Formula $\mathcal{S}$
 \end_inset
 
-) is a manifold that represents all possible configurations of the system (e.g joint angles,
+ represents all possible configurations of the system (e.g joint angles,
  velocities).
  The state of the system at time 
 \begin_inset Formula $t$
@@ -3741,18 +2854,18 @@ The controller can perceive the states of the system and act on it through actua
 \end_inset
 
 .
- The Action Space (
+ The action space 
 \begin_inset Formula $\mathcal{U}$
 \end_inset
 
-) is the set of all possible control inputs (e.g.,
+ is the set of all possible control inputs (e.g.,
  motor torques,
  voltage).
  The action at time 
 \begin_inset Formula $t$
 \end_inset
 
- that is applied on the system is denoted as 
+ applied on the system is denoted as 
 \begin_inset Formula $u_{t}\in\mathcal{U}$
 \end_inset
 
@@ -3841,7 +2954,7 @@ name "fig:Control-Loop"
 \end_layout
 
 \begin_layout Standard
-The controller follows a goal that is mathematically described by the minimization of a cost function (or the maximization of a reward in Reinforcement Learning literature).
+The controller follows a goal that is mathematically described by the minimization of a cost function.
  For a given horizon 
 \begin_inset Formula $T$
 \end_inset
@@ -3857,13 +2970,23 @@ The controller follows a goal that is mathematically described by the minimizati
 
 
 \begin_inset Formula 
-\[
-J=\sum_{k=0}^{T-1}l\left(s_{t+k},u_{t+k}\right)+l_{T}\left(s_{t+T}\right)
-\]
+\begin{equation}
+J\left(s_{t:t+T},u_{t:t+T-1}\right)=\sum_{k=0}^{T-1}l\left(s_{t+k},u_{t+k}\right)+l_{T}\left(s_{t+T}\right)
+\end{equation}
 
 \end_inset
 
 where 
+\begin_inset Formula $s_{t:t+T}\in\mathcal{S}^{T}$
+\end_inset
+
+ is a state trajectory,
+ 
+\begin_inset Formula $u_{t:t+T-1}\in\mathcal{U}^{T-1}$
+\end_inset
+
+ is a sequence of actions,
+ 
 \begin_inset Formula $l$
 \end_inset
 
@@ -3880,29 +3003,29 @@ Depending on the task to be accomplished and its requirements,
  systems can be subject to physical and safety limits.
  These are expressed as algebraic inequalities such as 
 \begin_inset Formula 
-\[
+\begin{equation}
 g\left(s_{t},u_{t}\right)\leq0\,\,\text{or}\,\,h\left(s_{t},u_{t}\right)=0
-\]
+\end{equation}
 
 \end_inset
 
 These constraints may represent hard limits (e.g.
- maximum current) or safety boundaries (e.g.
+ maximum torque) or safety boundaries (e.g.
  speed limits,
  minimum distance to human operator).
 \end_layout
 
 \begin_layout Standard
 Finally,
- the control law (also referred to as policy in RL literature) 
+ the control law 
 \begin_inset Formula $\pi$
 \end_inset
 
- encapsulates the decision making logic such as 
+ encapsulates the decision-making logic such as 
 \begin_inset Formula 
-\[
+\begin{equation}
 u_{t}=\pi\left(s_{t}\right)
-\]
+\end{equation}
 
 \end_inset
 
@@ -3910,15 +3033,17 @@ u_{t}=\pi\left(s_{t}\right)
 \end_layout
 
 \begin_layout Standard
-These elements are part of the standard Optimal Control Problem,
- which serves as the template for the controllers discussed in the remainder of this chapter:
+The cost function,
+ the constraints and the transition function are part of the standard Optimal Control Problem (OCP),
+ which serves as the template for the controllers discussed in the remainder of this chapter.
+ An OCP is formulated as following:
 \begin_inset Formula 
 \begin{align}
-\min_{U}\,\,\, & \sum_{k=0}^{T-1}l\left(s_{t+k},u_{t+k}\right)+l_{T}\left(s_{t+T}\right)\\
-\text{s.t.\,\,\, } & s_{t+1}=f\left(s_{t},u_{t}\right)\\
- & u_{t}\in\mathcal{U},\,\,s_{t}\in\mathcal{S}\\
- & g\left(s_{t},u_{t}\right)\leq0\\
- & h\left(s_{t},u_{t}\right)=0
+\min_{u_{t:t+T-1}}J\left(s_{t:t+T},u_{t:t+T-1}\right)=\min_{u_{t:t+T-1}}\,\,\, & \sum_{k=0}^{T-1}l\left(s_{t+k},u_{t+k}\right)+l_{T}\left(s_{t+T}\right)\label{eq:OCP}\\
+\text{s.t.\,\,\, } & s_{t+k+1}=f\left(s_{t+k},u_{t+k}\right)\nonumber \\
+ & u_{t+k}\in\mathcal{U},\,\,s_{t+k}\in\mathcal{S},\,\,k\in\left\{ 0,\dots,T\right\} \nonumber \\
+ & g\left(s_{t+k},u_{t+k}\right)\leq0\nonumber \\
+ & h\left(s_{t+k},u_{t+k}\right)=0\nonumber 
 \end{align}
 
 \end_inset
@@ -3927,8 +3052,196 @@ These elements are part of the standard Optimal Control Problem,
 \end_layout
 
 \begin_layout Standard
-To ground this formalism in an physical example,
- let's consider the classical pendulum problem.
+The existence and quality of a solution to the OCP defined above depends on the following three properties of the system 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ogata2020modern"
+literal "false"
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Controllability:
+ 
+\series default
+This property assesses whether the control input 
+\begin_inset Formula $u_{t}$
+\end_inset
+
+ can drive the system from any initial state 
+\begin_inset Formula $s_{0}$
+\end_inset
+
+ to any desired state 
+\begin_inset Formula $s_{t}$
+\end_inset
+
+ within a finite time.
+ This property is not always guaranteed,
+ as real-world systems often have fewer actuators than state variables.
+ For example,
+ a car has a steering wheel and an accelerator,
+ but it cannot move sideways directly.
+ Its lateral position cannot be changed independently of its forward motion.
+ In this example,
+ the system is 
+\series bold
+globally controllable
+\series default
+ (the car can go anywhere) but 
+\series bold
+locally constrained
+\series default
+ (the sideways movement needs more steps).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Observability:
+ 
+\series default
+This corresponds to the ability to reconstruct the state 
+\begin_inset Formula $s_{t}$
+\end_inset
+
+ solely from available measurements.
+ It is not always guaranteed,
+ as sensors may be noisy or missing entirely.
+ For example,
+ an eco-driving device might lack a sensor for the road slope.
+ If the device cannot infer the slope by observing changes in speed or engine load,
+ the state is partially observable and the efficiency might be compromised.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Stabilizability:
+ 
+\series default
+Even if a system is not fully controllable,
+ it is considered stabilizable if all the unstable modes can be brought to a steady state using the available actions.
+ This property focuses on whether the controller can prevent the system from blowing-up or crashing.
+ For example,
+ a self-balancing vehicle (e.g.
+ a Segway) is inherently unstable as the center of mass resides above the pivot point.
+ While the actuators are only able to apply horizontal force on the base (making it not fully controllable),
+ the system remains stabilizable because those horizontal movements can be modulated to maintain the vertical equilibrium.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+The existence and quality of a solution to the OCP defined above depends on the following three properties of the system:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Controllability:
+ 
+\series default
+This property assesses whether the control input 
+\begin_inset Formula $u_{t}$
+\end_inset
+
+ can drive the system from any initial state 
+\begin_inset Formula $s_{0}$
+\end_inset
+
+ to any desired state 
+\begin_inset Formula $s_{t}$
+\end_inset
+
+ within a finite time.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Observability:
+ 
+\series default
+This corresponds to the ability to reconstruct the state 
+\begin_inset Formula $s_{t}$
+\end_inset
+
+ from available measurements.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Stabilizability:
+ 
+\series default
+Even if a system is not fully controllable,
+ it is considered stabilizable if all the unstable modes can be brought to a steady state using the available actions.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Beyond the internal properties of the system,
+ the effectiveness of a controller is governed by the complexity of the considered system.
+ This is formalized by Ashby's Law of Requisite Variety 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ashby1956introduction"
+literal "false"
+
+\end_inset
+
+,
+ which states that for a controller to effectively manage a system,
+ its internal variety,
+ i.e the number of possible states,
+ must be at least equal to the variety of the disturbances it aims to compensate for.
+ In other words,
+ a controller must be at least as complex as the task of keeping the goal satisfied.
+ An extension of this theorem,
+ the Conant-Ashby theorem 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "conant1970every"
+literal "false"
+
+\end_inset
+
+,
+ states that every good controller of a system must be a model of that system.
+\end_layout
+
+\begin_layout Standard
+To ground this formalism in an physical example that satisfies these foundational properties,
+ let's consider the classical pendulum problem 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "brockman2016openai,towers2024gymnasium"
+literal "false"
+
+\end_inset
+
+.
  A mass 
 \begin_inset Formula $m$
 \end_inset
@@ -3946,17 +3259,36 @@ To ground this formalism in an physical example,
 \begin_inset Formula $\tau$
 \end_inset
 
- at the pivot (c.f Figure).
- The components of the problem are the following
+ at the pivot (c.f Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Illustration-of-the-Pendulum"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+ The components of the problem are the following:
 \end_layout
 
 \begin_layout Itemize
-State 
+
+\series bold
+State
+\series default
+ 
 \begin_inset Formula $s_{t}$
 \end_inset
 
 :
- The states are represented by the angle and angular velocity 
+ A state is represented by the angle and angular velocity at time 
+\begin_inset Formula $t$
+\end_inset
+
+ such as 
 \begin_inset Formula $s_{t}=\left[\theta,\dot{\theta}\right]^{\top}$
 \end_inset
 
@@ -3964,7 +3296,24 @@ State
 \end_layout
 
 \begin_layout Itemize
+
+\series bold
+Action 
+\series default
+
+\begin_inset Formula $u_{t}$
+\end_inset
+
+:
+ An action corresponds to the application of a torque on the joint of the pendulum.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
 Dynamics 
+\series default
+
 \begin_inset Formula $f$
 \end_inset
 
@@ -3975,11 +3324,15 @@ Dynamics
 \begin_inset Formula $u_{t}$
 \end_inset
 
-
+.
 \end_layout
 
 \begin_layout Itemize
-Constraints 
+
+\series bold
+Constraints
+\series default
+ 
 \begin_inset Formula $\left(g,h\right)$
 \end_inset
 
@@ -3989,18 +3342,26 @@ Constraints
 \end_inset
 
  represents the physical limit of the torque that can be applied by the motor (
-\begin_inset Formula $\left|u\right|\leq u_{\max}$
+\begin_inset Formula $g\left(s_{t},u_{t}\right)=\left|u\right|-u_{\max}\leq0$
 \end_inset
 
-) while an equality constraint enforces the dynamics (
-\begin_inset Formula $s_{t+1}=f\left(s_{t},u_{t}\right)$
+) while an equality constraint 
+\begin_inset Formula $h$
+\end_inset
+
+ enforces the dynamics (
+\begin_inset Formula $h\left(s_{t},u_{t}\right)=f\left(s_{t},u_{t}\right)-s_{t+1}$
 \end_inset
 
 )
 \end_layout
 
 \begin_layout Itemize
+
+\series bold
 Objective 
+\series default
+
 \begin_inset Formula $J$
 \end_inset
 
@@ -4010,20 +3371,30 @@ Objective
 \end_inset
 
 ) while minimizing the energy 
-\begin_inset Formula $u^{2}$
+\begin_inset Formula $u_{t}^{2}$
 \end_inset
 
  consumed by the motor.
 \end_layout
 
 \begin_layout Standard
-This deterministic system provides a baseline where 
+The pendulum is a fully controllable,
+ observable and stabilizable system.
+ Since the transition function 
 \begin_inset Formula $f$
 \end_inset
 
- is perfectly known.
- However,
- even this simple system must satisfy some mathematical properties to be regulated effectively.
+ is perfectly known and the system possesses these mathematical properties,
+ it is a 
+\series bold
+\emph on
+perfect
+\emph default
+ control problem
+\series default
+.
+ For this reason,
+ it represents a simple baseline system on which control algorithms can be tested before they are applied to more complex high-dimensional systems.
 \end_layout
 
 \begin_layout Standard
@@ -4064,6 +3435,11 @@ Illustration of the Pendulum dynamical system.
 \begin_inset Formula $\tau$
 \end_inset
 
+ in the diagram,
+ it corresponds to 
+\begin_inset Formula $u_{t}$
+\end_inset
+
 .
  
 \begin_inset CommandInset label
@@ -4087,85 +3463,6 @@ name "fig:Illustration-of-the-Pendulum"
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-The existence and quality of a solution to the OCP defined above depends on the following three properties of the system:
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Controllability:
- 
-\series default
-This property assesses whether the control input 
-\begin_inset Formula $u$
-\end_inset
-
- can drive the system from any initial state 
-\begin_inset Formula $s_{0}$
-\end_inset
-
- to any desired state 
-\begin_inset Formula $s_{t}$
-\end_inset
-
- within a finite time.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Observability:
- 
-\series default
-This corresponds to the ability to reconstruct the internal state 
-\begin_inset Formula $s_{t}$
-\end_inset
-
- from available measurements.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Stabilizability:
- 
-\series default
-Even if a system is not fully controllable,
- it is considered stabilizable if all the unstable modes can be brought to a steady state using the available actions.
-\end_layout
-
-\begin_layout Standard
-Beyond the internal properties of the system,
- the effectiveness of a controller is governed by the complexity of the considered system.
- This is formalized by Ashby's Law of Requisite Variety 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "ashby1956introduction"
-literal "false"
-
-\end_inset
-
-,
- which states that for a controller to effectively manage a system,
- its internal variety,
- i.e the number of possible states,
- must be at least equal to the variety of the disturbances it aims to compensate for.
- In other words,
- a controller must be at least as complex as the task of keeping the goal satisfied.
- An extension of this theorem,
- the Conant-Ashby theorem 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "conant1970every"
-literal "false"
-
-\end_inset
-
-,
- states that every good controller of a system must be a model of that system.
 \end_layout
 
 \begin_layout Subsection
@@ -4196,8 +3493,12 @@ nolink "false"
  For example,
  this behavior can be defined by a setpoint or a reference trajectory.
  Historically,
- one of the most common approach to designing controllers was the reactive feedback laws.
- The industry baseline for this type of controllers is the Proportional-Integral-Derivative (PID) controller 
+ reactive feedback laws have been among the most prevalent approaches to controller design.
+ The industrial standard for such controller is the 
+\series bold
+Proportional-Integral-Derivative
+\series default
+ (PID) 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "aastrom2001future,qin2003survey"
@@ -4206,8 +3507,8 @@ literal "false"
 \end_inset
 
 .
- These controllers are essentially error-driven,
- meaning that they generate an action in response to a deviation 
+ This controller is essentially error-driven,
+ meaning that it generates an action in response to a deviation 
 \begin_inset Formula $e_{t}$
 \end_inset
 
@@ -4236,13 +3537,14 @@ nolink "false"
 \end_inset
 
 ).
- Their ease of implementation and effectiveness in various industrial contexts have made them a default controller to try setting up before attempting more sophisticated approaches.
+ Its ease of implementation and effectiveness in various industrial contexts have made it a default controller to try setting up before attempting more sophisticated approaches.
  However,
- their effectiveness diminish in a non-stationary environement and they struggle with handling several inputs and outputs,
- limiting the possibilities in terms of manageable complexity and multiobjective consideration.
+ its effectiveness diminish in a non-stationary environment and it struggles with handling several inputs and outputs,
+ limiting the possibilities in terms of manageable complexity and multi-objective consideration.
  In addition to that,
- this type of controller can be considered as myopic because the control action is issued in response to past or current errors,
- lacking the ability to anticipate future changes and avoid suboptimal well solutions that can bring the system into a state from which it is impossible to recover 
+ this type of controller can be considered as myopic because the control action is issued in response to past or current errors.
+ It thus,
+ lacks the ability to anticipate future changes and avoid suboptimal well solutions that can bring the system into a state from which it is impossible to recover 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "aastrom2006advanced,qin2003survey"
@@ -4346,7 +3648,7 @@ Control tasks progressively shifted towards the management of more complex,
  purely reactive laws that do not consider a model of the environment,
  are inherently limited.
  To address these limitations,
- the field moved toward Optimal Control frameworks.
+ Optimal Control frameworks were developed.
  Instead of simple gain tuning,
  the control laws are derived by minimizing a quadratic cost function that coordinates multiple inputs and outputs simultaneously 
 \begin_inset CommandInset citation
@@ -4357,7 +3659,12 @@ literal "false"
 \end_inset
 
 .
- For example Linear Quadratic Regulators (LQR) 
+ For example,
+ 
+\series bold
+Linear Quadratic Regulator
+\series default
+ (LQR) 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "kalman1964linear"
@@ -4377,11 +3684,12 @@ nolink "false"
 
 \end_inset
 
-) provide an analytical solution to the optimal control problem by minimizing a quadratic cost function.
- It ensures stability for linear systems under the assumption of perfect model knowledge giving a control law such as
+) provides an analytical solution to the OCP subject to linear dynamics by minimizing a quadratic cost function.
+ It ensures stability under some conditions,
+ and optimality under the assumption of perfect model knowledge giving a control law such as
 \begin_inset Formula 
 \begin{equation}
-u_{t}=Ks_{t}
+u_{t}=-Gs_{t}
 \end{equation}
 
 \end_inset
@@ -4396,10 +3704,10 @@ where
 \end_inset
 
  the current state of the system and 
-\begin_inset Formula $K$
+\begin_inset Formula $G$
 \end_inset
 
- the gain derived from Ricatti Equations 
+ the gain matrix derived from Ricatti Equations 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "kalman1960contributions"
@@ -4411,8 +3719,12 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-To address the reality of noisy sensors and incomplete state information,
- the Linear Quadratic Gaussian (LQG) 
+To handle noisy measurements and partial state observability,
+ the 
+\series bold
+Linear Quadratic Gaussian
+\series default
+ (LQG) 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "kalman1961new"
@@ -4420,10 +3732,11 @@ literal "false"
 
 \end_inset
 
- controller combines LQR with a Kalman Filter,
- providing an optimal solution under Gaussian white noise.
+ controller integrates a LQR with a Kalman filter,
+ yielding an optimal control policy under Gaussian white noise assumption.
  However,
- LQG can lack robustness to model mismatches.
+ LQG can lack robustness to model mismatches,
+ i.e when the predictive model of the dynamics does not correspond to the reality anymore.
  To account for structural uncertainties and external disturbances,
  
 \begin_inset Formula $H_{\infty}$
@@ -4438,8 +3751,9 @@ literal "false"
 \end_inset
 
  controller was developed.
- It treats control design as a minimax optimization problem,
- aiming to minimize the worst-case gain,
+ It treats control design as a minimax optimization problem.
+ Thus,
+ it aims at minimizing the worst-case gain,
  thereby ensuring robust performance with conservative behavior.
 \end_layout
 
@@ -4537,18 +3851,28 @@ In classical LQR or
 \end_inset
 
 ,
- the optimization has no hard constraint,
+ the optimization has 
+\series bold
+no hard constraint
+\series default
+,
  that is to say,
- it assumes that actions have infinite range and that system states can fluctuate without bounds.
+ it assumes that actions have infinite range,
+ and the system states can fluctuate without bounds.
  In reality,
- physical systems are governed by hard limits.
+ physical systems are governed by 
+\series bold
+hard limits
+\series default
+.
  For example,
  an electric motor has a maximum torque it can produce before the current saturates or the windings overheat,
  and a chemical valve can only transition between fully open (100%) and fully closed (0%) positions.
  Beyond action constraints,
  the system states themselves often have safety or structural boundaries.
  For instance,
- a robotic arm must avoid joint limit angles to prevent mechanical damage and a drone must maintain a minimum altitude above the ground to avoid a collision.
+ a robotic arm must avoid joint limit angles to prevent mechanical damage,
+ and a drone must maintain a minimum altitude above the ground to avoid a collision.
  Ignoring these hard constraints can lead to catastrophic system failure when the control law demands an action that the hardware cannot execute.
  When these hard constraints are reached,
  classical feedback laws often require heuristics (e.g anti-windup strategies 
@@ -4571,13 +3895,20 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-Consequently,
- there is a clear necessity to transition from reactive regulation with static feedback gains toward predictive optimization.
- This paradigm transitions from pre-calculated control laws towards the repeated resolution of Optimal Control Problems (OCP) over a finite future horizon.
+This highlights the need to shift from reactive control with static feedback gains to a predictive framework grounded in optimization.
+ This paradigm transitions from pre-calculated control laws towards the repeated resolution of OCP over a finite future horizon.
  By embedding a predictive model directly within a mathematical optimization framework (e.g Quadratic Programming),
- the controller gains the ability to proactively plan actions.
+ the controller gains the ability to 
+\series bold
+proactively plan actions
+\series default
+.
  In modern robotics and automotive systems,
- this is primarily achieved through Model Predictive Control (MPC) 
+ this is primarily achieved through 
+\series bold
+Model Predictive Control
+\series default
+ (MPC) 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "GARCIA1989335"
@@ -4598,29 +3929,29 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-Unlike global optimization methods,
- that solve the entire control problem beforehand and which are computationally prohibited for real-time use,
- MPC relies on a receding horizon.
- At each timestep,
- the controller solves a constrained optimization problem to find the optimal sequence of future actions based on a model of the system.
-\end_layout
-
-\begin_layout Standard
-The core mechanism of MPC involves the repeated resolution of an OCP at each timestep 
+Whereas global optimization methods (e.g.
+ Dynamic Programming) solve the entire control problem beforehand and are computationally prohibited for real-time use,
+ MPC relies on a 
+\series bold
+receding horizon
+\series default
+.
+ At each timestep 
 \begin_inset Formula $t$
+\end_inset
+
+,
+ the controller solves an OCP to find a sequence of future actions 
+\begin_inset Formula $u_{t:t+T-1}=\left\{ u_{t},\dots,u_{T-1}\right\} $
 \end_inset
 
 .
  Given the current state 
-\begin_inset Formula $s_{0}$
+\begin_inset Formula $s_{t}$
 \end_inset
 
 ,
- the controller seeks an optimal sequence of future actions 
-\begin_inset Formula $U^{*}=\left\{ u_{0},\dots,u_{T-1}\right\} $
-\end_inset
-
- that minimizes a cost function 
+ this sequence minimizes a cost function 
 \begin_inset Formula $J$
 \end_inset
 
@@ -4628,38 +3959,30 @@ The core mechanism of MPC involves the repeated resolution of an OCP at each tim
 \begin_inset Formula $T$
 \end_inset
 
- under some inequality or equality constraints
-\begin_inset Formula 
-\begin{align}
-\min_{U}\,\,\, & J\left(s_{t:t+T},U\right)\\
-\text{s.t.\,\,\, } & s_{t+1}=f\left(s_{t},u_{t}\right)\\
- & h\left(s_{t},u_{t}\right)\leq0\\
- & g\left(s_{t},u_{t}\right)=0
-\end{align}
+,
+ subject to constraints,
+ as formalized in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:OCP"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
 
 \end_inset
 
-where 
-\begin_inset Formula $f$
-\end_inset
-
- denotes the internal predictive model,
- 
-\begin_inset Formula $h$
-\end_inset
-
- and 
-\begin_inset Formula $g$
-\end_inset
-
- represent respectively the inequality and equality constraints.
- 
+.
 \end_layout
 
 \begin_layout Standard
-The defining feature of MPC is the receding-horizon principle:
+The defining feature of MPC is the 
+\series bold
+receding-horizon principle
+\series default
+:
  only the first control input 
-\begin_inset Formula $u_{0}^{*}$
+\begin_inset Formula $u_{t}$
 \end_inset
 
  is applied to the system.
@@ -4696,7 +4019,11 @@ nolink "false"
 
 \begin_layout Standard
 Historically,
- the model is derived from first-principles (e.g kinematic or dynamic equations of motion),
+ the model is derived from 
+\series bold
+first-principles
+\series default
+ (e.g kinematic or dynamic equations of motion),
  assuming that the underlying physics are well-understood and stationary.
  To ensure that the resulting trajectory is physically feasible,
  constraints on both actions 
@@ -4707,13 +4034,21 @@ Historically,
 \begin_inset Formula $s_{t}$
 \end_inset
 
- are embedded direclty into the optimization problem.
+ are embedded directly into the optimization problem.
  
 \end_layout
 
 \begin_layout Standard
 Two types of constraints can be distinguished:
- hard and soft constraints 
+ 
+\series bold
+hard
+\series default
+ and 
+\series bold
+soft
+\series default
+ constraints 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "domshlak2006hard"
@@ -4723,12 +4058,24 @@ literal "false"
 
 .
  On the one hand,
- hard constraints correspond to conditions that must strictly be satisfied for a solution to be valid.
+ 
+\series bold
+hard constraints
+\series default
+ correspond to conditions that must strictly be satisfied for a solution to be valid.
  On the other hand,
- a soft constraint is a constraint that can be violated but with an associated penalty,
+ a 
+\series bold
+soft constraint
+\series default
+ is a constraint that can be violated but with an associated penalty,
  thereby preserving feasibility at the cost of degraded performance.
- When the safety or operational requirements allow for constraint relaxation,
- hard constraints can be reformulated as soft constraint by introducing penalty terms in the cost function.
+ 
+\end_layout
+
+\begin_layout Standard
+When the safety or operational requirements allow for constraint relaxation,
+ a hard constraint can be reformulated as a soft constraint by introducing penalty terms in the cost function.
  One of the most common approach consists in adding a regularization term 
 \begin_inset Formula $\Omega$
 \end_inset
@@ -4736,33 +4083,34 @@ literal "false"
  to the cost function such as 
 \begin_inset Formula 
 \begin{equation}
-J_{\text{global}}\left(s_{t:t+T},U\right)=J\left(s_{t:t+T},U\right)+\lambda\Omega\left(s_{t:t+T},U\right)
+J_{\text{global}}\left(s_{t:t+T},u_{t:t+T-1}\right)=J\left(s_{t:t+T},U\right)+\lambda\Omega\left(s_{t:t+T},u_{t:t+T-1}\right)
 \end{equation}
 
 \end_inset
 
 where 
-\begin_inset Formula 
-\begin{equation}
-\Omega\left(s_{t:t+T},U\right)=\sum_{k=0}^{T}\omega\left(g\left(s_{t+k},u_{k}\right)\right)
-\end{equation}
-
+\begin_inset Formula $\Omega\left(s_{t:t+T},u_{t:t+T-1}\right)\geq0$
 \end_inset
 
- is a non-negative penalty function satisfying 
-\begin_inset Formula $\omega\left(g\right)=0$
+ represents the cost associated with violating the constraints 
+\begin_inset Formula $g\left(s_{t},u_{t}\right)\leq0$
 \end_inset
 
- (with 
-\begin_inset Formula $g$
-\end_inset
-
- the constraint function) whenever the constraint is satisfied,
  and 
+\begin_inset Formula $h\left(s_{t},u_{t}\right)=0$
+\end_inset
+
+.
+ This penalty term is defined such that 
+\begin_inset Formula $\Omega=0$
+\end_inset
+
+ when all constraints are satisfied,
+ while 
 \begin_inset Formula $\lambda>0$
 \end_inset
 
- weights the trade-off between optimality and constraint enforcement.
+ determines the trade-off between performance optimality and constraint enforcement.
  The choice of both 
 \begin_inset Formula $\lambda$
 \end_inset
@@ -4777,7 +4125,7 @@ Solving such constrained optimization problems in real-time requires efficient n
  cost function and constraints,
  different classes of solvers may be employed.
  For instance,
- BFGS 
+ BFGS (Broyden–Fletcher–Goldfarb–Shanno) 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "nocedal2006numerical"
@@ -4787,7 +4135,7 @@ literal "false"
 
  can be applied to general nonlinear dynamics and cost functions but do not natively enforce hard constraints without additional mechanisms.
  In contrast,
- solvers such as OSQP 
+ solvers such as OSQP (Operator Splitting Quadratic Program) 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "stellato2020osqp"
@@ -4858,7 +4206,15 @@ where
 \end_layout
 
 \begin_layout Standard
-Constraint satisfaction guarantees in MPC depend on both the problem formulation and the numerical solver used.
+Constraint satisfaction guarantees in MPC depend on both the 
+\series bold
+problem formulation
+\series default
+ and the 
+\series bold
+numerical solver
+\series default
+ used.
  Some solvers are designed to strictly enforce hard constraints upon convergence while others provide only approximate solutions that could result in small constraint violations due to early termination,
  numerical tolerances or limited iteration budgets imposed by real-time computation requirements 
 \begin_inset CommandInset citation
@@ -6831,7 +6187,21 @@ The transition from reactive feedback control laws to predictive optimization an
 \end_layout
 
 \begin_layout Standard
-In the context of Human-Robot Collaboration (HRC),
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+One of the main challenge in Human-Robot Collaboration (HRC) is that 
+\begin_inset Formula $f$
+\end_inset
+
+ often becomes non-stationary or partially unknown due to the stochastic nature of humans leading to model mismatch,
+ i.e the model does not match the reality anymore.
+\end_layout
+
+\end_inset
+
+ In the context of HRC,
  as introduced in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
