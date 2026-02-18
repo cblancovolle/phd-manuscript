@@ -716,7 +716,7 @@ nolink "false"
 \end_inset
 
  introduces the industrial and regulatory context of this thesis which originates from industrial requirements from AUMOVIO.
- It establishes the scientific abstraction process from a speed recommendation task to the more generalist challenge of adaptive control for non-stationary systems with unknown dynamics.
+ It establishes the scientific abstraction process from a speed recommendation task to the more generalist challenge of adaptive control for gpCELLnary systems with unknown dynamics.
 \end_layout
 
 \begin_layout Itemize
@@ -781,9 +781,9 @@ nolink "false"
 
 \end_inset
 
- exposes prospective works aimed at overcoming the curse of dimensionality and demonstrating the possibilities offered by the modularity of multi-agent systems for learning.
- We define gpCELL,
- a new instantiation of CELL that aims to make Gaussian processes scalable to larger datasets.
+ exposes prospective works about predictive uncertainty quantification that showcase the possibilities offered by the modularity of the CELL formalism for machine learning.
+ It introduces gpCELL,
+ a new instantiation of CELL aimed at scaling Gaussian Processes to large datasets.
 \end_layout
 
 \begin_layout Itemize
@@ -1015,7 +1015,7 @@ Prior to achieving complete vehicle autonomy,
  the future of mobility in the short and medium term lies in the development of effective collaboration between humans and machines.
  There is a need to move from theoretical collaboration to functional safety-critical control systems.
  Thus,
- it is necessary to address the inherent unpredictability and non-stationarity introduced by humans in the context of this collaboration.
+ it is necessary to address the inherent unpredictability and gpCELLnarity introduced by humans in the context of this collaboration.
 \end_layout
 
 \begin_layout Standard
@@ -1052,7 +1052,6 @@ nolink "false"
 
 \end_inset
 
-,
  presents a contextualization on speed management systems and their current limitations.
  Then,
  Section 
@@ -1066,7 +1065,7 @@ nolink "false"
 
 \end_inset
 
- shows how a speed recommendation problem can be asbtracted into an adaptive control problem with a continuously learning model.
+ shows how a speed recommendation problem can be abstracted into an adaptive control problem with a continuously learning model.
  Finally,
  Section 
 \begin_inset CommandInset ref
@@ -1160,7 +1159,7 @@ nolink "false"
 
 ).
  This system is designed to inform the drivers about legal speed limits and encourage compliance.
- They argue that it has the potential to reduce road collisions by 30% and fatalities by 20% 
+ The ETSC argues that it has the potential to reduce road collisions by 30% and fatalities by 20% 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "etsc2017isa"
@@ -1182,13 +1181,13 @@ Beyond safety,
 \begin_layout Itemize
 As of July 6,
  2022:
- The European Union mandated that all new vehicle types must be equipped with ISA.
+ the European Union mandated that all new vehicle types must be equipped with ISA.
 \end_layout
 
 \begin_layout Itemize
 As of July 7,
  2024:
- This requirement was extended to all new vehicles sold within the EU market 
+ this requirement was extended to all new vehicles sold within the EU market 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "eu2019regulation"
@@ -1215,11 +1214,11 @@ literal "false"
 
 \begin_layout Standard
 For AUMOVIO,
- this creates a significant engineering and scientific challenge to make the most out of this kind of systems.
- The system must provide recommendations that are effective enough to ensure safety and efficiency,
+ this creates a significant engineering and scientific challenge to make the most out of ISA systems.
+ The device must provide recommendations that are effective enough to ensure safety and efficiency,
  yet intuitive enough to be accepted by a human driver who retains ultimate control.
  As it is explored in subsequent sections,
- the success of such systems depends on the ability of the developed system to adapt to the inherent non-stationarity of human behavior under various driving contexts.
+ the success of such device depends on its ability to adapt to the inherent uncertainties of human behavior under various driving contexts.
 \end_layout
 
 \begin_layout Standard
@@ -1246,7 +1245,8 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Illustration of what is Intelligent Speed Assistance from the european safety council 
+Definition of Intelligent Speed Assistance (ISA) according to the European Transport Safety Council (ETSC).
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "etsc2018isa"
@@ -1491,7 +1491,8 @@ delay
 refuse
 \emph default
  a recommended speed set point,
- the effectivenes of such recommendation systems is largely determined by the underlying system architecture and how it interacts with an unpredictable human driver.
+ the effectivenes of such recommendation systems is largely determined by the underlying system architecture and the way it interacts with a human driver,
+ which has an uncertain behavior.
 \end_layout
 
 \begin_layout Standard
@@ -1510,19 +1511,22 @@ nolink "false"
  On one hand,
  
 \emph on
-Open-Loop
+open-loop
 \emph default
  systems comprise mainly advisory systems that do not consider any form of feedback from the vehicle or driver responses to recommendation set points.
  On the other hand,
  
 \emph on
-Closed-Loop
+closed-loop
 \emph default
  systems solely consider feedbacks from the vehicle state,
- removing the driver from the execution loop,
- enabling for safety guarantees,
- stability and self correction.
- 
+ removing the driver from the execution loop.
+ This way,
+ a large portion of the uncertainty brought by the driver can be ignored,
+ making it easier to provide safety guarantees and stability.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 placement document
 alignment document
@@ -1667,7 +1671,7 @@ name "fig:Taxonomy-of-Vehicle"
 
 \end_inset
 
-Taxonomy of Vehicle Speed Management approaches
+Taxonomy of Vehicle Speed Management Approaches
 \end_layout
 
 \end_inset
@@ -1681,7 +1685,7 @@ Taxonomy of Vehicle Speed Management approaches
 \end_layout
 
 \begin_layout Standard
-Open loop systems correspond to systems that do not consider feedback from the driver or vehicle current state.
+Open-loop systems correspond to systems that do not consider feedback from the driver or vehicle current state.
  In the speed management literature,
  these works primarily focus on translating environment constraints such as traffic light timings 
 \begin_inset CommandInset citation
@@ -1742,157 +1746,48 @@ literal "false"
 However,
  whether digital or physical,
  these approaches share the same structural limitation because they assume that the recommendation set points are going to be followed perfectly and instantaneously.
- This assumption ignores the non-stationarity and variability of human-behavior.
- Consequently,
- without online feedback mechanisms to account for driver acceptance,
- the theoretical benefits of these optimizations are rarely fully realized in real-world conditions.
+ This assumption ignores the non-stationarity and variability of the human behavior.
+ 
+\end_layout
+
+\begin_layout Definition
+In the context of this thesis,
+ 
+\series bold
+non-stationarity
+\series default
+ refers to a dynamical system whose underlying transition dynamics are not constant over time 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "sutton1998reinforcement"
+literal "false"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "Non-Stationarity"
+description "Refers to a dynamical system whose underlying transition dynamics are not constant over time."
+literal "true"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-Rules / Heuristics
-\end_layout
-
-\begin_layout Itemize
-Communication of speed recommendation with smartphone (work on HMIs),
- rule-based approach based on traffic lights state and distance to traffic light to avoid dead stops (for energy consumption ) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "krauseTrafficLightAssistantDriven2012"
-literal "false"
-
+\begin_inset Separator plain
 \end_inset
 
 
 \end_layout
 
-\begin_layout Itemize
-Rule-based recommendation approach based on fusion of several data sources (weather,
- road profile,
- ...) and comparison to nominal speed profiles (for safety and comfort).
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "galanisEnvironmentalBasedSpeedRecommendation2019"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Rule based recommendation approach based on Stopping Distance and Available Sight Distance (mainly for safety,
- then for energy efficiency) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "hazoorDevelopmentNovelIntelligent2021"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-Optimization
-\end_layout
-
-\begin_layout Itemize
-Optimization based recommendation approach to determine the optimal Speed Limit (Variable Speed Limit problem) that is transmitted to the driver via V2I which is also used for collecting data for computind the optimal speed (for safety).
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "wuCombinedConnectedVehicles2020"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Communication of speed recommendation with V2X (V2V and V2I).
- Optimization (Heuristic provided too for real time) based approach based on traffic light schedule (for energy consumption).
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "alsabaanOptimizationFuelCost2013"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Optimization based speed recommendation method based on analytical PMP solution relying on offline linearization of road profile beforehand.
- Method is fast because analytical solution and adaptive a bit online because some parameters are dynamic (for energy consumption then for legal speed limit enforcement).
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "ozatayVelocityProfileOptimization2017"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-Offline Planning
-\end_layout
-
-\begin_layout Itemize
-PMP speed control approach for cruising (for energy) which handles gear shifts and alternates between acceleration and idling.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "shenFuelOptimalPeriodicControl2018"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-Infrastructures
-\end_layout
-
-\begin_layout Itemize
-Infrastructure-based approach using road bumps.
- Communication of speed limitations to driver with signs and physical enforcement (vibration too hard above design speed limit).
- Study about road bump characteristics to enforce speed limit efficiently (for safety) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "salauVehicleSpeedControl2004"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Infrastructure / Heuristic approach using discontinuous mural decorations on tunnel sidewalls at specific frequencies to provide visual stimulation.
- It induces a passive psychological signal that enhances driver's ability to estimate his true speed => improving speed awareness and alertness (for safety) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "zhaoHowDoesMural2022"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
+\begin_layout Standard
+Consequently,
+ without online feedback mechanisms to account for driver acceptance,
+ the theoretical benefits of these optimizations are rarely fully realized in real-world conditions.
 \end_layout
 
 \begin_layout Standard
@@ -1900,7 +1795,7 @@ Works on closed-loop speed management systems are rooted in the development of a
  In a sense,
  they resolve the main limitation of open-loop systems by completely ignoring the driver and focusing solely on vehicle control.
  In this context,
- the system plays an active role in speed regulation by acting directly on low level vehicle's actuators (throttle / brake),
+ the system plays an active role in speed regulation by acting directly on low level vehicle's actuators (throttle/brake),
  thereby bypassing the uncertainties of driver acceptance.
  The related literature can be divided into two technical branches:
  
@@ -1916,7 +1811,11 @@ data-driven
 
 \begin_layout Standard
 On the one hand,
- model-based online planning approaches rely extensively on physical models of the vehicle coupled with Model Predictive Control (MPC) 
+ 
+\emph on
+model-based online planning
+\emph default
+ approaches rely extensively on physical models of the vehicle coupled with Model Predictive Control (MPC) 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "asadiPredictiveCruiseControl2010,kamalModelPredictiveControl2012,hanSafeEcoDrivingControl2018"
@@ -1964,9 +1863,9 @@ literal "false"
  to solve the optimization problems.
  These methods offer rigorous safety and stability guarantees as they rely on pre-defined physical models coupled with control theory.
  However,
- the main limitation exposed for open-loops systems remains.
- The human driver is excluded from the control loop,
- resulting in mostly unusable systems when considering a human driver controlling the vehicle.
+ the main limitation exposed for open-loops systems remains:
+ the human driver is excluded from the control loop,
+ resulting in mostly irrelevant systems when considering a human driver controlling the vehicle.
  Moreover,
  the capabilities of the resulting controllers depend on the accuracy of the physical models used.
  To ensure the controller operates in real-time,
@@ -1976,7 +1875,11 @@ literal "false"
 
 \begin_layout Standard
 On the other hand,
- data-driven approaches have emerged to address the limitations of physical modeling,
+ 
+\emph on
+learning-based
+\emph default
+ approaches have emerged to address the limitations of physical modeling,
  particularly for capturing complex,
  non-linear behaviors that are difficult to formalize analytically.
  By leveraging Reinforcement Learning,
@@ -1990,7 +1893,7 @@ literal "false"
 \end_inset
 
 .
- Various architectures are leveraged to handle speed control tasks such as DDPG for car-following and heavy vehicles 
+ Various architectures are leveraged to handle speed control tasks such as Deep Deterministic Policy Gradient (DDPG) for car-following and heavy vehicles 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "sunDDPGBasedDecisionMakingStrategy2020,moghaddam2024cooperative"
@@ -1999,7 +1902,7 @@ literal "false"
 \end_inset
 
 ,
- PPO for traffic efficiency 
+ Proximal Policy Optimization (PPO) for traffic efficiency 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "xuHierarchicalSpeedControl2022,liuLongitudinalControlConnected2023,zhao2024adaptive"
@@ -2007,7 +1910,7 @@ literal "false"
 
 \end_inset
 
- or SAC and DQN for safe speed control 
+ or Soft-Actor-Critic (SAC) and Deep Q-Network (DQN) for safe speed control 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "jiangReinforcementLearningBased2022,kim2025reinforcement"
@@ -2031,7 +1934,8 @@ literal "false"
  Furthermore,
  compared to model-based methods,
  data-driven controllers lack formal safety and stability guarantees.
- They mostly rely on neural networks which make enforcing hard constraints difficult in safety-critical control systems due to the brittleness of their predictions outside the training distribution and to the lack of interpretability of their inner workings 
+ They mostly rely on neural networks which make enforcing hard constraints difficult in safety-critical control systems.
+ This is due to the brittleness of their predictions outside the training distribution and to the lack of interpretability of their inner workings 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "zhang2020testing"
@@ -2059,7 +1963,7 @@ Despite their differences,
  they prioritize the autonomy of the vehicle,
  denying the authority of the driver.
  Human-in-the-Loop (HitL) systems seek to address this limitation.
- These approaches attempt to reintegrate the driver into the control loop by treating human behavior as a dynamic variable of the problem rather than ignoring it.
+ These approaches attempt to reintegrate the driver into the control loop by treating the human behavior as a dynamic variable of the problem rather than ignoring it.
  In this field,
  literature focuses on personalizing speed recommendations by monitoring physiological signals such as heart rate to model stress levels 
 \begin_inset CommandInset citation
@@ -2079,7 +1983,7 @@ literal "false"
 \end_inset
 
 .
- Other works use simple online reinforcement learning strategies to steer the static cloud-based planning toward the driver's historical preferences 
+ Other works leverage simple online reinforcement learning strategies to guide the static cloud-based planning toward the driver's historical preferences 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "ozatayCloudBasedVelocityProfile2014"
@@ -2099,7 +2003,7 @@ literal "false"
  These approaches represent significant steps toward driver consideration into closed-loop systems.
  However,
  they still remain limited by their offline nature.
- Most of these HitL systems are built upon static databases or pre-trained driver profiles that fail to account for the variability of human driving behaviors and for the non-stationarity of those behaviors that can evolve over time.
+ Most of these HitL systems are built upon static databases or pre-trained driver profiles that fail to account for the variability of human driving behaviors and for the non-stationarity of those behaviors that evolve over time.
  In reality,
  a driver's response is not a fixed parameter but a non-stationary process influenced by physiological states,
  environmental context and long-term behavioral adaptation.
@@ -2112,26 +2016,17 @@ The research literature on speed management systems reveals a significant gap in
  closed-loop autonomous systems offer high performance and theoretical guarantees but exclude the human driver from the execution loop.
  Finally,
  HitL methods that try to reinsert the driver in the loop through personalization and data-driven approaches,
- are limited by their inability to adapt in real-time to non-stationary behavior and learn continuously.
+ are limited by their inability to adapt in real-time to non-stationary behavior and to continuously learn.
 \end_layout
 
 \begin_layout Standard
-We identified a research gap in the lack of interpretable methods capable of learning continuously to adapt to the non-stationarity of the human driver behavior.
- Section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Problem-Statement"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- shows that from the identified research gap,
- the industrial speed recommendation problem can be abstracted to a more fundamental scientific challenge which is the control of complex non-stationary systems.
- By considering the vehicle-driver plant as a whole with unknown non-stationary dynamics,
- the problem is reformulated as a task of Adaptive Control with a Learned Model which represents the core focus of this thesis.
+We identified a research gap in the lack of approaches that can continuously learn and adapt to the non-stationarity of the human driver behavior.
+ The next section shows that from the identified research gap,
+ the industrial speed recommendation problem can be abstracted to a more fundamental scientific challenge:
+ the control of complex non-stationary systems.
+ By considering the vehicle-driver dynamical system as a whole with unknown non-stationary dynamics,
+ the problem is reformulated as a task of Adaptive Control with a Learned Model,
+ which is the core focus of this thesis.
 \end_layout
 
 \begin_layout Standard
@@ -2595,12 +2490,100 @@ name "sec:Problem-Statement"
 \end_layout
 
 \begin_layout Standard
-To address the gaps identified in the literature,
+To address the gaps identified in the literature (mainly the failure to effectively taking into account the human driver),
  this thesis proposes a shift in perspective.
  Rather than viewing speed recommendation as a static recommendation task,
  we treat it as a Human-Robot Collaboration (HRC) problem.
- For a robot to work effectively with humans,
- it requires anticipatory skills 
+ 
+\end_layout
+
+\begin_layout Definition
+Human-Robot Collaboration (HRC) is defined as the process where a human and a robot work together as a team,
+ through a shared workspace and a shared task,
+ to achieve a common goal by leveraging the complementary strengths of both actors 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "semeraro2023human"
+literal "false"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "Human-Robot Collaboration"
+description "Human-Robot Collaboration (HRC) is defined as the process where a human and a robot work together as a team, through a shared workspace and a shared task, to achieve a common goal by leveraging the complementary strength of both actors \\cite{semeraro2023human}."
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the context of speed recommendation,
+ the components of this HRC definition can be interpreted as follows:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Shared Workspace
+\series default
+:
+ This corresponds to the vehicle and its immediate driving environment.
+ The recommendation system (robot) and the driver (human) act within the same physical and informational space:
+ the system communicates speed recommendations to the driver,
+ while the driver’s inputs (e.g.,
+ pedal control) simultaneously influence vehicle motion.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Shared Task
+\series default
+:
+ This corresponds to longitudinal control and speed regulation.
+ The recommendation system computes optimal speed setpoints,
+ and the driver executes them,
+ forming a continuous loop of recommendation and response.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Common Goal
+\series default
+:
+ This represents the desired driving behavior that balances safety,
+ fuel efficiency,
+ passenger comfort,
+ and travel time.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Complementary Strengths
+\series default
+:
+ This refers to the synergy between the computational capabilities of the digital recommendation system,
+ enabled by on-board sensor data,
+ and the human driver's perceptual and reasoning abilities,
+ such as recognizing complex driving contexts or social cues that the recommendation system might overlook.
+\end_layout
+
+\begin_layout Standard
+Effective HRC depends on the robot's ability to anticipate human actions 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "dani2024human"
@@ -2609,20 +2592,25 @@ literal "false"
 \end_inset
 
 .
- The controller must infer the driver's intended motion and behavior to synchronize its recommendations effectively.
- By forecasting a human's response,
- the controller can provide set points that are complementary to the human's intent rather than being reactionary or disruptive.
+ The robot must infer the driver's intended motion and behavior to synchronize its recommendations effectively.
+ Forecasting a human's response,
+ enables the recommendation system to provide set points that are complementary to the human's intent rather than being reactionary or disruptive.
 \end_layout
 
 \begin_layout Standard
 Consequently,
- we propose to tackle the speed recommendation problem as a control problem under the assumption that the vehicle-driver plant is modeled as a whole.
+ we propose to tackle the speed recommendation problem as a control problem under the assumption that the vehicle-driver dynamical system is considered as a whole.
  Given the non-stationarity and complexity of human behavior,
- this plant cannot be described by a static physical model.
+ this dynamical system cannot be described by a static physical model.
  Instead,
- it is non-stationary and it must be continuously learned online from experience.
- Formulated in this way,
- the speed recommendation problem is abstracted into a problem of Adaptive Control that can be decomposed into two subproblems:
+ as it is non-stationary,
+ it must be continuously learned online from experience.
+ When formulated this way,
+ the speed recommendation problem becomes a problem of 
+\series bold
+Adaptive Control
+\series default
+ that can be decomposed into two subproblems:
  
 \series bold
 online learning
@@ -2636,7 +2624,11 @@ online learning
 
 \begin_layout Standard
 First,
- the online learning subproblem consists in the continuous generation of a predictive model 
+ the 
+\series bold
+online learning
+\series default
+ subproblem consists in the continuous refinement of a predictive model 
 \begin_inset Formula $\hat{f}:\mathbb{R}^{n}\rightarrow\mathbb{R}^{m}$
 \end_inset
 
@@ -2649,7 +2641,15 @@ First,
 \begin_inset Formula $\hat{f}$
 \end_inset
 
- maps a states and actions to next state prediction such as
+ maps a state 
+\begin_inset Formula $s_{t}$
+\end_inset
+
+ and an action 
+\begin_inset Formula $u_{t}$
+\end_inset
+
+ to the next state such as
 \begin_inset Formula 
 \begin{equation}
 \hat{f}\left(s_{t},u_{t}\right)=s_{t+1}
@@ -2662,7 +2662,11 @@ First,
 
 \begin_layout Standard
 Then,
- the control with learned model subproblem consists in the derivation of a control law that minimizes a cost function 
+ the 
+\series bold
+control with learned model
+\series default
+ subproblem consists in the derivation of a control law that minimizes a cost function 
 \begin_inset Formula $J$
 \end_inset
 
@@ -2682,7 +2686,16 @@ To solve these subproblems in a non-stationary environment,
  we argue for the necessity of using a local learning approach in which the feature space is partitioned into regions managed by local experts.
  This choice is driven by the requirements for interpretability and real-time adaptability.
  In the context of HRC,
- interpretability may not be a strict mathematical requirement for control but it is a functional necessity to ensure the certifiability of the system 
+ interpretability may not be a strict mathematical requirement for control but it is a functional necessity to:
+ 
+\end_layout
+
+\begin_layout Itemize
+Ensure the 
+\series bold
+certifiability
+\series default
+ of the system 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "kress2021formalizing"
@@ -2690,7 +2703,15 @@ literal "false"
 
 \end_inset
 
- and to improve human trust toward the controller 
+.
+\end_layout
+
+\begin_layout Itemize
+Improve
+\series bold
+ human trust
+\series default
+ toward the system 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "anjomshoae2019explainable"
@@ -2699,16 +2720,34 @@ literal "false"
 \end_inset
 
 .
- For safety,
- industrial standards require that the internal models driving the system's decisions be traceable and verifiable.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Regarding safety,
+ industrial standards require that the internal predictive models driving the decision-making process be 
+\series bold
+traceable and verifiable
+\series default
+.
  This task remains notoriously difficult with black-box global approximators like neural networks.
  For HRC,
- a human is more likely to accept and cooperate with a system whose behavior is predicatble and grounded in transparent logic.
+ a human is more likely to accept and cooperate with a system whose behavior is predictable and based on transparent logic.
 \end_layout
 
 \begin_layout Standard
 Moreover,
- global approximation methods often struggle with the stability-plasticity dilemma 
+ global approximation methods often struggle with the 
+\series bold
+stability-plasticity dilemma
+\series default
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "mermillod2013stability"
@@ -2716,10 +2755,11 @@ literal "false"
 
 \end_inset
 
- where learning new behaviors leads to the forgetting of old ones.
+ where learning new behaviors leads to forgetting old ones.
  With local learning methods,
- the model can adapt to new behaviors locally and incrementally without corrupting knowledge stored in other regions.
- This allows the model to remain accurate across different driving contexts without requiring computationally heavy,
+ the model can locally adapt to new behaviors and incrementally without corrupting unrelated knowledge.
+ Thus,
+ the model remains accurate across different driving contexts without requiring computationally heavy,
  and often impossible,
  offline training.
 \end_layout
@@ -2737,7 +2777,15 @@ The long-term goal of this research is to enable efficient HRC,
  This goal depends on the reliability of the underlying control architecture.
  Therefore,
  this thesis does not address the high-level social or psychological aspects of HRC but rather the foundational subproblems required to make the best out of HRC:
- local online learning and control with learned models.
+ 
+\series bold
+local online learning
+\series default
+ and 
+\series bold
+control with learned models
+\series default
+.
  The following section details the research questions that shape the goal of this thesis.
 \end_layout
 
@@ -2844,9 +2892,20 @@ Reliability in Learning-Based Control
 \end_layout
 
 \begin_layout Standard
-The resolution of these questions lies at the intersection of two research fields.
- This thesis works borrow from both machine learning and control theory.
- The following chapter provides a comprehensive review of literature organized around these two research axes.
+The answer to these questions lies at the intersection of two research fields:
+ 
+\series bold
+machine learning
+\series default
+ and 
+\series bold
+control theory
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+The following chapter provides a comprehensive review of literature organized around these two research axes.
 \end_layout
 
 \begin_layout Standard
@@ -49018,6 +49077,16 @@ btprint "btPrintCited"
 bibfiles "manuscript"
 options "plain"
 encoding "default"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset nomencl_print
+LatexCommand printnomenclature
+set_width "auto"
 
 \end_inset
 
