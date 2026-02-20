@@ -31,6 +31,7 @@
 
 \def\nompreamble{\addcontentsline{toc}{chapter}{\nomname}\markboth{\nomname}{\nomname}}
 \AtBeginDocument{\def\nomname{Glossary}}
+\usepackage[T1]{fontenc}
 \end_preamble
 \use_default_options true
 \begin_modules
@@ -58,7 +59,7 @@ algorithm2e
 \use_microtype false
 \use_dash_ligatures true
 \graphics default
-\default_output_format default
+\default_output_format pdf5
 \output_sync 0
 \bibtex_command default
 \index_command default
@@ -8601,7 +8602,7 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-To address the limitations of individual learners,
+To address the limitations of individual learning models,
  
 \series bold
 Ensemble Learning
@@ -8811,11 +8812,7 @@ Online Learning
 In machine learning and deep learning ,
  the Batch Learning paradigm is the most popular and widely used in the industry.
  In Batch Learning,
- the learner has access to a complete dataset 
-\begin_inset Formula $\mathcal{D}$
-\end_inset
-
- and learns from an entire set of examples simultaneously.
+ the learning model has access to a complete dataset and learns from an entire set of examples simultaneously.
 \end_layout
 
 \begin_layout Standard
@@ -8832,11 +8829,7 @@ literal "false"
 \end_inset
 
 ,
- which is not compatible with use cases necessitating learning and 
-\series bold
-adapting in real time from a stream of data that might be non-stationary
-\series default
-.
+ which is not compatible with use cases necessitating learning and adapting in real time from a stream of data that might be non-stationary.
  
 \end_layout
 
@@ -8844,11 +8837,7 @@ adapting in real time from a stream of data that might be non-stationary
 The Online Learning paradigm aims to overcome this limitation.
  Unlike Batch Learning,
  in Online Learning,
- the learner 
-\series bold
-recursively updates
-\series default
- the model using only one example at a time,
+ the learning model recursively updates the model using only one example at a time,
  possibly under strict memory and pass constraint (e.g only single pass allowed) 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -8868,11 +8857,7 @@ This shift from Batch to Online Learning introduces several new challenges.
  training and testing is replaced by an interleaved architecture where these phases occur simultaneously without clear temporal order.
  This makes basic operations,
  such as feature normalization,
- non-trivial due to 
-\series bold
-unknown global statistics
-\series default
-.
+ non-trivial due to unknown global statistics.
  In this case the model needs to maintain incremental estimates that evolve alonside the data 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -8930,11 +8915,7 @@ assumption of stationarity
  On the one hand,
  Batch Learning methods assume that the data distribution is fixed and the dataset is exhaustive enough.
  On the other hand,
- Online Learning algorithms must be designed to handle non-stationarity that manifests through 
-\series bold
-concept drift
-\series default
- 
+ Online Learning algorithms must be designed to handle non-stationarity that manifests through concept drift 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "gama2004learning"
@@ -9003,11 +8984,7 @@ As new architectures are developed to handle these challenges,
 \series bold
 Ensemble Learning
 \series default
- seems to offer a way to dynamically 
-\series bold
-add or remove learning capacity to recover from concept drift
-\series default
- 
+ seems to offer a way to dynamically add or remove learning capacity to recover from concept drift 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "gomes2019machine"
@@ -9027,7 +9004,7 @@ However,
  such as neural networks,
  their internal representations remain susceptible to interference because a single update can perturb the entire parameter space.
  Consequently,
- simply adding or removing global models from the ensemble does not prevent new knowledge from accidentally corrupting previously learned information.
+ simply adding or removing models from the ensemble does not prevent new knowledge from accidentally corrupting previously learned information.
  This structural vulnerability leads to a conflict known as the 
 \series bold
 stability-plasticity dilemma
@@ -9067,13 +9044,48 @@ name "subsec:Global-Models-and-Stability-Plasticity"
 \end_layout
 
 \begin_layout Standard
-The transition from Batch to Online Learning introduces new challenges related to the internal representation of the models.
+The transition from Batch to Online Learning introduces new challenges related to the internal representations of the models.
  These challenges are formalized as the 
 \series bold
 stability-plasticity dilemma
 \series default
 .
  
+\end_layout
+
+\begin_layout Definition
+
+\series bold
+Global learning
+\series default
+ refers to machine learning approaches that construct a model capturing the overall data distribution or structure,
+ where parameters are updated using the entire training dataset,
+ and predictions arise from the unified model architecture 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "xie2011comparison"
+literal "false"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "Global Learning"
+description "Global learning refers to machine learning approaches that construct a model capturing the overall data distribution or structure, where parameters are updated using the entire training dataset, and predictions arise from the unified model architecture \\cite{xie2011comparison}."
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
 \end_layout
 
 \begin_layout Definition
@@ -9135,8 +9147,7 @@ catastrophic forgetting
 
 \begin_layout Standard
 In Batch Learning,
- global learners are widely used.
- In global learning models,
+ where global learning models are widely used,
  the output is decided by the collective activation of all neurons within the system 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -9147,7 +9158,7 @@ literal "false"
 
 .
  Because these parameters have global support,
- the gradient updates required to learn a new task or adapt to a concept drift can lead to interferences between the new and old tasks 
+ the adjustments to internal parameters required to learn a new task or adapt to a concept drift can lead to interferences between the new and old tasks 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "wang2023incorporating"
@@ -9230,22 +9241,31 @@ literal "false"
 
 .
  However,
- they are limited by the linearity assumption and fail to capture the complex non-linear relationships between inputs and outputs in most dynamical systems,
- whereas high-capacity approximators like neural networks can provide the necessary representational depth.
+ they are limited by the linearity assumption and fail to capture the complex non-linear relationships between inputs and outputs in most dynamical systems.
+ Whereas high-capacity approximators like neural networks can provide the necessary representational depth.
 \end_layout
 
 \begin_layout Standard
-In contrast,
- neural networks can capture such complexities but are highly susceptible to Catastrophic Forgetting.
- Beyond the Stability-Plasticity dilemma,
- these models are typically static,
- meaning that their internal complexity (number of layers and neurons) is fixed at design time and cannot adapt to the evolving complexity of the tackled problem.
- Several strategies have been proposed to mitigate these effects in global learners.
- 
-\emph on
-Regularization
-\emph default
- methods (e.g Elastic Weight Consolidation) attempt to anchor important weights to preserve stability 
+Even if neural networks can capture such complexities (non-linear relationships),
+ they are highly susceptible to 
+\series bold
+catastrophic forgetting
+\series default
+.
+ Moreover,
+ these models are typically static.
+ This means that their internal complexity (number of layers and neurons) is fixed at design time and cannot adapt to the evolving complexity of the tackled problem.
+ Three main strategies have been proposed to mitigate these effects in global learning models:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Regularization Methods
+\series default
+:
+ These attempt to anchor important weights to preserve stability (e.g.
+ Elastic Weight Consolidation) 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "kirkpatrick2017overcoming"
@@ -9253,13 +9273,27 @@ literal "false"
 
 \end_inset
 
- but this often hurt the plasticity capabilities of the model,
- preventing it to adapt to significant concept drifts.
+ but this often 
+\series bold
+hurts the
+\series default
  
-\emph on
-Replay
-\emph default
- methods leverage episodic memory to re-train on past experiences to distillate old knowledge into the new one 
+\series bold
+plasticity capabilities
+\series default
+ of the model.
+ Thus,
+ it prevents it to adapt to significant concept drifts.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Replay Methods
+\series default
+:
+ These leverage episodic memory to re-train on past experiences to distillate old knowledge into the new one 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "chaudhry2019continual"
@@ -9268,7 +9302,7 @@ literal "false"
 \end_inset
 
  to prevent forgetting.
- This trick is extensively used in Deep Reinforcement Learning to stabilize an inherently non-stationary learning procedure 
+ This trick is extensively used in Deep RL to stabilize an inherently non-stationary learning procedure 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "mnihHumanlevelControlDeep2015,schaul2015prioritized,andrychowicz2017hindsight"
@@ -9278,13 +9312,20 @@ literal "false"
 
 .
  However,
- it violates the single-pass constraint often associated with online learning as well as increasing the computational overhead.
- Finally,
- 
-\emph on
-Parameter Isolation
-\emph default
- methods create specialized experts sub-models for different tasks 
+ it 
+\series bold
+violates the single-pass constraint
+\series default
+ often associated with online learning as well as increasing the computational overhead.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Parameter Isolation Methods
+\series default
+:
+ These create specialized experts models for different tasks 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "aljundi2017expert,Delange_2021"
@@ -9295,11 +9336,31 @@ literal "false"
 .
  They tackle the catastrophic forgetting problem by isolating sets of parameters allowing dynamic creation and destruction of relevant experts.
  While promising,
- this meta-learning approach often struggles with a problem of unlimited growth of experts and the lack of a clear spatial logic to trigger the correct expert in continuous state spaces.
+ this meta-learning approach often struggles with a problem of 
+\series bold
+uncontrolled growth of experts
+\series default
+ and the lack of a clear spatial logic to trigger the correct expert in continuous state spaces.
 \end_layout
 
 \begin_layout Standard
-Tree-based learners,
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As neural networks are widely considered as hard-to-interpret black-box models 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "yangSurveyLargeLanguage2023"
+literal "false"
+
+\end_inset
+
+,
+ Tree-based learning models,
  such as Hoeffding Trees 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -9317,7 +9378,7 @@ literal "false"
 
 \end_inset
 
- and Mondrian Forests 
+ or Mondrian Forests 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "lakshminarayanan2014mondrian"
@@ -9325,15 +9386,7 @@ literal "false"
 
 \end_inset
 
- offer an alternative to the neural networks which are widely considered as hard-to-interpret black-box models 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "yangSurveyLargeLanguage2023"
-literal "false"
-
-\end_inset
-
-.
+ offer an alternative.
  They provide an interpretable symbolic structure from data streams.
  As these approaches struggle with handling concept drift,
  adaptive variants introducing structural modifications (e.g adding concept drift detectors like ADWIN 
@@ -9356,7 +9409,8 @@ literal "false"
 
 .
  Furthermore,
- from a control perspective traditional trees are non-differentiable due to hard logical splits which produce a discontinuous output surface with zero gradients making them incompatible with gradient optimization methods.
+ from a control perspective traditional trees are non-differentiable due to hard logical splits.
+ These splits produce a discontinuous output surface with zero gradients making them incompatible with gradient optimization methods.
  Attempts have been made to tackle this issue but they remain computationally inefficient 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -9369,9 +9423,17 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-Based on the limitations mentioned above,
- it would seem that global models struggle to handle non-stationarity due to global representations or structural difficulties to handle concept drift.
- This suggests that local learning could be more appropriate to handle the challenges inherent to Online Learning.
+To summarize on the limitations mentionned above,
+ 
+\series bold
+global learning models are not able to cope efficiently with non-stationarity
+\series default
+ due to global representations or structural difficulties to handle concept drift.
+ This suggests that a
+\series bold
+ local learning
+\series default
+ model could be more appropriate to handle the challenges inherent to Online Learning.
 \end_layout
 
 \begin_layout Subsection
@@ -9386,9 +9448,55 @@ name "subsec:Local-Online-Learning"
 \end_layout
 
 \begin_layout Standard
-The limitations of global learners in non-stationary environments motivates the exploration of local learning methods because they provide an architecural solution to the Stability-Plasticity dilemma.
- In local learners,
- the learning updates are spatially isolated and outputs are determined by specific local parameters 
+As shown in the previous section,
+ global learning models are unable to cope efficiently with non-stationarity.
+ This motivates the exploration of local learning methods because they provide an 
+\series bold
+architecural solution to the stability-plasticity dilemma
+\series default
+.
+ 
+\end_layout
+
+\begin_layout Definition
+
+\series bold
+Local learning
+\series default
+ refers to machine learning approaches that construct task-oriented models using subsets of the training data,
+ such as local neighborhoods,
+ where parameters are updated incrementally on relevant data points,
+ and predictions airse from context-specific approximations rather than a unified global architecture 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "xie2011comparison"
+literal "false"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "Local Learning"
+description "Definition 12. Local learning refers to machine learning approaches that construct task-oriented models using subsets of the training data, such as local neighborhoods, where parameters are updated incrementally on relevant data points, and predictions airse from context-specific approximations rather than a unified global architecture \\cite{xie2011comparison}."
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In local learning models,
+ the updates are spatially isolated and outputs are determined by specific local parameters 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "xie2011comparison"
@@ -9398,12 +9506,24 @@ literal "false"
 
 .
  By restricting the influence of a data point to a specific neighborhood,
- these models achieve a natural form of Parameter Isolation,
- where adaptation to new dynamics in one region of the feature space does not disrupt the knowledge stored in another non-related one.
+ these models achieve a natural form of 
+\series bold
+Parameter Isolation
+\series default
+.
+ Parameter Isolation enables adaptation to new dynamics in one region of the feature space does not disrupt the knowledge stored in another non-related one 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "aljundi2017expert,Delange_2021"
+literal "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
-Beyond structural stability,
+Beyond Parameter Isolation,
  the adoption of local learning is supported by the requirement for interpretability.
  In safety-critical systems,
  interpretable white-box models should be preferred over black-box approximators to ensure trust and safety through transparent inner workings 
@@ -9418,8 +9538,7 @@ literal "false"
  Local learning naturally provides traceability in the prediction process,
  provided that the local models are themselves interpretable.
  In this context,
- any prediction can be traced back to a specific,
- localized set of parameters rather than being the result of an opaque global activation.
+ any prediction can be traced back to a specific and localized set of parameters rather than being the result of an opaque global activation.
 \end_layout
 
 \begin_layout Standard
@@ -9442,9 +9561,34 @@ literal "false"
 \end_inset
 
 .
- However it is often limited by data density,
- by poor generalization in sparse regions and by the high computational overhead induced by the search of nearest neighbors at prediction time,
- making it hard to use in real-time control applications.
+ However,
+ it is often limited by 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Data density
+\series default
+ which can lead to biased predictions for non-uniform data distributions.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Poor generalization
+\series default
+ in sparse regions,
+ where lack of local information degrades accuracy.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+High computational overhead
+\series default
+ induced by the search of nearest neighbors at prediction time.
+ This makes it hard to use kNN in real-time control applications.
 \end_layout
 
 \begin_layout Standard
@@ -9467,11 +9611,12 @@ literal "false"
 \end_inset
 
 .
- However it suffers from significant drawbacks as this approach is computationally inefficient as the database of stored points grows.
+ However it suffers from significant drawbacks:
+ this approach is computationally inefficient when the database of stored points grows.
 \end_layout
 
 \begin_layout Standard
-To address the inefficiencies of LWR,
+To overcome the inefficiencies of LWR,
  a set of incremental local expert models is maintained to replace raw data storage.
  For example Radial Basis Function (RBF) networks 
 \begin_inset CommandInset citation
@@ -9482,11 +9627,12 @@ literal "false"
 \end_inset
 
  are a common approach.
- The function underlying the data is approximated from the weighted combinations of spatialized local neurons.
+ The function underlying the data is approximated from the weighted combinations of localized RBFs.
  However,
- RBF Networks require the centers of local neurons to be fixed beforehand,
- and the location of these centers plays a crucial role in the model's performance,
- which is a major drawback in the case of online learning.
+ in RBF Networks,
+ the centers of localized RBFs need to be fixed beforehand,
+ and the initial location of these intial centers plays a crucial role in the model's performance.
+ This is a major drawback for online learning as the training data distribution is not known in advance.
  Attempts have been conducted to alleviate this issue by designing methods in which neurons can be dynamically added or pruned to match the non-stationarity of a data stream 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -9526,24 +9672,96 @@ literal "false"
 Despite these advancements,
  LWPR exhibits a structural rigidity arising from the tight coupling between its spatialization and update logics.
  Because every local unit is governed by the same predefined statistical update equations,
- the architecture lacks the modularity to incorporate heterogeneous local knowledge (e.g combining linear models with non-linear approximators) or adapt its internal coordination logic to specific regions of the input space to obtain more parsimonious representations (where the modeling complexity of a local expert can be matched to the local complexity of data).
- Furthermore,
+ the architecture lacks the modularity to:
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Incorporate heterogeneous local knowledge
+\series default
+ (e.g combining linear models with non-linear approximators).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Adapt its internal coordination logic
+\series default
+ to specific regions of the input space,matching the modeling complexity of a local expert to the local complexity of the data.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Furthermore,
  the management of the population of local units (creation and pruning) relies on fixed thresholds that do not account for the relational dynamics between overlapping experts.
 \end_layout
 
 \begin_layout Standard
 Beyond structural rigidity,
- local learning architectures are inherently vulnerable to the curse of dimensionality and the risk of uncontrolled population growth.
- Without carefully designed mechanisms for expert creation and pruning,
- the number of local models can expand exponentially in high-dimensional input spaces,
- leading to computational saturation and overfitting.
+ local learning architectures are inherently vulnerable to the 
+\series bold
+curse of dimensionality
+\series default
+ and the risk of uncontrolled population growth.
+ Without carefully designed mechanisms for expert model creation and pruning,
+ the number of local models can expand exponentially in high-dimensional input spaces.
+ This leads to computational saturation and overfitting.
+\end_layout
+
+\begin_layout Definition
+The curse of dimensionality refers to phenomena where analyzing high-dimensional data becomes exponentially more difficult.
+ As dimensions increase,
+ distances between samples are less meaningful,
+ data volume grows rapidly,
+ and available samples become sparser,
+ requiring exponentially more data for reliable analysis 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bellman1966dynamic"
+literal "false"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "Curse of Dimensionality"
+description "The curse of dimensionality refers to phenomena where analyzing high-dimensional data becomes exponentially more difficult. As dimensions increase, distances between samples are less meaningful, data volume grows rapidly, and available samples become sparser, requiring exponentially more data for reliable analysis \\cite{bellman1966dynamic}."
+literal "true"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-The structural common points between various local learning systems,
- specifically the use of local lower order models and radial basis functions,
- suggest a converging architectural philosophy.
- In this thesis,
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The structural common points between various local learning systems (e.g.
+ kNN,
+ LWR,
+ RBF Networks,
+ LWPR) is the use of local lower order models and radial basis functions.
+ It suggest a converging architectural philosophy.
+ 
+\end_layout
+
+\begin_layout Standard
+In this thesis,
  an alternative path is explored to mitigate the aforementioned limitations by shifting the focus from purely statistical optimization to multi-agent social self-organization.
  This approach adopts a bottom-up design philosophy,
  introducing a clear distintion in terms of learning procedure compared to approaches like LWPR.
@@ -9552,7 +9770,11 @@ The structural common points between various local learning systems,
  Rather than following a global objective function,
  local experts adapt,
  compete or cooperate locally,
- leading to the emergence of learning.
+ leading to the 
+\series bold
+emergence of learning
+\series default
+.
  This shift represents a transition from centralized function approximation to emergent collective behavior where the population size and expert behavior are regulated by local social dynamics rather than global heuristics.
 \end_layout
 
@@ -9701,7 +9923,7 @@ nolink "false"
 \end_layout
 
 \begin_layout Standard
-MAS have gained popularity due to their ability to solve complex problems by breaking them down into simpler subproblems that can be easily addressed by autonomous agents,
+MAS are popular due to their ability to solve complex problems by breaking them down into simpler subproblems that can be easily addressed by autonomous agents,
  whether interconnected or not 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -9731,16 +9953,19 @@ literal "false"
 \end_inset
 
 .
- The application of MAS also have been considered to tackle supervised learning problems,
- representing a distinct and original trajectory in machine learning research in which learning emerges from the organization of a dynamic set of local models called context agents 
+ More recently,
+ the application of MAS also tackled supervised learning problems,
+ representing a distinct and original trajectory in machine learning research in which learning emerges from the organization of a dynamic set context agents 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "blanco2024explainability,nigon2017smart"
+key "nigon2017smart"
 literal "false"
 
 \end_inset
 
 .
+ Each context agent represents a local expert model,
+ specialized in predicting for a given region of the input space.
 \end_layout
 
 \begin_layout Standard
@@ -9753,10 +9978,14 @@ literal "false"
 \end_inset
 
 .
- The learning problem is redefined as the construction,
+ The learning problem is redefined as the 
+\series bold
+construction,
  selection,
- and adaptation of local models encapsulated within agents,
- where the objective is to identify which local models best represent its neighborhood in the input space.
+ and adaptation of local models
+\series default
+ encapsulated within agents.
+ The objective is then to identify which context agent best represents its neighborhood in the input space.
 \end_layout
 
 \begin_layout Standard
@@ -9778,13 +10007,45 @@ literal "false"
 
 .
  These works demonstrated that by encapsulating a local context,
- a control action and a prediction with a context agent,
- a system could achieve high adaptivity through cooperative self-organization.
- However,
+ a control action and a prediction within a context agent,
+ a system could achieve high adaptivity through 
+\series bold
+cooperative self-organization
+\series default
+.
+ 
+\end_layout
+
+\begin_layout Definition
+Cooperative self-organization in multi-agent systems can be defined as the emergent process by which autonomous agents achieve global coordination and adaptive behavior through decentralized,
+ local interactions and rule-based cooperation,
+ without relying on centralized control 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "serugendo2006self"
+literal "false"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "Cooperative Self-Organization"
+description "Cooperative self-organization in multi-agent systems can be defined as the emergent process by which autonomous agents achieve global coordination and adaptive behavior through decentralized, local interactions and rule-based cooperation, without relying on centralized control  \\cite{serugendo2006self}."
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+However,
  these early implementations were primarily designed as myopic reactive controllers,
  without anticipation capabilities.
- While being able to adapt to non-stationarity,
- they lacked the predictive horizon required for the proactive planning necessary in safety-critical use cases.
+ Even these MAS are able to adapt to non-stationarity,
+ they lack the predictive horizon required for the proactive planning necessary in safety-critical use cases.
 \end_layout
 
 \begin_layout Standard
@@ -9807,22 +10068,13 @@ literal "false"
 
 \end_inset
 
- and have demonstrated that the social behavior of agents can be used to extract novel explainability metrics 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "blanco2024explainability"
-literal "false"
-
-\end_inset
-
 .
- 
 \end_layout
 
 \begin_layout Standard
 Moreover,
  the architectural modularity permitted by agents,
- theoretically allows for heterogeneous systems where the modeling complexity of an individual agent could be tailored to the local complexity of the data 
+ theoretically allows to design heterogeneous systems where the modeling complexity of an individual agent could be tailored to the local complexity of the data 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "fourez2024analyzing"
@@ -9838,7 +10090,7 @@ In more recent years,
  reinforcement learning has been seriously considered to bypass the phase of designing rules that define agent behavior.
  Indeed,
  in Multi-Agent Reinforcement Learning (MARL),
- agents' behaviors are learning using reinforcement signals obtained by interaction with an environment 
+ agent behavior is learning using reinforcement signals obtained by interaction with the environment 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "canese2021multi"
@@ -9847,11 +10099,35 @@ literal "false"
 \end_inset
 
 .
- It is important to distinguish MARL from supervised learning with context agents.
+\end_layout
+
+\begin_layout Standard
+Specifically,
+ MARL extends the traditional trial-and-error paradigm of RL to a collective setting where multiple agents learn concurrently to solve a task within the environment.
+ In this framework,
+ from the perspective of any individual agent,
+ the other learning agents are considered as dynamic components of the environment itself.
+ This interaction introduces non-stationarity,
+ because the reward received for a specific action becomes dependent on the decisions of other agents.
+ Consequently,
+ the learning process becomes an iterative refinement of the joint behavioral policy of agents toward an optimal policy.
+ It requires agents to adapt not only to the environment dynamics but also to the evolving behavior of their peers 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "canese2021multi"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+It is important to distinguish MARL from supervised learning with context agents.
  While both rely on a set of local agents,
  their learning mechanisms differ.
  In MARL,
- agents' behavior are typically learned end-to-end to maximize a cumulative reward signal,
+ agent behavior is typically learned end-to-end to maximize a cumulative reward signal,
  often requiring millions of iterations to converge 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -9862,441 +10138,25 @@ literal "false"
 
 .
  In contrast,
- the context agent approach used in this thesis combines fixed social interaction rules with immediate,
- simplified reinforcement signals (e.g.
+ the context agent approach used in this thesis 
+\series bold
+combines fixed social interaction rules with immediate,
+ simplified reinforcement signals
+\series default
+ (e.g.
  discrete good/bad feedbacks) rather than complex reward-shaping.
  This way,
- learning with context agent achieves significantly faster convergence and requires fewer iterations to adapt to a data stream 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "blanco2024explainability"
-literal "false"
-
-\end_inset
-
-.
+ learning with context agent can achieve significantly faster convergence and requires fewer iterations to adapt to a data stream.
  
 \end_layout
 
 \begin_layout Standard
 By shifting from global,
  static approximators to a bottom-up self-organization of autonomous local experts,
- the system gains the structural adaptability required to learn in a non-stationary environment.
+ the system should gain the structural adaptability required to learn in a non-stationary environment.
  This multi-agent perspective transforms the learning problem into a self-regulating social process,
  ensuring that the model's variety can evolve alonside the complexity of the task without suffering catastrophic interferences between old and new knowledge that are typical of global architectures.
  
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-Multi-agent systems (MAS) have gained popularity due to their ability to solve complex problems by breaking them down into simpler sub-problems that can be easily addressed by autonomous agents,
- whether interconnected or not 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "dorri2018multi"
-literal "false"
-
-\end_inset
-
-.
- The interaction rules between agents or with the environment are defined by the system designer to achieve a specific objective.
- The use of MAS has proven effective in fields such as civil engineering 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "SHAMSHIRBAND20132105"
-literal "false"
-
-\end_inset
-
- or electrical engineering,
- particularly with issues related to smart grids 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "rohbogner2014design"
-literal "false"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-=> An original approach to learning based on multiagent systems has been developed and it results from the organization of a dynamic set of local models called context agents 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "blanco2024explainability"
-literal "false"
-
-\end_inset
-
-
-\begin_inset CommandInset citation
-LatexCommand cite
-key "nigon2017smart"
-literal "false"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-=> This learning method inherently local and tailored for online learning.
- Multiagent local learning is also grounded in ensemble learning => can be assimilated to Bagging in particular.
-\end_layout
-
-\begin_layout Plain Layout
-=> In more recent years,
- reinforcement learning has been seriously considered to bypass the phase of designing rules that define agent behavior.
- Indeed,
- in Multi-Agent Reinforcement Learning (MARL),
- agents' behaviors are learned using reinforcement signals obtained by continuously interacting with an environment 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "canese2021multi"
-literal "false"
-
-\end_inset
-
-.
- => works of this thesis is not MARL.
- Learning with context agents combines both approach:
- fixed interaction rules and reinforcement learning.
- Agents update using both reinforcement signals and cooperation rules.
- Unlike MARL,
- multiagent learning for supervised learning involves simpler reinforcement signals (e.g good,
- bad,
- ...) instead of complex rewards based on overall perforrmance.
- Moreover,
- it requires fewer iterations to converge 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "blanco2024explainability"
-literal "false"
-
-\end_inset
-
- differing from MARL interactions with environemnt aiming at maximizing cumulative rewards.
-\end_layout
-
-\begin_layout Itemize
-\begin_inset CommandInset citation
-LatexCommand cite
-key "videau2011controlling"
-literal "false"
-
-\end_inset
-
- => Control of bioprocesses toward user defined objectives without prior knowledge of the system's dynamics => Limitation:
- myopic regulation (no prediction horizon)
-\end_layout
-
-\begin_layout Itemize
-\begin_inset CommandInset citation
-LatexCommand cite
-key "boesSelfAdaptiveContextLearning2015,verstaevel2017lifelong"
-literal "false"
-
-\end_inset
-
- Introduction of SACL Learning paradigm (inspiration of the works of this thesis) => The approach is based on the construction,
- selection,
- and adaptation of local models encapsulated within agents.
- The learning problem then consists in selecting,
- for each region of the input parameter space,
- the context agents that contain the most effective local models.
-\end_layout
-
-\begin_layout Itemize
-\begin_inset CommandInset citation
-LatexCommand cite
-key "boes2017self"
-literal "false"
-
-\end_inset
-
- => Control of complex systems => bottom up approach design for controller for complex system based on adaptive multiagent systems (AMAS) with context agents => context agents contain description of the situation (context),
- an action and estimation of action consequences on objective function (prediction) => cooperative self organization for adaptivity,
- scalability and robustness => emergence of learned control => Limitation:
- myopic regulation (no predictive horizon) 
-\end_layout
-
-\begin_layout Itemize
-\begin_inset CommandInset citation
-LatexCommand cite
-key "verstaevel2016self"
-literal "false"
-
-\end_inset
-
- => transposition of context agent learning to the problem of classification => a context agent is associated with a class => each agent is a local classifier
-\end_layout
-
-\begin_layout Itemize
-\begin_inset CommandInset citation
-LatexCommand cite
-key "dato2021apprentissage"
-literal "false"
-
-\end_inset
-
- Generalization of Context Agent learning to regression + Active Learning => use internal properties (i.e introspection capabilities) linked to neighboring experts to improve generalizability
-\end_layout
-
-\begin_layout Itemize
-\begin_inset CommandInset citation
-LatexCommand cite
-key "fourezEnsembleMultiAgentSystem2022"
-literal "false"
-
-\end_inset
-
- => online classification with context agents => theorically modular framework allowing for use of heterogeneous models 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "fourez2024analyzing"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-\begin_inset CommandInset citation
-LatexCommand cite
-key "blanco2024explainability"
-literal "false"
-
-\end_inset
-
- => modification of the aggregation function of agents prediction to build the final prediction of the system + showed that observing the behavior of agents in the system allows to extract novel explainability metrics
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-Multi-agent systems (MAS) have gained popularity due to their ability to solve complex problems by breaking them down into simpler sub-problems that can be easily addressed by autonomous agents,
- whether interconnected or not 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "dorri2018multi"
-literal "false"
-
-\end_inset
-
-.
- The interaction rules between agents or with the environment are defined by the system designer to achieve a specific objective.
- The use of MAS has proven effective in fields such as civil engineering 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "SHAMSHIRBAND20132105"
-literal "false"
-
-\end_inset
-
- or electrical engineering,
- particularly with issues related to smart grids 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "rohbogner2014design"
-literal "false"
-
-\end_inset
-
-.
- In more recent years,
- reinforcement learning has been seriously considered to bypass the phase of designing rules that define agent behavior.
- Indeed,
- in Multi-Agent Reinforcement Learning (MARL),
- agents' behaviors are learned using reinforcement signals obtained by continuously interacting with an environment 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "canese2021multi"
-literal "false"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-In this chapter,
- we present various two instantiations of CELL,
- a MAS paradigm derived from the Self Adaptive Context Learning (SACL) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "boesSelfAdaptiveContextLearning2015"
-literal "false"
-
-\end_inset
-
- that combines both approaches to tackle online supervised learning problems.
- Agents of the system update using both reinforcement learning signals and cooperation rules.
- Unlike MARL,
- CELL requires fewer environment interactions and focuses on specialized agents collaborating within a supervised learning framework,
- differing from MARL's dynamic interactions aiming to maximize cumulative rewards through adaptive strategies (
-\emph on
-competitive
-\emph default
- or 
-\emph on
-cooperative
-\emph default
-) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "canese2021multi"
-literal "false"
-
-\end_inset
-
-.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Subsection
-Ensemble Learning
-\end_layout
-
-\begin_layout Plain Layout
-To achieve more accurate predictions and provide better approximations of nonlinear functions,
- it is common to aggregate multiple models for making predictions.
-\end_layout
-
-\begin_layout Plain Layout
-Ensemble learning is based on the emergence of collective intelligence within a set of weak learners.
- A weak learner is a model whose performance is at least as good as a model making random predictions.
- During the learning process,
- a set of models (which may differ from one another) are trained in parallel or sequentially 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "polikarEnsembleLearning2012"
-literal "false"
-
-\end_inset
-
-.
- The objective is to encourage diversity among the models so that they do not all capture the same patterns in the data 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "dietterichEnsembleMethodsMachine2000"
-literal "false"
-
-\end_inset
-
-.
- An input is transmitted to all weak learners,
- each of which makes a prediction proposal.
- A heuristic is implemented to select one of the proposals or to weight each of them in order to construct the final prediction.
- We distinguish several major approaches in ensemble learning which are Boosting,
- Bagging and Stacking.
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Add figure to compare bagging,
- boosting and stacking
-\end_layout
-
-\end_inset
-
-
-\begin_inset Float figure
-placement document
-alignment document
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Visual comparison of bagging,
- boosting and stacking
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-In Bagging 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "breiman1996bagging"
-literal "false"
-
-\end_inset
-
- multiple models (usually homogeneous) are trained in parallel on different subsets of the training data to introduce diversity,
- reduce variance and improve stability.
- Then the final prediction is obtained by averaging the predictions of the weak learners (regression) or by majority voting (classification).
- Unlike Bagging,
- in Boosting 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "freund1997decision"
-literal "false"
-
-\end_inset
-
-,
- the models are trained sequentially.
- Each new model focuses on correcting the errors of the previous ones to reduce bias and improve accuracy.
- Then the final prediction is obtained from a weighted average of the predictions of the all the weak learners.
- Finally,
- there is Stacking 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "wolpert1992stacked"
-literal "false"
-
-\end_inset
-
- that falls under meta-learning.
- We train in parallel a set of heterogeneous models and then a meta-model is trained to combine the predictions of each model to obtain the final output of the system,
- in order to capture complementary strengths of each learning algorithms involved in the learning process.
-\end_layout
-
-\begin_layout Plain Layout
-The family of systems presented in this chapter,
- CELL,
- falls within ensemble learning and we could label it as a Bagging approach because we consider a set of weak learners as a collection of self-organizing cooperative agents.
- Each one of them is a local expert on the function to be approximated.
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Subsection
@@ -10311,14 +10171,17 @@ name "subsec:Synthesis-and-Research-Gaps-Learning"
 \end_layout
 
 \begin_layout Standard
-The transition from Batch Learning with global learners to local self-organizing Online Learning highlights a tension between generalization capabilities and adaptability to non-stationarity (e.g stability-plasticity dilemma).
+The transition from Batch Learning with global learning models to local,
+ self-organizing Online Learning highlights a trade-off between generalization capabilities and adaptability to non-stationarity:
+ the stability-plasticity dilemma.
  In this section,
  we synthesize the reviewed literature to identify the specific research gaps that motivate the works of this thesis.
 \end_layout
 
 \begin_layout Standard
 In the context of this thesis,
- some of the core challenges of Online Learning like catastrophic forgetting,
+ the following core challenges of Online Learning:
+ catastrophic forgetting,
  non-stationarity and uncertainty take on a specific meaning:
 \end_layout
 
@@ -10334,7 +10197,11 @@ Mitigation of Catastrophic Forgetting
  They remain structurally vulnerable to forgetting,
  despite being powerful function approximators,
  very efficient in Batch Learning.
- The works of this thesis favor Spatial Isolation of parameters through local learning to alleviate this issue.
+ The works of this thesis favor 
+\emph on
+spatial isolation of parameters through local learning
+\emph default
+ to alleviate this issue.
  Restricting updates to specific regions of the input space ensures that newly acquired knowledge does not corrupt representations that correspond to unrelated contexts.
  
 \end_layout
@@ -10346,9 +10213,15 @@ Handling of Non-Stationarity
 \series default
 :
  Human behavior in HRC is inherently non-stationary.
- Parametric models are limited by a capacity ceiling (fixed number of parameters).
+ Parametric models are limited by a capacity ceiling,
+ i.e.
+ a fixed number of parameters.
  In this thesis,
- we argue for the use of Non-Parametric methods because they allow the model's complexity to grow and refine alongside the data stream.
+ we argue for the use of 
+\emph on
+Non-Parametric methods
+\emph default
+ because they allow the model's complexity to grow and refine alongside the data stream.
  By treating the model as an evolving population of agents rather than a frozen set of weights,
  the Ashby's Law of Requisite Variety can be satisfied.
 \end_layout
@@ -10359,11 +10232,12 @@ Handling of Non-Stationarity
 Estimation of Epistemic Uncertainty
 \series default
 :
- Safety in HRC requires the controller to know when its internal model is unreliable.
+ To overcome the problem of missing data,
+ safety-critical use cases in HRC require the controller to know when its internal predictive model is unreliable.
  Unlike global black-box models that may confidently extrapolate in Out-of-Distribution (OoD) regions,
  learning with local experts provides a natural mechanism for epistemic uncertainty quantification.
- The spatialization of experts allows the system to detect knowledge gaps in the input space.
- For example with multi-agent local learning approaches based on a set of expert agents,
+ The spatialization of expert models allows the system to detect knowledge gaps in the input space.
+ For example in multi-agent local learning approaches based on a set of expert agents,
  if no expert is close for a given input,
  the system can signal a high epistemic uncertainty (no training data 
 \begin_inset Formula $\rightarrow$
@@ -10397,14 +10271,12 @@ nolink "false"
 
  argued for the promising nature of Local Learning approaches for HRC.
  However,
- most existing reference approaches such as LWPR,
- exhibit a structural rigidity where the spatialization and update logics are tightly coupled.
- This limits the modularity of such system,
- preventing the use of heterogeneous models in the system that could allow for more parsimonious local representations.
- Local learners are inherently vulnerable to the curse of dimensionality.
+ most existing reference approaches (such as LWPR) exhibit a structural rigidity where the spatialization and update logics are tightly coupled.
+ This limits the modularity of such system and prevents the use of heterogeneous models that could allow for more parsimonious local representations.
+ Local learning models are inherently vulnerable to the curse of dimensionality.
  As the input space dimensionality increases,
- the volume to be covered grows exponentially,
- leading to uncontrolled population overgrowth,
+ the volume to be covered grows exponentially.
+ This leads to uncontrolled population overgrowth,
  computational saturation and overfitting.
 \end_layout
 
@@ -10417,14 +10289,14 @@ To address these limitations,
  allowing for a modular and heterogeneous architecture.
  In this paradigm,
  population management is governed by decentralized social rules (cooperative or competitive) rather than fixed global heuristics.
- The MAS approach to learning can be theoretically positioned within the Bagging ensemble learning paradigm.
- Each autonomous agent corresponds to a weak learner specialized on a spatial bootstrap of the data.
- The system as a whole acts as a decentralized ensemble of weak learners.
+ Learning with MAS can theoretically be positioned within the Bagging ensemble learning paradigm.
+ Each autonomous agent corresponds to a local learning model specialized on a spatial bootstrap of the data.
+ The system as a whole acts as a decentralized ensemble of local learning models.
 \end_layout
 
 \begin_layout Standard
 However,
- a gap still remains in the differentiability of those approaches and their integration in traditional optimization frameworks.
+ a gap still remains in the differentiability of MAS approaches and their integration in traditional optimization frameworks.
  For instance,
  in 
 \begin_inset CommandInset citation
@@ -10437,7 +10309,7 @@ literal "false"
 ,
  the agents are spatialized using orthotopes,
  leading to non differentiable representations.
- For an internal model 
+ For an internal predictive model 
 \begin_inset Formula $\hat{f}$
 \end_inset
 
@@ -10452,13 +10324,15 @@ Beyond differentiability,
  Currently,
  the internal properties of these systems (i.e introspection capabilities) have yet to be fully exploited to improve continuous control with learned models.
  In addition to that,
- the curse of dimensionality have yet to be addressed properly for MAS learners in supervised learning.
+ the curse of dimensionality have yet to be addressed properly for MAS in supervised learning.
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-To navigate the trade-offs between architectural rigidity,
- non-stationarity handling and safety requirements,
- Table 
+Table 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:Comparison-of-Online-Learning-Architectures"
@@ -10469,11 +10343,60 @@ nolink "false"
 
 \end_inset
 
- provides a comparative synthesis of the reviewed online learning algorithm families.
+ provides a comparative synthesis of the reviewed learning algorithm families.
  It assesses their ability to meet the requirements of HRC,
- focusing on their resilience to catastrophic forgetting,
- their capacity to adapt their variety to evolving human behaviors,
- their capability to estimate epistemic uncertainty while having transparent inner workings to ensure prediction reliability.
+ focusing on:
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Capacity/Variety
+\series default
+:
+ The ability to adapt model complexity to match evolving data streams.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Catastrophic Forgetting Mitigation
+\series default
+:
+ Resilience against interference between newly acquired knowledge and relevant older knowledge.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Epistemic Uncertainty Awareness
+\series default
+:
+ The capability to quantify 
+\emph on
+what the model does not know
+\emph default
+,
+ which is crucial for safety-critical HRC with learning models.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Non-Stationarity Handling
+\series default
+:
+ Robustness to shifting data distributions and changes in dynamics (concept drifts).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Transparency
+\series default
+:
+ Transparency fo the model's inner workings to ensure prediction reliability and interpretability.
 \end_layout
 
 \begin_layout Standard
@@ -10585,8 +10508,7 @@ Catastrophic Forgetting Mitigation
 
 \begin_layout Plain Layout
 \align center
-cf.
-  Uncertainty Awareness
+Epistemic Uncertainty Awareness
 \end_layout
 
 \end_inset
@@ -10973,7 +10895,7 @@ Evolving
 
 \begin_layout Plain Layout
 \align center
-Spatial Isolation / Social Rules
+Parameter Isolation / Social Rules
 \end_layout
 
 \end_inset
@@ -11035,7 +10957,51 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Comparison of Machine Learning architectures for Online Learning 
+Comparison of reviewed learning families for online learning in HRC.
+ 
+\emph on
+Capacity/Variety
+\emph default
+ evaluates wheter the model's complexity is fixed or can evolve to match the complexity of the data stream.
+ 
+\emph on
+Catastrophic Forgetting Mitigation
+\emph default
+ identifies the mechanism used to prevent interference between the integration of new knowledge and older relevant knowledge.
+
+\emph on
+ Epistemic Uncertainty Awareness
+\emph default
+ distinguishes between models capable of quantifying their own ignorance (
+\begin_inset Formula $\checkmark$
+\end_inset
+
+) and those that cannot (
+\begin_inset Formula $\varnothing$
+\end_inset
+
+).
+ 
+\emph on
+Non-Stationarity Handling
+\emph default
+ indicates the robustness to shifting dynamics and concept drifts (
+\begin_inset Formula $\checkmark$
+\end_inset
+
+),
+ including models with limited adaptation (
+\begin_inset Formula $\thicksim$
+\end_inset
+
+).
+ 
+\emph on
+Transparency
+\emph default
+ denotes the transparency of the inner workings of the model,
+ ranging from opaque black-box models to fully transparent white box.
+ 
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:Comparison-of-Online-Learning-Architectures"
@@ -11144,7 +11110,11 @@ nolink "false"
 
  provided an overview of the literature for the two research topics of this thesis.
  It revealed that in Human-Robot Collaboration (HRC) there is a trade-off between the necessity for real-time adaptation to non-stationary human behavior and the requirement for reliability for safety-critical control.
- As established in Section 
+ 
+\end_layout
+
+\begin_layout Standard
+As established in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Control-with-Learned-Models"
@@ -11156,7 +11126,11 @@ nolink "false"
 \end_inset
 
 ,
- Model Predictive Contol (MPC) provides a rigorous framework for handling hard constraints but its effectiveness is bounded by the fidelity of its internal predictive model.
+ 
+\series bold
+Model Predictive Contol (MPC)
+\series default
+ provides a rigorous framework for handling hard constraints but its effectiveness is bounded by the fidelity of its internal predictive model.
  In the context of HRC,
  the non-stationary nature of human behavior often leads to model mismatch,
  where static first-principle models no longer match reality.
@@ -11177,16 +11151,43 @@ nolink "false"
 
  demonstrated that although global learning architectures like deep neural networks offer significant representational power,
  they remain structurally vulnerable to catastrophic forgetting and lack the recursive update mechanisms required for seamless online adaptation.
- This motivates the use of local online learning approaches that mitiagte this issue using spatial isolation of parameters.
+ This motivates the use of 
+\series bold
+local online learning
+\series default
+ approaches to mitigate this issue by using spatial isolation of parameters.
 \end_layout
 
 \begin_layout Standard
-The positioning of this thesis lies at the intersection of these two research domains.
- We identify a specific research niche in the use of Multi-Agent Systems (MAS) for supervised online learning.
+The positioning of this thesis lies at the intersection of two research domains:
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Machine Learning for Predictive Dynamics Modeling
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Control with Continuously Learning Predictive Models
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+Within this intersection,
+ we identify a specific research niche in the use of 
+\series bold
+Multi-Agent Systems (MAS) for supervised online learning
+\series default
+.
  It shifts from centralized optimization to the decentralized self-organization of a population of local experts by decomposing complex,
  non-stationary dynamics into manageable local representations.
  This approach offers a distinct architectural alternative to classical local learning approaches that favors spatial isolation of knowledge representations and introspection capabilities emerging from the organization of the population of agents.
- This intropsection becomes the bridge between the learning and control layers.
+ This introspection becomes the bridge between the learning and control layers.
 \end_layout
 
 \begin_layout Standard
@@ -11201,7 +11202,7 @@ To what extent can social local learning based on Multi-Agent Systems serve as a
 \end_layout
 
 \begin_layout Standard
-To help visualize the bridge between the reviewed challenges and our contributions,
+To help visualize the research gaps,
  Table 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -11219,6 +11220,8 @@ nolink "false"
 \end_layout
 
 \begin_layout Itemize
+
+\series bold
 Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -11230,14 +11233,18 @@ nolink "false"
 
 \end_inset
 
+
+\series default
  introduces the Context Ensemble Local Learning (CELL) formalism and details the iterative development of two specific instantiations:
  oCELL,
  which spatializes the local experts with orthotopes and kCELL,
  which introduces more interactive social learning rules and smoother spatialization through the use of radial basis functions to produce more faithful data representations.
- These models provide the foundational learning capabilities and the introspection metrics used in subsequent chapters.
+ These models provide the foundational learning capabilities and the introspection metrics used in following chapters.
 \end_layout
 
 \begin_layout Itemize
+
+\series bold
 Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -11249,12 +11256,16 @@ nolink "false"
 
 \end_inset
 
+
+\series default
  transitions toward solving control problems by integrating kCELL into a MPC pipeline.
- This chapter demonstrates how the model's intropsection can be leveraged to guide exploration and to safeguard the system during exploitation by avoiding regions of high epistemic uncertainty.
+ This chapter demonstrates how the model's introspection can be leveraged to guide exploration and to protect the system during exploitation by avoiding regions of high epistemic uncertainty.
  
 \end_layout
 
 \begin_layout Itemize
+
+\series bold
 Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -11266,14 +11277,17 @@ nolink "false"
 
 \end_inset
 
+
+\series default
  explores prospective directions for the CELL formalism.
- More heterogeneous systems and the curse of dimensionality start to be addressed through the gpCELL algorithm,
- an instantiation designed to scale Gaussian Processes.
+ Through the gpCELL algorithm,
+ an instantiation designed to scale Gaussian Processes (GP) for Online Learning,
+ a step is taken toward learning with a heterogeneous ensemble of local expert agents.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float table
-placement t
+placement H
 alignment document
 wide false
 sideways false
@@ -11297,11 +11311,10 @@ columnwidth}{!}{
 
 
 \begin_inset Tabular
-<lyxtabular version="3" rows="6" columns="4">
+<lyxtabular version="3" rows="6" columns="3">
 <features tabularvalignment="middle">
-<column alignment="left" valignment="middle" width="15col%">
+<column alignment="left" valignment="middle" width="20col%">
 <column alignment="center" valignment="middle" width="25col%">
-<column alignment="left" valignment="middle" width="25col%">
 <column alignment="center" valignment="middle" width="35col%">
 <row>
 <cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
@@ -11324,22 +11337,12 @@ Research Gap / Challenge
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-Technical Contribution
-\end_layout
-
-\end_inset
-</cell>
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 \align center
-Operational Benefit
+Expected Benefit
 \end_layout
 
 \end_inset
@@ -11362,17 +11365,6 @@ Online Learning
 \begin_layout Plain Layout
 \align left
 Catastrophic forgetting and structural rigidity in non-stationary streams.
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align left
-CELL Formalism (oCELL,
- kCELL)
 \end_layout
 
 \end_inset
@@ -11410,16 +11402,6 @@ Unreliable MPC planning due to model extrapolation in unknown regions (OoD).
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align left
-Introspection-aware Exploitation
-\end_layout
-
-\end_inset
-</cell>
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
@@ -11448,16 +11430,6 @@ Exploration
 \begin_layout Plain Layout
 \align left
 Sample inefficiency and the need for high-quality data in unknown dynamics.
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align left
-Introspection-aware Exploration
 \end_layout
 
 \end_inset
@@ -11494,16 +11466,6 @@ Curse of dimensionality in local spatialization for high-dimensional inputs.
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align left
-Latent Space Spatialization (PCA in gpCELL)
-\end_layout
-
-\end_inset
-</cell>
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
@@ -11533,16 +11495,6 @@ Heterogeneous Representations
 \begin_layout Plain Layout
 \align left
 Limited complexity of simple local models for highly non-linear dynamics.
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align left
-Heterogeneous s (GPs in gpCELL)
 \end_layout
 
 \end_inset
@@ -11593,26 +11545,6 @@ name "tab:Positioning-of-Contributions"
 \end_inset
 
 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-In this context,
- we study the following question:
- to what extent cooperative MAS local learning architectures can serve as a foundation for safe control strategies,
- exploiting model introspection to guide exploration and support reliable decision-making ?
-\end_layout
-
-\begin_layout Itemize
-How MAS systems can be used to improve
 \end_layout
 
 \end_inset
@@ -18563,7 +18495,7 @@ These results show that oCELL achieves the lowest mean absolute error (MAE) and 
  while XGBoost performs slightly better in terms of MSE on the Beale function.
  Overall,
  oCELL demonstrates comparable performances to XGBoost and LightGBM for most functions,
- while consistently outperforming the weak learners.
+ while consistently outperforming the non-ensemble models.
  These results indicate that oCELL effectively captures the nonlinear variations of the underlying functions from the data,
  as illustrated in Figure 
 \begin_inset CommandInset ref
@@ -30249,7 +30181,7 @@ The results of this experiment validate the core of the design choices of kCELL 
 \begin_layout Standard
 Furthermore,
  a strong negative correlation between activation scores and errors on predictions has been found.
- It turns the activation function of agents into a reliable metric for intropsection in the model.
+ It turns the activation function of agents into a reliable metric for introspection in the model.
  This ability to quantify epistemic uncertainty on the fly is a useful property for control with learned models as it will be explored more in details in Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
