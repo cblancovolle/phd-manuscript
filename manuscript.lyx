@@ -119,7 +119,7 @@ algorithm2e
 \quotes_style english
 \dynamic_quotes 0
 \papercolumns 1
-\papersides 1
+\papersides 2
 \paperpagestyle default
 \tablestyle default
 \bullet 0 0 0 -1
@@ -2037,11 +2037,11 @@ First,
 online learning
 \series default
  subproblem consists in the continuous refinement of a predictive model 
-\begin_inset Formula $\hat{f}:\mathbb{R}^{n}\rightarrow\mathbb{R}^{m}$
+\begin_inset Formula $\hat{f}:\mathbb{R}^{d}\rightarrow\mathbb{R}^{m}$
 \end_inset
 
  of the vehicle-driver dynamics from a stream of state-action pairs 
-\begin_inset Formula $\left[s_{t},u_{t}\right]\in\mathbb{R}^{n}$
+\begin_inset Formula $\left[s_{t},u_{t}\right]\in\mathbb{R}^{d}$
 \end_inset
 
 .
@@ -2293,24 +2293,6 @@ non-stationarity
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-For a robotic system to collaborate effectively with humans,
- it must possess anticipatory skills to adapt to the uncertainty and non-stationarity introduced by humans.
- Human-Robot Collaboration problems can be modeled as control problems in non-stationary environments that comprise humans in the loop.
- This perspective transforms the interaction challenge into a problem of Adaptive Control with a Learned Model.
- To solve this problem,
- the controller must be able to continuously learn the evolving behavior of the human collaborator while simultaneously ensure that its actions remain safe and reliable.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 The objective of this chapter is to review the existing research landscape to address the two research questions formulated in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -2416,242 +2398,6 @@ nolink "false"
 \end_inset
 
  concludes on this chapter by positioning our works within these fields and highlights the specific gaps that we intend to fill.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Enumerate
-
-\series bold
-From Global to Local Online Learning => 
-\series default
-Argue that while online learning exists,
- standard 
-\begin_inset Quotes eld
-\end_inset
-
-global
-\begin_inset Quotes erd
-\end_inset
-
- methods (like Neural Networks) fail at handling non-stationarity,
- data-streams and are hardly interpretable => necessitating a local approach.
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-Foundations & Definitions => define what are data-streams,
- how we define interpretability and explainability,
- what is introspection in the context of the thesis.
-\end_layout
-
-\begin_layout Enumerate
-Online Learning Paradigm
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-Control with Learned Models
-\end_layout
-
-\begin_layout Plain Layout
-What we want to show in SotA:
-\end_layout
-
-\begin_layout Itemize
-Online Learning
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-What is Online Learning ?
- => define the shift from batch learning to online learning
-\end_layout
-
-\begin_layout Enumerate
-Global models => global models for online learning suffer hard from the stability-plasticity problem + global models are often black boxes
-\end_layout
-
-\begin_layout Enumerate
-local online learning can alleviate this issue by making localized updates => memory based learning (kNN),
- RBF networks,
- LWPR => those approaches can be very performant in control setting (ex:
- robotics) like LWPR but hard to scale => we develop a system that can be considered similar to LWPR (kCELL in chapter 3) => In LWPR the model and update logics are closely tied => LWPR lacks modularity => we conjecture that bringing more modularity via bottom up approaches could provide a strong alternative framework
-\end_layout
-
-\begin_layout Enumerate
-multiagent local learning => SACL paradigm and filiation of our works
-\end_layout
-
-\begin_layout Enumerate
-XAI and Uncertainty => define uncertainties and explainability / interpretability => for control with learned models the model needs to be trusted => thus need for transparent interpretable inner workings as well as uncertainty quantification.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Control with Learned models
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-What is MPC ?
- => define what is MPC => fitting architecture for using learned models (transition function to plan over horizon H)
-\end_layout
-
-\begin_layout Enumerate
-Model Reliability
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-=> Problem in control with learned models is that learned models can be unreliable for out-of-distribution data => so we use models that are able to quantify uncertainty (epistemic uncertainty) like GPs but GPs are hard to scale to online learning (despite attempts) => need for a model that is uncertainty-aware / computationally efficient / local (ref section on Online Learning)
-\end_layout
-
-\begin_layout Enumerate
-=> Problem of out-of-distribution predictions => reduction of this problem through exhaustive dataset => when no data available and no prior knowledge of dynamics there is a need for exploration => in some complex environment need for intelligent exploration strategies [WE DO NOT TACKLE SAFE EXPLORATION BUT INFORMATIVE EXPLORATION]
-\end_layout
-
-\begin_layout Enumerate
-=> Problem of out-of-distribution predictions => impossible to always get exhaustive dataset and exploration is not always tractable => so need to avoid going into unknown states => in MPC avoid optimizing on garbage => conservative optimization based on epistemic uncertainty.
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-Explainability in Constrained Optimization => even with perfect model,
- a constrained optimizer is often opaque => need for constraint influence analysis to explain to the end user why a specific suboptimal set point has been chosen.
-\end_layout
-
-\end_deeper
-\begin_layout Plain Layout
-Problem 1 => how to mention Gaussian Processes (and variants used to do online learning) (maybe GPs could only be mentionned in the control part ?) and Hoeffding Trees ?
-\end_layout
-
-\begin_layout Plain Layout
-Problem 2 => where to put XAI talk in which we mention SHAP and LIME and define interpretability / explainability ?
- and aleatoric / epistemic uncertainties ?
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Note Comment
-status collapsed
-
-\begin_layout Plain Layout
-Notes
-\end_layout
-
-\begin_layout Itemize
-How to justify using kCELL instead of LWPR ?
- because with linear regressions they are very similar systems
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-LWPR is a top-down approach and CELL are bottom-up approaches
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-bottom-up approaches are more modular => possibility to change the model easily or to mofidy the spatialization layer independently of the modeling layer for example
-\end_layout
-
-\begin_layout Itemize
-bottom-up approaches are more flexible to evolving requirements
-\end_layout
-
-\begin_layout Itemize
-bottom-up approaches allow for emergent behavior to happen
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Social Feedback vs.
- Statistical Thresholds:
- in LWPR,
- a model is updated based on its own incremental error (like oCELL).
- In kCELL a leave one out contribution is used for updates.
- An agent survival depends on its value relative to its peers.
- It rewards agent for providing unique information.
-\end_layout
-
-\begin_layout Itemize
-Short-Term baseline:
- use of a short-term linear predictor as a baseline for when there are 1 or 0 neighbors to create agent or update the only selected one.
- It treats the agent as an entity that must "justify its existence" against a simpler,
- generalist behavior.
- LWPR lacks this comparative competitive layer.
-\end_layout
-
-\begin_layout Itemize
-We investigate social learning:
- a different learning paradigm to achieve similar results.
-\end_layout
-
-\end_deeper
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-To solve the LWPR 
-\begin_inset Quotes eld
-\end_inset
-
-Problem
-\begin_inset Quotes erd
-\end_inset
-
-:
-\end_layout
-
-\begin_layout Enumerate
-in SotA (Chapter 2) => In LWPR the model and the update logic are closely tied => lacks modularity that could bring scalability possibilities => So we investigate more modular local learning approaches with CELL a bottom up theoretical ground for designing learning systems (contrary to LWPR which is top-down).
- In CELL that we present in Chapter 3,
- the social rules are agnostic of the internal model update logic => separation of spatialization layer and modeling layer.
- Furthermore,
- the social structure of the model allows to trace back decisions down to the negociation layer of agents.
-\end_layout
-
-\begin_layout Enumerate
-in kCELL Section (Chapter 3) => kCELL is inherently different because the agents negociate with global baseline or other neighbors => this does not create an independant collection of models but a cooperative ensemble that provide a different kind of interpretability and explainability.
-\end_layout
-
-\begin_layout Enumerate
-in Control (Chapter 4) => We justify the exploration and conservatism works not by claiming superior performance over existing local learners,
- but by demonstrating that the Social Introspection signals emergent from the CELL paradigm can be used and be reliable for closing the loop in constrained MPC.
- This validates that a bottom-up,
- agent-based learning approach can satisfy the requirements for real-time control and provide a modular alternative to traditional statistical methods.
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-LWPR can be seen as a special case of CELL => LWPR corresponds to a highly constrained instance of our learning paradigm in which agent selection,
- structural adaptation,
- and usefulness diagnostics are collapsed into a single distance-based mechanism.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Section
@@ -4530,701 +4276,6 @@ literal "false"
 The following section examines the motivations for transitioning from a first-principles predictive model to a learning-based predictive model within the MPC framework.
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-Why MPC for learning based control and not RL or Imitation Learning?
- => Why MPC with online models for adaptive control?
-\end_layout
-
-\begin_layout Plain Layout
-PID (Least modeling effort) => LQR & 
-\begin_inset Formula $H_{\infty}$
-\end_inset
-
- & LQG (LQR + Kalman Filter) => MPC
-\end_layout
-
-\begin_layout Itemize
-\begin_inset CommandInset citation
-LatexCommand cite
-key "francis1987linear"
-literal "false"
-
-\end_inset
-
- 
-\begin_inset Formula $H_{\infty}$
-\end_inset
-
- paper
-\end_layout
-
-\begin_layout Itemize
-\begin_inset CommandInset citation
-LatexCommand cite
-key "tinoco2025review"
-literal "false"
-
-\end_inset
-
- Review paper about advanced control methodologies.
- The PID controller acts as the baseline reactive regulator,
- effective for fixed industrial tasks but limited by its inability to handle the dynamic uncertainties of real-world environments like agriculture.
- In response to this rigidity,
- LQR and 
-\begin_inset Formula $H_{\infty}$
-\end_inset
-
- (Robust Control) emerge as more sophisticated mathematical frameworks that explicitly account for system stability and error minimization,
- yet they still struggle when the system parameters change unexpectedly.
- To bridge this gap,
- Adaptive Control and Sliding Mode Control introduce real-time flexibility—
-the former by updating its own parameters on-the-fly and the latter by "forcing" the system to follow a desired path despite disturbances.
- However,
- as tasks require more foresight,
- Model Predictive Control (MPC) responds by shifting the focus from current error correction to future optimization,
- solving a moving-horizon problem to anticipate needs before they occur.
- Finally,
- to overcome the heavy dependency on precise mathematical models required by MPC and robust methods,
- Learning-Based Control (Fuzzy Logic and Neural Networks) represents the ultimate shift toward "intelligence," using data and heuristic rules to navigate complex,
- non-linear environments that are otherwise too difficult to model or predict through classical equations.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Late Correction:
- Traditional reactive controllers like the standard PID generate commands only after receiving feedback,
- meaning they react to errors that have already occurred.
-\end_layout
-
-\begin_layout Itemize
-Dependency on Static Environments:
- These regulators are suitable for industrial scenarios where variables (weights,
- positions) are known and fixed,
- but they fail in dynamic or uncertain environments like agriculture.
-\end_layout
-
-\begin_layout Itemize
-Predictive Optimization:
- Unlike reactive laws that act only on past errors,
- proactive methods like Model Predictive Control (MPC) define control laws by predicting the future output of the system and solving an optimization problem.
-\end_layout
-
-\begin_layout Itemize
-Online Adaptability:
- There is a strong research trend toward Reinforcement Learning,
- which provides "strong online adaptability and self-learning capabilities".
- This allows the robot to proactively adjust its behavior when the environment changes rather than just reacting to a setpoint.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-\begin_inset CommandInset citation
-LatexCommand cite
-key "qin2003survey"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-The PID Family:
- Single-Input Single-Output (SISO) Regulation => The earliest "family" of feedback laws is the PID (Proportional-Integral-Derivative) controller.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-The Logic:
- It is a purely reactive,
- error-driven feedback law.
- It looks at the difference between the setpoint and the current output and reacts.
-\end_layout
-
-\begin_layout Itemize
-The Limitation:
- While excellent for simple loops,
- PID cannot "see" other variables => great complexification when trying to handle multiple inputs and outputs.
- In a complex plant,
- changing one PID loop often upsets another.
- To handle constraints,
- engineers had to add "overrides" and "select logic," making the system a fragile "jungle" of interconnected loops that was difficult to manage.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-The LQG/LQR Family:
- Multivariable State-Space Control => In the 1960s,
- the LQG (Linear Quadratic Gaussian) and LQR (Linear Quadratic Regulator) family emerged as a more sophisticated feedback law.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-The Logic:
- It uses a mathematical model of the process to coordinate multiple inputs and outputs simultaneously.
- It minimizes a quadratic "cost function" to find the optimal feedback gains.
- The Kalman Filter is often used here to estimate internal states that cannot be measured directly.
-\end_layout
-
-\begin_layout Itemize
-The Limitation:
- As the paper notes,
- this family is "unconstrained." It assumes the process can move infinitely in any direction.
- In reality,
- valves can only open so far,
- and pressures can only go so high.
- Without explicit constraint handling,
- these optimal laws could easily drive a plant into an unsafe or shut-down state.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-The Predictor-Corrector Family:
- Early Predictive Control (IDCOM/DMC) => In the 1970s,
- industry began moving away from pure feedback gain matrices toward Predictive Control.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-The Logic:
- This family (like IDCOM and DMC) introduced the "Moving Horizon" concept.
- Instead of just reacting to the current state,
- it uses a model to predict the future plant output over a "prediction horizon."
-\end_layout
-
-\begin_layout Itemize
-The Transition:
- It calculates a set of future moves,
- but—
-to ensure robustness—
-it only implements the first move and then "corrects" its prediction at the next step using new feedback.
- This is known as a Receding Horizon strategy.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Modern MPC:
- The Synthesis of Optimization and Constraints => The final step in the flow is the modern MPC architecture,
- which synthesizes the best of the previous families.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-The Logic:
- It takes the multivariable coordination of LQR,
- the state estimation of the Kalman Filter,
- and the future-looking nature of DMC,
- but adds Mathematical Programming (Quadratic Programming).
-\end_layout
-
-\begin_layout Itemize
-The Result:
- It doesn't just calculate a feedback law;
- it solves an optimization problem in real-time at every single timestep.
- This allows it to honor hard constraints on valves and process limits proactively.
- It has moved from being a simple "law" (like PID) to a "real-time strategy" that anticipates and prevents problems before they occur.
-\end_layout
-
-\end_deeper
-\end_deeper
-\begin_layout Itemize
-\begin_inset CommandInset citation
-LatexCommand cite
-key "schwenzer2021review"
-literal "false"
-
-\end_inset
-
- Model Predictive Control (MPC) represents a paradigm shift from classical "reactive" feedback laws—
-like PID,
- which relies on past error,
- or LQR,
- which provides a static optimal law—
-to a "proactive" optimization strategy that utilizes a mathematical model to anticipate future system behavior.
- By solving a constrained optimization problem over a finite,
- receding horizon at every timestep,
- MPC allows engineers to directly incorporate physical constraints and multi-variable interactions that traditional controllers struggle to handle.
- Ultimately,
- this evolution moves the engineering focus away from abstract gain tuning and toward process modeling,
- enabling the control of highly complex,
- nonlinear systems across diverse industries.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Significant limitations and challenges associated with Model Predictive Control (MPC) => A primary drawback is its high computational burden,
- as it requires solving complex optimization problems in real-time at every timestep,
- which remains a major factor in controller design.
- Additionally,
- MPC is heavily dependent on model accuracy;
- inaccuracies in the process model directly affect the quality of output predictions and can complicate robustness analysis.
- Ensuring mathematical stability and feasibility—
-especially for non-linear systems or those with short prediction horizons—
-is also extremely difficult and often requires complex artificial measures like terminal cost constraints or slack variables to prevent the optimization from failing.
- Finally,
- while MPC excels at handling constraints,
- its sophisticated design often results in a more complex implementation compared to the well-proven and simpler "reactive" classical controllers like PID.
-\end_layout
-
-\begin_layout Itemize
-Use of MPC with learned models =>
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-1.
- Structure for Safe Learning => MPC provides a rigorous mathematical framework that can "wrap" around learned components to ensure safety.
- For example,
- researchers use Gaussian process modeling to learn system dynamics while establishing confidence intervals that define safe trajectories.
- This allows the system to learn from data without violating critical physical boundaries,
- a major advantage over pure "black-box" learning methods.
-\end_layout
-
-\begin_layout Itemize
-2.
- Solving the "Curse of Dimensionality" => One of the primary arguments for learning-based MPC is its ability to overcome the traditional computational burden of real-time optimization.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Approximating Explicit MPC:
- Neural Networks (NNs) are used to learn the "solution space" of an explicit MPC,
- effectively turning a complex optimization into a fast function evaluation.
-\end_layout
-
-\begin_layout Itemize
-Efficiency Gains:
- The paper notes that this approach can speed up computation by factors of 65 to 200,
- making advanced control feasible for high-speed applications like robotics and power converters.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-3.
- Bridging Data and Physics => MPC is fundamentally based on models,
- which allows it to naturally incorporate different types of knowledge.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Hybrid Modeling:
- It allows for a "best of both worlds" approach where well-known physical dynamics are handled by traditional equations,
- while complex,
- hard-to-model uncertainties (like friction or wind) are learned from data.
-\end_layout
-
-\begin_layout Itemize
-Intuitive Integration:
- Because MPC's parameters (like the cost function and constraints) have physical meaning,
- engineers can more easily interpret and tune the "learned" behavior compared to other architectures.
-\end_layout
-
-\end_deeper
-\end_deeper
-\begin_layout Itemize
-Historical flow described in the paper:
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-The Classical Feedback Era:
- PID Control
-\end_layout
-
-\begin_layout Itemize
-Mechanism:
- PID controllers are "reactive",
- calculating the manipulated variable $u$ based on the deviation ($e=r-y$) between a reference and measured variable.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Perspective:
- They only consider past and current system behavior.
-\end_layout
-
-\begin_layout Itemize
-Limitations:
- While PID is highly effective for approximately 90% of control problems,
- it is difficult to parameterize for nonlinear or time-variant systems.
- It is fundamentally limited by system dynamics and cannot handle technical limitations of actuators (constraints) without heuristic,
- hard-to-maintain solutions
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-The Move Toward Optimality:
- LQR and LQG
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Evolutionary Link:
- The transition toward MPC was bridged by the study of infinite horizon control problems,
- such as Linear Quadratic Gaussian (LQG) control.
-\end_layout
-
-\begin_layout Itemize
-Advancement:
- These methods introduced the concept of a cost function to achieve "optimal" control behavior.
-\end_layout
-
-\begin_layout Itemize
-The Constraint Hurdle:
- LQG/LQR provides global asymptotic stability for linear systems,
- but these classical optimal methods do not directly consider hard constraints (like physical limits of a valve).
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-3.
- The Robustness Shift:
- 
-\begin_inset Formula $H_{\infty}$
-\end_inset
-
- and Uncertainty
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Evolutionary Link:
- As optimal control grew more complex,
- research shifted toward robustness—
-ensuring performance is met despite model variations or uncertainties.
-\end_layout
-
-\begin_layout Itemize
-Mechanism (
-\begin_inset Formula $H_{\infty}$
-\end_inset
-
- connection):
- The paper highlights that minimizing the maximum error (
-\begin_inset Formula $L_{\infty}$
-\end_inset
-
--norm) in a prediction horizon is a strategy used to favor robustness.
-\end_layout
-
-\begin_layout Itemize
-Trade-off:
- This approach leads to more conservative control actions,
- preventing the controller from making full use of the plant's potential.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-The Predictive Era:
- Model Predictive Control (MPC) => MPC emerged by combining the optimality of earlier methods with the ability to handle constraints and predict the future.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-From Infinite to Receding Horizon:
- While LQR/LQG typically assumed an infinite horizon,
- MPC uses a "receding horizon".
- It solves a finite-term optimization at each timestep but only implements the first value of the resulting trajectory.
-\end_layout
-
-\begin_layout Itemize
-Implicit vs.
- Explicit Laws:
- Unlike PID or LQR,
- which use precomputed (explicit) control laws,
- MPC determines the control law implicitly by repeatedly solving a constrained optimization problem in real-time.
-\end_layout
-
-\begin_layout Itemize
-Direct Constraint Handling:
- MPC's greatest leap over previous families is its ability to directly incorporate hard input and soft output constraints into the mathematical optimization.
-\end_layout
-
-\begin_layout Itemize
-Model Flexibility:
- While early MPC (like Dynamic Matrix Control) was restricted to linear models,
- modern MPC can utilize nonlinear,
- impulse response (IRF),
- or state-space models.
-\end_layout
-
-\end_deeper
-\end_deeper
-\end_deeper
-\begin_layout Itemize
-\begin_inset CommandInset citation
-LatexCommand cite
-key "bemporad2006model"
-literal "false"
-
-\end_inset
-
- MPC uses a dynamical model of an open-loop process to construct an optimization problem.
- It solves this problem at each sampling time to find an optimal sequence of future control moves,
- applying only the first move and repeating the process at the next step (receding-horizon mechanism).
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Systematic Constraint Handling:
- MPC is uniquely capable of achieving performance while explicitly respecting restrictions on input and output variables (such as actuator saturation or safety ranges).
- Traditional methods often require "a-posteriori patches" to handle these limits,
- whereas MPC embeds them directly into the design flow.
-\end_layout
-
-\begin_layout Itemize
-Multivariable Complexity:
- They are used to control highly complex multivariable processes where command inputs,
- internal states,
- and measured outputs are deeply interconnected.
-\end_layout
-
-\begin_layout Itemize
-Near-Optimal Performance:
- These methods provide near-optimal performance by translating technical specifications (weights on tracking errors and actuator efforts) into a mathematical cost function that is minimized.
-\end_layout
-
-\begin_layout Itemize
-Future Anticipation (Preview):
- Optimization allows the controller to "look ahead" and explicitly account for future reference signals or measured disturbances,
- automatically resulting in feedforward action.
-\end_layout
-
-\begin_layout Itemize
-Hybrid Dynamics:
- In response to systems involving logic,
- switching,
- and on/off inputs,
- optimization-based hybrid MPC provides a systematic way to synthesize controllers that would otherwise be impossible to design using heuristic "trial and error" procedures (through MILP for example).
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-\begin_inset CommandInset citation
-LatexCommand cite
-key "tinoco2025review"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Online Adaptability:
- There is a strong research trend toward Reinforcement Learning,
- which provides "strong online adaptability and self-learning capabilities".
- This allows the robot to proactively adjust its behavior when the environment changes rather than just reacting to a setpoint.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Brunke2022May"
-literal "false"
-
-\end_inset
-
- Review of literature => From Learning-based control to safe reinforcement learning
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-How is machine learning used in control ?
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Learning Uncertain Dynamics:
- Data is used to learn unknown or uncertain parts of a robot's dynamics.
- This information is then integrated into standard control frameworks (like adaptive or robust control) to improve performance while maintaining safety guarantees.
-\end_layout
-
-\begin_layout Itemize
-Encouraging Safety and Robustness in RL:
- In scenarios where a prior model is unavailable,
- reinforcement learning (RL) uses data to "encourage" safety.
- This is often done by penalizing dangerous actions or using risk-averse strategies.
-\end_layout
-
-\begin_layout Itemize
-Online Adaptation:
- Data is used in real-time to adjust controller parameters,
- dynamics models,
- or constraint functions during operation.
-\end_layout
-
-\begin_layout Itemize
-Offline Learning:
- Data from previous trials is recorded and used to update models in a batch manner between operations.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Why using learning in control ?
- => related to deployment in real world complex environments
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Handling Uncertainty and unknown dynamics a priori:
- Traditional control relies on precise models,
- but real-world dynamics are often partially unknown (e.g.,
- the mass of a payload).
- Learning allows systems to reduce conservatism by "knowing what is not known".
-\end_layout
-
-\begin_layout Itemize
-Adaptability to Complex Environments:
- Robots frequently operate in environments that are not well-characterized or include other agents with unknown plans.
- Machine learning enables robots to adapt to these new contexts.
-\end_layout
-
-\begin_layout Itemize
-Improving Performance:
- By extracting patterns from large volumes of data,
- learning-based methods can safely improve a robot's performance beyond what is possible with a fixed,
- prior model.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Challenges of learned models in control
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-1.
- Safety and Formal Guarantees
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Safety During Learning:
- A primary challenge is ensuring the robot's safety during the learning process itself,
- not just for the final optimized policy.
- This is critical to avoid costly hardware failures.
-\end_layout
-
-\begin_layout Itemize
-Providing Hard Guarantees:
- While traditional control provides strong guarantees within specific contexts,
- data-driven approaches like Reinforcement Learning (RL) struggle to provide formal safety and stability guarantees.
-\end_layout
-
-\begin_layout Itemize
-Difficulty in Verification:
- Safety guarantees often rely on assumptions (like Lipschitz continuity) that are difficult to verify before a robot begins operation.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-2.
- Generalization and Data Issues
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Distribution Shifts:
- Learned models may struggle when they encounter data that differs from their training distribution (distribution shifts).
-\end_layout
-
-\begin_layout Itemize
-Generalization vs.
- Safety:
- While data-driven approaches generalize well to new contexts,
- they often do so at the expense of formal guarantees.
-\end_layout
-
-\begin_layout Itemize
-Data Sparsity:
- In real-world robotics,
- data can be sparse,
- making it difficult for expressive models to extract accurate patterns efficiently.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-3.
- Computational and Scaling Hurdles
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Computational Complexity:
- Applying deep RL to constrained problems is computationally expensive,
- particularly for the off-policy evaluation of trajectory-level constraints.
-\end_layout
-
-\begin_layout Itemize
-Optimality-Complexity Trade-off:
- There is a constant trade-off between achieving the most "optimal" performance and the computational complexity required for real-time implementations in a control loop.
-\end_layout
-
-\begin_layout Itemize
-Scalability:
- Many current safe learning methods have only been demonstrated on small "toy" problems;
- scaling them to high-dimensional,
- real-world robotic systems is non-trivial.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-4.
- Modeling and Measurement Uncertainties
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Imperfect State Measurements:
- Most approaches assume direct access to perfect state measurements,
- but in reality,
- sensor noise and inaccurate state estimation (e.g.,
- using images as measurements) introduce errors that the control system must account for.
-\end_layout
-
-\begin_layout Itemize
-Black-Box Nature:
- The interpretability of "black-box" models like Deep Neural Networks (DNNs) remains an open challenge for safe closed-loop operation.
-\end_layout
-
-\end_deeper
-\end_deeper
-\begin_layout Itemize
-Safest models ?
- => Probabilistic Models (High Confidence Safety) => Models that provide a measure of uncertainty are considered safer for control because they allow for "cautious adaptation".
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Gaussian Processes (GPs):
- These are frequently highlighted as a safer choice for learning unknown dynamics.
- Because they specify a distribution over functions,
- they provide a built-in confidence metric.
- Controllers can be designed to rely on the learned model only when confidence is high,
- allowing for Safety Level III (Hard Guarantees) through stochastic stability analysis.
-\end_layout
-
-\begin_layout Itemize
-Bayesian Linear Regression (BLR):
- Similar to GPs,
- BLR is a probabilistic model that allows the controller to account for uncertainty in its predictions.
-\end_layout
-
-\end_deeper
-\end_deeper
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsection
 From Physics-Based to Learning-Based Control
 \begin_inset CommandInset label
@@ -5789,65 +4840,6 @@ literal "true"
 
 \begin_layout Standard
 \begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-On the one hand,
- aleatoric uncertainty arises from the inherent natural variations in the studied phenomena.
- It may be due to random fluctuations,
- measurement errors,
- or other unpredictable factors.
- On the other hand,
- epistemic uncertainty stems from a lack of knowledge or complete understanding of the studied phenomenon.
- This type of uncertainty is related to the lack of data in certain regions of the input space.
- 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-The explainability of a prediction is partly linked to the concept of uncertainty.
- An informed decision-making process must take uncertainty into account.
- We distinguish between epistemic uncertainty and aleatoric uncertainty 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "chuaDeepReinforcementLearning2018,hullermeierAleatoricEpistemicUncertainty2021"
-literal "false"
-
-\end_inset
-
-.
- 
-\series bold
-Aleatoric uncertainty
-\series default
- arises from the inherent natural variations in the studied phenomena.
- It may be due to random fluctuations,
- measurement errors,
- or other unpredictable factors.
- 
-\series bold
-Epistemic uncertainty
-\series default
- on the other hands,
- stems from a lack of knowledge or complete understanding of the studied phenomenon.
- This type of uncertainty is related to the lack of data in certain regions of the feature space.
-\end_layout
-
 \end_inset
 
 
@@ -7462,25 +6454,6 @@ name "tab:Summary-of-Control-Architecture"
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-It assesses their ability fo meet the requirements of HRC,
- focusing on their resilience in non-stationary environments and their flexibility in high-variety tasks.
- Specifically,
- a distinction is made between the structural enforcement of constraints,
- i.e the architectural intent to remain safe,
- and the structural adaptability,
- which defines the controller's ability to maintain high-fidelity representations in a complex non-stationary setting.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 We established Online Learning MPC (cf Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -7521,122 +6494,6 @@ nolink "false"
  explores the research landscape about Online Machine Learning to identify the modeling methods best suited for providing structural compatibility,
  uncertainty-awareness,
  fast recursive updates and accurate predictions required in this hybrid control framework.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Itemize
-
-\series bold
-Controllability:
- 
-\series default
-This property assesses whether the control input 
-\begin_inset Formula $u$
-\end_inset
-
- can drive the system from any initial state 
-\begin_inset Formula $s_{0}$
-\end_inset
-
- to any desired state 
-\begin_inset Formula $s_{t}$
-\end_inset
-
- within a finite time.
- In HRC,
- controllability is often shared.
- In the specific case of speed recommendation as defined in Chapter 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:Introduction"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-,
- the human driver acts as a biological intermediary between the controller (i.e the speed recommendation system) and the vehicle.
- Depending on the driver and his receptivity to recommendation set points,
- the system may become under-actuated or locally uncontrollable as the controller itself cannot enforce the required acceleration.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Observability:
- 
-\series default
-This corresponds to the ability to reconstruct the internal state 
-\begin_inset Formula $s_{t}$
-\end_inset
-
- from available measurements.
- For instance,
- in HRC,
- the human intent is not directly measurable.
- In this case,
- HRC systems often face partial observability and can necessitate the use of sophisticated state estimators.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Stabilizability:
- 
-\series default
-Even if a system is not fully controllable,
- it is considered stabilizable if all the unstable modes can be brought to a steady state using the available actions.
- This is the minimum requirement for a safe autonomous system because a controller must at least be able to prevent the system from diverging into unsafe states from which it is impossible to recover.
-\end_layout
-
-\begin_layout Plain Layout
-=> Ashbys Law => Pour du HRC la variabilité est inconnue => donc nécessite un modèle d'apprentissage non paramétrique capable d'adapter sa complexité ?
-\end_layout
-
-\begin_layout Itemize
-Requisite Variety Principle:
- Ashby's Law,
- from W.
- Ross Ashby's cybernetics work,
- requires the regulator's information processing and adaptive capacity to counter the disturbances in the controlled system.
- In human-machine settings—
-like collaborative robotics or autonomous vehicles—
-dynamics exhibit high variety due to unpredictable human behaviors,
- unmodeled nonlinearities,
- and environmental factors,
- which parametric models (e.g.,
- fixed-structure linearizations) cannot capture adequately.
-\end_layout
-
-\begin_layout Itemize
-Non-Parametric Methods' Fit:
- Non-parametric approaches,
- such as Gaussian Processes (GPs) used in GP-MPC,
- inherently scale their complexity to data without assuming fixed forms,
- providing the flexibility to represent diverse dynamics.
- Dual MPC frameworks explicitly leverage GP posterior covariance to explore high-uncertainty regions,
- balancing identification and control while satisfying safety constraints—
-this embodies requisite variety by adapting model capacity online.
-\end_layout
-
-\begin_layout Itemize
-Application to Human-Machine Contexts:
- In highly interactive environments,
- human inputs introduce stochastic,
- non-stationary variety that rigid parametric models fail to match,
- risking poor performance or instability.
- Non-parametric learners enable MPC to maintain control authority by continuously refining high-fidelity approximations,
- as shown in dual control studies for safety-critical systems with nonparametric uncertainties.
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Section
@@ -9782,116 +8639,6 @@ emergence of learning
 The following section provides an overview of the literature landscape in the field of Multi-Agent Systems (MAS) for supervised learning.
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-More recent extensions have enabled this type of model to provide uncertainty quantification 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "meier2014incremental"
-literal "false"
-
-\end_inset
-
-,
- bridging the gap between frequentist local models and probabilistic models like Gaussian Processes to improve safety guarantees when used in control contexts.
- 
-\end_layout
-
-\begin_layout Plain Layout
-However,
- LWPR tightly couples spatialization,
- model structure and update logic,
- limiting modularity and constraining all local experts to the same model class (in this case linear regressions).
- Every local unit is governed by the same predefined statistical update equations and the coordination between units is limited.
- This creates a modeling bottleneck in the sense that the system cannot incorporate different types of local knowledge or adapt its internal coordination logic to specific regions of the input space.
- Furthermore,
- the management of the population of units (creation and pruning) relies on fixed thresholds that do not account for the relational dynamics between overlapping experts.
-\end_layout
-
-\begin_layout Plain Layout
-The structural common points between various local learning systems suggest a converging architectural philosophy.
- For exemple the kCELL algorithm presented in this thesis in Chapter 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:Context-Ensemble-Local"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- (Section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:kCELL"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-) shares the use of radial basis functions to spatialize experts to manage non-linearity and non-stationarity with LWPR.
- However,
- the primary distinction lies in the learning procedure.
- While traditional local learning rely on a centralized top-down update logic,
- kCELL is driven by decentralized social feedbacks through a bottom-up design.
- Local experts adapt based on peer interactions,
- competition and cooperation rules rather than global optimization objectives.
- This shift from statistical optimization to multi-agent self-organization represents a transition from 
-\emph on
-function approximation
-\emph default
- to 
-\emph on
-emergent collective behavior
-\emph default
- grounded in explicit local interaction mechanisms.
-\end_layout
-
-\begin_layout Plain Layout
-Learning methods such as LWPR exhibit a tight coupling between the spatialization logic (how the space is partitioned) and their modeling logic (the local linear regressions).
- This design limits the modularity and heterogeneity of the system.
- In LWPR,
- local units are typically restricted to a single model type and more specifically to linear regressions.
- A more modular architecture,
- where the spatialization layer is agnostic of the internal model,
- would allow for the use of a different class of local models or even for heterogeneous local models (e.g combining linear models with non-linear approximators).
- Such a decoupling theoretically allows for more parsimonious representative systems where the modeling complexity of an expert can be matched to the local complexity of the data.
-\end_layout
-
-\begin_layout Plain Layout
-Despite their advantages,
- local learning systems remain vulnerable to the curse of dimensionality and uncontrolled growth in the number of experts if pruning and growth mechanisms are not carefully designed.
- In this thesis we mostly explore a more modular architecture through multi-agent social self-organization for supervised online learning (cf.
- Chapter 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:Context-Ensemble-Local"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-).
- These mechanisms explicitely regulate expert creation,
- adaptation and interactions,
- ensuring a coherent global behavior emerging from local rules.
- In the following section,
- the foundations of multi-agent systems for supervised online learning are explored.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsection
 Multiagent Local Learning
 \begin_inset CommandInset label
@@ -11021,59 +9768,6 @@ name "tab:Comparison-of-Online-Learning-Architectures"
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-- Synthesis of reasoning
-\end_layout
-
-\begin_layout Plain Layout
-- Recap Limitations and needed properties for safe
-\end_layout
-
-\begin_layout Plain Layout
-- Positioning through table
-\end_layout
-
-\begin_layout Itemize
-Ensemblist method ?
-\end_layout
-
-\begin_layout Itemize
-Parametric,
- non-Parametric ?
-\end_layout
-
-\begin_layout Itemize
-Non-Stationarity Handling ?
- => handles non-stationarity by the non-parametric anture
-\end_layout
-
-\begin_layout Itemize
-OoD (Out of Distribution) Predictions ?
- => with non parametric local models epistemic uncertainty (if a data point has been seen or not at training time) ca be estimated through the spatialization of models => no expert = no data = no reliable predictions
-\end_layout
-
-\begin_layout Itemize
-Transparency of inner workings (black box / white box)
-\end_layout
-
-\begin_layout Itemize
-differentiable
-\end_layout
-
-\begin_layout Plain Layout
-- Why we explore mutliagent learning ?
- => compare to LWPR because this is the closest we have and position our approach correctly
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Section
 Positioning
 \begin_inset CommandInset label
@@ -11566,13 +10260,13 @@ name "chap:Context-Ensemble-Local"
 \begin_layout Standard
 The literature review presented in previous chapter highlighted a need for reliable learning architectures able to fit into a Model Predictive Control (MPC) framework and to adapt to complex non-stationary environments without forgetting previously acquired knowledge.
  Traditional approaches using fixed global models often fail to adapt when faced with the shifting behavior of human agents or changing environmental conditions.
- Local online learning approaches have shown promise in meeting these requirements.
  In this chapter,
- we specifically explore learning approaches based on multi-agent systems based on local experts self-organizing from social feedbacks.
+ we explore learning approaches that leverage multi-agent systems,
+ where local experts self-organize based on social feedback.
 \end_layout
 
 \begin_layout Standard
-Building upon the Self-Adaptive Context Learning (SACL) paradigm 
+Building on the Self-Adaptive Context Learning (SACL) paradigm 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "boesSelfAdaptiveContextLearning2015"
@@ -11580,51 +10274,95 @@ literal "false"
 
 \end_inset
 
-,
- the Context Ensemble Local Learning (CELL) formalism is introduced.
- While SACL separates the system into two decoupled layers,
- one for adaptation and the other one for exploitation,
- CELL moves toward a more unified architecture.
- The multi-agent ensemble serves as the model of the dynamics itself aiming at being integrated direcly into the control loop.
- it allows the social rules governing the self-organization of agents to manage the learning task while providing the MPC with a continuous locally accurate representation of the environment.
+ (which is further introduced in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:CELL-Formalism"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+),
+ the Context Ensemble Local Learning (CELL) formalism is introduced in this chapter.
+ SACL aims to solve control problems by mapping contexts to actions and their immediate utility.
+ In contrast,
+ CELL explicitly models the underlying system dynamics,
+ i.e.
+ the consequence of actions in a given context.
+ With this approach,
+ the self-organizing ensemble of agents serves as a predictive model that can be integrated into a MPC loop.
+ This represents a shift from model-free control (SACL) to model-based control (CELL within MPC).
 \end_layout
 
 \begin_layout Standard
-One of the advantages of self-organizing multi-agent systems lies in the transparency of the internal operations and the interactions between agents.
- This transparency allows for the extraction and analysis of introspective properties about the system.
+The CELL formalism provides a structured framework for designing learning algorithms where introspective properties emerge from the self-organization of agents.
+ These introspective properties facilitate the analysis of the system.
  In this work,
- introspection can be defined as
+ introspection can be defined as follows:
 \end_layout
 
 \begin_layout Definition
-Introspection designates the properties that emerges naturally from the self-organizing mechanisms of the system,
- such as the geometric structure and density of agents within the input space.
- These emergent properties provide a window into the system's inner workings,
- allowing to gather information about the learning process or the reliability of a prediction.
+
+\series bold
+Introspection
+\series default
+ designates the use of emergent properties,
+ such as the geometric structure and density of agents,
+ to monitor the system's internal state.
+ These properties arise from local self-organizing mechanisms and provide a macroscopic view of the learning process or the reliability of a prediction.
  
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "Instrospection"
+description "Introspection designates the use of emergent properties, such as the geometric structure and density of agents, to monitor the system's internal state. These properties arise from local self-organizing mechanisms and provide a macroscopic view of the learning process or the reliability of a prediction. "
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
 Within CELL,
- an iterative process has been unfolded through two specific instantiations moving from discrete to continuous spatial representations.
- The first instantiations,
- Orthotope-based CELL (oCELL),
- where agents are spatialized using orthotopes in the input space.
- This instantiation allowed to study the capabilities of this type of learning system in terms of prediction accuracy in supervised learning as well as the link between the spatial organization of agents and the traditional machine learning notions of explainability and interpretability.
+ we followed an iterative process through two specific instantiations to refine the learning algorithms,
+ transitioning from discrete to continuous spatial representations.
+ The first instantiation is called Orthotope-based CELL (oCELL).
+ In this instantiation,
+ agents are spatialized using orthotopes (n-dimensional rectangles) in the input space.
+ It allows for the study of prediction accuracy in supervised learning,
+ while exploring the link between the spatial organization of agents and the traditional machine learning notions of explainability and interpretability.
 \end_layout
 
 \begin_layout Standard
-Building on oCELL,
- to address the limitations of discrete spatialization,
+However,
+ oCELL faces limitations due to the discrete spatialization of agents.
+ Thus,
+ to overcome these limitations,
  Kernel-based CELL (kCELL) is introduced.
  This second instantiation of CELL leverages radial basis functions to create smoother continuous representations of the learned dynamics.
- Furthermore,
- kCELL introduces more interactive social rules where agents adapt more reactively relative to their neighbors or a collective baseline.
+ 
+\end_layout
+
+\begin_layout Standard
+Furthermore,
+ kCELL introduces more interactive social mechanisms,
+ enabling agents to adapt more directly to their neighbors.
  This evolution leads to more faithful data representation and enhanced adaptation capabilities that are demonstrated through experiments on both stationary and non-stationary learning tasks.
 \end_layout
 
 \begin_layout Standard
-The contributions of this chaper are threefold:
+More precisely,
+ the contributions of this chaper are threefold:
 \end_layout
 
 \begin_layout Itemize
@@ -11650,7 +10388,7 @@ Through the kCELL instantiation of CELL,
 \end_layout
 
 \begin_layout Standard
-The remainder of this chapter is organized to reflect the process that lead to a usable system within MPC context.
+The remainder of this chapter is organized to reflect the process that leads to a usable system within MPC context.
  First,
  Section 
 \begin_inset CommandInset ref
@@ -11665,6 +10403,17 @@ nolink "false"
 
  presents the CELL formalism by defining the core components and social mechanisms of a multi-agent system based on an ensemble of local expert agents.
  From this theoretical foundation,
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:oCELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
  introduces the oCELL instantiation of CELL.
  It provides a comparative experiment on a 2D regression task and introduces the definition of several introspective properties that can be linked to the notions of explainability and interpretability.
  Then,
@@ -11697,294 +10446,6 @@ nolink "false"
  concludes by summarizing the works presented in this chapter.
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-[RAPPEL DU CHAP PRECEDENT]
-\end_layout
-
-\begin_layout Plain Layout
-Previous chapter reviewed the literature about Control with Learned Models and Online Learning to answer the research questions presented in Chapter 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:Introduction"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-.
- It allowed us to highlight supervised learning using a multiagent system based on local experts as a promising research direction for online learning with the aim of tackling adaptive control problems within the Model Predictive Control (MPC) framework.
-\end_layout
-
-\begin_layout Plain Layout
-[INTRODUCTION DE LA STRUCTURE NARRATIVE]
-\end_layout
-
-\begin_layout Plain Layout
-As showed in 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "boesSelfAdaptiveContextLearning2015,fourezEnsembleMultiAgentSystem2022"
-literal "false"
-
-\end_inset
-
-,
- a supervised learning problem can be modeled as a multiagent system.
- This perspective offers several advantages,
- including strong adaptation capabilities,
- design simplicity and transparency in the inner workings.
-\end_layout
-
-\begin_layout Plain Layout
-In this chapter,
- building upon the Self Adaptive Context Learning (SACL) paradigm 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "boesSelfAdaptiveContextLearning2015"
-literal "false"
-
-\end_inset
-
-,
- the Context Ensemble Local Learning (CELL) formalism is introduced,
- describing a framework for the construction of local expert-based multiagent systems that self-organize from social rules,
- for online learning within the MPC framework.
-\end_layout
-
-\begin_layout Plain Layout
-Within the CELL formalism and building on previous works 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "boesSelfAdaptiveContextLearning2015,nigonAPPRENTISSAGEARTIFICIELADAPTE2017,dato2021apprentissage,fourezEnsembleMultiAgentSystem2022"
-literal "false"
-
-\end_inset
-
-,
- a first instantiation,
- oCELL,
- is proposed with the aim of studying the potential of this type of learning system in terms of prediction accuracy in supervised learning as well as the emergent properties of the system arising from its multi-agent nature and from the social self-organization of local expert.
-\end_layout
-
-\begin_layout Plain Layout
-Then,
- following an iterative process,
- a novel instantiation names kCELL is introduced to overcome the limitations of its predecessor.
- The objective of this new instantiation is to evaluate the capabilities of this type of multi-agent system for online learning in stationary and non-stationary contexts.
-\end_layout
-
-\begin_layout Plain Layout
-[CONTRIBUTIONS]
-\end_layout
-
-\begin_layout Plain Layout
-The contributions of this chapter are threefold
-\end_layout
-
-\begin_layout Itemize
-We introduce the CELL formalism to frame the design of multiagent systems based on local experts for solving regression tasks 
-\end_layout
-
-\begin_layout Itemize
-We built oCELL => orthotope based spatialization => demonstrate that this system has the potential to be competitive in terms of performance with SotA machine learning algorithms on a low dimensional regression task => demonstrate that some properties can be extracted from the emergent structures formed by agents and that those introspective properties can be linked to traditional explainability notions in machine learning
-\end_layout
-
-\begin_layout Itemize
-We built kCELL building upon oCELL to overcome its limitations => kernel based spatialization and more interactive social rules (agents interact with each other in a more direct way) leading to smoothed representations and more accurate data distribution representation => we demonstrate the ability of this algorithm to be competitive with SotA algorithms in terms of raw performance on an inverse dynamics modeling problem => we demonstrate the capabilities of the algorithm to learn non stationary 
-dynamics
-\end_layout
-
-\begin_layout Plain Layout
-[PLAN]
-\end_layout
-
-\begin_layout Plain Layout
-Section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:CELL-Formalism"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- => CELL
-\end_layout
-
-\begin_layout Plain Layout
-Section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:oCELL"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- => oCELL description (orthotope spatialization) + experiment on 2D supervised learning regression task to compare perf with other algorithms + define introspection properties linked to explainability
-\end_layout
-
-\begin_layout Plain Layout
-Section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:kCELL"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- => kCELL description (kernel spatialization) + experiment on inverse dynamics (stationary) learning problem to compare various online learning algorithms + experiment on non stationary forward dynamics learning to demonstrate the adaptation capabilities of kCELL,
- we provide an analysis of the system based on th introspective emergent properties of the system
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-The **Self-Adaptive Context-Learning (SACL)** pattern is a design framework created to help multi-agent systems (MAS) solve complex,
- real-world problems by learning how to map a current situation (context) to the most effective action.
-\end_layout
-
-\begin_layout Plain Layout
-Rather than relying on predefined models,
- SACL allows a system to learn and adapt its behavior dynamically based on interactions with its environment.
-\end_layout
-
-\begin_layout Plain Layout
-### Core Components
-\end_layout
-
-\begin_layout Plain Layout
-The pattern consists of two primary,
- coupled entities that form a control system:
-\end_layout
-
-\begin_layout Plain Layout
-* 
-\end_layout
-
-\begin_layout Plain Layout
-**Adaptation Mechanism:** Its function is to build,
- maintain,
- and provide reliable knowledge about the current context and potential actions.
- It correlates the system's activity with observations of the environment to keep its knowledge up-to-date.
-\end_layout
-
-\begin_layout Plain Layout
-* 
-\end_layout
-
-\begin_layout Plain Layout
-**Exploitation Mechanism:** This is the "acting" entity.
- It uses information from the Adaptation Mechanism,
- combined with its own domain-specific constraints,
- to decide which action to apply to the controlled system.
-\end_layout
-
-\begin_layout Plain Layout
----
-\end_layout
-
-\begin_layout Plain Layout
-### How it Operates
-\end_layout
-
-\begin_layout Plain Layout
-The relationship between these components is defined by a continuous loop of information and feedback:
-\end_layout
-
-\begin_layout Plain Layout
-1.
- 
-\end_layout
-
-\begin_layout Plain Layout
-**Perception:** Both mechanisms perceive data (percepts) from the environment.
-\end_layout
-
-\begin_layout Plain Layout
-2.
- 
-\end_layout
-
-\begin_layout Plain Layout
-**Information Sharing:** The Adaptation Mechanism suggests possible actions to the Exploitation Mechanism based on the current context.
-\end_layout
-
-\begin_layout Plain Layout
-3.
- 
-\end_layout
-
-\begin_layout Plain Layout
-**Action:** The Exploitation Mechanism performs the chosen action.
-\end_layout
-
-\begin_layout Plain Layout
-4.
- 
-\end_layout
-
-\begin_layout Plain Layout
-**Feedback:** The Exploitation Mechanism sends feedback to the Adaptation Mechanism,
- indicating if the suggested information was useful based on the observed results.
-\end_layout
-
-\begin_layout Plain Layout
-### Real-World Applications
-\end_layout
-
-\begin_layout Plain Layout
-The researchers have successfully implemented SACL in various complex scenarios,
- including:
-\end_layout
-
-\begin_layout Plain Layout
-* 
-\end_layout
-
-\begin_layout Plain Layout
-**ALEX (Robotics):** A system that learns how to control robotic devices by observing human demonstrations.
-\end_layout
-
-\begin_layout Plain Layout
-* 
-\end_layout
-
-\begin_layout Plain Layout
-**ESCHER (Engine Optimization):** A system used for the real-time calibration of heat engines,
- maximizing torque while minimizing fuel consumption and emissions.
-\end_layout
-
-\begin_layout Plain Layout
-Would you like me to explain the **AMAS4CL** implementation of the Adaptation Mechanism,
- which uses "Context Agents" to manage these learning tasks?
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Section
 CELL Formalism
 \begin_inset CommandInset label
@@ -11997,7 +10458,7 @@ name "sec:CELL-Formalism"
 \end_layout
 
 \begin_layout Standard
-The Context Ensemble Local Learning (CELL) formalism provides the theoretical foundations for designing multi-agent systems based on an ensemble of local expert agents governed by social rules that could be satisfy the requirements of modern control theory.
+The Context Ensemble Local Learning (CELL) formalism provides the theoretical foundations for designing multi-agent systems based on an ensemble of local expert agents governed by social rules that could satisfy the requirements for integration in Model Predictive Control (MPC).
 \end_layout
 
 \begin_layout Standard
@@ -12013,7 +10474,7 @@ nolink "false"
 
 \end_inset
 
- provides an overview of the theoretical lineage of CELL by describing the Self Adaptive Context Learning (SACL) learning paradigm and its application within Model Predictive Control (MPC).
+ provides an overview of the theoretical lineage of CELL by describing the Self Adaptive Context Learning (SACL) learning paradigm and its application within MPC.
  Then,
  Section 
 \begin_inset CommandInset ref
@@ -12026,7 +10487,7 @@ nolink "false"
 
 \end_inset
 
- formalize the local expert agents and their inner workings and Section 
+ formalizes the local expert agents and their inner workings and Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:Operational-Pipelines"
@@ -12054,7 +10515,7 @@ nolink "false"
 \end_layout
 
 \begin_layout Subsection
-From SACL to Coupled Learning and Control
+From SACL to CELL
 \begin_inset CommandInset label
 LatexCommand label
 name "subsec:From-SACL-to-Coupled-Learning-and-Control"
@@ -12065,7 +10526,7 @@ name "subsec:From-SACL-to-Coupled-Learning-and-Control"
 \end_layout
 
 \begin_layout Standard
-The inspiration for the CELL formalism lies in the Self-Adaptive Context Learning (SACL) paradigm 
+The inspiration for the CELL formalism lies in the Self-Adaptive Context Lerning (SACL) paradigm 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "boesSelfAdaptiveContextLearning2015"
@@ -12074,10 +10535,13 @@ literal "false"
 \end_inset
 
 .
- SACL was proposed as a design framework for multi-agent systems to solve complex,
- real-world problems by learning to map environmental situations,
+ SACL was originally proposed to solve complex control problems by learning to map perceived states,
  referred to as contexts,
  to the most effective actions.
+\end_layout
+
+\begin_layout Paragraph
+The SACL Paradigm
 \end_layout
 
 \begin_layout Standard
@@ -12093,7 +10557,7 @@ The Adaptation Mechanism
 :
  Its goal is to build,
  maintain and provide reliable knowledge about the current context and potential actions.
- It correlates the activity of the controller to observations about the environment to identify contextual boundaries and model the local dynamics.
+ It correlates the activity of the controller to perceived states of the environment to identify contextual boundaries and model local dynamics.
 \end_layout
 
 \begin_layout Itemize
@@ -12102,8 +10566,8 @@ The Adaptation Mechanism
 The Exploitation Mechanism
 \series default
 :
- This is the entity responsible for applying actions on the dynamical system to be controlled.
- it uses the knowledge provided by the Adaptation Mechanism,
+ This entity is responsible for applying actions on the dynamical system.
+ It uses the knowledge provided by the Adaptation Mechanism,
  alongside domain-specific constraints to decide which control action to apply.
 \end_layout
 
@@ -12115,8 +10579,7 @@ The Exploitation Mechanism
 \end_layout
 
 \begin_layout Standard
-The interactions between these layers is governed by a continuous information loop (c.f.
- Figure 
+The interactions between these two layers is governed by a continuous information loop and described in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:SACL"
@@ -12127,10 +10590,10 @@ nolink "false"
 
 \end_inset
 
-).
- The Adaptation Mechanism perceives the environment and suggests possible actions and the Exploitation Mechanism chooses an action to perform.
- It then emits a feedback that is send to the Adaptation Mechanism to refine the context-action mapping.
- This decoupling between the modeling and control layers offers modularity but it treats the learning system as an external adviser to the controller.
+.
+ The Adaptation Mechanism perceives the environment and proposes possible actions,
+ and the Exploitation Mechanism then chooses an action to perform.
+ The latter then emits a feedback that is sent to the Adaptation Mechanism to refine the context-action mapping.
 \end_layout
 
 \begin_layout Standard
@@ -12178,7 +10641,7 @@ name "fig:SACL"
 \end_layout
 
 \begin_layout Standard
-The intelligence of the Adaptation Mechanism resides in an ensemble of 
+The Adaptation Mechanism relies on a set of self-organizing 
 \emph on
 Context
 \emph default
@@ -12197,9 +10660,10 @@ Context
 Context
 \series default
 :
- This is a set of validity ranges (one for each input feature).
- An agent is considered valid only if the current environmental data falls within all its specified ranges.
- It represents
+ This is a set of validity ranges,
+ one for each input feature.
+ An agent is considered valid only when the perceived state lies within all corresponding ranges.
+ These ranges represent a tile in the input space that allow mapping the current perceived state to a specific action and its effects on the system.
 \end_layout
 
 \begin_layout Itemize
@@ -12208,7 +10672,7 @@ Context
 Action
 \series default
 :
- It corresponds to a control command to be applied to the controlled system that is proposed by the agent (e.g.
+ It corresponds to a control command to be applied to the dynamical system (e.g.
  torque set point or 
 \begin_inset Quotes eld
 \end_inset
@@ -12231,12 +10695,20 @@ Appreciation
 \end_layout
 
 \begin_layout Standard
-In SACL,
- the valid agents emit propositions of actions that are forwarded to the Exploitation Mechanism that itself gives feedback to the corresponding agents to allow them to improve.
- This structure allows for dynamic cooperative self-organization through the detection and solving of issues,
- called Non-Cooperative Situations (NCS),
- in the self-organization process that break the nominal cooperative behavior of agents.
- The solving procedures defined for each NCS are the learning rules of the ensemble of 
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Based on the feedback provided by the Exploitation Mechanism,
+ the valid agents that proposed actions can assess the quality of their proposition,
+ allowing them to improve.
+ The SACL architecture enables dynamic cooperative self-organization through the detection and management of Non-Cooperative Situations (NCS).
+ NCS are situations of functional inadequacy regarding agent cooperation,
+ that may occur during the self-organization process when agents deviate from their nominal cooperative behavior due to perception failures or erroneous decisions.
+ The adaptation mechanisms defined to resolve or anticipate these NCS constitue the learning rules governing the collective behavior of 
 \emph on
 Context
 \emph default
@@ -12244,90 +10716,100 @@ Context
 \end_layout
 
 \begin_layout Standard
-As explored in Chapter 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:State-of-the-Art"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
+Despite several successful applications 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "boes2017self,verstaevel2017lifelong"
+literal "false"
 
 \end_inset
 
 ,
- the requirements of safety-critical control in non-stationary environments suggest a potential for integrating a model based on an ensemble of local expert agents in to a traditional MPC architecture.
- However,
- this integration necessitates a pivot from the SACL paradigm.
+ SACL presents two primary limitations:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Myopic Behavior
+\series default
+:
+ SACL is mainly designed to operate from instantaneous feedback.
+ This results in a myopic controller because agents are rewarded based on the immediate success of the proposed action.
+ Thus,
+ the controller struggles to anticipate consequences beyond a single time step.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Domain-Specific Knowledge
+\series default
+:
+ SACL heavily relies on domain-specific knowledge ot design the feedback functions.
+ These functions are used to determine if an agent's Appreciation is erroneous or inexact.
+ This limits the generalizability of the approach.
 \end_layout
 
 \begin_layout Standard
-SACL serves as a complete framework for behavioral control that includes environment modeling components.
- It is essentially a reinforcement learning approach where agents seek to suggest optimal actions.
- In contrast,
- CELL is designed as a supervised learning formalism for modeling system dynamics.
- This transition results in three gaps between the original SACL paradigm and the CELL formalism.
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+From Behavioral Control to the CELL Formalism
 \end_layout
 
 \begin_layout Standard
-In SACL,
- the 
+Building on prior works that leveraged SACL principles to design machine learning algorithms rather than control strategies 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nigonAPPRENTISSAGEARTIFICIELADAPTE2017,fourez2024analyzing"
+literal "false"
+
+\end_inset
+
+,
+ we introduce the CELL formalism.
+\end_layout
+
+\begin_layout Standard
+CELL is a formalism that provides a framework for designing online learning algorithms based on a self-organizing ensemble of local expert agents governed by social rules.
+ Rather than acting as a standalone behavioral controller,
+ CELL focuses on building a predictive model of a dynamical system,
+ intended for integration within a MPC architecture.
+\end_layout
+
+\begin_layout Standard
+The transition from SACL to CELL can be summarized into three shifts in how the multi-agent system is used:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+From Action Suggestion to Function Approximation
+\series default
+:
+ In SACL,
+ the objective of the multi-agent system is to suggest actions (
 \emph on
-Context
+control
 \emph default
- agent suggest actions and evaluate the action's utility.
+) and evaluate a utility-based appreciation.
  In CELL,
- the goal is not to determine the best action,
- but to provide a faithful approximation of the function 
-\begin_inset Formula $f:\mathbb{R}^{n}\mapsto\mathbb{R}^{m}$
-\end_inset
-
- underlying the data 
-\begin_inset Formula 
-\[
-y=f\left(x\right)
-\]
-
-\end_inset
-
-with 
-\begin_inset Formula $x\in\mathbb{R}^{n}$
-\end_inset
-
- a vector of input features and 
-\begin_inset Formula $y\in\mathbb{R}^{m}$
-\end_inset
-
- a vector of targets representing the true values.
- In the context of this thesis,
- the purpose of CELL is to approximate the transition function of the controlled dynamical system.
- In this setting,
- the input vector 
-\begin_inset Formula $x\in\mathbb{R}^{n}$
-\end_inset
-
- typically represents the state-action pair 
-\begin_inset Formula $\left(s_{t},u_{t}\right)$
-\end_inset
-
- at timestep 
-\begin_inset Formula $t$
+ the objective of the multi-agent system is to predict the future states of the system (
+\emph on
+machine learning
+\emph default
+).
+ The goal is to provide a faithful local approximation of the transition function 
+\begin_inset Formula $f:\mathcal{S}\times\mathcal{U}\mapsto\mathcal{S}$
 \end_inset
 
 ,
- while the target 
-\begin_inset Formula $y\in\mathbb{R}^{m}$
-\end_inset
-
- represents the state transition (either the next state 
-\begin_inset Formula $s_{t+1}$
-\end_inset
-
- or the state difference 
-\begin_inset Formula $\Delta_{t}=s_{t+1}-s_{t}$
-\end_inset
-
-) such as
+ such that 
 \begin_inset Formula 
 \[
 s_{t+1}=f\left(s_{t},u_{t}\right)
@@ -12335,18 +10817,50 @@ s_{t+1}=f\left(s_{t},u_{t}\right)
 
 \end_inset
 
-Consequently,
- instead of corresponding to a local control policy,
- the agents in CELL correspond to local approximation of the transition function,
- allowing the ensemble to act as a global dynamics model of the controlled system.
+where 
+\begin_inset Formula $s_{t+1}\in\mathcal{S}$
+\end_inset
+
+ is the next state,
+ 
+\begin_inset Formula $s_{t}\in\mathcal{S}$
+\end_inset
+
+ is the current state,
+ 
+\begin_inset Formula $u_{t}\in\mathcal{U}$
+\end_inset
+
+ the applied action.
+ By focusing solely on the machine learning task,
+ CELL eliminates the need to design domain-specific feedback functions for each individual control problem.
 \end_layout
 
-\begin_layout Standard
-Moreover,
- SACL treats the multi-agent system as an external advisor that interacts with an exploitation layer via a proposal-and-feedback loop.
+\begin_layout Itemize
+
+\series bold
+From Myopia to Anticipation
+\series default
+:
+ The self-organization of agents in SACL is primarily driven by instantaneous feedback,
+ which limits the controller to a reactive,
+ one-step-ahead horizon.
  In contrast,
- the proposed architecture follows a more tightly coupled approach using the adaptive and self-organizing strengths of multi-agent systems with local experts for the modeling task and embeds this model within a traditional optimization-based control framework (MPC) (c.f.
- Figure 
+ CELL operates as a predictive model of the system's future dynamics.
+ When integrated within a MPC framework,
+ it enables the controller to simulate and evaluate multiple future trajectories over a receding horizon.
+ This makes CELL capable of anticipating longer-term outcomes compared to SACL myopic behavior.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+From External Advice to Tight Coupling
+\series default
+:
+ While SACL treats the multi-agent system as an external advisor providing action proposals,
+ CELL is tightly coupled with the control layer within MPC,
+ as shown in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:CELL"
@@ -12357,30 +10871,30 @@ nolink "false"
 
 \end_inset
 
-).
- In this configuration,
- the information-sharing step is replaced by a direct query.
- The MPC optimizer does not wait for propositions but instead queries the agent ensemble at high frequency to predict future states or to extract the gradient necessary for the optimization of a control trajectory.
- This tight coupling ensures that the system benefits from the adaptability of multi-agent learning with an ensemble of local expert agents while maintaining the robustness brought by optimization-based control within MPC.
+.
+ The MPC optimizer does not wait for agent propositions,
+ instead,
+ it actively queries the ensemble of local expert agents at high frequency to predict future states or to compute gradients necessary for trajectory optimization.
+ This architecture combines the adaptive,
+ self-organizing strengths of multi-agent systems with the mathematical robustness of optimization-based control.
 \end_layout
 
 \begin_layout Standard
-Finally,
- in the SACL paradigm,
- the behavior of the ensemble is primarily governed by the detection and resolution of NCS,
- focusing on the social cooperative harmony to maximize the utility of agents.
- While CELL retains the governance by social rules,
- it expands the social dynamics to include competition alongside cooperation.
+\begin_inset Separator plain
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-The next section details the Local Expert Agent formalism within CELL,
- defining their core components.
+The following sections detail the CELL formalism,
+ beginning with the definition of its core component:
+ the Local Expert Agents.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
-placement document
+placement H
 alignment document
 wide false
 sideways false
@@ -12402,7 +10916,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-CELL learned model within Model Predictive Control (MPC) architecture 
+CELL predictive model integrated within a Model Predictive Control (MPC) architecture 
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:CELL"
