@@ -31,7 +31,6 @@
 
 \def\nompreamble{\addcontentsline{toc}{chapter}{\nomname}\markboth{\nomname}{\nomname}}
 \AtBeginDocument{\def\nomname{Glossary}}
-\usepackage[T1]{fontenc}
 \end_preamble
 \use_default_options true
 \begin_modules
@@ -1019,7 +1018,7 @@ Prior to achieving complete vehicle autonomy,
  the future of mobility in the short and medium term lies in the development of effective collaboration between humans and machines.
  There is a need to move from theoretical collaboration to functional safety-critical control systems.
  Thus,
- it is necessary to address the inherent unpredictability and gpCELLnarity introduced by humans in the context of this collaboration.
+ it is necessary to address the inherent unpredictability and non-stationarity introduced by humans in the context of this collaboration.
 \end_layout
 
 \begin_layout Standard
@@ -4955,6 +4954,43 @@ symbol "Out-of-Distribution"
 description "Out-of-Distribution (OoD) refers to data points in machine learning that belong to a different probability distribution from the one used to train the model, often called the In-Distribution (ID) data \\cite{liu2020energy}."
 literal "true"
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+As opposed to Out-of-Distribution (OoD),
+ In-Distribution (ID) refers to data points in machine learning that belong to the same probability distribution as the one used to train the model 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "liu2020energy"
+literal "false"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "In-Distribution"
+description "As opposed to Out-of-Distribution (OoD), In-Distribution (ID) refers to data points in machine learning that belong to the same probability distribution as the one used to train the model \\cite{liu2020energy}."
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
 \end_inset
 
 
@@ -10894,7 +10930,7 @@ The following sections detail the CELL formalism,
 
 \begin_layout Standard
 \begin_inset Float figure
-placement H
+placement document
 alignment document
 wide false
 sideways false
@@ -10948,20 +10984,21 @@ name "subsec:Local-Expert-Agents"
 \end_layout
 
 \begin_layout Standard
-The previous section established the lineage of CELL from the SACL paradigm and identified the necessary shifts for an integration in a control loop within the MPC framework.
- In this section,
- the notion of Local Expert Agent within CELL is defined.
+The previous section established the relationship between CELL and the SACL paradigm,
+ highlighting the transition from a behavioral control framework to a predictive dynamics model integrated within a MPC architecture.
+ This section defines the notion of Local Expert Agent within CELL.
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-In CELL,
- the global task of modeling complex,
- non-linear dynamics from a stream of data is decomposed into a population of autonomous agents.
- Each agent 
+Each agent 
 \begin_inset Formula $\mathcal{A}_{i}$
 \end_inset
 
- acts as a local expert for a specific area of expertise in the input space.
+ acts as a local expert for a specific area within the input space.
  An agent is defined by a triplet such as 
 \begin_inset Formula 
 \[
@@ -10974,12 +11011,12 @@ where
 \begin_inset Formula $\phi_{i}:\mathbb{R}^{n}\mapsto\left[0,1\right]$
 \end_inset
 
- is the activation function,
+ is an activation function,
  
 \begin_inset Formula $f_{i}:\mathbb{R}^{n}\mapsto\mathbb{R}^{m}$
 \end_inset
 
- the internal local model and 
+ is an internal local model and 
 \begin_inset Formula $\mathcal{M}_{i}$
 \end_inset
 
@@ -10995,10 +11032,9 @@ activation function
 \begin_inset Formula $\phi_{i}$
 \end_inset
 
- represents the area of expertise of the agent in the input space.
- It defines the spatial boundaries in which the agent is considered as an expert,
- i.e as being relevant to predict.
- For a given input vector 
+ defines the spatial boundaries in which the agent is considered an expert (i.e.
+ relevant for making predictions).
+ For any given input vector 
 \begin_inset Formula $x\in\mathbb{R}^{n}$
 \end_inset
 
@@ -11008,11 +11044,12 @@ activation function
 \end_inset
 
  returns an activation value.
- This value is used by the spatial gating mechanism to select the most relevant agents to predict for 
+ This value is used by a mechanism to select the most relevant agents to predict for 
 \begin_inset Formula $x$
 \end_inset
 
- (the notion of gating mechanism is detailed in Section 
+.
+ This mechanism is called a spatial gating mechanism and it will be fully detailed in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:Operational-Pipelines"
@@ -11023,7 +11060,7 @@ nolink "false"
 
 \end_inset
 
-).
+.
  An activation value of 
 \begin_inset Formula $\phi_{i}\left(x\right)=1$
 \end_inset
@@ -11032,8 +11069,8 @@ nolink "false"
 \begin_inset Formula $x$
 \end_inset
 
-,
- it means that 
+.
+ It means that 
 \begin_inset Formula $x$
 \end_inset
 
@@ -11041,8 +11078,8 @@ nolink "false"
 \begin_inset Formula $\mathcal{A}_{i}$
 \end_inset
 
-,
- and conversely,
+.
+ Conversely,
  an activation value of 
 \begin_inset Formula $\phi_{i}\left(x\right)=0$
 \end_inset
@@ -11055,13 +11092,13 @@ nolink "false"
 \begin_inset Formula $\mathcal{A}_{i}$
 \end_inset
 
-,
- it means that 
+.
+ It means that 
 \begin_inset Formula $x$
 \end_inset
 
  is Out-of-Distribution (OoD).
- The geometry of this function can be anything and can be adapted to the problem encountered and to specific requirements related to computation time (e.g.
+ The geometry of this function can be anything and can be adapted to the problem encountered and to specific requirements related to the dimensionality of inputs or computation time (e.g.
  computing RBF kernels values in 
 \begin_inset Formula $x$
 \end_inset
@@ -11070,16 +11107,25 @@ nolink "false"
 \begin_inset Formula $x$
 \end_inset
 
- and a set of orthotopes) or dimensionality of the inputs.
+ and a set of rectangles).
+ An example of rectangular activation function is given in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Rectangle-Activation"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
  Ultimately,
  the activation function answers to the following question:
 \end_layout
 
 \begin_layout Standard
 \align center
-\begin_inset Quotes eld
-\end_inset
-
 
 \emph on
 When should 
@@ -11091,9 +11137,55 @@ When should
  
 \emph on
 predict ?
-\emph default
+\end_layout
 
-\begin_inset Quotes erd
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/Example_Orthotope_Activation_Function.pdf
+	lyxscale 50
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Representation of the areas of expertise of 2 local expert agents where the activation functions 
+\begin_inset Formula $\phi_{i}$
+\end_inset
+
+ correspond to a rectangle.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Rectangle-Activation"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
 \end_inset
 
 
@@ -11126,7 +11218,7 @@ internal model
 \begin_inset Formula $x$
 \end_inset
 
- to predictions values
+ to predictions values such as:
 \begin_inset Formula 
 \[
 \hat{y_{i}}=f_{i}\left(x,\theta_{i}\right)
@@ -11156,9 +11248,6 @@ where
 
 \begin_layout Standard
 \align center
-\begin_inset Quotes eld
-\end_inset
-
 
 \emph on
 What should 
@@ -11166,12 +11255,6 @@ What should
 \end_inset
 
  predict?
-\emph default
-
-\begin_inset Quotes erd
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -11186,15 +11269,32 @@ internal state
 ) encapsulates metadata about the agent (e.g.
  local performance metrics,
  maturity,
- age or the number of points seen),
- which may also include a memory of the last points encountered.
+ age,
+ ...) and may also include a memory of the most recently encountered training points (in the form of 
+\begin_inset Formula $x,y$
+\end_inset
+
+ feature-target tuples).
 \end_layout
 
 \begin_layout Standard
-Through this tripartite structure,
- CELL creates a modular learning system.
- The behavior of the global model is a result of the collective output of the local expert agent that compose it.
- The health and knowledge of the system can be directly gathered by inspecting the internal states 
+By separating the spatialization layer (activation function 
+\begin_inset Formula $\phi_{i}$
+\end_inset
+
+) from the modeling layer (internal model 
+\begin_inset Formula $f_{i}$
+\end_inset
+
+),
+ each component can be independently optimized or replaced.
+ It allows CELL to remain agnostic to both the choice of activation function and the class of internal model employed within local expert agents.
+ 
+\end_layout
+
+\begin_layout Standard
+The global prediction of the model is a result of the collective output of the local expert agent that compose it.
+ The state of convergence and learned model representation of the system can be directly gathered by inspecting the internal states 
 \begin_inset Formula $\mathcal{M}_{i}$
 \end_inset
 
@@ -11207,8 +11307,8 @@ Through this tripartite structure,
 
 \begin_layout Standard
 In addition to these fundamental components,
- agents are associated with operations that allow them to adapt individually and locally.
- Two types of operations must be defined in the context of CELL to enable local self-organization:
+ agents are associated with actions that allow them to adapt individually and locally.
+ Two types of actions must be defined in the context of CELL to enable local self-organization:
 \end_layout
 
 \begin_layout Itemize
@@ -11217,27 +11317,22 @@ In addition to these fundamental components,
 Shape Update
 \series default
 :
- It corresponds to updating the parameters of the activation function 
+ This action corresponds to updating the parameters of the activation function 
 \begin_inset Formula $\phi_{i}$
 \end_inset
 
 ,
- effectively changing the shape of the area of expertise of agent
+ which effectively changes the shape of the area of expertise of agent
 \begin_inset Formula $\mathcal{A}_{i}$
 \end_inset
 
 .
- Depending on the social feedbacks received by agent 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- for an input 
+ Depending on the feedback received for its prediction on an input 
 \begin_inset Formula $x$
 \end_inset
 
 ,
- the latter can realize either that his area of expertise is well positioned within the input space,
- or that it is not.
+ the agent may realize either that his area of expertise is either well positioned within the input space or not.
  For example,
  if 
 \begin_inset Formula $\mathcal{A}_{i}$
@@ -11248,17 +11343,14 @@ Shape Update
 \end_inset
 
 ,
- it might want to shrink its area of expertise to not include 
+ it might shrink its area of expertise to not include 
 \begin_inset Formula $x$
 \end_inset
 
- anymore,
- and conversely if it receives a good feedback for its prediction on 
-\begin_inset Formula $x$
-\end_inset
-
-,
- it might want to expand its area of expertise to include 
+ anymore.
+ Conversely,
+ if it receives a good feedback,
+ it might expand its area of expertise to include 
 \begin_inset Formula $x$
 \end_inset
 
@@ -11289,11 +11381,12 @@ Model Update
 \end_layout
 
 \begin_layout Standard
-The next section details the inference and learning pipelines that allow respectively for the self-organization of agents and to obtain the predictions of the global model.
+The next section describes the inference and learning pipelines responsible for agent self-organization and global model prediction.
 \end_layout
 
 \begin_layout Subsection
-Operational Pipelines
+Operational Pipelines:
+ Inference and Learning
 \begin_inset CommandInset label
 LatexCommand label
 name "subsec:Operational-Pipelines"
@@ -11304,8 +11397,16 @@ name "subsec:Operational-Pipelines"
 \end_layout
 
 \begin_layout Standard
-After formalizing in detail the main components that compose the agents in previous section,
- this section presents the learning loop structure of a CELL system and how the predictions of the global system are obtained from the set of local expert agents.
+After having formalized the main components that compose an agent in previous section,
+ this section presents 
+\series bold
+the training loop of a CELL system
+\series default
+ and how 
+\series bold
+the global predictions
+\series default
+ are obtained from the set of local expert agents.
 \end_layout
 
 \begin_layout Standard
@@ -11322,7 +11423,11 @@ learning pipeline
 \series default
 ,
  which governs the social self-organization of agents.
- Both pipelines rely on a spatial gating mechanism to manage the locallity in the system.
+ Both pipelines rely on a 
+\series bold
+spatial gating mechanism
+\series default
+ to manage the locality in the system.
 \end_layout
 
 \begin_layout Standard
@@ -11330,8 +11435,13 @@ For a given input
 \begin_inset Formula $x$
 \end_inset
 
- the spatial gating mechanism select the a subset of relevant local expert agents to predict among the ensemble of agents.
- This spatial gating mechanism guarantees spatial isolation of parameters inside the learning system.
+,
+ the spatial gating mechanism selects a subset of local expert agents from the ensemble that are the most relevant for prediction.
+ This spatial gating mechanism guarantees 
+\series bold
+spatial isolation of parameters
+\series default
+ inside the learning system.
  For any input,
  the spatial gating mechanism outputs two subsets of agents:
 \end_layout
@@ -11368,14 +11478,23 @@ Neighbor Agents
 \end_inset
 
 ):
- The set of neighbor agents is a superset of activated agents.
+ The set of neighbor agents is a superset of activated agents 
+\begin_inset Formula $\mathcal{D}_{\text{activated}}$
+\end_inset
+
+.
  In addition to including activated agents,
  it includes agents for which 
 \begin_inset Formula $x$
 \end_inset
 
  is not yet ID but is close to their spatial boundaries.
- These agents represent potential improvement for the system as they are candidate for updating the shape of their area fo expertise to include 
+ The notion of closeness can be defined as a distance threshold or a minimum activation value 
+\begin_inset Formula $\phi_{i}<\epsilon$
+\end_inset
+
+.
+ These agents are candidate for updating the shape of their area of expertise to include 
 \begin_inset Formula $x$
 \end_inset
 
@@ -11393,9 +11512,16 @@ Neighbor Agents
 To obtain the global prediction of the ensemble of local expert agents,
  the 
 \series bold
-inference pipeline 
+inference pipeline
 \series default
-(illustrated in Figure 
+ aims to select the most relevant subset of agents from an input 
+\begin_inset Formula $x$
+\end_inset
+
+,
+ and to aggregate their local predictions.
+ The inference process,
+ illustrated in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:CELL-Inference-Pipeline"
@@ -11406,14 +11532,8 @@ nolink "false"
 
 \end_inset
 
-) aims,
- from an input 
-\begin_inset Formula $x$
-\end_inset
-
 ,
- to select the most relevant agents and aggregate their local predictions.
- The inference process follows four distinct steps:
+ follows four distinct steps:
 \end_layout
 
 \begin_layout Enumerate
@@ -11436,18 +11556,19 @@ Distance Evaluation
 \begin_layout Enumerate
 
 \series bold
-Expert Selection
+Spatial Gating
 \series default
  
 \series bold
-(Gating)
+(Expert Selection)
 \series default
 :
  The spatial gating mechanism filters the ensemble of selected agents to identify the most relevant agents to predict for 
 \begin_inset Formula $x$
 \end_inset
 
- outputing two subsets of agents:
+,
+ and outputs two sets of agents:
  the activated agents 
 \begin_inset Formula $\mathcal{D}_{\text{activated}}$
 \end_inset
@@ -11458,7 +11579,7 @@ Expert Selection
 
 .
  For example,
- the activated and neighbor agents can be filtered based on a threshold on the activation value such 
+ the activated and neighbor agents sets can be filtered based on a threshold on the activation value such as 
 \begin_inset Formula $\phi_{i}\left(x\right)\geq\tau_{\text{activation}}$
 \end_inset
 
@@ -11466,7 +11587,7 @@ Expert Selection
 \begin_inset Formula $\phi_{i}\left(x\right)\geq\tau_{\text{neighbor}}$
 \end_inset
 
-(with 
+(where 
 \begin_inset Formula $\tau_{\text{activation}}\in\mathbb{R}$
 \end_inset
 
@@ -11474,20 +11595,7 @@ Expert Selection
 \begin_inset Formula $\tau_{\text{neighbor}}\in\mathbb{R}$
 \end_inset
 
- two real scalar thresholds).
- The whole subset of selected agents 
-\begin_inset Formula $\mathcal{D}_{\text{selected}}$
-\end_inset
-
- by the spatial gating mechanism is defined such as
-\begin_inset Formula 
-\[
-\mathcal{D}_{\text{selected}}=\mathcal{D}_{\text{activated}}\cup\mathcal{D}_{\text{neighbors}}
-\]
-
-\end_inset
-
-
+ are two real scalar thresholds).
 \end_layout
 
 \begin_layout Enumerate
@@ -11566,21 +11674,19 @@ name "fig:CELL-Inference-Pipeline"
 \end_layout
 
 \begin_layout Standard
-Finally,
- the 
+The 
 \series bold
 learning pipeline
 \series default
  governs the evolution of the population of agents through social rules.
  Unlike traditional gradient descent that updates all parameters globally,
- in CELL,
- the spatial gating mechanism is leveraged to ensure parameter isolation by exposing only relevant agents to new data.
+ the spatial gating mechanism in CELL is leveraged to ensure parameter isolation by exposing only relevant agents to new data.
  For a given feature-target tuple 
 \begin_inset Formula $\left(x,y\right)$
 \end_inset
 
 ,
- a typical learning step (illustrated in Figure 
+ a typical learning step follows five stages as illustrated in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:CELL-Training-Pipeline"
@@ -11591,7 +11697,7 @@ nolink "false"
 
 \end_inset
 
-) follows five stages:
+:
 \end_layout
 
 \begin_layout Enumerate
@@ -11600,12 +11706,11 @@ nolink "false"
 Distance Evaluation
 \series default
 :
- Similar to the inference pipeline,
- the activation 
+ The activation value 
 \begin_inset Formula $\phi_{i}\left(x\right)$
 \end_inset
 
- for each agent in the ensemble are evaluated to determine their expertise on input 
+ of each agent in the ensemble is evaluated to determine its expertise on input 
 \begin_inset Formula $x$
 \end_inset
 
@@ -11618,17 +11723,16 @@ Distance Evaluation
 Expert Selection (Gating)
 \series default
 :
- As in the inference pipeline,
- the spatial gating mechanism identifies the subsets 
+ The spatial gating mechanism identifies the sets of activated agents 
 \begin_inset Formula $\mathcal{D}_{\text{activated}}$
 \end_inset
 
- and 
+ and neighbor agents 
 \begin_inset Formula $\mathcal{D}_{\text{neighbors}}$
 \end_inset
 
 .
- This spatial selection ensures that only agent with relevant expertise (or potential for expertise) are candidates for being updated.
+ This spatial selection ensures that only agents with relevant expertise (or potential for expertise) are candidates for being updated.
 \end_layout
 
 \begin_layout Enumerate
@@ -11651,7 +11755,7 @@ Local Prediction
 Social Feedback Computation
 \series default
 :
- Each selected agent receives a feedback signal that determines its subsequent updates.
+ Each selected agent receives a feedback that determines its subsequent updates.
  This signal can encapsulate two components:
 \end_layout
 
@@ -11662,14 +11766,14 @@ Social Feedback Computation
 Absolute Feedback
 \series default
 :
- Based on the individual local error.
- It assesses if the agent's internal model is currently a faithful representation of the local dynamics.
+ Based on the individual local error,
+ it assesses if the agent's internal model is currently a faithful representation of the local dynamics.
 \end_layout
 
 \begin_layout Itemize
 
 \series bold
-Relative / Social Feedback
+Relative/Social Feedback
 \series default
 :
  The agent's performance is compared to that of other close agents or to a global baseline (e.g.
@@ -11692,7 +11796,7 @@ cooperation
 Application of Learning Rules
 \series default
 :
- Base on the feedback received and the agent's internal state 
+ Based on the feedback received and on the agent's internal state 
 \begin_inset Formula $\mathcal{M}_{i}$
 \end_inset
 
@@ -11707,9 +11811,17 @@ The
 learning rules
 \series default
  within CELL are the primary drivers of self-organization.
- A rule is applied only to a specific subset of agents,
- typically the activated agents,
- the neighbors or the entire set of selected agents.
+ Each is applied only to a specific set of agents,
+ typically the activated agents 
+\begin_inset Formula $\mathcal{D}_{\text{activated}}$
+\end_inset
+
+,
+ the neighbors agents 
+\begin_inset Formula $\mathcal{D}_{\text{neighbors}}$
+\end_inset
+
+ or the k-closest agents.
  They are triggered by conditions related to the feedback values or the agent's internal memory (e.g.
  maturity or historical performance).
  When,
@@ -11751,11 +11863,10 @@ nolink "false"
 \end_inset
 
 ,
- these include the 
+ we remind that it includes the 
 \series bold
 Model Update
 \series default
-,
  which adjusts the internal parameters 
 \begin_inset Formula $\theta_{i}$
 \end_inset
@@ -11765,7 +11876,6 @@ Model Update
 \series bold
 Shape Update
 \series default
-,
  which modifies the parameters of the activation function 
 \begin_inset Formula $\phi_{i}$
 \end_inset
@@ -11776,7 +11886,7 @@ Shape Update
 \emph on
 Meta-Actions
 \emph default
- are population management operations that affect the composition of the ensemble of agents.
+ are actions that manage the population and affect the composition of the ensemble of agents.
  
 \series bold
 Agent Creation
@@ -11834,11 +11944,12 @@ name "fig:CELL-Training-Pipeline"
 \end_layout
 
 \begin_layout Standard
-The 
+To summarize,
+ the 
 \series bold
 learning process
 \series default
- of a specific CELL instantiation (such as oCELL or kCELL that will be described in subsequent sections of this chapter) can be fully characterized by constructing a rule table.
+ of a specific CELL instantiation (such as oCELL or kCELL that will be described later in this chapter) can be fully characterized by a rule table.
  This table acts as the behavioral blueprint for the ensemble of agents,
  mapping the current state of the population and the received feedback to a set of discrete actions.
  By using this structured approach,
@@ -11877,16 +11988,16 @@ Condition (Trigger)
 \series default
 :
  The specific feedback value or internal state threshold (e.g.,
- error levels) that activate the rule.
+ error levels) that activates the rule.
 \end_layout
 
 \begin_layout Itemize
 
 \series bold
-Targeted Subset
+Targeted Set
 \series default
 :
- The group of agents subject to the rule (e.g.
+ The set of agents subject to the rule (e.g.
  
 \begin_inset Formula $\mathcal{D}_{\text{activated}}$
 \end_inset
@@ -11904,12 +12015,12 @@ Targeted Subset
 Action
 \series default
 :
- It corresponds to the action to be performed by the agents in the targeted subset or to the meta-action to apply.
+ It corresponds to the action to be performed by the agents in the targeted set or to the meta-action to apply.
 \end_layout
 
 \begin_layout Standard
 The use of a Social Context ensures that the learning process is aware of the local social dynamics.
- The same error signal might lead to different actions depending on whether and agent is part of a group of experts (
+ The same error signal might lead to different actions depending on whether an agent is part of a set of experts (
 \begin_inset Formula $N_{\text{activated}}\geq1$
 \end_inset
 
@@ -11953,13 +12064,28 @@ status open
 
 \begin_layout Plain Layout
 \align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+resizebox{1
+\backslash
+columnwidth}{!}{
+\end_layout
+
+\end_inset
+
+
 \begin_inset Tabular
 <lyxtabular version="3" rows="6" columns="4">
 <features tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<column alignment="center" valignment="middle" width="20col%">
+<column alignment="center" valignment="middle" width="20col%">
+<column alignment="center" valignment="middle" width="20col%">
+<column alignment="center" valignment="middle" width="30col%">
 <row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -11989,7 +12115,7 @@ Condition (Trigger)
 \begin_layout Plain Layout
 
 \series bold
-Targeted Subset
+Targeted Set
 \end_layout
 
 \end_inset
@@ -12159,7 +12285,7 @@ Low error
 \begin_inset Text
 
 \begin_layout Plain Layout
-Shape Update (expand)
+Shape Update (expansion)
 \end_layout
 
 \end_inset
@@ -12182,7 +12308,7 @@ Shape Update (expand)
 \begin_inset Text
 
 \begin_layout Plain Layout
-Low Error
+Low error
 \end_layout
 
 \end_inset
@@ -12247,13 +12373,24 @@ High error
 \begin_inset Text
 
 \begin_layout Plain Layout
-Shape Update (retract)
+Shape Update (retraction)
 \end_layout
 
 \end_inset
 </cell>
 </row>
 </lyxtabular>
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
 
 \end_inset
 
@@ -12272,13 +12409,26 @@ name "tab:Conceptual-Learning-Rules"
 \end_inset
 
 .
- Each line corresponds to a given learning rule associated with a social context representing a condition on the subset of local expert agents close to 
+ Each line corresponds to a learning rule associated with:
+ 1) a 
+\emph on
+Social Context
+\emph default
+ representing a condition on the set of local expert agents close to 
 \begin_inset Formula $x$
 \end_inset
 
 ;
- with a condition on a feedback value like the error (e.g low or high error) or on the characteristics of the agents (e.g size of the area of expertise higher than a threshold value);
- with a target subset of agents that will be affected by the rule (e.g.
+ 2) a 
+\emph on
+Condition
+\emph default
+ on a feedback value like the error (e.g low or high error according to a threshold) or on the characteristics of the agents (e.g size of the area of expertise higher than a threshold value);
+ 3) a 
+\emph on
+Targeted Set
+\emph default
+ of agents that will be affected by the rule (e.g.
  
 \begin_inset Formula $\mathcal{D}_{\text{activated}}$
 \end_inset
@@ -12288,148 +12438,16 @@ name "tab:Conceptual-Learning-Rules"
 \end_inset
 
 );
- with actions or meta-actions to perform on the agents of the targeted subset.
+ 4) an 
+\emph on
+Action
+\emph default
+ to perform on the agents of the targeted subset.
 \end_layout
 
 \end_inset
 
 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-The far left column corresponds to the title of the paragraph in which the rules are presented.
- Each line corresponds to a given learning rule associated with a social context representing a condition on the number of activated or neighbor local expert agents (
-\begin_inset Formula $N_{\text{activated}}$
-\end_inset
-
- and 
-\begin_inset Formula $N_{\text{neighbors}}$
-\end_inset
-
-) around a new input 
-\begin_inset Formula $x_{new}$
-\end_inset
-
-;
- with a condition on the feedback 
-\begin_inset Formula $L_{\mathcal{A}_{i}}$
-\end_inset
-
- or on the volume of the area of expertise 
-\begin_inset Formula $V\left(\mathcal{H}_{i}\right)$
-\end_inset
-
-;
- with a target subset of agents that will be affected by the rule (
-\begin_inset Formula $\mathcal{D}_{\text{activated}}$
-\end_inset
-
- or
-\begin_inset Formula $\mathcal{D}_{\text{neighbors}}$
-\end_inset
-
-);
- with actions or meta-actions to perform on the agents of the targeted subset.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Itemize
-CELL => 2 layers => spatialization (activation functions et gating mechanism) et modeling (internal model of agents)
-\end_layout
-
-\begin_layout Itemize
-Explication du gating mechanism pour la selection d'experts => le gating permet la selection d'experts en fonction d'un input => les experts les plus pertinents sont choisis dans le but de proposer une prédiction => on définit un agent comme activé pour 
-\begin_inset Formula $x$
-\end_inset
-
- si 
-\begin_inset Formula $x$
-\end_inset
-
- est la area of expertise de l'agent (i.e il est tres probablement pertinent pour cet agent de prédire) => on définit un agent comme voisin pour 
-\begin_inset Formula $x$
-\end_inset
-
- si 
-\begin_inset Formula $x$
-\end_inset
-
- est activé ou proche de l'area of expertise de l'agent (i.e cet agent a le potentiel de devenir expert sur 
-\begin_inset Formula $x$
-\end_inset
-
- mais ce n'est pas encore sûr)
-\end_layout
-
-\begin_layout Itemize
-Formalisation du pipeline de prédiction
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-distance evaluation
-\end_layout
-
-\begin_layout Itemize
-expert selection (gating mechanism)
-\end_layout
-
-\begin_layout Itemize
-prediction of experts
-\end_layout
-
-\begin_layout Itemize
-aggregation of predictions (generic aggregation function)
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Formalisation du pipeline d'apprentissage
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-distance evaluation
-\end_layout
-
-\begin_layout Itemize
-expert selection (gating mechanism)
-\end_layout
-
-\begin_layout Itemize
-social feedback computation => individual (ex:
- error thresholds) or collective (relative to other expert or to baseline)
-\end_layout
-
-\begin_layout Itemize
-apply learning rules to experts => condition on feedback value + internal state of experts => update action (update model / update shape / create / destroy)
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-ALGO TRAINING LOOP / ou / DIAGRAM pour les pipelines
-\end_layout
-
-\begin_layout Itemize
-Dans CELL le processus d'apprentissage de chaque instantiation peut être caractérisé en construisant un tableau contenant les règles d'apprentisssage => cest ce type de tableau qui sera utilisé dans la suite pour caractériser oCELL et kCELL => colonnes:
- 
 \end_layout
 
 \end_inset
@@ -12449,8 +12467,8 @@ name "subsec:Discussion-on-Theoretical-Properties"
 \end_layout
 
 \begin_layout Standard
-The previous sections established the lineage of the CELL formalism,
- formalized its components and detailed the operational pipelines that govern the ensemble of local expert agents.
+After having established established the relationship between SACL and the CELL formalism,
+ the previous sections formalized its components and detailed the operational pipelines that govern the ensemble of local expert agents.
  This section discusses the theoretical properties of CELL systems,
  highlighting how it addresses the challenges of online learning in non-stationary environments and its suitability for integration within a control framework.
 \end_layout
@@ -12460,15 +12478,31 @@ A primary challenge in online learning for dynamical system is
 \series bold
 catastrophic forgetting
 \series default
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kirkpatrick2017overcoming"
+literal "false"
+
+\end_inset
+
 ,
  where new information overwrites previously learned knowledge.
  CELL inherently mitigates this through its spatial gating mechanism,
- which ensures spatial isolation of parameters.
- Since learning rules and parameter updates are restricted to the subsets 
+ as it ensures 
+\series bold
+spatial isolation of parameters
+\series default
+.
+ Since learning rules and parameter updates are restricted to the sets 
 \begin_inset Formula $\mathcal{D}_{\text{activated}}$
 \end_inset
 
- and ,
+ and 
+\begin_inset Formula $\mathcal{D}_{\text{neighbors}}$
+\end_inset
+
+,
  data from one region of the input space cannot easily corrupt the expertise of agents in non-related regions.
 \end_layout
 
@@ -12476,12 +12510,29 @@ catastrophic forgetting
 While traditional machine learning often relies on top-down global optimization,
  CELL is inherently multi-agent and adopts a bottom-up design based on social learning.
  In the context of CELL,
- the global dynamics model is not a predefined static structure but an emergent property of the self-organizing ensemble of local experts.
+ the global dynamics model is not a predefined static structure but an 
+\series bold
+emergent property
+\series default
+ of the self-organizing ensemble of local experts.
  Each agent operates with only partial knowledge of the global problem,
- perceiving its local social context,
- deciding on a rule to trigger based on its own feedback and acting to update its internal components.
+ 
+\series bold
+perceives
+\series default
+ its local social context,
+ 
+\series bold
+decides
+\series default
+ on a rule to trigger based on its own feedback,
+ and 
+\series bold
+acts
+\series default
+ to update its internal components.
  This decentralized decision-making process brings structural adaptability.
- It allows the model to modify its own internal structure through agent creation or destruction without th ecomputational burden or re-optimizing a global topology.
+ It allows the model to modify its own internal structure through agent creation or destruction without the computational burden or re-optimizing a global topology.
  By shifting the complexity from the model's architecture to the social dynamics between agents,
  the system can autonomously 
 \series bold
@@ -12497,12 +12548,18 @@ Furthermore,
 model-agnostic
 \series default
 ,
- meaning that virtually any class of learning model could be used as the internal prediction model of the agents.
+ meaning that virtually any class of learning model could be used as the internal prediction model of an agent.
  This modularity favors a high level of transparency in the inner workings of the learning system.
  In the remainder of this thesis,
- simple,
- low-complexity models that can converge quickly such as linear regression are preferred because high-capacity models could be counterproductive,
- not receiving enough local data to converge,
+ we focus on simple,
+ low-complexity models that can converge quickly,
+ such as 
+\series bold
+linear regression
+\series default
+.
+ Indeed,
+ high-capacity models could be counterproductive because they would not receive enough local data to converge,
  thereby hurting global performance.
  Using fast-converging model classes ensures better online learning performance and maintains the white-box nature of the inner workings,
  which represents a significant advantage over global black box models for safety-critical applications.
@@ -12527,47 +12584,27 @@ nolink "false"
 
 ).
  While the agents provide local expertise,
- the aggregation function used to build the global prediction should ensure that the transitions between the areas of expertise of different agents is smooth.
- If the internal models,
- the activation functions and the aggregation function are all differentiable,
- the corresponding CELL instantiation produces differentiable predictions.
+ the aggregation function should ensure the global prediction handles smoothly the transitions between the areas of expertise of agents.
+ If the internal models 
+\begin_inset Formula $f_{i}$
+\end_inset
+
+,
+ the activation functions 
+\begin_inset Formula $\phi_{i}$
+\end_inset
+
+ and the aggregation function are all differentiable,
+ the ensemble of local expert agents produces differentiable predictions.
  This allows for the extraction of the necessary gradients 
 \begin_inset Formula $\nabla_{x}f$
 \end_inset
 
- (i.e the Jacobians of the dynamics with respect to state and action) for predicting future states or optimizing control trajectories within an MPC framework with gradient-based solvers.
-\end_layout
-
-\begin_layout Standard
-The real-time constraints of control loops require the model to perform high-frequency inference.
- In CELL instantiations,
- fast inference is facilitated by the use of low-complexity internal models and by the spatial gating mechanism that selects only a subset of relevant agents for prediction.
- However,
- maintaining a fast inference speed becomes challenging as the population grows,
- because evaluating the activation value of a very large number of agent for a given input 
-\begin_inset Formula $x$
-\end_inset
-
- can rapidly represent a computational bottleneck.
- Consequently,
- achieving efficient scaling requires a carefully designed spatialization layer to minimize the cost of distance evaluations and ensure that the spatial gating process remains compatible with the timing requirements of the control task to solve.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-The previous sections of this chapter presented the lineage of the CELL formalism and explicited the key components of a CELL learning system as well as its internal behavior.
- This section discusses on the theoretical properties of CELL systems as well as their capabilities for online learnin,
- non-stationarity handling and integration in control.
-\end_layout
-
-\begin_layout Itemize
-Explication de pourquoi ça résoud certains pb enoncés dans chap 
+ (i.e the Jacobians of the dynamics with respect to state and action) for optimizing control trajectories within an MPC framework with a gradient-based solver.
+ This property will be discussed more in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "chap:State-of-the-Art"
+reference "subsec:MPC-and-Local-Linearization"
 plural "false"
 caps "false"
 noprefix "false"
@@ -12575,76 +12612,7 @@ nolink "false"
 
 \end_inset
 
-:
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Locality => Gating mechanism for expert selection
-\end_layout
-
-\begin_layout Itemize
-Catastrophic Forgetting => Gating mechanism for parameter isolation + only selected experts affected by learning rules 
-\end_layout
-
-\begin_layout Itemize
-Social Learning => reduced set or rules and actions => agents have partial knowledge of the problem (percept,
- decide,
- act)
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Communication => direct through feedbacks (relative to each other) | indirect through activation => Cooperation (e.g.) | Competition ()
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Modularity => theoretically any model can be used (+ heterogeneity possible) => simpler models like linear regressions are useful for transparency of inner workings (white box model)
-\end_layout
-
-\begin_layout Itemize
-Adaptation to non stationarity => use of simple local models that can adapt fast => in the remainder of this thesis we use linear regressions
-\end_layout
-
-\begin_layout Itemize
-Non Parametric => [population management] through agent creation
-\end_layout
-
-\begin_layout Itemize
-Uncontrolled agent growth => [population management] through agent destruction
-\end_layout
-
-\begin_layout Itemize
-Smoothness => aggregation function to smooth
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-This formalism is model-agnostic,
- meaning that virtually any class of learning model could be used as internal model for the agents.
- However,
- the use of simple,
- low-complexity models capable of converging quickly,
- such as linear regressions,
- is often preferred.
- => keep transparency of inner workings and using a high capacity model could be counterproductive as it could potentially not get enough data locally to converge,
- thus hurting the global performances.
- => simple low capacity,
- fast converging model classes for better online learnnig
-\end_layout
-
-\begin_layout Itemize
-for differentiability we need 
-\begin_inset Formula $f_{i}$
-\end_inset
-
- to be differentiable,
- 
-\begin_inset Formula $\phi_{i}$
-\end_inset
-
- to be differentiable and aggregation function differentiable => more details in Chapter 
+ of Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "chap:Solving-Control-Tasks"
@@ -12655,112 +12623,31 @@ nolink "false"
 
 \end_inset
 
- 
-\end_layout
-
-\begin_layout Itemize
-gating mechanism ensure spatial isolation to avoid catastrophic forgetting => Because rules are triggered based on the local social context and actions are restricted to gated subsets,
- the system naturally maintains spatial isolation of parameters.
- This satisfies the requirements for locality and robustness in non-stationary environments while providing a "white-box" view of the model's evolution.
-\end_layout
-
-\end_inset
-
-
+.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
-status collapsed
+The real-time constraints of control loops require the model to perform high-frequency inference.
+ In CELL instantiations,
+ fast inference is facilitated both by the use of low-complexity internal models and by the spatial gating mechanism that selects only a subset of relevant agents for prediction.
+ However,
+ maintaining a fast inference speed becomes challenging as the population grows.
+ Indeed,
+ evaluating the activation value 
+\begin_inset Formula $\phi_{i}\left(x\right)$
+\end_inset
 
-\begin_layout Itemize
-Presentation de SACL en détail et de l'apprentissage par contexte
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-SACL differencie differencie tache de contrôle et tache d'apprentissage avec echange d'information entre les deux layers => dans cette thèse on couple les deux composantes => les systèmes CELL sont conçu pour être exploités dans le MPC
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Rappel des besoins relatifs au controle => differentiabilité,
- smoothness,
- locality (spatial isolation of parameters),
- adaptation to non-stationarity
-\end_layout
-
-\begin_layout Itemize
-Description de CELL:
- qu'est ce que c'est ?
- qu'est ce que ça permet de faire ?
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Formalisation Experts Locaux => internal model + activation function + other internal state (e.g.
- confidence value)
-\end_layout
-
-\begin_layout Itemize
-Formalisation du pipeline de prédiction
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-distance evaluation
-\end_layout
-
-\begin_layout Itemize
-expert selection
-\end_layout
-
-\begin_layout Itemize
-prediction of experts
-\end_layout
-
-\begin_layout Itemize
-aggregation of predictions
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Formalisation du pipeline d'apprentissage
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-distance evaluation
-\end_layout
-
-\begin_layout Itemize
-expert selection
-\end_layout
-
-\begin_layout Itemize
-feedback computation => individual (ex:
- error thresholds) or collective (relative to other expert or to baseline)
-\end_layout
-
-\begin_layout Itemize
-apply learning rules to experts => condition on feedback value + internal state of experts => action (update model / update shape / create / destroy)
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-ALGO TRAINING LOOP / ou / DIAGRAM
-\end_layout
-
-\begin_layout Itemize
-Description d'un algo en tableau
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Explication de pourquoi ça résoud certains pb enoncés dans chap 
+ of a very large number of agents can rapidly represent a 
+\series bold
+computational bottleneck
+\series default
+.
+ Consequently,
+ achieving efficient scaling requires a carefully designed spatialization layer to minimize the cost of distance evaluations and ensure that the spatial gating mechanism remains compatible with the timing requirements of the control task to solve.
+ This topic will be discussed in detail in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "chap:State-of-the-Art"
+reference "subsec:Efficient-Implementation"
 plural "false"
 caps "false"
 noprefix "false"
@@ -12768,54 +12655,46 @@ nolink "false"
 
 \end_inset
 
-:
-\end_layout
+ of Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Solving-Control-Tasks"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
 
-\begin_deeper
-\begin_layout Itemize
-Locality => Gating mechanism for expert selection
-\end_layout
-
-\begin_layout Itemize
-Catastrophic Forgetting => Gating mechanism for parameter isolation + only selected experts affected by learning rules 
-\end_layout
-
-\begin_layout Itemize
-Social Learning => reduced set or rules and actions => agents have partial knowledge of the problem (percept,
- decide,
- act)
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Communication => direct through feedbacks (relative to each other) | indirect through activation => Cooperation (e.g.) | Competition ()
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Modularity => theoretically any model can be used (+ heterogeneity possible) => simpler models like linear regressions are useful for transparency of inner workings (white box model)
-\end_layout
-
-\begin_layout Itemize
-Adaptation to non stationarity => use of simple local models that can adapt fast => in the remainder of this thesis we use linear regressions
-\end_layout
-
-\begin_layout Itemize
-Non Parametric => [population management] through agent creation
-\end_layout
-
-\begin_layout Itemize
-Uncontrolled agent growth => [population management] through agent destruction
-\end_layout
-
-\begin_layout Itemize
-Smoothness => aggregation function to smooth
-\end_layout
-
-\end_deeper
 \end_inset
 
+.
+\end_layout
 
+\begin_layout Standard
+To transition from the theoretical design framework to practical applications,
+ the following sections 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:oCELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:kCELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ introduce two distinct instantiations of CELL:
+ oCELL and kCELL.
 \end_layout
 
 \begin_layout Section
