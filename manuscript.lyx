@@ -8373,7 +8373,7 @@ literal "false"
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
 symbol "Local Learning"
-description "Definition 12. Local learning refers to machine learning approaches that construct task-oriented models using subsets of the training data, such as local neighborhoods, where parameters are updated incrementally on relevant data points, and predictions airse from context-specific approximations rather than a unified global architecture \\cite{xie2011comparison}."
+description "Local learning refers to machine learning approaches that construct task-oriented models using subsets of the training data, such as local neighborhoods, where parameters are updated incrementally on relevant data points, and predictions airse from context-specific approximations rather than a unified global architecture \\cite{xie2011comparison}."
 literal "true"
 
 \end_inset
@@ -21014,8 +21014,8 @@ name "subsec:Limitations"
 \end_layout
 
 \begin_layout Standard
-The previous sections established the oCELL instantiation of the CELL formalism,
- demonstrating that a population of self-organizing local expert agents can achieve predictive performance comparable to state-of-the-art ensemble algorithms on low dimensional regression tasks while offering a rich set of introspection metrics.
+The previous sections established the oCELL instantiation of the CELL formalism.
+ It demonstrated that a population of self-organizing local expert agents could achieve predictive performance comparable to state-of-the-art ensemble algorithms on low dimensional regression tasks while offering a rich set of introspection metrics.
  In this section,
  these results are discussed in light of the global objectives of this thesis and critically examine the structural limitations of oCELL that motivate the transition toward smoother representations.
 \end_layout
@@ -21038,11 +21038,20 @@ nolink "false"
 \end_layout
 
 \begin_layout Standard
-The introspective metrics that were derived from oCELL in the previous section offer valuable tools for analysis of the internal structures of the ensemble of agents.
+The introspective metrics derived from oCELL in the previous section,
+ namely the coverage index,
+ the local discrepancies of predictions,
+ the density,
+ and the average volume,
+ offer valuable tools for analyzing the internal structures of the ensemble of agents.
  We argue that they are linked to the traditional notions of explainability and interpretability in machine learning.
  To situate oCELL within the field of eXplainable Artificial Intelligence (XAI),
  the explainability and interpretability denominations should be defined beforehand.
- Following 
+ 
+\end_layout
+
+\begin_layout Standard
+Following 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "burkart2021survey"
@@ -21066,15 +21075,92 @@ explainability
  is associated with the methodologies used to communicate the reasoning for a specific decision taken by a model.
 \end_layout
 
+\begin_layout Definition
+
+\series bold
+Interpretability
+\series default
+ refers to the inherent ability to understand how a machine learning model functions as a whole by focusing on its internal structure and mechanisms.
+ It is often used to describe white-box models that are naturally transparent or designed to be easily understood by humans 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "burkart2021survey"
+literal "false"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "Interpretability"
+description "Interpretability refers to the inherent ability to understand how a machine learning model functions as a whole by focusing on its internal structure and mechanisms. It is often used to describe white-box models that are naturally transparent or designed to be easily understood by humans \\cite{burkart2021survey}."
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
-As oCELL is designed,
- it acts as a white-box model.
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+
+\series bold
+Explainability
+\series default
+ refers to the methodologies used to communicate the reasoning behind a model's output to a human.
+ It is typically applied to complex 
+\emph on
+black-box
+\emph default
+ models that are not inherently understandable,
+ requiring post-hoc techniques to make specific decisions or the overall model behavior comprehensible 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "burkart2021survey"
+literal "false"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "Explainability"
+description "Explainability refers to the methodologies used to communicate the reasoning behind a model's output to a human. It is typically applied to complex black-box models that are not inherently understandable, requiring post-hoc techniques to make specific decisions or the overall model behavior comprehensible \\cite{burkart2021survey}."
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+oCELL operates as a 
+\series bold
+white-box model
+\series default
+ because it partitions the input space into local regions,
+ each governed by a local expert agent that uses an interpretable linear regression as its internal model.
  Unlike black-box models (e.g.
- Neural Networks in Deep Learning) with opaque inner workings,
- oCELL uses linear regression models for prediction and orthotopes for spatialization through activation functions,
- which have simpler less opaque structure.
- The orthotopes provide a clear geometric representation of the areas of expertise.
- They act as symbolic 
+ neural networks in deep learning) with opaque inner workings,
+ oCELL relies on simple,
+ transparent linear models for prediction and orthotopes for spatialization.
+ Indeed,
+ the orthotopes offer a clear geometric representation of the areas of expertise and can be interpreted as symbolic 
 \begin_inset Quotes eld
 \end_inset
 
@@ -21082,31 +21168,75 @@ if-then
 \begin_inset Quotes erd
 \end_inset
 
- human-interpretable rules where each feature dimension can be manipulated independently.
- 
+ human-interpretable rules.
 \end_layout
 
 \begin_layout Standard
-The introspection metrics introduced in previous section reveal capabilities that can be leveraged for fault detection,
- model debugging or smart resampling strategies.
- In a robotic controller,
+The introspection metrics introduced in the previous section can be leveraged for fault detection,
+ model debugging,
+ or smart resampling strategies.
+ In a controller,
  these metrics act as operational safeguards.
- Indeed,
- being able to quantify epistemic uncertainty through the Coverage Index (
+ The 
+\series bold
+Coverage Index 
+\series default
+(
 \begin_inset Formula $p_{\text{coverage}}$
 \end_inset
 
-) for example,
- allows to evaluate the reliability of the model for a given input.
- When the model is not reliable,
- the controller should switch to a simpler more robust control strategy to ensure safety.
- In addition to that,
- a high degree of discrepancy 
+),
+ 
+\series bold
+Density
+\series default
+ (
+\begin_inset Formula $\rho$
+\end_inset
+
+),
+ and 
+\series bold
+Degree of Discrepancy
+\series default
+ (
 \begin_inset Formula $\kappa$
 \end_inset
 
- value acts as a warning sign that the current local modelisation of the ensemble of agents may be inaccurate due to hard-to-learn dynamics.
- Finally,
+) serve as both interpretability and explainability tools.
+ Because they operate at both local and global scales,
+ they allow to analyze the model's global 
+\emph on
+map of knowledge
+\emph default
+ (interpretability) while providing information about why a single prediction might be unreliable due to knowledge gaps or regime changes (explainability).
+ In contrast,
+ the Activated Discrepancy (
+\begin_inset Formula $\sigma_{\text{activated}}$
+\end_inset
+
+) is primarily an explainability metric.
+ Since it is an absolute value tied to the local magnitude of the predictions,
+ it is not informative for analyzing the global structure of the model.
+ It provides a local estimation of aleatoric uncertainty for a specific observation.
+\end_layout
+
+\begin_layout Standard
+For instance,
+ a controller can evaluate its own reliability using 
+\begin_inset Formula $p_{\text{coverage}}$
+\end_inset
+
+.
+ If an input falls into an uncovered region,
+ the system can autonomously switch to a simpler,
+ more robust control strategy to ensure safety.
+ Similarly,
+ a high 
+\begin_inset Formula $\kappa$
+\end_inset
+
+ value acts as a warning sign of local failure of the learning process.
  Table 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -21439,18 +21569,18 @@ Identifies variation regime changes and structural instability
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Summary of the metrics introduced and their link to explainability or interpretability.
+oCELL's introspective metrics and their link to explainability or interpretability.
  The column 
 \emph on
 Metric
 \emph default
  corresponds to the defined introspective metrics;
- The column 
+ the column 
 \emph on
 Scope
 \emph default
  indicates whether the corresponding metric should be used at a global or local scale to either study macro or micro behaviors within the ensemble of local expert agents;
- The columns 
+ the columns 
 \emph on
 Explain.
 
@@ -21460,14 +21590,14 @@ Explain.
 Intepret.
 
 \emph default
- correspond to whether the corresponding metric can be linked to the traditional notions of Epxlainability or Interpretability in Machine Learning;
+ indicate if the corresponding metric can be linked to the traditional notions of Explainability or Interpretability;
  Finally,
  the column 
 \emph on
 Functional Insight
 \emph default
 ,
- provides indications on the concrete use of each metrics.
+ provides indications on the concrete use of each metric.
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:Summary-Metrics-Explainability-oCELL"
@@ -21489,8 +21619,8 @@ name "tab:Summary-Metrics-Explainability-oCELL"
 
 \begin_layout Standard
 Alongside transparency,
- the multi-agent nature of oCELL provides functional advanatges for regression.
- Unlike previous works on mutli-agent systems based on an ensemble of local expert agents 
+ the multi-agent nature of oCELL provides functional advantages for regression.
+ Unlike previous works on multi-agent systems based on an ensemble of local expert agents 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "fourez2024analyzing"
@@ -21514,30 +21644,50 @@ Despite those encouraging results,
 
 \begin_layout Standard
 A primary limitation lies in the 
+\series bold
+uniform knowledge
+\series default
 \emph on
-uniform knowledge 
+ 
+\series bold
 \emph default
-hypothesis on which oCELL is based.
- oCELL assumes an agent is equally competent across its entire area of expertise delimited by an orthotope (
+assumption
+\series default
+ on which oCELL is based.
+ oCELL assumes 
+\emph on
+an agent is equally competent across its entire area of expertise delimited by an orthotope (
 \begin_inset Formula $\mathcal{H}_{i}$
 \end_inset
 
 ).
+
+\emph default
  In practice,
  the reliability of an agent typically decays toward its boundaries.
  Currently,
  agents in oCELL have binary activation functions,
  meaning that any activated agent is weighted equally in their contribution to the final prediction.
- In this work,
- weighting approachs based on Euclidean distance to the agent's centroid were explored.
+ To overcome this,
+ weighting approaches based on Euclidean distance to the agent's centroid were explored.
  However,
  it did not yield significant improvements.
  This suggests that a more nuanced weighting should account for both the agent's centroid and the specific geometric support of its area of expertise.
 \end_layout
 
 \begin_layout Standard
-Using orthotopes is computationally efficient for shape update operations like expansion or retraction but are limited to represent faithfully complex data manifolds.
- As illustrated in Figure 
+A second limitation lies in the representation of complex data manifolds by orthotopes.
+ Even if using orthotopes is computationally efficient for shape update operations like expansion or retraction,
+ their limited degrees of freedom prevent accurate modeling of intricate manifold geometries.
+ The area of expertise of an agent may occupy a large orthotope,
+ while its training data populate only a small manifold (i.e.
+ a subregion).
+ This can lead to overly broad expertise claims as the model may report high coverage index (
+\begin_inset Formula $p_{\text{coverage}}$
+\end_inset
+
+) in regions where it has never actually seen data,
+ as illustrated in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Limitation orthotope agents"
@@ -21548,14 +21698,16 @@ nolink "false"
 
 \end_inset
 
- (side by side comparison of an overgeneralizing agent and a representative agent by visualizing their respective orthotopes (represented by a blue rectangle) and training data (represented by red dots)),
- the area of expertise of an agent may occupy a large orthotope while its training data populate only a small manifold (i.e a subregion),
- causing abusive expertise claims as the model can report high coverage index (
-\begin_inset Formula $p_{\text{coverage}}$
-\end_inset
-
-) in regions where it has never actually seen data.
- Accurate spatialization and potentially richer base shapes is therefore needed to capture local data structures and prevent overgeneralization.
+ (side by side comparison of an overgeneralizing agent and a representative agent by visualizing their respective orthotopes (
+\emph on
+represented by a blue rectangle
+\emph default
+) and training data (
+\emph on
+represented by red dots
+\emph default
+)).
+ Accurate spatialization and potentially richer base shapes are therefore needed to capture local data structures and prevent overgeneralization.
 \end_layout
 
 \begin_layout Standard
@@ -21663,7 +21815,7 @@ name "fig:Overgeneralizing-orthotope-agent"
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Side by side comparison of representative 
+Side by side comparison of a representative agent 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Representative-orthotope-agent"
@@ -21674,7 +21826,7 @@ nolink "false"
 
 \end_inset
 
- agent against a overgeneralizing agent 
+ against a overgeneralizing agent 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Overgeneralizing-orthotope-agent"
@@ -21686,8 +21838,16 @@ nolink "false"
 \end_inset
 
 .
- The blue rectangle corresponds to the orthotope associated to the activation function of the Context agent.
- Each red dot corresponds to a training point seen by the Context agent.
+ The 
+\emph on
+blue rectangle
+\emph default
+ corresponds to the orthotope associated to the activation function of the agent.
+ Each 
+\emph on
+red dot
+\emph default
+ corresponds to a training point seen by the agent.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:Limitation orthotope agents"
@@ -21709,20 +21869,20 @@ name "fig:Limitation orthotope agents"
 
 \begin_layout Standard
 In addition to that,
- the social rules of oCELL governing the behavior of agents raised challenges regarding population stability and resource management.
+ the social rules of oCELL governing the behavior of agents have raised challenges regarding population stability and resource management.
  Specifically,
- the agent destruction mechanism proved insufficient to regulate the ensemble of local experts,
- resulting in local redundancy where parasitic agents persisted without contributing to global accuracy.
+ the agent destruction mechanism has been proved insufficient to regulate the ensemble of local experts,
+ because it results in local redundancy where so-called parasitic agents persisted without contributing to global accuracy.
  
 \end_layout
 
 \begin_layout Standard
 Moreover,
- this problem was exacerbated by the fact that agent creation is done with a single point,
+ this problem is exacerbated by the fact that agent creation is done with a single point,
  slowing local convergence and increasing the likelihood of redundant tiling across the feature space.
  Then,
  from a computational perspective,
- maintaining individual memory buffers for each agent represents a significant overhead that put a strain on the potential for scaling up to long-term adaptation in real-world conditions.
+ maintaining individual memory buffers for each agent represents a significant overhead that puts a strain on the potential for scaling up to long-term adaptation in real-world conditions.
 \end_layout
 
 \begin_layout Standard
@@ -21735,7 +21895,7 @@ Furthermore,
 \begin_layout Standard
 Finally,
  several hyperparameters remain difficult to tune,
- particularly the initial side lengths of newly created agents and the error thresholds (
+ particularly the initial side lengths of created agents and the error thresholds (
 \begin_inset Formula $\tau_{\text{good}}$
 \end_inset
 
@@ -21753,401 +21913,19 @@ Taken together,
  these limitations expose a broader structural issue.
  oCELL relies on spatialization and prediction aggregation mechanisms that are too rigid.
  The orthotope representation with hard boundaries is not tailored to support reliable interpolation when agents overlap too much or specialize unevenly.
- These limitations also highlight the need for inference mechanisms that weight agents according to their estimated expertise level rather than using discrete activations.
+ These limitations also highlight the need for inference mechanisms that weigh agents more smoothly according to their estimated expertise level rather than using discrete activation values (i.e.
+ 
+\begin_inset Formula $1$
+\end_inset
+
+ for activated and 
+\begin_inset Formula $0$
+\end_inset
+
+ for non-activated).
  These considerations motivate the design of a new CELL system in which spatialization,
- inference and adaptation are grouned in smoother data representations.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Subsection
-XAI and Uncertainty
-\begin_inset CommandInset label
-LatexCommand label
-name "subsec:XAI"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-The field of eXplainable Artificial Intelligence (XAI) addresses the opacity of complex models by providing insights into their decision-making processes.
- However,
- interpretability and explainability are defined in various ways 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "gilpin2018explaining,doshi2017towards"
-literal "false"
-
-\end_inset
-
- and often used interchangeably.
- Thus,
- following the distinction made in 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "burkart2021survey"
-literal "false"
-
-\end_inset
-
-,
- we differentiate between interpretability and explainability.
- 
-\series bold
-Interpretability
-\series default
- is defined as the inherent ability to understand how the model works as a whole,
- focusing on the model's structure and mechanisms (i.e transparency).
- In contrast,
- 
-\series bold
-Explainability 
-\series default
-is associated with the methodologies used to communicate the reasoning for a specific decision taken by a model.
-\end_layout
-
-\begin_layout Plain Layout
-Approaches such as deep learning achieve good performance across a wide variety of tasks.
- However,
- these approaches generate highly complex models.
- There must be a compromise between the model's performance and its ability to produce explainable predictions and interpretable structures 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "linardatosExplainableAIReview2020"
-literal "false"
-
-\end_inset
-
-.
- Some approaches were developed to adress the explainability of predictions.
- SHAP looks for the impact of each feature on the prediction using cooperative game theory 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "lundberg2017unified"
-literal "false"
-
-\end_inset
-
- and LIME builds an interpretable surrogate model that approximate a black-box model locally 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "ribeiro2016should"
-literal "false"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-Within this discourse,
- machine learning models are typically categorized as white-box or black-box models 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "loyola-gonzalezBlackBoxVsWhiteBox2019"
-literal "false"
-
-\end_inset
-
-.
- 
-\series bold
-Black-box
-\series default
- models have opaque and complex inner workings that are difficult for an external observer to understand.
- This categorisation includes deep learning models 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "lecunDeepLearning2015"
-literal "false"
-
-\end_inset
-
- and some ensemble models 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "breimanRandomForests2001,polikarEnsembleLearning2012,chenXGBoostScalableTree2016,keLightGBMHighlyEfficient2017"
-literal "false"
-
-\end_inset
-
-.
- Conversely,
- 
-\series bold
-White-box
-\series default
- models have simpler and less opaque inner workings.
- These models,
- considered more explainable than black-box models,
- include linear regression models 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "weisbergAppliedLinearRegression2005"
-literal "false"
-
-\end_inset
-
-,
- decision trees 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "rokachDecisionTrees2005"
-literal "false"
-
-\end_inset
-
- and other rule-based approaches.
- To achieve explainability,
- white-box models are preferred.
-\end_layout
-
-\begin_layout Plain Layout
-The explainability of a prediction is partly linked to the concept of uncertainty.
- An informed decision-making process must take uncertainty into account.
- We distinguish between epistemic uncertainty and aleatoric uncertainty 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "chuaDeepReinforcementLearning2018,hullermeierAleatoricEpistemicUncertainty2021"
-literal "false"
-
-\end_inset
-
-.
- 
-\series bold
-Aleatoric uncertainty
-\series default
- arises from the inherent natural variations in the studied phenomena.
- It may be due to random fluctuations,
- measurement errors,
- or other unpredictable factors.
- 
-\series bold
-Epistemic uncertainty
-\series default
- on the other hands,
- stems from a lack of knowledge or complete understanding of the studied phenomenon.
- This type of uncertainty is related to the lack of data in certain regions of the feature space.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Subsection
-Discussion and Limitations
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-Orthotopes => symbolic 
-\begin_inset Quotes eld
-\end_inset
-
-if then
-\begin_inset Quotes erd
-\end_inset
-
- human interpretable
-\begin_inset Newline newline
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-Orthotopes => orthotopes provide a clear geometric representation of the areas of expertise in the feature space,
- allowing precise evaluation of local structures and facilitating shape adaptation during self-organization.
- This representation allows independent manipulation of each feature dimension,
- simplifying shape update operations (expansion and retraction).
-\begin_inset Newline newline
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-Unlike previous works that look at no overlap,
- we consider that for regression tasks overlaps are meaningful => combining the predictions of multiple overlapping agents also help to smooth the approximate function => good property for control with gradient based optimizers
-\begin_inset Newline newline
-\end_inset
-
-
-\begin_inset Newline newline
-\end_inset
-
-Use of buffer not very memory efficient
-\begin_inset Newline newline
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-Limitations of the uniformity of knowledge hypothesis
-\begin_inset Newline newline
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-Uncertainty estimations in oCELL are interesting properties for use in control setting.
- Especially epistemic uncertainty as it allows to know when the model is not reliable => potentially allowing to switch on a simpler more robust control strategy
-\end_layout
-
-\begin_layout Plain Layout
-In addition to that,
- for a robotic controller,
- a high 
-\begin_inset Formula $\kappa$
-\end_inset
-
- (degree of discrepancy) value acts as a "warning sign" that the current linear transition model may soon become invalid as the system moves into a new region of the state space.
-\begin_inset Newline newline
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-Could be interesting to use other classes of models in the context agent and study of it would influence the self-organizing dynamics
-\begin_inset Newline newline
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-We demonstrated that oCELL can address supervised learning tasks,
- but several limitations remain,
- which are tackled partly in section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:kCELL"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-A first limitation concerns the neighborhood prediction mechanism.
- Our current design assumes that an agent possesses uniform knwoledge throughout its activation region (the orthotope associated with its activation function).
- In practice,
- an agent is typically more reliable near its centroid and less accurate near the boundaries of its region.
- Despite this,
- all agents contributing to a prediction currently receive equal weight.
- This is an artifact of the uniform-knowledge assumption.
- A more principle approach would weight each agent according to its estimated local expertise level at the input point.
-\end_layout
-
-\begin_layout Plain Layout
-We explored this idea by weighting predictions using the Euclidean distance between the input and each agent's centroid,
- but this did not improve performance,
- likely because centroid distance alone does not reflect the whole geometry of each orthotope.
- A more appropriate distance measure should incorporate both the agent's centroid and the shape of its support.
- As illustrated in 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Limitation orthotope agents"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- (side by side comparison of an overgeneralizing agent and a representative agent by visualizing their respective orthotopes (represented by a blue rectangle) and training data (represented by red dots)),
- an agent may occupy a large orthotope while its training data populate only a small manifold (i.e a subregion),
- causing spurious known-region responses and false positives.
- Accurate spatialization and potentially richer base shapes is therefore essential to capture local data structures and prevent overgeneralization.
-\end_layout
-
-\begin_layout Plain Layout
-Furthermore,
- we observed that oCELL's agent destruction mechanism was inadequate.
- Agent overproduction was a frequently observed phenomenon,
- occasionally resulting in significant local redundancy and the persistence of harmful parasitic agents within the collective.
- This necessitates the development of more sophisticated destruction strategies explicitly designed to enforce local cooperation.
- In addition to that,
- the current single-point agent creation scheme seems too limited,
- as it directly contributes to local redundancy (slow local convergence).
- It should be more stable to initialize agents using multiples points to minimize local overlap and make local convergence faster.
-\end_layout
-
-\begin_layout Plain Layout
-Moreover,
- we observed that oCELL's agent destruction system was not sufficient and that agent overproduction was fairly common,
- sometimes leading to high local redundancy and the persistence of agents that parasitize the collective without improving it.
- This highlights a need for smarter destruction mechanisms that are designed towards local cooperation and more efficient agent creation schemes because creating agents with only one point can cause high local redundancy.
-\end_layout
-
-\begin_layout Plain Layout
-Furthermore,
- although oCELL is designed for online learning,
- it treats incoming samples as independent,
- failing to exploit temporal correlations in data streams.
- This limits its sample efficiency and reduces its ability to adapt to evolving distributions.
-\end_layout
-
-\begin_layout Plain Layout
-Finally,
- some hyperparameters remain difficult to tune.
- In particular,
- the initial side lengths of newly created agents have a disproportionate impact on performance and require specifying a scale per feature dimension.
- Similarly,
- the error thresholds used to classify predictions as 
-\emph on
-good
-\emph default
-,
- 
-\emph on
-inaccurate
-\emph default
- or 
-\emph on
-bad
-\emph default
- are hard to tune properly to enable an efficient balence in the triggering of the various adaptation mechanisms or agents (i.e learning rules).
-\end_layout
-
-\begin_layout Plain Layout
-Taken together,
- these limitations expose a broader structural issue.
- oCELL relies on spatialization and prediction aggregation mechanisms that are too rigid.
- The orthotope representation is too coarse to support reliable interpolation when agents overlap or specialize unevenly.
- These limitations also highlight the need for inference machanisms that weight agents according to their estimated expertise level rather than using discrete activations.
- These considerations motivate the design of a new CELL system in which spatialization,
- inference and adaptation are grouned in smoother data representations.
-\end_layout
-
-\end_inset
-
-
+ inference,
+ and adaptation are grounded into smoother data representations.
 \end_layout
 
 \begin_layout Section
