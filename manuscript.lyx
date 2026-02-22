@@ -31,6 +31,7 @@
 
 \def\nompreamble{\addcontentsline{toc}{chapter}{\nomname}\markboth{\nomname}{\nomname}}
 \AtBeginDocument{\def\nomname{Glossary}}
+\raggedbottom
 \end_preamble
 \use_default_options true
 \begin_modules
@@ -11163,11 +11164,28 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Representation of the areas of expertise of 2 local expert agents where the activation functions 
+Representation of the areas of expertise of 2 local expert agents (
+\begin_inset Formula $\mathcal{A}_{1}$
+\end_inset
+
+ and
+\begin_inset Formula $\mathcal{A}_{2}$
+\end_inset
+
+) where the activation functions 
 \begin_inset Formula $\phi_{i}$
 \end_inset
 
  correspond to a rectangle.
+ 
+\begin_inset Formula $j_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $j_{2}$
+\end_inset
+
+ represents the dimensions of the input space .
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:Rectangle-Activation"
@@ -12710,8 +12728,7 @@ name "sec:oCELL"
 \end_layout
 
 \begin_layout Standard
-The CELL formalism described in previous section lays the theoretical ground for designing learning systems based on multi-agent ensemble of local expert agents.
- It establishes the operational logic of the ensemble of expert agents while remaining agnostic to the specific geometry of the expertise areas,
+Previously we described the CELL formalism which establishes the operational logic of the ensemble of expert agents while remaining agnostic to the activation function,
  to the internal model classes and to the social feedback used.
  Consequently,
  to transform this theoretical framework into a functional algorithm,
@@ -12725,9 +12742,47 @@ The CELL formalism described in previous section lays the theoretical ground for
 
 \begin_layout Standard
 The first instantiation of CELL,
- oCELL (Orthotope-based CELL),
+ oCELL,
+ orthotope-based CELL,
  leverages axis-aligned orthotopes to define agent boundaries.
- This choice builds on previous works on this family of multi-agent systems 
+ 
+\end_layout
+
+\begin_layout Definition
+An 
+\series bold
+orthotope
+\series default
+ is the n-dimensional generalization of a rectangle 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "johnson2018geometries"
+literal "false"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "Orthotope"
+description "An orthotope is the n-dimensional generalization of a rectangle \\cite{johnson2018geometries}."
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This choice builds on previous works on this family of multi-agent systems 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "dato2021apprentissage,fourez2024analyzing"
@@ -12736,8 +12791,7 @@ literal "false"
 \end_inset
 
 .
- This choice prioritize computational efficiency and geometric interpretability providing a baseline for evaluating the emergent modeling capabilities of the CELL framework in low dimensional input spaces.
- In this section,
+ It prioritizes computational efficiency and geometric interpretability providing a baseline for evaluating the emergent modeling capabilities of the CELL framework in low dimensional input spaces.
  oCELL serves as a primary mean for demonstrating how emergent introspective properties of this ensemble of local expert agents provide useful insights about the learning process.
  This introspective properties are shown to be related to the traditional notions of explainability and interpretability in machine learning.
 \end_layout
@@ -12756,7 +12810,7 @@ nolink "false"
 
 \end_inset
 
- defines the tripartite structure of local expert agents in oCELL,
+ defines the tripartite structure of a local expert agent in oCELL,
  detailing how orthotopic boundaries and local models are mathematically formulated.
  Section 
 \begin_inset CommandInset ref
@@ -12868,7 +12922,7 @@ name "subsec:Local-Expert-Agents-oCELL"
 
 \begin_layout Standard
 In this section,
- the triparttite structure of oCELL's local expert agents is described in detail.
+ the tripartite structure of oCELL's local expert agents is described in detail.
  Each agent 
 \begin_inset Formula 
 \[
@@ -12886,7 +12940,7 @@ The activation function
 \begin_inset Formula $\phi_{i}$
 \end_inset
 
- defines the area of expertise in the input space in which an agent considers itself an expert.
+ defines the area of expertise in the input space in which an agent considers itself as an expert.
  In oCELL,
  for a 
 \begin_inset Formula $n$
@@ -12913,11 +12967,11 @@ The activation function
 \begin_inset Formula $j\in\left\{ 1,\dots,n\right\} $
 \end_inset
 
- such as
+ such as:
 \begin_inset Formula 
-\[
+\begin{equation}
 \mathcal{H}_{i}=\left[l_{i,1},h_{i,1}\right]\times\dots\times\left[l_{i,n},h_{i,n}\right]
-\]
+\end{equation}
 
 \end_inset
 
@@ -12926,7 +12980,7 @@ The hard boundaries defined by the orthotopes allow for the use of geometric ope
 \begin_inset Formula $V\left(\mathcal{H}_{i}\right)$
 \end_inset
 
- of an orthotope is defined as
+ of an orthotope is defined as:
 \begin_inset Formula 
 \begin{equation}
 V\left(\mathcal{H}_{i}\right)=\prod_{j=1}^{n}\left(h_{i,j}-l_{i,j}\right)\label{eq:orthotope-volume-1}
@@ -12934,7 +12988,7 @@ V\left(\mathcal{H}_{i}\right)=\prod_{j=1}^{n}\left(h_{i,j}-l_{i,j}\right)\label{
 
 \end_inset
 
-An observation 
+An input 
 \begin_inset Formula $x\in\mathbb{R}^{n}$
 \end_inset
 
@@ -12989,7 +13043,7 @@ where
 \begin_inset Formula $h_{2,j}$
 \end_inset
 
- denote the lower and upper bounds of 
+ denote the lower and upper bounds of respectively 
 \begin_inset Formula $\mathcal{H}_{1}$
 \end_inset
 
@@ -13001,7 +13055,7 @@ where
 \end_layout
 
 \begin_layout Standard
-Agents in oCELL are constructed based on the following assumption of 
+Agents in oCELL are constructed based on the assumption of 
 \emph on
 uniform knowledge
 \emph default
@@ -13017,7 +13071,7 @@ status open
 
 
 \backslash
-begin{assumption}
+begin{assumption}[Uniform Knowledge]
 \end_layout
 
 \begin_layout Plain Layout
@@ -13035,7 +13089,11 @@ end{assumption}
 \end_inset
 
 Therefore,
- the activation function of an agent 
+ the 
+\series bold
+activation function
+\series default
+ of an agent 
 \begin_inset Formula $\mathcal{A}_{i}$
 \end_inset
 
@@ -13071,8 +13129,12 @@ An input
 \end_layout
 
 \begin_layout Standard
-While the CELL formalism is model-agnostic,
- oCELL is designed to work with low-complexity models to ensure fast updates and convergence of local models in online settings.
+As the CELL formalism is model-agnostic,
+ oCELL is designed to work with 
+\series bold
+low-complexity models
+\series default
+ to ensure fast updates and convergence of local models in online settings.
  Each agent 
 \begin_inset Formula $\mathcal{A}_{i}$
 \end_inset
@@ -13086,10 +13148,7 @@ While the CELL formalism is model-agnostic,
 \end_inset
 
  denotes the local parameters.
-\end_layout
-
-\begin_layout Standard
-In the context of this thesis,
+ In the context of this thesis,
  
 \begin_inset Formula $f_{i}$
 \end_inset
@@ -13150,16 +13209,17 @@ The internal state
 
 \begin_layout Standard
 To transform the population of experts into a global model,
- oCELL uses a spatial gating mechanism to select relevant agents for an input 
+ oCELL uses a 
+\series bold
+spatial gating mechanism
+\series default
+ to select relevant agents.
+ For any input 
 \begin_inset Formula $x$
 \end_inset
 
-.
- From a given input 
-\begin_inset Formula $x$
-\end_inset
-
- the spatial gating mechanism selects two subsets local expert agents:
+,
+ the spatial gating mechanism selects two sets of local expert agents (among all the agents in the ensemble):
 \end_layout
 
 \begin_layout Itemize
@@ -13241,21 +13301,21 @@ The global prediction
  is obtained by an arithmetic mean of the activated agents' proposals
 \begin_inset Formula 
 \[
-\hat{y}=\frac{1}{N_{\text{activated}}}\sum_{i\in\mathcal{D}_{\text{activated}}}\hat{y}_{i}
+\hat{y}=\frac{1}{\left|\mathcal{D}_{\text{activated}}\right|}\sum_{i\in\mathcal{D}_{\text{activated}}}\hat{y}_{i}
 \]
 
 \end_inset
 
-if 
+If 
 \begin_inset Formula $\mathcal{D}_{\text{activated}}$
 \end_inset
 
  is empty,
- the ensemble of neighbor agents 
+ the ensemble 
 \begin_inset Formula $\mathcal{D}_{\text{neighbors}}$
 \end_inset
 
-is selected instead,
+is selected,
  and if 
 \begin_inset Formula $\mathcal{D}_{\text{neighbors}}$
 \end_inset
@@ -13266,7 +13326,7 @@ is selected instead,
 \end_inset
 
 -closest agents to ensure continuity in the global approximated function.
- This fallback mechanism prevents prediction failures in regions where the system has limited knowledge (i.e poor paving of the area around 
+ This fallback mechanism prevents prediction failures in regions where the system has limited knowledge (i.e poor agent paving of the area around 
 \begin_inset Formula $x$
 \end_inset
 
@@ -13370,7 +13430,7 @@ name "fig:oCELL-Neighbors"
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Example of subsets outputed by the spatial gating mechanism.
+Example of subsets of agents outputed by the spatial gating mechanism in a 2-dimensional input space.
  
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -13406,7 +13466,7 @@ nolink "false"
 \begin_inset Formula $\mathcal{D}_{\text{neighbors}}=\left\{ \mathcal{H}_{2},\mathcal{H}_{3},\mathcal{H}_{4},\mathcal{H}_{5},\mathcal{H}_{6}\right\} $
 \end_inset
 
-containing the agents that are considered neighbors of 
+ containing the agents that are considered neighbors of 
 \begin_inset Formula $x$
 \end_inset
 
@@ -13458,6 +13518,11 @@ An agent
 \end_inset
 
 .
+ The factor 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ is a hyperparameter that needs to be tuned.
  The bounds of 
 \begin_inset Formula $\mathcal{H}_{i}^{t}$
 \end_inset
@@ -13501,7 +13566,11 @@ and
 \end_inset
 
 .
- Thus,
+ 
+\end_layout
+
+\begin_layout Standard
+Thus,
  the new volume of 
 \begin_inset Formula $\mathcal{H}_{i}$
 \end_inset
@@ -13514,7 +13583,8 @@ V\left(\mathcal{H}_{i}^{t+1}\right) & =\varepsilon V\left(\mathcal{H}_{i}^{t}\ri
 
 \end_inset
 
-The mechanism of expansion is illustrated in Figure 
+The mechanism of expansion consists in expanding the boundaries of the area of expertise defined by the activation function of the agent,
+ as illustrated in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Expansion-oCELL"
@@ -13525,7 +13595,10 @@ nolink "false"
 
 \end_inset
 
- and the mechanism of retraction is illustrated in Figure 
+.
+ Conversely,
+ the mechanism shrinks these boundaries,
+ as shown in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Retraction-oCELL"
@@ -13563,7 +13636,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Illustration of agent expansion mechanism in oCELL
+Mechanism of agent expansion in oCELL
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:Expansion-oCELL"
@@ -13607,7 +13680,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Illustration of agent retraction mechanism in oCELL
+Mechanism of agent retraction in oCELL
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:Retraction-oCELL"
@@ -13694,911 +13767,6 @@ literal "false"
  especially when working with a reduced amount of data points.
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Definition
-If a context agent 
-\begin_inset Formula $\mathcal{A}$
-\end_inset
-
- expands (resp.
- contracts) by a factor 
-\begin_inset Formula $\alpha$
-\end_inset
-
- in the direction of an observation 
-\begin_inset Formula $x\in\mathbb{R}^{n}$
-\end_inset
-
- at time 
-\begin_inset Formula $t$
-\end_inset
-
-,
- then the upper bounds 
-\begin_inset Formula $h_{j}^{t}$
-\end_inset
-
- and lower bounds 
-\begin_inset Formula $l_{j}^{t}$
-\end_inset
-
- of the associated orthotope are updated according to the following relationship:
-\begin_inset Formula 
-\begin{align}
-h_{j}^{t+1} & =\begin{cases}
-\left(h_{j}^{t}-l_{j}^{t}\right)\varepsilon^{\frac{1}{k}}+l_{j}^{t} & \text{if }l_{j}^{t}\leq x_{j}\leq h_{j}^{t}\\
-h_{j}^{t} & \text{else}
-\end{cases}\\
-l_{j}^{t+1} & =\begin{cases}
-\left(l_{j}^{t}-h_{j}^{t}\right)\varepsilon^{\frac{1}{k}}+h_{j}^{t} & \text{if }l_{j}^{t}\leq x_{j}\leq h_{j}^{t}\\
-l_{j}^{t} & \text{else}
-\end{cases}
-\end{align}
-
-\end_inset
-
-with
-\begin_inset Formula 
-\begin{equation}
-\varepsilon=\begin{cases}
-\left(1+\alpha\right) & \text{if expansion}\\
-\left(1-\alpha\right) & \text{if retraction}
-\end{cases}
-\end{equation}
-
-\end_inset
-
-and 
-\begin_inset Formula $k$
-\end_inset
-
- the number of features such that 
-\begin_inset Formula $l_{j}^{t}\leq x_{j}\leq h_{j}^{t}$
-\end_inset
-
-.
- Thus,
- the new volume of the orthotope associated with 
-\begin_inset Formula $\mathcal{A}$
-\end_inset
-
- is given by the relation:
-\end_layout
-
-\begin_layout Definition
-\begin_inset Formula 
-\begin{align}
-v_{\mathcal{A}}^{t+1} & =\varepsilon v_{\mathcal{A}}^{t}
-\end{align}
-
-\end_inset
-
-
-\begin_inset Newline newline
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-Agents in oCELL are constructed based on the assumption of uniform knowledge over their confidence region,
- i.e the area delimited by the associated orthotope.
- We distinguish between activation and neighborhood.
- When an agent is activated by a point,
- it means it is confident in its expertise to predict for that point.
- When an agent is a neighbor of a point,
- it means it has doubts about its expertise to predict for that point.
- In other words,
- it is an agent that is a candidate to become an activated agent for that point.
- The way an agent updates itself differs depending on whether the agent is activated or a neighbor.
-\begin_inset Newline newline
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-To obtain the prediction 
-\begin_inset Formula $\hat{y}$
-\end_inset
-
- from an observation 
-\begin_inset Formula $x$
-\end_inset
-
-,
- the most competent agents are selected to predict the value of 
-\begin_inset Formula $\hat{y}$
-\end_inset
-
-.
- If some agents are neighbors of 
-\begin_inset Formula $x$
-\end_inset
-
-,
- then they each make a prediction proposal.
- If 
-\begin_inset Formula $x$
-\end_inset
-
- has no neighbor,
- the 
-\begin_inset Formula $k$
-\end_inset
-
--closest agents are selected instead.
- This fallback mechanism prevents prediction failures in regions where the system has limited knowledge (i.e poor paving of the area around 
-\begin_inset Formula $x$
-\end_inset
-
-).
- The final prediction is then given by the arithmetic mean of the proposals of selected agents such as
-\begin_inset Formula 
-\[
-\hat{y}=\frac{1}{\left|D_{\text{selected}}\right|}\times\sum_{i\in D_{\text{selected}}}f_{i}\left(x\right)
-\]
-
-\end_inset
-
-where 
-\begin_inset Formula $D_{\text{selected}}$
-\end_inset
-
- is the set of selected agents (neighbors or closest) and 
-\begin_inset Formula $f_{i}\in\mathbb{R}^{m}$
-\end_inset
-
- the internal prediction function of the 
-\begin_inset Formula $i$
-\end_inset
-
--th agent.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-Tripartite structure:
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Formula 
-\[
-\mathcal{A}_{i}=\left\{ \phi_{i},f_{i},\mathcal{M}_{i}\right\} 
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-Activation function => orthotope
-\end_layout
-
-\begin_layout Plain Layout
-Internal Model => linear regression learned on the memory buffer of the agent contained in 
-\begin_inset Formula $\mathcal{M}_{i}$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-Internal memory => buffer of points used for internal model and indicator of maturity => if the agent has enough point to be considered mature for prediction or shape updates
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Subsection
-Local Expert Agents
-\begin_inset CommandInset label
-LatexCommand label
-name "subsec:Context-Agents"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-The main entities of oCELL are context agents.
- A context agent,
- denoted as 
-\begin_inset Formula 
-\[
-\mathcal{A}_{i}=\left\{ \phi_{i},f_{i}\right\} 
-\]
-
-\end_inset
-
-is defined by two core components:
- an activation function 
-\begin_inset Formula $\phi_{i}\left(x\right)$
-\end_inset
-
- and a prediction function 
-\begin_inset Formula $f_{i}\left(x\right)$
-\end_inset
-
-.
- The activation function determines whether the agent should contribute to the prediction for a given input 
-\begin_inset Formula $x$
-\end_inset
-
-,
- while the prediction function provides the corresponding output.
-\end_layout
-
-\begin_layout Plain Layout
-Each agent can adapt the parameters of its activation and prediction functions based on reinforcement signals derived from its performance,
- enabling it to refine its behavior according to local conditions in feature space.
- Conceptually,
- a context agent acts as a local expert for the target function with activation function governing 
-\emph on
-when
-\emph default
- the agent predicts and the prediction function specifying 
-\emph on
-what
-\emph default
- it predicts.
-\end_layout
-
-\begin_layout Plain Layout
-First,
- the spatialization mechanism of context agents based on orthotopes is described.
- Then the prediction mechanisms arising from interactions within an agent’s neighborhood are detailed.
-\end_layout
-
-\begin_layout Subsubsection
-Spatialization with Orthotopes
-\begin_inset CommandInset label
-LatexCommand label
-name "subsec:Spatialization-with-Orthotopes"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-To ensure transparency and interpretability,
- oCELL spatialize context agents using orthotopes (also referred to as hyper-rectangles in the literature).
- Orthotopes provide a clear geometric representation of an agent's confidence region in the feature space,
- allowing precise evaluation of local structures and facilitating shape adaptation during self-organization.
- This representation allows independent manipulation of each feature dimension,
- simplifying expansion and retraction operations.
-\end_layout
-
-\begin_layout Plain Layout
-Learning with orthotopes has been explored in previous works on supervised learning 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "fourezEnsembleMultiAgentSystem2022,konstantinov2023interpretable"
-literal "false"
-
-\end_inset
-
-.
- These approaches typically partition the feature space into orthotopes and model the target function locally.
- For instance,
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "konstantinov2023interpretable"
-literal "false"
-
-\end_inset
-
-,
- employs a gradient boosting to learn orthotope bounds,
- where each region corresponds to a simple constant model.
- However this approach is not suitable for online learning from data streams.
-\end_layout
-
-\begin_layout Plain Layout
-oCELL borrows a similar spatialization principle to 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "fourezEnsembleMultiAgentSystem2022"
-literal "false"
-
-\end_inset
-
-,
- which uses the SACL paradigm 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "boesSelfAdaptiveContextLearning2015"
-literal "false"
-
-\end_inset
-
- to progressively pave the feature space with context agents to address classification tasks.
- However,
- unlike 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "fourezEnsembleMultiAgentSystem2022"
-literal "false"
-
-\end_inset
-
-,
- oCELL addresses issues specifically related to regression tasks such as the need for a smoother spatialization of agents to smooth prediction accuracy (i.e smooth the learned function).
-\end_layout
-
-\begin_layout Plain Layout
-Each agent's activation function defines a 
-\begin_inset Formula $n$
-\end_inset
-
--dimensional orthotope in the feature space.
- For each feature dimension 
-\begin_inset Formula $j\in\left\{ 1,\dots,n\right\} $
-\end_inset
-
-,
- the orthotope is parameterized by a lower bound 
-\begin_inset Formula $l_{j}$
-\end_inset
-
- and an upper bound 
-\begin_inset Formula $h_{j}$
-\end_inset
-
- such as
-\begin_inset Formula 
-\begin{equation}
-\mathcal{H}_{i}=\left[l_{1},h_{1}\right]\times\dots\times\left[l_{n},h_{n}\right]
-\end{equation}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-The volume 
-\begin_inset Formula $v\left(\mathcal{A}_{i}\right)$
-\end_inset
-
- of the orthotope associated to 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- is defined by
-\begin_inset Formula 
-\begin{equation}
-v\left(\mathcal{A}_{i}\right)=\prod_{j=1}^{n}\left(h_{j}-l_{j}\right)\label{eq:orthotope-volume}
-\end{equation}
-
-\end_inset
-
-An observation 
-\begin_inset Formula $x\in\mathbb{R}^{n}$
-\end_inset
-
- is considered as intersecting an orthotope if,
- for all feature 
-\begin_inset Formula $j$
-\end_inset
-
-,
- 
-\begin_inset Formula 
-\begin{equation}
-l_{j}\leq x_{j}\leq h_{j}
-\end{equation}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-Additionaly,
- an orthotope 
-\begin_inset Formula $\mathcal{H}_{1}$
-\end_inset
-
- intersects another orthotope 
-\begin_inset Formula $\mathcal{H}_{2}$
-\end_inset
-
- if,
- for all feature 
-\begin_inset Formula $j$
-\end_inset
-
-,
-\begin_inset Formula 
-\begin{equation}
-\max\left(l_{1,j},l_{2,j}\right)\leq\min\left(h_{1,j},h_{2,j}\right)\label{eq:orthotope-intersection}
-\end{equation}
-
-\end_inset
-
-with 
-\begin_inset Formula $l_{1,j}$
-\end_inset
-
-,
-\begin_inset Formula $l_{2,j}$
-\end_inset
-
- and 
-\begin_inset Formula $h_{1,j}$
-\end_inset
-
-,
-\begin_inset Formula $h_{2,j}$
-\end_inset
-
- denote the lower and upper bounds of 
-\begin_inset Formula $\mathcal{H}_{1}$
-\end_inset
-
- and 
-\begin_inset Formula $\mathcal{H}_{2}$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-Agents in oCELL are constructed based on the assumption of uniform knowledge over their confidence region,
- i.e the area delimited by the associated orthotope.
- We distinguish between activation and neighborhood.
- When an agent is activated by a point,
- it means it is confident in its expertise to predict for that point.
- When an agent is a neighbor of a point,
- it means it has doubts about its expertise to predict for that point.
- In other words,
- it is an agent that is a candidate to become an activated agent for that point.
- The way an agent updates itself differs depending on whether the agent is activated or a neighbor.
-\end_layout
-
-\begin_layout Definition
-A Context Agent 
-\begin_inset Formula $\mathcal{A}$
-\end_inset
-
- is considered activated by an observation 
-\begin_inset Formula $x$
-\end_inset
-
- if 
-\begin_inset Formula $x$
-\end_inset
-
- intersects with the orthotope 
-\begin_inset Formula $\mathcal{H}$
-\end_inset
-
- associated with the activation function 
-\begin_inset Formula $\phi_{\mathcal{H}}:\mathbb{R}^{n}\mapsto\left\{ 0,1\right\} $
-\end_inset
-
- of 
-\begin_inset Formula $\mathcal{A}$
-\end_inset
-
-.
- In other words,
- we define the activation function of 
-\begin_inset Formula $\mathcal{A}$
-\end_inset
-
- as
-\begin_inset Formula 
-\begin{equation}
-\phi_{\mathcal{H}}\left(x\right)=\begin{cases}
-1 & \text{if}\,\,\forall j,\,\,l_{j}\leq x_{j}\leq h_{j}\\
-0 & \text{else}
-\end{cases}
-\end{equation}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Definition
-The neighborhood of an observation 
-\begin_inset Formula $x$
-\end_inset
-
- is defined as an orthotope 
-\begin_inset Formula $\mathcal{H}_{\text{neighborhood}}$
-\end_inset
-
- centered on 
-\begin_inset Formula $x$
-\end_inset
-
-.
- A context Agent 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- is considered a neighbor of 
-\begin_inset Formula $x$
-\end_inset
-
- if the orthotope 
-\begin_inset Formula $\mathcal{H}_{i}$
-\end_inset
-
- associated with the activation function 
-\begin_inset Formula $\phi_{i}$
-\end_inset
-
- of 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
-,
- intersects with 
-\begin_inset Formula $\mathcal{H}_{\text{neighborhood}}$
-\end_inset
-
-
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "eq:orthotope-intersection"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-For self-organization,
- agents must adapt their shape and position in the feature space.
- Unlike 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "fourezEnsembleMultiAgentSystem2022"
-literal "false"
-
-\end_inset
-
-,
- which minimizes overlap to avoid ambiguity in classification (for example agents could push each other),
- oCELL allows overlapping regions to allow prediction smoothing through ensemble averaging.
- This property is particularly useful for regression tasks as it can be more informative to average the predictions of several weak models to smooth the learned function.
- It also facilitates integration into non-linear optimization processes (cf.
- section 
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "subsec:Hard-Constraints"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-).
- Therefore,
- an agent can change its shape by contracting or expanding its orthotope without worrying about the positions of other agents.
-\end_layout
-
-\begin_layout Definition
-If a context agent 
-\begin_inset Formula $\mathcal{A}$
-\end_inset
-
- expands (resp.
- contracts) by a factor 
-\begin_inset Formula $\alpha$
-\end_inset
-
- in the direction of an observation 
-\begin_inset Formula $x\in\mathbb{R}^{n}$
-\end_inset
-
- at time 
-\begin_inset Formula $t$
-\end_inset
-
-,
- then the upper bounds 
-\begin_inset Formula $h_{j}^{t}$
-\end_inset
-
- and lower bounds 
-\begin_inset Formula $l_{j}^{t}$
-\end_inset
-
- of the associated orthotope are updated according to the following relationship:
-\begin_inset Formula 
-\begin{align}
-h_{j}^{t+1} & =\begin{cases}
-\left(h_{j}^{t}-l_{j}^{t}\right)\varepsilon^{\frac{1}{k}}+l_{j}^{t} & \text{if }l_{j}^{t}\leq x_{j}\leq h_{j}^{t}\\
-h_{j}^{t} & \text{else}
-\end{cases}\\
-l_{j}^{t+1} & =\begin{cases}
-\left(l_{j}^{t}-h_{j}^{t}\right)\varepsilon^{\frac{1}{k}}+h_{j}^{t} & \text{if }l_{j}^{t}\leq x_{j}\leq h_{j}^{t}\\
-l_{j}^{t} & \text{else}
-\end{cases}
-\end{align}
-
-\end_inset
-
-with
-\begin_inset Formula 
-\begin{equation}
-\varepsilon=\begin{cases}
-\left(1+\alpha\right) & \text{if expansion}\\
-\left(1-\alpha\right) & \text{if retraction}
-\end{cases}
-\end{equation}
-
-\end_inset
-
-and 
-\begin_inset Formula $k$
-\end_inset
-
- the number of features such that 
-\begin_inset Formula $l_{j}^{t}\leq x_{j}\leq h_{j}^{t}$
-\end_inset
-
-.
- Thus,
- the new volume of the orthotope associated with 
-\begin_inset Formula $\mathcal{A}$
-\end_inset
-
- is given by the relation:
-\end_layout
-
-\begin_layout Definition
-\begin_inset Formula 
-\begin{align}
-v_{\mathcal{A}}^{t+1} & =\varepsilon v_{\mathcal{A}}^{t}
-\end{align}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-In summary,
- agents are spatialized through activation functions defining orthotopes that represent their 
-\emph on
-confidence region
-\emph default
- (i.e area of expertise) in feature space.
- Each agent can adapt its bounds,
- expanding or contracting its associated orthotope as needed.
- Intuitively,
- larger agents act as 
-\emph on
-generalists
-\emph default
-,
- while smaller agents serve as 
-\emph on
-specialists
-\emph default
-.
- Consequently,
- complex regions of feature space tend to host many small agents,
- whereas simpler regions tend to be covered by fewer larger agents.
- This assumption aligns with the use of simple local models such as linear regressions,
- which we leverage in subsequent experiments to demonstrate the transparency and interpretability of oCELL.
-\end_layout
-
-\begin_layout Subsubsection
-Neighborhood Prediction
-\begin_inset CommandInset label
-LatexCommand label
-name "subsubsec:Neighborhood-Prediction"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-The objective of oCELL is to perform online regression from a continuous data stream.
- Spcifically,
- it aims at modeling the nonlinear dynamics of a complex system for subsequent use in an optimization pipeline for optimal control (see Chapter 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:Solving-Control-Tasks"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-).
- Therefore,
- it is desirable to minimize gradient noise and ensure the learned function is smooth,
- as irregularities can significantly disrupt the optimization process 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "nesterov2013introductory"
-literal "false"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-To achieve this,
- oCELL allows multiple agents to contribute to the final prediction,
- in contrast to previous works 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "boesSelfAdaptiveContextLearning2015,dato2021apprentissage,fourezEnsembleMultiAgentSystem2022"
-literal "false"
-
-\end_inset
-
-,
- where a single agent was ultimately selected for prediction.
-\end_layout
-
-\begin_layout Plain Layout
-To obtain the prediction 
-\begin_inset Formula $\hat{y}$
-\end_inset
-
- from an observation 
-\begin_inset Formula $x$
-\end_inset
-
-,
- the most competent agents are selected to predict the value of 
-\begin_inset Formula $\hat{y}$
-\end_inset
-
-.
- If some agents are neighbors of 
-\begin_inset Formula $x$
-\end_inset
-
-,
- then they each make a prediction proposal.
- If 
-\begin_inset Formula $x$
-\end_inset
-
- has no neighbor,
- the 
-\begin_inset Formula $k$
-\end_inset
-
--closest agents are selected instead.
- This fallback mechanism prevents prediction failures in regions where the system has limited knowledge (i.e poor paving of the area around 
-\begin_inset Formula $x$
-\end_inset
-
-).
- The final prediction is then given by the arithmetic mean of the proposals of selected agents such as
-\begin_inset Formula 
-\[
-\hat{y}=\frac{1}{\left|D_{\text{selected}}\right|}\times\sum_{i\in D_{\text{selected}}}f_{i}\left(x\right)
-\]
-
-\end_inset
-
-where 
-\begin_inset Formula $D_{\text{selected}}$
-\end_inset
-
- is the set of selected agents (neighbors or closest) and 
-\begin_inset Formula $f_{i}\in\mathbb{R}^{m}$
-\end_inset
-
- the internal prediction function of the 
-\begin_inset Formula $i$
-\end_inset
-
--th agent.
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Float figure
-placement document
-alignment document
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename assets/images/cell_prediction_diagram.png
-	lyxscale 30
-	width 90text%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Illustration of the prediction process with agents in CELL paradigm
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Illustration-of-cell-prediction"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsection
 Learning Rules
 \begin_inset CommandInset label
@@ -14611,10 +13779,10 @@ name "subsec:Learning-Rules-oCELL"
 \end_layout
 
 \begin_layout Standard
-Since the capabilities and properties of the local expert agents have been described in the previous section,
+After having described the capabilities and properties of the local expert agents in the previous section,
  this section describes the learning mechanisms and rules that govern the ensemble as a whole to allow the emergence of learning through self-organization.
  In oCELL,
- the evolution of the population is governed by social rules that determine how the ensemble digests the continuous stream of feature-target tuples (
+ the evolution of the population is governed by social rules that determine how the ensemble processes the continuous stream of feature-target tuples (
 \begin_inset Formula $x_{new},y_{new}$
 \end_inset
 
@@ -14622,6 +13790,18 @@ Since the capabilities and properties of the local expert agents have been descr
  These rules translate the individual performance of agents and a local social context into discrete actions:
  updating an agent's model,
  adapting its shape or managing the population through creation and destruction of agents.
+ The overall flow of the training process is formalized in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:oCELL"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -14630,16 +13810,24 @@ To determine the appropriate action to apply,
 \begin_inset Formula $\mathcal{A}_{i}$
 \end_inset
 
- selected by the spatial gating mechanism (where 
-\begin_inset Formula $i\in\mathcal{D}_{\text{selected}}$
+ in either 
+\begin_inset Formula $\mathcal{D}_{\text{activated}}$
 \end_inset
 
-) receives a feedback signal based on the quality 
+ or 
+\begin_inset Formula $\mathcal{D}_{\text{neighbors}}$
+\end_inset
+
+ (depending on the social context) receives a feedback based on the quality 
 \begin_inset Formula $L_{\mathcal{A}_{i}}$
 \end_inset
 
- of its proposition of prediction.
- This is typically calculated as the squared error (any other error function could be used) between the local proposal 
+ of its prediction.
+ The quality 
+\begin_inset Formula $L_{\mathcal{A}_{i}}$
+\end_inset
+
+ is typically calculated as the squared error (or any other error function) between the local proposal 
 \begin_inset Formula $\hat{y}_{i}$
 \end_inset
 
@@ -14698,7 +13886,7 @@ Inaccurate Prediction
 Bad Prediction
 \series default
 :
- The agent's is not relevant for this region (
+ The agent is not relevant for this region (
 \begin_inset Formula $L_{\mathcal{A}_{i}}\in\left[\tau_{\text{bad}},+\infty\right[$
 \end_inset
 
@@ -14706,7 +13894,7 @@ Bad Prediction
 \end_layout
 
 \begin_layout Standard
-The learning rules are triggered based on the social context defined by the number of activated agents (
+The learning rules are triggered according to the social context defined by the number of activated agents (
 \begin_inset Formula $N_{\text{activated}}=\left|\mathcal{D}_{\text{activated}}\right|$
 \end_inset
 
@@ -14715,60 +13903,8 @@ The learning rules are triggered based on the social context defined by the numb
 \end_inset
 
 ).
- The following paragraphs present the various social contexts that are considered.
-\end_layout
-
-\begin_layout Paragraph
-Inaccuracy
-\end_layout
-
-\begin_layout Standard
-When 
-\begin_inset Formula $N_{\text{activated}}\geq1$
-\end_inset
-
-,
- that 
-\begin_inset Formula $x_{new}$
-\end_inset
-
- is already covered by local expert agents.
- Activated agents that provide 
-\emph on
-good
-\emph default
- prediction will peform a 
-\series bold
-Shape Update
-\series default
- action to expand their area of expertise in the direction of 
-\begin_inset Formula $x_{new}$
-\end_inset
-
- with the aim of generalizing their expertise.
- Activated agent that provide 
-\emph on
-inaccurate
-\emph default
- prediction perform a 
-\series bold
-Model Update
-\series default
- to refine their local expertise.
- Activated agents that provide 
-\emph on
-bad
-\emph default
- prediction perform a 
-\series bold
-Shape Update 
-\series default
-to retract their area of expertise away from 
-\begin_inset Formula $x_{new}$
-\end_inset
-
- with the aim of excluding that point,
- specializing the boundaries to maintain local accuracy.
+ The following paragraphs describe the different social contexts considered,
+ along with the actions or meta-actions they trigger.
 \end_layout
 
 \begin_layout Paragraph
@@ -14780,7 +13916,7 @@ When
 \begin_inset Formula $N_{\text{activated}}=0$
 \end_inset
 
- their is a lack of relevant expert to predict for 
+ there is a lack of relevant experts to predict for 
 \begin_inset Formula $x_{new}$
 \end_inset
 
@@ -14796,7 +13932,7 @@ When
 \end_inset
 
 .
- Neighbor agents that provide 
+ A neighbor agent that provides 
 \emph on
 good
 \emph default
@@ -14804,7 +13940,7 @@ good
 \emph on
 inaccurate
 \emph default
- prediction expand their area of expertise toward 
+ prediction expands its area of expertise toward 
 \begin_inset Formula $x_{new}$
 \end_inset
 
@@ -14812,7 +13948,7 @@ inaccurate
 \series bold
 Shape Update
 \series default
-) and update their internal model (
+) and updates its internal model (
 \series bold
 Model Update
 \series default
@@ -14844,6 +13980,59 @@ Agent Creation
 \end_layout
 
 \begin_layout Paragraph
+Inaccuracy
+\end_layout
+
+\begin_layout Standard
+When 
+\begin_inset Formula $N_{\text{activated}}\geq1$
+\end_inset
+
+,
+ 
+\begin_inset Formula $x_{new}$
+\end_inset
+
+ is already covered by local expert agents.
+ An activated agent that provides a 
+\emph on
+good
+\emph default
+ prediction will peform a 
+\series bold
+Shape Update
+\series default
+ action to expand its area of expertise in the direction of 
+\begin_inset Formula $x_{new}$
+\end_inset
+
+ with the aim of generalizing.
+ An activated agent that provides an 
+\emph on
+inaccurate
+\emph default
+ prediction performs a 
+\series bold
+Model Update
+\series default
+ to refine its internal model.
+ An activated agent that provides a 
+\emph on
+bad
+\emph default
+ prediction performs a 
+\series bold
+Shape Update 
+\series default
+to retract its area of expertise away from 
+\begin_inset Formula $x_{new}$
+\end_inset
+
+ with the aim of excluding that point,
+ specializing the boundaries to maintain local accuracy.
+\end_layout
+
+\begin_layout Paragraph
 Uselessness
 \end_layout
 
@@ -14864,7 +14053,7 @@ Shape Update
 \begin_inset Formula $\tau_{\text{vol}}$
 \end_inset
 
-is removed from the ensemble (
+ is removed from the ensemble (
 \series bold
 Agent Destruction
 \series default
@@ -14884,7 +14073,7 @@ nolink "false"
 \end_inset
 
  provide the behavioral blueprint of oCELL mapping different social contexts and conditions to actions and meta-actions allowing self-organization.
- The behavior of oCELL is parameterized by a set of hyperparameters that influence local convergence and stability of the emergent model:
+ The behavior of oCELL is parameterized by a set of hyperparameters that influences local convergence and stability of the emergent model:
 \end_layout
 
 \begin_layout Itemize
@@ -14900,7 +14089,7 @@ nolink "false"
 \end_inset
 
 :
- the volume variation coefficient controlling the plasticity of the area of expertise of agents.
+ determines the volume variation coefficient controlling the plasticity of the area of expertise of agents.
 \end_layout
 
 \begin_layout Itemize
@@ -14908,7 +14097,7 @@ nolink "false"
 \end_inset
 
 :
- the initial dimensions for new created.
+ defines the initial dimensions for a newly created agent.
 \end_layout
 
 \begin_layout Itemize
@@ -14916,12 +14105,12 @@ nolink "false"
 \end_inset
 
 :
- the parsimony threshold on volume for agent destruction.
+ is the parsimony threshold on volume for agent destruction.
 \end_layout
 
 \begin_layout Itemize
 memory length:
- the maximum number of data points that can be stored into 
+ represents the maximum number of data points that can be stored into 
 \begin_inset Formula $\mathcal{B}_{i}$
 \end_inset
 
@@ -15002,7 +14191,7 @@ Condition
 \align center
 
 \series bold
-Targeted Subset
+Targeted Set
 \end_layout
 
 \end_inset
@@ -15021,7 +14210,7 @@ Action
 </cell>
 </row>
 <row>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -15033,7 +14222,7 @@ Incompetence
 
 \end_inset
 </cell>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -15089,7 +14278,7 @@ Incompetence
 
 \begin_layout Plain Layout
 \align center
-Model + Shape (expand) Update
+Model + Shape (expansion) Update
 \end_layout
 
 \end_inset
@@ -15133,6 +14322,73 @@ Model + Shape (expand) Update
 \begin_layout Plain Layout
 \align center
 \begin_inset Formula $\mathcal{D}_{\text{neighbors}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+Agent Creation
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $N_{\text{activated}}=0$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $N_{\text{neighbors}}=0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Formula $\varnothing$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Formula $\varnothing$
 \end_inset
 
 
@@ -15208,7 +14464,7 @@ Inaccuracy
 
 \begin_layout Plain Layout
 \align center
-Shape Update (expand)
+Shape Update (expansion)
 \end_layout
 
 \end_inset
@@ -15320,77 +14576,7 @@ Model Update
 
 \begin_layout Plain Layout
 \align center
-Shape Update (retract)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-
-\series bold
-Incompetence
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $N_{\text{activated}}=0$
-\end_inset
-
-
-\begin_inset Newline newline
-\end_inset
-
-
-\begin_inset Formula $N_{\text{neighbors}}=0$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Formula $\varnothing$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Formula $\varnothing$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-Agent Creation
+Shape Update (retraction)
 \end_layout
 
 \end_inset
@@ -15478,17 +14664,12 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Table of the learning rules of oCELL.
- 
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:Learning-rules-of-oCELL"
-
-\end_inset
-
-.
- The far left column corresponds to the title of the paragraph in which the rules are presented.
- Each line corresponds to a given learning rule associated with a social context representing a condition on the number of activated or neighbor local expert agents (
+Learning rules of oCELL.
+ Each line corresponds to a given learning rule associated with 1) a 
+\emph on
+Social Context
+\emph default
+ representing a condition on the number of activated or neighbor local expert agents (
 \begin_inset Formula $N_{\text{activated}}$
 \end_inset
 
@@ -15501,7 +14682,11 @@ name "tab:Learning-rules-of-oCELL"
 \end_inset
 
 ;
- with a condition on the feedback 
+ 2) a 
+\emph on
+Condition
+\emph default
+ on the feedback 
 \begin_inset Formula $L_{\mathcal{A}_{i}}$
 \end_inset
 
@@ -15510,7 +14695,11 @@ name "tab:Learning-rules-of-oCELL"
 \end_inset
 
 ;
- with a target subset of agents that will be affected by the rule (
+ 3) a 
+\emph on
+Target Set
+\emph default
+ of agents that will be affected by the rule (
 \begin_inset Formula $\mathcal{D}_{\text{activated}}$
 \end_inset
 
@@ -15519,354 +14708,37 @@ name "tab:Learning-rules-of-oCELL"
 \end_inset
 
 );
- with actions or meta-actions to perform on the agents of the targeted subset.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Subsection
-Learning Rules
-\end_layout
-
-\begin_layout Plain Layout
-In CELL systems,
- the design of learning rules revolves around a set of actions and trigger conditions that decide how to digest the continuous stream of 
-\begin_inset Formula $\left(x_{new},y_{new}\right)$
-\end_inset
-
- data.
- Some actions are tied to individual agents such as updating their model (prediction function) or shape (activation function);
- and others are more meta-level actions such as destroying or creating new agents.
- These actions are triggered by conditions.
- In oCELL,
- those conditions depend on the number of current neighbors,
- on the number of activated agents and on a feedback values calculated from the proposals of selected agents.
-\end_layout
-
-\begin_layout Plain Layout
-To determine the appropriate action for an agent,
- we define the prediction quality 
-\begin_inset Formula $L_{\mathcal{A}_{i}}$
-\end_inset
-
- of agent 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- as
-\begin_inset Formula 
-\[
-L_{\mathcal{A}_{i}}=g\left(\hat{y},y\right)
-\]
-
-\end_inset
-
- where 
-\begin_inset Formula $g:\mathbb{R}^{m}\times\mathbb{R}^{m}\mapsto\mathbb{R}$
-\end_inset
-
- is a distance measure between the proposal 
-\begin_inset Formula $\hat{y}$
-\end_inset
-
- and the true value 
-\begin_inset Formula $y$
-\end_inset
-
-.
- The largest 
-\begin_inset Formula $L_{\mathcal{A}_{i}}$
-\end_inset
-
-,
- the worse the quality of the proposal.
- In oCELL,
- we use the squared error as the 
-\begin_inset Formula $g$
-\end_inset
-
- function but other types of error functions could be used instead.
-\end_layout
-
-\begin_layout Plain Layout
-We define two thresholds 
-\begin_inset Formula $\tau_{\text{good}}$
-\end_inset
-
- and 
-\begin_inset Formula $\tau_{\text{bad}}$
-\end_inset
-
- to partition the values of 
-\begin_inset Formula $L_{\mathcal{A}_{i}}$
-\end_inset
-
- into three regimes:
+ 4) an 
+\emph on
+Action
+\emph default
+ to perform on the agents of the targeted subset.
  
-\begin_inset Formula $L_{\mathcal{A}_{i}}\in\left[0,\tau_{\text{good}}\right]$
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Learning-rules-of-oCELL"
+
 \end_inset
 
- for 
-\emph on
-good
-\emph default
- predictions,
- 
-\begin_inset Formula $L_{\mathcal{A}_{i}}\in\left[\tau_{\text{good}},\tau_{\text{bad}}\right]$
-\end_inset
 
- for 
-\emph on
-inaccurate
-\emph default
- predictions,
- 
-\begin_inset Formula $L_{\mathcal{A}_{i}}\in\left[\tau_{\text{bad}},+\infty\right[$
-\end_inset
-
- for 
-\emph on
-bad
-\emph default
- predictions.
- These thresholds control the degree of accuracy expected from the system and influence the frequency of some rule activation.
 \end_layout
 
-\begin_layout Paragraph
-Inaccuracy
+\end_inset
+
+
 \end_layout
 
-\begin_layout Plain Layout
-When there are 
-\begin_inset Formula $N_{A}\geq1$
 \end_inset
 
- activated agents for 
-\begin_inset Formula $x_{new}$
-\end_inset
 
-,
- it means the region around 
-\begin_inset Formula $x_{new}$
-\end_inset
-
- is already known because it is covered by agents.
- If 
-\begin_inset Formula $L_{\mathcal{A}_{i}}\in\left[0,\tau_{\text{good}}\right]$
-\end_inset
-
-,
- it means the prediction of agent 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- is 
-\emph on
-good
-\emph default
- and it was right to declare itself as an expert on 
-\begin_inset Formula $x_{new}$
-\end_inset
-
-.
- 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- will therefore seek to generalize in the direction of 
-\begin_inset Formula $x_{new}$
-\end_inset
-
- by extending its area of expertise.
- If 
-\begin_inset Formula $L_{\mathcal{A}_{i}}\in\left[\tau_{\text{good}},\tau_{\text{bad}}\right]$
-\end_inset
-
-,
- then the prediction of 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- is 
-\emph on
-inaccurate
-\emph default
- but not catastrophic,
- so it only refines its internal model and keeps its positions waiting for another signal to expand if needed.
- Then,
- if 
-\begin_inset Formula $L_{\mathcal{A}_{i}}\in\left[\tau_{\text{bad}},+\infty\right[$
-\end_inset
-
-,
- the prediction of 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- is 
-\emph on
-bad,
-
-\emph default
- meaning that it shouldn't have been activated.
- In reaction to that,
- 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- will retract to get away from 
-\begin_inset Formula $x_{new}$
-\end_inset
-
-.
- This rule is the core of agents local self-organization.
- It allows the agents to move in feature space and refine their model as needed to exclude or include points to better model their close surroundings in response to feedbacks on the quality of their predictions.
-\end_layout
-
-\begin_layout Paragraph
-Incompetence
-\end_layout
-
-\begin_layout Plain Layout
-When there are 
-\begin_inset Formula $N_{A}=0$
-\end_inset
-
- activated agents and 
-\begin_inset Formula $N\geq1$
-\end_inset
-
- agents that are neighbors of 
-\begin_inset Formula $x_{new}$
-\end_inset
-
-,
- all of the closest agents are candidate on becoming activated on 
-\begin_inset Formula $x_{new}$
-\end_inset
-
-.
- In this situation,
- if 
-\begin_inset Formula $L_{\mathcal{A}_{i}}\in\left[0,\tau_{\text{good}}\right]\cup\left[\tau_{\text{good}},\tau_{\text{bad}}\right]$
-\end_inset
-
-,
- i.e prediction of agent 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- is 
-\emph on
-good
-\emph default
- or 
-\emph on
-inaccurate
-\emph default
-,
- then it means that 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- could become an expert on 
-\begin_inset Formula $x_{new}$
-\end_inset
-
- so it refines its model and expands towards 
-\begin_inset Formula $x_{new}$
-\end_inset
-
-.
- Otherwise,
- if no neighbor gives 
-\emph on
-good
-\emph default
- or 
-\emph on
-inaccurate
-\emph default
- predictions,
- a new agent centered on 
-\begin_inset Formula $x_{new}$
-\end_inset
-
- is created.
- This rule promotes knowledge reuse and limit redundant agent creation.
-\end_layout
-
-\begin_layout Paragraph
-Uselessness
-\end_layout
-
-\begin_layout Plain Layout
-In practice,
- we observe a need for agent destruction mechanisms within the system.
- Indeed,
- some agents may evolve into degenerate shapes if they receive too much negative feedbacks in a row.
- They become far too small to be informative.
- These 
-\emph on
-dead
-\emph default
- agents most probably won't be activated ever again and are no longer useful in the system.
- Consequently,
- all agents whose volume falls below a certain threshold value 
-\begin_inset Formula $\tau_{\text{vol}}$
-\end_inset
-
- are destroyed.
-\end_layout
-
-\begin_layout Plain Layout
-Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:Learning-rules-of-oCELL"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- summarize the learning rules governing the behavior of agents in oCELL and Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Flowchart-illustrating-oCELL-learning"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- illustrates the learning process.
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Float table
-placement document
+\begin_inset Float algorithm
+placement ph
 alignment document
 wide false
 sideways false
 status open
 
 \begin_layout Plain Layout
-\align center
 \begin_inset ERT
 status open
 
@@ -15874,609 +14746,480 @@ status open
 
 
 \backslash
-resizebox{1
+DontPrintSemicolon
+\end_layout
+
+\begin_layout Plain Layout
+
+
 \backslash
-columnwidth}{!}{
+SetArgSty{textnormal}
 \end_layout
-
-\end_inset
-
-
-\begin_inset Tabular
-<lyxtabular version="3" rows="13" columns="4">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="20col%">
-<column alignment="center" valignment="top" width="40col%">
-<column alignment="center" valignment="top" width="20col%">
-<column alignment="center" valignment="top" width="20col%">
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
-\series bold
-Social Context
-\end_layout
 
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
+\backslash
+KwIn{Error tolerance thresholds $
+\backslash
+tau_{
+\backslash
+text{good}},
+\backslash
+tau_{
+\backslash
+text{bad}}$,
+ the volume variation coefficient $
+\backslash
+alpha$ (for shape updates),
+ the initial dimensions of a newly created agent $R$ (for creation),
+ the volume threshold $
+\backslash
+tau_
+\backslash
+text{vol}$ (for destruction)}
+\end_layout
 
 \begin_layout Plain Layout
 
-\series bold
-Condition
-\end_layout
 
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
+\backslash
+For{each $(x_{
+\backslash
+text{new}},
+ y_{
+\backslash
+text{new}})$ in the data stream}{
+\end_layout
 
 \begin_layout Plain Layout
 
-\series bold
-Agent selected
+	$
+\backslash
+mathcal{D}_{
+\backslash
+text{activated}},
+ 
+\backslash
+mathcal{D}_{
+\backslash
+text{neighbors}} 
+\backslash
+gets 
+\backslash
+text{Gating Mechanism}(x_{new})$
+\backslash
+;
 \end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
-\series bold
-Action
+	$N_
+\backslash
+text{activated},
+ N_
+\backslash
+text{neighbors} 
+\backslash
+gets |
+\backslash
+mathcal{D}_{
+\backslash
+text{activated}}|,
+ |
+\backslash
+mathcal{D}_{
+\backslash
+text{neighbors}}|$ 
+\backslash
+;
 \end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Formula $N_{A}=0$
-\end_inset
-
-
-\begin_inset Newline newline
-\end_inset
-
-
-\begin_inset Formula $N\geq1$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Formula $L_{\mathcal{A}_{i}}\in\left[0,\tau_{\text{good}}\right]\cup\left[\tau_{\text{good}},\tau_{\text{bad}}\right]$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-Neighbor
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-update model 
-\begin_inset Newline newline
-\end_inset
-
-+ shape (expand)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multirow="4" alignment="left" valignment="top" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
+	$
+\backslash
+forall 
+\backslash
+mathcal{A}_i 
+\backslash
+in 
+\backslash
+mathcal{D}_{
+\backslash
+text{neighbors}}$ compute $L_{
+\backslash
+mathcal{A}_{i}}$ from $y_{new}$ and $f_i
+\backslash
+left(x_{new}
+\backslash
+right)$
+\backslash
+;
 \end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
+	
 \end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
+	
+\backslash
+;
 \end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
+	
+\backslash
+For{$
+\backslash
+mathcal{A}_i 
+\backslash
+in 
+\backslash
+mathcal{D}_{
+\backslash
+text{neighbors}}$}{
 \end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multirow="4" alignment="left" valignment="top" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
+		
+\backslash
+tcp{Inaccuracy}
 \end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Formula $\forall\mathcal{A}_{i},\,L_{\mathcal{A}_{i}}\notin\left[0,\tau_{\text{good}}\right]\cup\left[\tau_{\text{good}},\tau_{\text{bad}}\right]$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-Neighbor
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-create agent
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multirow="4" alignment="left" valignment="top" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
+		
+\backslash
+If{$N_
+\backslash
+text{activated} 
+\backslash
+geq 1$}{
 \end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
+			
+\backslash
+If{$L_{
+\backslash
+mathcal{A}_{i}}
+\backslash
+in
+\backslash
+left[0,
+\backslash
+tau_{
+\backslash
+text{good}}
+\backslash
+right]$}{
 \end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
+				Shape Update (expansion)
+\backslash
+;
 \end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
+			}
 \end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Formula $N_{A}\geq1$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Formula $L_{\mathcal{A}_{i}}\in\left[0,\tau_{\text{good}}\right]$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-Activated
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-update shape 
-\begin_inset Newline newline
-\end_inset
-
-(expand)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multirow="4" alignment="left" valignment="top" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
+			
+\backslash
+ElseIf{$L_{
+\backslash
+mathcal{A}_{i}}
+\backslash
+in
+\backslash
+left[
+\backslash
+tau_{
+\backslash
+text{good}},
+\backslash
+tau_{
+\backslash
+text{bad}}
+\backslash
+right]$}{
 \end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
+				Model Update
+\backslash
+;
 \end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
+			}
 \end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
+			
+\backslash
+ElseIf{$L_{
+\backslash
+mathcal{A}_{i}}
+\backslash
+in
+\backslash
+left[
+\backslash
+tau_{
+\backslash
+text{bad}},+
+\backslash
+infty
+\backslash
+right[$}{
 \end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
+				Shape Update (retraction)
+\backslash
+;
 \end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Formula $L_{\mathcal{A}_{i}}\in\left[\tau_{\text{good}},\tau_{\text{bad}}\right]$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-Activated
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-update model
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multirow="4" alignment="left" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
+			}
 \end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
+		}
 \end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
+		
+\backslash
+;
 \end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
+		
+\backslash
+tcp{Incompetence}
 \end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
+		
+\backslash
+ElseIf{$N_
+\backslash
+text{activated}=0$ and $N_{
+\backslash
+text{neighbors}}
+\backslash
+geq 1$ and $L_{
+\backslash
+mathcal{A}_{i}}
+\backslash
+in
+\backslash
+left[0,
+\backslash
+tau_{
+\backslash
+text{good}}
+\backslash
+right]
+\backslash
+cup
+\backslash
+left[
+\backslash
+tau_{
+\backslash
+text{good}},
+\backslash
+tau_{
+\backslash
+text{bad}}
+\backslash
+right]$}{
 \end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Formula $L_{\mathcal{A}_{i}}\in\left[\tau_{\text{bad}},+\infty\right[$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-Activated
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-update shape 
-\begin_inset Newline newline
-\end_inset
-
-(retract)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multirow="4" alignment="left" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
 
 \begin_layout Plain Layout
 
+			Shape Update (expansion)
+\backslash
+;
 \end_layout
 
-\end_inset
-</cell>
-<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
+\begin_layout Plain Layout
+
+			Model Update
+\backslash
+;
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+tcp{Agent Destruction}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+If{$V(
+\backslash
+mathcal{H}_i)
+\backslash
+leq 
+\backslash
+tau_
+\backslash
+text{vol}$}{
+\end_layout
+
+\begin_layout Plain Layout
+
+			Destroy agent
+\backslash
+;
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+;
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+tcp{Agent Creation}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+If{$N_{
+\backslash
+text{activated}}=0$ and $N_{
+\backslash
+text{neighbors}}
+\backslash
+geq 1$ and $
+\backslash
+forall
+\backslash
+mathcal{A}_{i},
+\backslash
+,L_{
+\backslash
+mathcal{A}_{i}}
+\backslash
+notin
+\backslash
+left[0,
+\backslash
+tau_{
+\backslash
+text{good}}
+\backslash
+right]
+\backslash
+cup
+\backslash
+left[
+\backslash
+tau_{
+\backslash
+text{good}},
+\backslash
+tau_{
+\backslash
+text{bad}}
+\backslash
+right]$}{
+\end_layout
+
+\begin_layout Plain Layout
+
+		Create new agent centered on $x_{new}$
+\backslash
+;
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+If{$N_{
+\backslash
+text{activated}}=0$ and $N_{
+\backslash
+text{neighbors}}=0$}{
+\end_layout
+
+\begin_layout Plain Layout
+
+		Create new agent centered on $x_{new}$
+\backslash
+;
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
 
 \begin_layout Plain Layout
 
 \end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Formula $N_{A}=0$
-\end_inset
-
-
-\begin_inset Newline newline
-\end_inset
-
-
-\begin_inset Formula $N=0$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Formula $\varnothing$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Formula $\varnothing$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\align center
-create agent
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multirow="4" alignment="left" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\begin_inset ERT
-status open
 
 \begin_layout Plain Layout
 
@@ -16492,40 +15235,10 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Learning rule table of oCELL
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Float figure
-placement document
-alignment document
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Flowchart illustrating the learning process
+oCELL
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:Flowchart-illustrating-oCELL-learning"
-
-\end_inset
-
-
-\end_layout
+name "alg:oCELL"
 
 \end_inset
 
@@ -16538,51 +15251,7 @@ name "fig:Flowchart-illustrating-oCELL-learning"
 \end_layout
 
 \begin_layout Plain Layout
-Therefore,
- oCELL relies on several hyperparameters that must be initialized prior to training.
- These parameters have an influence on the convergence of the system.
- These parameters include:
-\end_layout
 
-\begin_layout Itemize
-Initial orthotope size (
-\begin_inset Formula $R$
-\end_inset
-
-):
- determines the initial confidence region of newly created agents;
- overly small regions may hinder proper activation and make new agents overspecialize locally.
-\end_layout
-
-\begin_layout Itemize
-Prediction thresholds (
-\begin_inset Formula $\tau_{\text{bad}}$
-\end_inset
-
- and 
-\begin_inset Formula $\tau_{\text{good}}$
-\end_inset
-
-):
- define accuracy regimes and influence rule activation frequency.
-\end_layout
-
-\begin_layout Itemize
-Volume variation coefficient (
-\begin_inset Formula $\alpha$
-\end_inset
-
-):
- controls the rate of expansion or retraction of agents as a fraction of their current volume.
-\end_layout
-
-\begin_layout Itemize
-Destruction threshold (
-\begin_inset Formula $\tau_{\text{vol}}$
-\end_inset
-
-):
- specifies the minimum volume below which an agent is considered as a candidate for destruction.
 \end_layout
 
 \end_inset
