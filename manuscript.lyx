@@ -41792,12 +41792,53 @@ nolink "false"
 \end_layout
 
 \begin_layout Standard
-By integrating kCELL with high-performance solvers such as OSQP or qpOASES within an MPC loop,
- we provided a path to certifiability.
- These solvers offer strong mathematical guarantees regarding bounded computational complexity and convergence.
- This ensures that even with a sophisticated,
- continuously learning model,
- the speed recommendation is calculated within strict real-time constraints.
+By integrating kCELL with high-performance solvers such as OSQP 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "stellato2020osqp"
+literal "false"
+
+\end_inset
+
+ or qpOASES 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ferreau2014qpoases"
+literal "false"
+
+\end_inset
+
+ within an MPC loop,
+ we leverage solvers with established convergence properties suitable for real-time applications 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ferreau2014qpoases,stellato2020osqp"
+literal "false"
+
+\end_inset
+
+.
+ These solvers are designed for efficient computation in MPC loops and have been analyzed for worst-case complexity under standard assumptions (e.g.
+ moderate receding horizon) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ferreau2014qpoases"
+literal "false"
+
+\end_inset
+
+.
+ This approach would theoretically allow speed recommendations to be computed within strict computational budget,
+ even with a continuously learning kCELL predictive model.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ferreau2014qpoases,stellato2020osqp"
+literal "false"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Paragraph
@@ -41806,8 +41847,7 @@ Contextual Integrity and Parameter Isolation
 
 \begin_layout Standard
 In terms of certifiability,
- a conflict exists between the need for continuous online learning in our case and the static,
- verifiable designs required by ISO 26262 
+ a conflict arises from the need to reconcile continuous online learning with the static and verifiable designs required by ISO 26262 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "ISO26262-1"
@@ -41816,11 +41856,15 @@ literal "false"
 \end_inset
 
 .
- Global parametric learning systems (e.g.
- neural networks),
- when learning online,
- can often be unpredictable as an update can lead to unpredictable regressions in unrelated scenarios because virtually,
- any parameter of the model can change (cf.
+ Global parametric models (e.g.
+ neural networks) pose a significant risk in an online learning setting:
+ online updates may inadvertently cause performance drops in unrelated regions of the state space because any parameter may change.
+ This phenomenon,
+ known as 
+\series bold
+catastrophic forgetting
+\series default
+ (cf.
  Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -41832,14 +41876,13 @@ nolink "false"
 
 \end_inset
 
-).
- This a phenomenon known as catastrophic forgetting.
- 
+),
+ undermines predictability and hinders certifiability.
 \end_layout
 
 \begin_layout Standard
-The CELL systems mitigate this issue through Parameter Isolation.
- Because the learning is local,
+The CELL-based models like kCELL mitigate this issue through Parameter Isolation.
+ Because learning is local,
  updates to an agent specialized in 
 \begin_inset Quotes eld
 \end_inset
@@ -41856,13 +41899,24 @@ Urban driving
 \begin_inset Quotes erd
 \end_inset
 
- because the corresponding subsets of local expert agents are spatially separable in the input space (as illustrated in Figure ).
+ because the corresponding subsets of local expert agents are spatially separable in the input space (as illustrated in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Simplified-Parameter-Isolation"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
  This property provides 
 \series bold
 Contextual Integrity
 \series default
  to the continuously learning predictive model.
- It ensure that the model used for speed recommendations is always the one learned in the corresponding driving context.
+ It ensures that speed recommendations always rely on the model learned for the current driving context.
 \end_layout
 
 \begin_layout Standard
@@ -41937,7 +41991,9 @@ Trust through Transparency and Interpretability
 
 \begin_layout Standard
 Finally,
- the industrial requirement for Driver Acceptance is addressed through the white-box nature of the CELL systems when they include white box models as the internal model of local expert agents.
+ the industrial requirement for Driver Acceptance is addressed through the inherent transparency of CELL-based models like kCELL,
+ especially when local experts employ white-box models as internal models (e.g.
+ linear reressions).
  As discussed in Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -41950,16 +42006,47 @@ nolink "false"
 \end_inset
 
 ,
- the spatial organization of agents provides introspective properties that can be linked to the traditional notions of explainability and interpretability.
+ kCELL provides introspective properties derived from the spatial organization of agents,
+ which can be linked to the traditional notions of explainability and interpretability.
 \end_layout
 
 \begin_layout Standard
 Unlike global models,
  the inner workings of a CELL system can be inspected.
- One can identify exactly which local expert is responsible for a prediction and in which driving context it was trained on.
- This transparency is important for providing the rationale behind a speed recommendation if requested by a certification authority or the user.
- For instance,
- feature importance can be studied easily when using linear regressions or a faulty badly learned agent can be easily identified to be corrected.
+ One can :
+\end_layout
+
+\begin_layout Itemize
+identify which expert(s) contributed to a given prediction,
+\end_layout
+
+\begin_layout Itemize
+determine the driving context under which each local expert was trained,
+\end_layout
+
+\begin_layout Itemize
+inspect feature contributions when white-box internal models are used (e.g.
+ linear regressions),
+ and
+\end_layout
+
+\begin_layout Itemize
+rapidly locate and correct faulty or poorly trained agents.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This level of transparency supports both technical auditability (e.g.
+ during reviews requested by a certification authority) and user trust,
+ as the system's reasoning can be made explicit when required.
+ In the context of speed recommendation,
+ such transparency and interpretability are essential for building a trustworthy collaborative relationship between the driver and the speed recommender system.
 \end_layout
 
 \begin_layout Section
@@ -41975,10 +42062,12 @@ name "sec:Synthesis-and-Conclusion-Industrial"
 
 \begin_layout Standard
 In the previous sections,
- we established the industrial requirements for intelligent speed recommendation and demonstrated how the properties of the CELL systems direclty contribute towards fulfilling these standards.
- However,
- the path toward full industrial deployment remains open for our proposed architecture.
- This section exposes the remaining challenges and outlines future research directions necessary to bridge the gap between the current algorithmic foundations of our approach and a market-ready ADAS system.
+ we established the industrial requirements associated with intelligent speed recommendation and demonstrated how the properties of the CELL models directly contribute towards fulfilling these requirements.
+ Nevertheless,
+ although the proposed approach satisfies several criteria,
+ several challenges remain before our proposed solution can be considered ready for full industrial deployment.
+ This section exposes the remaining limitations and outlines future research directions necessary to bridge the gap between the current algorithmic foundations of our approach and a mature,
+ market-ready ADAS system.
 \end_layout
 
 \begin_layout Paragraph
@@ -41991,24 +42080,23 @@ A primary requisite for certifiability is the existence of high-fidelity simulat
 
 \begin_layout Standard
 While CELL systems are tailored for online adaptation,
- they should include a cold start initialization.
- In a commercial setting,
- a system must provide minimal performance from the moment it is activated.
- This necessitates a pre-trained default model capable of working before being able to adapt to the driver.
+ industrial deployment requires a cold-start initialization that provides acceptable performance from the moment the system is activated for the first time.
+ This necessitates a pre-trained default model capable of functioning before being able to adapt to the driver.
 \end_layout
 
 \begin_layout Standard
 Moreover,
  developing such simulation environment for speed recommendation is significantly more complex than standard speed control environments.
- While rigid-body vehicle dynamics and fuel consumption models are governed by well-defined physical laws,
- driver behavior is governed by stochastic psychological processes,
- making it a much harder target for simulation.
- It requries the elaboration of sophisticated driver behavior models that accurately mimic the behavior of various human drivers.
- Indeed,
- with a proper driver behavior model,
- the stability of long-term learning could be assessed across the entire Operational Design Domain (ODD),
- including rare edge cases that are too dangerous to test on open roads,
- to allow for the certifiability of the recommendation system.
+ While rigid-body vehicle dynamics and drivetrain energy consumption models can be accurately described by well-established physical models,
+ driver behavior depends on stochastic psychological processes,
+ making it far more challenging to simulate.
+ 
+\end_layout
+
+\begin_layout Standard
+Constructing realistic driver behavior models is essential for evaluating the long-term stability of online learning across diverse Operational Design Domains (ODDs),
+ including rare but safety-critical edge cases that cannot be tested safely on public roads.
+ A simulation ecosystem of this kind is therefore a key enabling step toward the certifiability of the proposed approach.
 \end_layout
 
 \begin_layout Paragraph
@@ -42050,7 +42138,15 @@ close to zero risk
 \end_layout
 
 \begin_layout Standard
-Future works should explore Lyapunov-based formal certifications for CELL systems to provide rigorous guarantees regarding the stability of the optimization process.
+Future works should explore Lyapunov-based formal certifications 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jin2020stability"
+literal "false"
+
+\end_inset
+
+ for CELL instantiations to provide rigorous guarantees regarding the stability of the trajectory optimization process.
  This is particularly challenging for continuously learning predictive models because the model parameters are varying constantly.
 \end_layout
 
@@ -42066,21 +42162,20 @@ Handling More Diverse Data Sources
 
 \begin_layout Standard
 The current instantiations of CELL currently face technical limitations regarding the type of inputs they can handle.
- Real-world driving contexts involve a mix of continuous variables (e.g speed,
- distance) and categorical variables (e.g weather types,
+ Real-world driving contexts involve a mix of continuous features (e.g speed,
+ distance) and categorical features (e.g weather types,
  road signs,
  traffic light states).
  Currently,
- the developed CELL systems have been designed for continuous input spaces.
- Designing novel CELL systems able to handle heterogeneous categorical data is essential for robust and accurate environmental perception of driving contexts.
+ the developed CELL instantiations have been designed for continuous input spaces.
+ Designing a novel CELL learning algorithm that is able to handle heterogeneous categorical data is essential for achieving robust predictive capacity.
 \end_layout
 
 \begin_layout Standard
 In addition to that,
- as the number of input dimensions grows,
+ as the dimensionality of the input space grows,
  the spatialization of agents suffers from the curse of dimensionality.
- Thus,
- future research directions on CELL systems should focus on finding new ways to spatialize local expert agents.
+ This motivates further research into new mechanisms for agent spatialization to maintain both efficiency and accuracy in high-dimensional problems.
 \end_layout
 
 \begin_layout Paragraph
@@ -42100,377 +42195,6 @@ To achieve a higher level of trust and acceptance,
  future iterations of the proposed speed recommendation architecture should incorporate physiological or behavioral indicators of the driver's state.
  By knowing if a driver is angry or tired,
  the predictive model is no longer subject to uncertainty induced by hidden variables.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-Plan of the Chapter
-\end_layout
-
-\begin_layout Enumerate
-Speed Recommendation => re-establish the Why by presenting history of ISA systems
-\end_layout
-
-\begin_layout Enumerate
-Simulation Requirements => provides a reflection about the necessity of using accurate simulator for pretraining and validation
-\end_layout
-
-\begin_layout Enumerate
-Speed Recommendation as HRC => details the architecture proposition of the thesis for tackling this type of problem with the challenges and core assumptions
-\end_layout
-
-\begin_layout Enumerate
-Towards Personalized,
- Safety and Trustworthy Speed Recommendation => concretely map the challenges mentionned in previous section to the works of this thesis => the goal is to valorise the contributions in the industrial context
-\end_layout
-
-\begin_layout Enumerate
-Synthesis and Conclusion => close the loop on the industrial topic by exposing the works that have been done and what remains to be done => especially in terms of safety (hard constraint handling with more robust theoretical guarantees),
- homologation (proovable stability,
- etc...) and learning convergence guarantees (provable math guarantees is still a weak point of agent based bottom up design like ours)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-The goal of this chapter is to evaluate the requirements for developing a speed recommendation system that can be deployed in real-world conditions and how the work in this thesis contributes to this.
- In this thesis the speed Recommendation Problem has been abstracted to a Human-Robot Collaboration (HRC) Problem.
- 
-\end_layout
-
-\begin_layout Enumerate
-Remainder of what is Intelligent Speed Assist (ISA),
- its history,
- the goals pursued by this type of ADAS system and finally what are the industrial requirements necessary to allow for real-world deployment
-\end_layout
-
-\begin_layout Enumerate
-Solution Architecture envisaged in this thesis by framing the problem as a HRC problem => MPC with online learning predictive model
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-For HRC the controller must be able to anticipate human behaviors to better synergise with him.
- In this thesis we chose to abstract the problem as a MPC,
- considering learning a predictive model of the vehicle driven by the driver.
- In this context,
- the actuator of the system is the human (shared controllability).
- So the goal is to influence the human decision as he is the one who influences the low level control and keeps the authority on his vehicle.
- In this thesis work the following assumption is made:
- 
-\begin_inset Quotes eld
-\end_inset
-
-Acceptance will be greater if the predictive model takes into account the driving behavior of the driver than if not.
-\begin_inset Quotes erd
-\end_inset
-
- => we tackle driver acceptance by not considering the problem as an autonomous driving problem but by considering the driver in the loop,
- modeling his behavior.
-\end_layout
-
-\begin_layout Enumerate
-However,
- large variety of human drivers.
- Every profile is different.
- So there is a need to adapt to each individual driver.
- Solutions ?
- either (1) a large fundational model that would be able to encapsulate every type of driver profile to then predict their behavior (it would necessitate to find the profile of the driver beforehand),
- or (2) our solution with an online learning algorithm that continuously model the behavior of the driver => as the behavior can change,
- there is a need to adapt to non-stationarities
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-Need for accurate simulation environments for the development process for pretraining (because online learning algos may take time to converge so a pretraining default model that will be able to adapt to the driver afterwards allow the system to work with minimal guarantees quickly) and validation (need to assess theoretical guarantees beforehand to validate the stability of the learning behavior on edge cases)
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-Sim-to-real gap problem
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-need for advanced driver models that would mimick human driving in some ways
-\end_layout
-
-\begin_layout Enumerate
-need for accurate vehicle models
-\end_layout
-
-\begin_layout Enumerate
-need for accurate traffic managers
-\end_layout
-
-\begin_layout Enumerate
-need for advanced fuel consumption models if energy efficiency is considered in the optimization problem
-\end_layout
-
-\begin_layout Enumerate
-Close to real simulated sensors = connected ehorizon,
- high level object lists
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-Variety of Driving Scenarios => various road profiles,
- traffic conditions,
- weather conditions
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-Handling Driver Acceptance 
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-=> our initial assumption about driver acceptance may be partially wrong especially if the model lacks some information about the driver to model him => Could be interesting to add input variables related to driver state (tired,
- angry,
- etc...) to allow for better personalization.
-\end_layout
-
-\begin_layout Enumerate
-Need for explainability to justify decisions of the algo
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-Mutliobjective optimization
-\end_layout
-
-\begin_layout Enumerate
-Safety and Homologation
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-Transparency of the system
-\end_layout
-
-\begin_layout Enumerate
-Justification of the 
-\end_layout
-
-\begin_layout Enumerate
-Fallback Strategies
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-Discussion about Future Works from this thesis
-\end_layout
-
-\begin_layout Plain Layout
-link to State of the Art chapter => taxonomy classification for control and learning
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Section
-Industrial Context
-\begin_inset CommandInset label
-LatexCommand label
-name "sec:Industrial-Context"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-This doctoral research is conducted under a CIFRE funding in partnership with AUMOVIO,
- a global supplier specialized in automotive engineering and mobility solutions.
- AUMOVIO develops hardware,
- software and systems to make mobility safe,
- connected,
- autonomous and more intelligent.
- The strategic vision of the company is rooted in the Software-Defined Vehicle (SDV) philosophy.
- By decoupling hardware and software development cycles,
- the company aims to leverage its ecosystem of sensors,
- including radar and vision systems to build more intelligent and adaptive Advanced Driver Assistance Systems (ADAS).
-\end_layout
-
-\begin_layout Plain Layout
-Speed management remains the most significant lever for improving road safety.
- Excessive speed is a primary factor in serious accidents,
- affecting both driver's reaction time and the physical limits of the vehicle's braking.
- Research has consistently demonstrated a direct,
- non-linear relationship between speed and fatality risk.
- For instance,
- empirical crash data suggests that the probability of a fatality in a collision grows exponentially with speed,
- while the risk is about 10% at 40km/h,
- it surges to over 80% at 80km/h 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "hussain2019relationship"
-literal "false"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-Despite these risks,
- drivers often fail to maintain safe speeds due to environmental complexity,
- missing signage or adverse weather conditions.
- While passive safety systems such as airbags and seatbelts provide essential reactive protection,
- they are often insufficient to preserve physical integrity during high-speed impacts,
- making active speed management a priority for the automotive industry.
-\end_layout
-
-\begin_layout Plain Layout
-To address these challenges,
- the European Transport Safety Council (ETSC) recommends the deployment of Intelligent Speed Assistance (ISA) (cf.
- Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Illustration-of-ISA"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-).
- This system is designed to inform the drivers about legal speed limits and encourage compliance.
- They argue that it has the potential to reduce road collisions by 30% and fatalities by 20% 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "etsc2017isa"
-literal "false"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-Beyond safety,
- speed management increasingly intersects with broader logistical and environmental goals,
- such as reducing fuel consumption,
- improving passenger comfort and optimizing estimated times of arrival.
- This has led to significant regulatory changes:
-\end_layout
-
-\begin_layout Itemize
-As of July 6,
- 2022:
- The European Union mandated that all new vehicle types must be equipped with ISA.
-\end_layout
-
-\begin_layout Itemize
-As of July 7,
- 2024:
- This requirement was extended to all new vehicles sold within the EU market 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "eu2019regulation"
-literal "false"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-A critical aspect of the current European regulation 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "eu2021delegated"
-literal "false"
-
-\end_inset
-
- is the preservation of driver authority over the system.
- The ISA system must be overridable (e.g through a maintained pressure on the accelerator) and allow for manual deactivation during a journey.
- This ensures that the system acts as a collaborative assistant rather than an autonomous override.
-\end_layout
-
-\begin_layout Plain Layout
-For AUMOVIO,
- this creates a significant engineering and scientific challenge to make the most out of this kind of systems.
- The system must provide recommendations that are effective enough to ensure safety and efficiency,
- yet intuitive enough to be accepted by a human driver who retains ultimate control.
- As it is explored in subsequent sections,
- the success of such systems depends on the ability of the developed system to adapt to the inherent non-stationarity of human behavior under various driving contexts.
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Float figure
-placement document
-alignment document
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename assets/images/etscISA.png
-	lyxscale 35
-	width 80col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Illustration of what is Intelligent Speed Assistance from the european safety council 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "etsc2018isa"
-literal "false"
-
-\end_inset
-
-
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Illustration-of-ISA"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Chapter
