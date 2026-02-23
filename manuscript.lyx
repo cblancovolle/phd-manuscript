@@ -570,7 +570,7 @@ actions
 \begin_inset Quotes erd
 \end_inset
 
- are the recommendation of speed set points communicated to the driver.
+ are the recommendation of speed setpoints communicated to the driver.
 \end_layout
 
 \begin_layout Standard
@@ -942,7 +942,7 @@ literal "false"
 \begin_layout Itemize
 In some sense,
  Intelligent Speed Assist systems that recommend speed to the driver can be considered as robots whose body is the car and that are able to sense from the sensors,
- to think with on-board computation devices and to act by recommending a speed set point which is communicated to the driver on-board.
+ to think with on-board computation devices and to act by recommending a speed setpoint which is communicated to the driver on-board.
 \end_layout
 
 \begin_layout Itemize
@@ -1348,7 +1348,7 @@ delay
 \emph on
 refuse
 \emph default
- a recommended speed set point,
+ a recommended speed setpoint,
  the effectivenes of such recommendation systems is largely determined by the underlying system architecture and the way it interacts with a human driver,
  which has an uncertain behavior.
 \end_layout
@@ -1371,7 +1371,7 @@ nolink "false"
 \emph on
 open-loop
 \emph default
- systems comprise mainly advisory systems that do not consider any form of feedback from the vehicle or driver responses to recommendation set points.
+ systems comprise mainly advisory systems that do not consider any form of feedback from the vehicle or driver responses to recommendation setpoints.
  On the other hand,
  
 \emph on
@@ -1603,7 +1603,7 @@ literal "false"
 \begin_layout Standard
 However,
  whether digital or physical,
- these approaches share the same structural limitation because they assume that the recommendation set points are going to be followed perfectly and instantaneously.
+ these approaches share the same structural limitation because they assume that the recommendation setpoints are going to be followed perfectly and instantaneously.
  This assumption ignores the non-stationarity and variability of the human behavior.
  
 \end_layout
@@ -2002,7 +2002,7 @@ literal "false"
 .
  The robot must infer the driver's intended motion and behavior to synchronize its recommendations effectively.
  Forecasting a human's response,
- enables the recommendation system to provide set points that are complementary to the human's intent rather than being reactionary or disruptive.
+ enables the recommendation system to provide setpoints that are complementary to the human's intent rather than being reactionary or disruptive.
 \end_layout
 
 \begin_layout Standard
@@ -5522,7 +5522,7 @@ nolink "false"
 
 ,
  the human driver acts as a biological intermediary between the controller (i.e the speed recommendation system) and the vehicle.
- Depending on the driver and his receptivity to recommendation set points,
+ Depending on the driver and his receptivity to recommendation setpoints,
  the system may become 
 \series bold
 under-actuated 
@@ -10710,7 +10710,7 @@ Action
 \series default
 :
  It corresponds to a control command to be applied to the dynamical system (e.g.
- torque set point or 
+ torque setpoint or 
 \begin_inset Quotes eld
 \end_inset
 
@@ -15088,7 +15088,7 @@ right]$}{
 
 		
 \backslash
-tcp{Agent Destruction}
+tcp{Uselessness}
 \end_layout
 
 \begin_layout Plain Layout
@@ -21915,11 +21915,11 @@ Taken together,
  The orthotope representation with hard boundaries is not tailored to support reliable interpolation when agents overlap too much or specialize unevenly.
  These limitations also highlight the need for inference mechanisms that weigh agents more smoothly according to their estimated expertise level rather than using discrete activation values (i.e.
  
-\begin_inset Formula $1$
+\begin_inset Formula $\phi_{i}\left(x\right)=1$
 \end_inset
 
  for activated and 
-\begin_inset Formula $0$
+\begin_inset Formula $\phi_{i}\left(x\right)=0$
 \end_inset
 
  for non-activated).
@@ -40028,8 +40028,8 @@ name "chap:Industrial-use-Case"
 \end_layout
 
 \begin_layout Standard
-This thesis was rooted into a concrete industrial challenge:
- the development of speed recommendation strategies to reduce road fatalities and environmental impact by advising drivers of an optimal speed profile they should comply to.
+This thesis was rooted in a specific industrial challenge:
+ the development of speed recommendation strategies to reduce road fatalities and environmental impact by advising drivers of an optimal speed profile they should follow.
  As established in Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -40042,9 +40042,10 @@ nolink "false"
 \end_inset
 
 ,
- the speed recommendation problem could be abstracted as a Human-Robot Collaboration (HRC) problem.
- This shift in perspective allowed to break down the speed recommendation problem into two sub-problems:
- the accurate modeling of the vehicle future movements when driven by a human driver and the safe exploitation of this model to provide recommendations.
+ the speed recommendation problem can be abstracted as a Human-Robot Collaboration (HRC) problem.
+ This shift in perspective allows the speed recommendation problem to be decomposed into two subproblems:
+ the accurate prediction of the vehicle state when driven by a human and subject to external perturbations,
+ and the safe exploitation of this predictive model to provide speed recommendations.
  The relationship between HRC and Speed Recommendation is illustrated in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -40082,8 +40083,8 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Illustration of the relationship between HRC and Speed Recommendation through the decomposition into 2 subproblems proposed in this thesis:
- one modeling subproblem
+Illustration of the relationship between HRC and speed recommendation through the decomposition into two subproblems proposed in this thesis:
+ predictive modeling and control leveraging the predictive model.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:HRC-Speed-Recommendation-Comparison"
@@ -40108,9 +40109,9 @@ name "fig:HRC-Speed-Recommendation-Comparison"
 \end_layout
 
 \begin_layout Standard
-In the context of this thesis,
- the proposed approach for speed recommendation,
- is to consider it as a control problem that can be solved through Model Predictive Control (MPC) with a continuously learning model to account for the uncertainty and the potentially non-stationary behavior of the human driver (cf.
+In this context,
+ the proposed approach treats speed recommendation as a control problem solved using Model Predictive Control (MPC) coupled with a continuously learning predictive model to handle uncertainty of the driving context,
+ including the potentially non-stationary behavior of the human driver (cf.
  Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -40126,7 +40127,8 @@ nolink "false"
 \end_layout
 
 \begin_layout Standard
-We introduced the CELL (Context Ensemble Local Learning) formalism and developed online learning algorithms based on ensembles of local expert agents self-organizing from social rules to continuously model the behavior of the vehicle driver by a human driver.
+We introduced the CELL (Context Ensemble Local Learning) formalism and developed online learning algorithms that rely on ensembles of local expert agents.
+ These agents self-organize according to social rules to continuously predict the evolution of the vehicle dynamics influenced by a human driver and other external factors.
  Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -40149,8 +40151,8 @@ nolink "false"
 
 \end_inset
 
- demonstrated the capabilities of the developed algorithms in terms of modeling and integration into a control pipeline,
- addressing the two sub-problems posed by speed recommendation as formulated in Chapter 
+ demonstrated the effectiveness of the developed algorithms for predictive modeling and their integration into a MPC control pipeline,
+ thereby addressing the two subproblems introduced in Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "chap:Introduction"
@@ -40162,24 +40164,34 @@ nolink "false"
 \end_inset
 
 .
- Having layed out these theoretical and algorithmic foundations,
+ Having laid out these theoretical and algorithmic foundations,
  this chapter returns to the initial motivation of this thesis work:
  speed recommendation.
 \end_layout
 
 \begin_layout Standard
-The goal of this chapter is to provide an industrial perspective on the progress of works towards safe and efficient intelligent speed recommendation systems and how the works of this thesis on HRC contributed to this progress.
- While the preceding chapters established the promising aspect of the CELL instantiations,
- real-world integration within the automotive sector requires addressing a broader set of requirements,
- ranging from multi-objective optimization to certifiability.
+The goal of this chapter is to provide an industrial perspective on the requirements for safe and efficient intelligent speed recommendation systems and how the works of this thesis on HRC contributed to this progress.
+ While the preceding chapters highlighted the potential of the online learning algorithms derived from CELL,
+ real-world automotive application requires addressing a broader set of requirements,
+ ranging from multi-objective optimization to certifiability (i.e.
+ driving function homologation).
  We argue that the intrinsic properties of the CELL instantiations,
  specifically the spatialized local knowledge representation through local expert agents and the introspection capabilities,
- position this type of models as an interesting research topic for bridging the gap between personalized online learning and safety-critical industrial standards.
+ position this type of approach as an interesting research topic for bridging the gap between 
+\series bold
+personalized online learning
+\series default
+ and 
+\series bold
+safety-critical industrial standards
+\series default
+.
 \end_layout
 
 \begin_layout Standard
 The remainder of this chapter is structured as follows.
- First Section 
+ First,
+ Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Industrial-Requirements"
@@ -40191,7 +40203,7 @@ nolink "false"
 \end_inset
 
  identifies the industrial requirements for intelligent speed recommendation,
- moving from basic systems that inform the driver about the current speed limit toward systems that pursue mutliple objectives,
+ moving from basic systems that inform the driver about the current speed limit toward systems that pursue multiple objectives,
  balancing safety constraints,
  efficiency and driver acceptance.
  Then,
@@ -40206,8 +40218,9 @@ nolink "false"
 
 \end_inset
 
- discusses the proposed architecture and justifies the reasons that make the combination of MPC and continuously learning models as being an appropriate technical choice to brige the gap between speed control and speed recommendation.
- Next,
+ presents the proposed architecture and explains the rationale for combining MPC with online-learning models,
+ hightlighting why this integration offers an effective technical solution for bridging the gap between speed control and speed recommendation.
+ Subsequently,
  Section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -40219,7 +40232,7 @@ nolink "false"
 
 \end_inset
 
- demonstrates how the works of this thesis are contributing to solve key industrial challenges.
+ demonstrates how the contributions of this thesis take a step toward addressing key industrial challenges.
  Finally,
  Section 
 \begin_inset CommandInset ref
@@ -40232,484 +40245,8 @@ nolink "false"
 
 \end_inset
 
- concludes on the remaining challenges for real world deployment,
- highlighting the needs for high-fidelity simulation and formal mathematical proofs for the long-term stability of the continuously learning predictive models.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-re-establish the Why by presenting history of ISA systems.
-\begin_inset Newline newline
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-Speed recommendation was the initial motivation behind this thesis work,
- this problem has been reformulated as a HRC problem in chapter 1,
- where the speed recommendation problem is ultimately broken down into 2 subproblems:
- driver modeling and model exploitation.
- Then in chapter 2 the research gaps have been identified for those two subproblems and a promising function architecture based on MPC and an online learning algorithm have been proposed.
- We decided to explore local online learning algorithms based on self-organizing ensemble of local expert agents for modeling driver + vehicle.
- Chapter 3 demonstrate the capabilities of this approach for modeling then chapter 4 explores the applications in a control setting.
- In Chapter 5 proposes discusses promising ideas to tackle limitations that still remains for the developed modeling approach.
- In this chapter we come back on the initial motivation of this thesis work:
- speed recommendation.
- => [recontextualisation on speed recommendation going from first ISA systems to data fusion with digital maps to get legal speed limitations => more advanced optimization based approaches with offline planning etc...
- => speed control take over for autonomous driving (few works on recommendation in comparison) => learning based approaches]
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Enumerate
-[Industrial Requirements for Speed Recommendation Systems] What are the Industrial Requirements for Intelligent Speed Recommendation ?
- => Begin by recalling that initially ISA systems were just supposed to inform the driver about the speed limit (as specified in the EU regulations it's the minimal requirement) => But in reality users do not drive at the maximum legal speed all the time depending on road conditions (e.g traffic,
- weather,
- ...) => With modern vehicle connectivity more data can be gathered in real time about the road conditions => Allow for more intelligent systems to advise drivers
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Multi-Objective Optimization => Need to provide an added value (ex:
- optimize fuel consumption can be very profitable for both fleet managers and individuals) => but objectives can be conflicting with each others
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Reduction of Energy Consumption (
-\begin_inset Formula $\neq$
-\end_inset
-
- for eletric vehicles and thermic vehicles)
-\end_layout
-
-\begin_layout Itemize
-Reduction of Travel Time
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Safety and Legal Guarantees => Need that recommendation be constrained by legal regulation and safety requirements
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Legal Regulations => Speed Limits
-\end_layout
-
-\begin_layout Itemize
-Safety => Distance to preceding vehicle,
- speed in turns to avoid drifting,
- speed in difficult weather conditions (eg.
- to avoid aquaplanning in the rain or skidding on ice)
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Driver Acceptance => driver can refuse,
- delay or apply a speed recommendation => but user must keep authority on his vehicle (Overridability which justify recommendation)
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Can be achieved through more or less invasive means => from indication on the vehicle dashboard to haptic resistance on the accelerator pedal
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Robustness to highly uncertain and diverse environments (even to the rarest events)
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Many heterogeneous traffic participants (cars,
- trucks,
- pedestrians,
- etc...) with hard-to-predict behavior
-\end_layout
-
-\begin_layout Itemize
-Drivers drive very differently in urban or rural environments,
- when it rains or snow,
- when there is a traffic jam or not,
- etc...
- => Not all driving contexts are equally frequent
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Certifiability => Definition:
- 
-\begin_inset Quotes eld
-\end_inset
-
-Certifiability for ADAS (Advanced Driver Assistance Systems) refers to the process of proving that these safety-critical systems meet rigorous regulatory,
- safety,
- and performance standards to gain formal approval for deployment in vehicles.
- It ensures systems like automatic emergency braking or lane-keeping assist operate reliably without introducing undue risks.
-\begin_inset Quotes erd
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Certifiability goes beyond basic testing by requiring comprehensive evidence of functional safety,
- cybersecurity,
- and intended functionality across diverse scenarios.
- It addresses the complexity of ADAS,
- where sensors,
- AI algorithms,
- and actuators interact in unpredictable real-world conditions,
- demanding standards like ISO 26262 (functional safety) and ISO/PAS 21448 (SOTIF for safety of intended functionality).
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Functional Safety
-\series default
- (ISO 26262):
- Systems must achieve Automotive Safety Integrity Levels (ASIL) through hazard analysis,
- risk assessment (HARA),
- and traceability from requirements to tests,
- including hardware/software audits and fault-tolerant design.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Scenario Validation
-\series default
-:
- Extensive testing in simulations,
- hardware-in-the-loop (HIL),
- closed tracks,
- and real-world conditions covers operational design domains (ODDs),
- edge cases,
- corner cases,
- and environmental stressors like fog or high traffic.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Performance and Compliance
-\series default
-:
- Features must meet UN regulations (e.g.,
- UN R171 for driver control assistance systems) with KPIs for metrics like time-to-collision,
- braking profiles,
- driver monitoring,
- and human-machine interfaces.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Process and Lifecycle Audits
-\series default
-:
- Parallel certification of development processes,
- production conformity,
- software updates (including OTA),
- and end-of-life procedures,
- with documentation for type approval authorities.
-\end_layout
-
-\end_deeper
-\end_deeper
-\begin_layout Enumerate
-[Proposed Architecture and Positioning] Why online learning MPC with CELL is the right technical choice ?
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Technical Gap Analysis => Taxonomy Table => Speed recommendation is way less studied than speed control (due to global industrial efforts to develop autonomous driving)
-\end_layout
-
-\begin_layout Itemize
-To bridge the gap between Speed Control and Speed Recommendation we argue in favor of the use of MPC architecture with a continuously learning predictive model of the driver + vehicle as a whole
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-[
-\series bold
-Multi-Objective Requirement
-\series default
-] Optimization-based control handles multi-objective requirement in a single cost function
-\end_layout
-
-\begin_layout Itemize
-[
-\series bold
-Safety Requirement
-\series default
-] Safety and legal constraints enforcement throught using appropriate solvers
-\end_layout
-
-\begin_layout Itemize
-[
-\series bold
-Certifiability
-\series default
-] => Need for worst-case execution times and known bounded computational complexity (ISO 26262) (need to ensure the solver finishes within deadlines on embedded hardware) => MPC allows the use of battle-tested solvers that are compliant with these requirements.
-\end_layout
-
-\begin_layout Itemize
-[
-\series bold
-Acceptability
-\series default
-] => In HRC need for the machine to include a model of the human it interacts with to better synergize => Assumption:
- if the behavior of the driver is modeled,
- then the recommendations given by the controller will be more easily accepted (because they take into account the behavior of the driver)
-\end_layout
-
-\begin_layout Itemize
-Online Learning allows for full personalization to the human driver at deployment time.
- 
-\end_layout
-
-\end_deeper
-\end_deeper
-\begin_layout Enumerate
-[Towards Personalized,
- Safe and Trustworthy Intelligent Speed Recommendation Systems] How do the works of this thesis solve some of the requirements ?
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-[
-\series bold
-Safety
-\series default
-] Traditionally when using learned predictive models it's not sure that the model is reliable for OoD data => However our learning system is able to estimate epistemic uncertainty by leevraging the spatialization of local expert agents in input space,
- making the system 
-\begin_inset Quotes eld
-\end_inset
-
-know when it does not know
-\begin_inset Quotes erd
-\end_inset
-
- => which could allow for triggering the use of fallback simpler strategies when the model is not reliable => Chapter 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:Solving-Control-Tasks"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- showed that the introspective properties of kCELL demonstrated in Chapter 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:Context-Ensemble-Local"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- could be leveraged to improve the reliability of the predictions of the learned model.
-\end_layout
-
-\begin_layout Itemize
-[
-\series bold
-Certifiabilit
-\series default
-y] => In Chapter 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:Solving-Control-Tasks"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- we demonstrate that kCELL can successfully be integrated with QP solvers like OSQP or qpAOSES in a MPC control loop => QP solvers offer strong guarantees in terms of bounded complexity and worst-case execution times.
-\end_layout
-
-\begin_layout Itemize
-[
-\series bold
-Certifiability
-\series default
-] => Continuously learning components violate core assumptions of standards like ISO 26262,
- which requires fixed,
- verifiable designs with full traceability from requirements to implementation.
- Changes in model parameters (e.g.,
- via gradient updates) can alter decision boundaries unpredictably,
- risking regression in safety performance or emergence of new failure modes outside the original training distribution => in CELL systems forgetting of useful information is mitigated by Parameter Isolation => Parameter Isolation also provides Contextual Integrity => In an industrial ODD (Operational Design Domain),
- a system should not apply "Highway behavior" in a "School Zone." => in kCELL the spatialization of local experts acts as a structural guardrail ensuring that the model used for recommendations is always the one learned in the relevant environment,
- preventing dangerouse 
-\begin_inset Quotes eld
-\end_inset
-
-knowledge leaks
-\begin_inset Quotes erd
-\end_inset
-
- between unrelated driving scenarios.
-\end_layout
-
-\begin_layout Itemize
-[
-\series bold
-Certifiability & Acceptability
-\series default
-] Transparency of the innerworkings of the predictive system to be able,
- in the long run to justify the decisions of the controller => Chapter 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:Context-Ensemble-Local"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- demonstrated that oCELL and kCELL exhibited introspective properties that could be linked to the traditional notions of explainability and interpretability.
- Moreover,
- when using white box models for agents the system can be considered as a white box.
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-[Synthesis and Conclusion] What remains to be done for real-world deployment ?
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-[
-\series bold
-Certifiability
-\series default
-] Need for accurate simulation environments for the development process:
- for pretraining (because online learning algos may take time to converge so a pretraining default model that will be able to adapt to the driver afterwards allow the system to work with minimal guarantees quickly) and validation (need to assess theoretical guarantees beforehand to validate the stability of the learning behavior on edge cases)
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-hard to develop simulations for speed recommendation as it is almost mandatory to have a complex driver behavior models that mimicks the behavior of a human driver
-\end_layout
-
-\begin_layout Itemize
-much harder than building accurate fuel consumption models or accurate rigid body simulations even it's also important to bridge the gap between simulation and reality (Sim-to-Real Gap)
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-[
-\series bold
-Safety
-\series default
-] => In Chapter 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:Solving-Control-Tasks"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- we demonstrate that kCELL is differentiable and more importantly locally linearizable => can be integrated with QP solvers for local optimization like Sequential Quadratic Programming => ge
-\end_layout
-
-\begin_layout Itemize
-[
-\series bold
-Safety
-\series default
-] Still lack of mathematical proof for safety guarantees and hard constraints => introspective properties allow to increase the reliability of the model but this statement rely on empirical observations rather than mathematical proof
-\end_layout
-
-\begin_layout Itemize
-[
-\series bold
-Certifiability
-\series default
-] => Could be interesting to study Lyapunov-based formal certification for CELL systems to get guarantees about stability of optimization.
- => In the thesis we went from unknown risk to measured risk and future directions are to target zero risk 
-\end_layout
-
-\begin_layout Itemize
-[
-\series bold
-Certifiability
-\series default
-] Certifiability remains a significantly harder challenge when including continuously learning components as in the proposed architecture => requirements that the learning stays bounded and has mathematical guarantees about convergence => which is lacking in the developed CELL systems such as oCELL and kCELL
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Runtime adaptation also conflicts with Safety of the Intended Functionality (SOTIF,
- ISO/PAS 21448),
- as known safe behaviors may degrade without retriggering full validation.
- Regulatory bodies like UNECE demand evidence that learning stays within bounded operational design domains (ODDs),
- preventing "concept drift" from real-world data
-\end_layout
-
-\begin_layout Itemize
-Our learning model is non-parametric => complexity hard to estimate in practice => depend on amount of data encountered => add uncertainty at this level
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-kCELL still struggles with higher dimensional inputs and it does not handle properly categorical inputs => In road contexts,
- the input space can comprise continuous variables and categorical ones => currently kCELL only handles continuous variables => need to develop CELL instantations derived from kCELL that would be able to handle categorical variables properly
-\end_layout
-
-\begin_layout Itemize
-[
-\series bold
-Acceptance
-\series default
-] => our initial assumption about driver acceptance handling through online learning may be partially wrong if the model lacks some information about the driver to model his behavior => Could be interesting to add input variables related to driver state (tired,
- angry,
- etc...) to allow for better personalization.
- => to summarize:
- 
-\begin_inset Quotes eld
-\end_inset
-
-To achieve the next level of personalization,
- the CELL agents should not only observe the vehicle's reaction but also the driver's internal state (tired,
- stressed,
- distracted)
-\begin_inset Quotes erd
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\end_inset
-
-
+ concludes by discussing the remaining challenges for real-world deployment,
+ highlighting the need for high-fidelity simulation and formal mathematical proofs to ensure the long-term stability of the continuously learning predictive models derived from CELL.
 \end_layout
 
 \begin_layout Section
@@ -40724,7 +40261,9 @@ name "sec:Industrial-Requirements"
 \end_layout
 
 \begin_layout Standard
-The technical evolution of speed recommendation systems such as Intelligent Speed Assistance (ISA) has historically followed a trajectory from passive information retrieval to inform the driver about the current legal speed limit 
+The technical evolution of speed recommendation systems,
+ such as Intelligent Speed Assistance (ISA),
+ has historically followed a trajectory from passive information retrieval aimed at informing the driver about the current legal speed limit 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "ehrlichLAVIAFrenchISA2003,driscollLaviaEvaluationPotential2007"
@@ -40732,10 +40271,9 @@ literal "false"
 
 \end_inset
 
- to active,
- more intelligent recommendations.
+ toward active and more intelligent recommendations.
  Initially,
- research and industrial efforts were primarily focused on the robust identification of legal speed limits leveraging digital maps and accurate GPS positioning 
+ research and industrial efforts were primarily focused on the robust identification of legal speed limits by leveraging digital maps and accurate GPS positioning 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "bahlmannMultimodalSpeedLimit2008,danielFusingNavigationVision2014,danielMultilevelDempsterShaferSpeed2012"
@@ -40744,12 +40282,12 @@ literal "false"
 \end_inset
 
 .
- The primary goal was informational,
- to ensure the driver is always aware of the current legal constraint.
+ Such an approach was purely informative,
+ ensuring that the driver remained aware of the current legal speed limits.
 \end_layout
 
 \begin_layout Standard
-As ISA is becoming manatory due to EU regulations 
+As ISA becomes manatory due to EU regulations 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "etsc2017isa,etsc2018isa,eu2019regulation,eu2021delegated"
@@ -40758,9 +40296,10 @@ literal "false"
 \end_inset
 
 ,
- modern vehicles are no longer isolated agents but connected entities capable of gathering and processing a large amount of real-time data regarding traffic density,
- weather conditions or road surface quality,
- etc...
+ modern vehicles are no longer isolated agents but connected entities capable of gathering and processing large amounts of real-time data regarding traffic density,
+ weather conditions,
+ road surface quality,
+ and more.
  This shift allows for a transition from static speed limit advisory to intelligent speed recommendation systems advising an optimal speed profile accounting for the dynamic complexity of the road context.
  As the industrial scope of speed recommendation expands,
  the deployment of such intelligent systems in a commercial vehicle requires satisfying a rigorous set of requirements which are categorized in the remainder of this section.
@@ -40771,11 +40310,11 @@ Multi-Objective Optimization
 \end_layout
 
 \begin_layout Standard
-Unlike purely advisory ISA systems,
- intelligent speed recommendation acts as a high-level controller that must solve a multi-objective optimization problem.
- The recommendation must provide a clear added value to the stakeholders (e.g fleet managers or individual drivers).
- This requires the formulation of a cost function that negotiates between conflicting objectives.
- Here are some examples:
+In contrast to purely advisory ISA systems,
+ intelligent speed recommendation acts as a high-level controller that solves a multi-objective optimization problem.
+ To provide tangible added value for stakeholders such as fleet managers,
+ the system requires the definition of a cost function involving potentially conflicting objectives.
+ Typical examples include:
 \end_layout
 
 \begin_layout Itemize
@@ -40784,16 +40323,18 @@ Unlike purely advisory ISA systems,
 Energy Efficiency
 \series default
 :
- Minimizing fuel consumption for thermic vehicles or optimizing energy recovery through regenerative braking and discharge for eletric vehicles (EVs).
+ Minimizing fuel consumption in internal combustion and hybrid vehicles,
+ and minimizing eletrical energy use in electric vehicles,
+ through regenerative braking and optimal electric motor torque setpoints.
 \end_layout
 
 \begin_layout Itemize
 
 \series bold
-Temporal Efficiency
+Travel-Time Efficiency
 \series default
 :
- Reducing travel time while maintaining a smooth speed profile.
+ Reducing trip duration while maintaining a smooth speed profile.
 \end_layout
 
 \begin_layout Itemize
@@ -40802,7 +40343,9 @@ Temporal Efficiency
 Comfort
 \series default
 :
- Avoiding aggressive longitudinal maneuvers that could degrade the passenger experience or increase the cognitive load of the driver.
+ Avoiding abrupt acceleration or deceleration,
+ as well as excessive acceleration jerk,
+ which may degrade ride comfort or increase driver cognitive load.
 \end_layout
 
 \begin_layout Paragraph
@@ -40817,10 +40360,11 @@ Speed recommendations must be strictly bounded by physical and legal constraints
 \begin_layout Itemize
 
 \series bold
-Legal Regulations
+Legal Compliance
 \series default
 :
- Ensuring the recommended speed profile never violates legal speed limits.
+ Ensuring the recommended speed profile does not exceed applicable legal speed limits,
+ including conditional or temporary regulations.
 \end_layout
 
 \begin_layout Itemize
@@ -40829,9 +40373,10 @@ Legal Regulations
 Safety
 \series default
 :
- Accounting for the dynamic road context to prevent reaching dangerous states:
- such as avoiding excessive speed in curves to avoid drifting,
- maintaining safe inter-vehicle distances and adjusting for degraded road friction to prevent aquaplaning or skidding.
+ Accounting for dynamic elements of the driving context to prevent unsafe operating conditions.
+ Examples include ensuring adequate safety margins in curves,
+ respecting inter-vehicle distances,
+ and adapting to degraded road friction conditions to mitigate the risks of aquaplanning or loss of control.
 \end_layout
 
 \begin_layout Paragraph
@@ -40848,7 +40393,7 @@ literal "false"
 \end_inset
 
 ,
- the human remains the final authority over the recommendation system.
+ the human remains the final decision maker over the recommendation system.
  Furthermore,
  as speed recommendation can be formulated as a HRC problem (cf.
  Chapter 
@@ -40863,7 +40408,7 @@ nolink "false"
 \end_inset
 
 ),
- driver acceptance is a major factor determining the efficiency of the recommendation system.
+ driver acceptance is a major factor determining the effectiveness of the recommendation system.
 \end_layout
 
 \begin_layout Itemize
@@ -40876,7 +40421,7 @@ Overridability
  the speed is recommended and not enforced.
  This differentiate the speed recommendation problem from the speed control problem in autonomous driving.
  The driver should be able to refuse,
- delay or accept the suggested speed recommendation at any time.
+ delay or accept the recommended speed at any time.
 \end_layout
 
 \begin_layout Itemize
@@ -40885,8 +40430,9 @@ Overridability
 Acceptance
 \series default
 :
- Acceptance is influenced by how the recommendation is calculated and how it is communuicated to the driver.
- This can be achieved through more or less invasive Human-Machine Interfaces (HMI) ranging from passive visual indications on the vehicle dashboard to active haptic resistances on the accelerator pedal 
+ Acceptance is influenced both by how recommendations are generated and how they are communicated to the driver through a Human-Machine Interface (HMI).
+ Such interface may range from purely visual indications on the vehicle dashboard to more active modalities,
+ such as haptic feedback on the accelerator pedal 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "zhaoHowDoesMural2022,ehrlichLAVIAFrenchISA2003"
@@ -40896,11 +40442,11 @@ literal "false"
 
 .
  Therefore,
- the objective is to recommend a plausible speed set point and to communicate it in the best possible way to the driver.
+ the objective is to recommend a plausible speed setpoint and to communicate it in the best way possible to the driver.
 \end_layout
 
 \begin_layout Paragraph
-Robustnes to Uncertainty and Diversity of Road Contexts
+Robustness to Uncertainty and Diversity of Road Contexts
 \end_layout
 
 \begin_layout Standard
@@ -40917,8 +40463,9 @@ Contextual Diversity
  urban vs rural,
  varying weather conditions,
  traffic congestions).
- Not all driving contexts are equally frequent,
- requiring the system to handle edge cases or rare events with the same reliability as standard scenarios.
+ While many driving scenarios occur regularly,
+ others are rare but safety-critical,
+ requiring the system to maintain consistent performance even in low-frequency edge cases.
 \end_layout
 
 \begin_layout Itemize
@@ -40927,11 +40474,12 @@ Contextual Diversity
 Heterogeneous Traffic Participants
 \series default
 :
- The presence of other road users such as cars,
+ The presence of diverse road users such as cars,
  trucks,
- motorcycles or even pedestrians,
- that adopt hard-to-predict behaviors introduces significant stochasticity into the environment,
- requiring robust predictive capabilities.
+ motorcyclists,
+ cyclists,
+ or even pedestrians,
+ whose hard-to-predict behaviors introduces substantial stochastic variability that must be handled through robust prediction mechanisms.
 \end_layout
 
 \begin_layout Paragraph
@@ -40940,16 +40488,43 @@ Certifiability
 
 \begin_layout Standard
 In an industrial context,
- certifiability can be defined as following:
+ certifiability can be defined as follows:
 \end_layout
 
 \begin_layout Definition
-Certifiability refers to the formal process of proving that safety-critical systems meet rigorous regulatory,
- safety and performance standards to gain approval for real-world deployment.
+Certifiability refers to the formal process required to demonstrate that a safety-critical system conforms to applicable regulatory,
+ safety,
+ and performance standards,
+ thereby authorizing its real-world deployment 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "tambon2022certify"
+literal "false"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "Certifiability"
+description "Certifiability refers to the formal process required to demonstrate that a safety-critical system conforms to applicable regulatory, safety, and performance standards, thereby authorizing its real-world deployment \\cite{tambon2022certify}."
+literal "true"
+
+\end_inset
+
+
 \end_layout
 
-\begin_layout Definition
-In the automotive industry Advanced Driver Assistance Systems (ADAS) are subject to several requirements regarding certifiability such as:
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Advanced Driver Assistance Systems (ADAS) are subject to several requirements and standards regarding certifiability such as:
 \end_layout
 
 \begin_layout Itemize
@@ -40966,7 +40541,9 @@ literal "false"
 \end_inset
 
 ):
- Systems must achieve specific Automotive Safety Integrity Levels (ASIL) through Hazard Analysis and Risk Assessment (HARA) and maintain full traceability from requirements to testing.
+ Systems must achieve specific Automotive Safety Integrity Levels (ASIL) through rigorous Hazard Analysis and Risk Assessment (HARA),
+ ensuring full traceability throughout the development lifecycle,
+ from requirements to field operational tests.
 \end_layout
 
 \begin_layout Itemize
@@ -40989,7 +40566,7 @@ literal "false"
 \begin_layout Itemize
 
 \series bold
-Scenario Validation
+Scenario-Based Validation
 \series default
 :
  Deployment requires comprehensive evidence gathered through simulations,
@@ -41002,7 +40579,7 @@ literal "false"
 
 \end_inset
 
-) for driver assistance.
+) for driver assistance systems.
 \end_layout
 
 \begin_layout Itemize
@@ -41019,19 +40596,18 @@ literal "false"
 \end_inset
 
 ):
- As modern vehicles leverage V2X (Vehicle-to-Everything) connectivity to gather road data,
- the recommendation system must be robust against corrupted or malicious data inputs that could lead to dangerous speed recommendations.
+ As modern vehicles increasingly rely on V2X (Vehicle-to-Everything) connectivity to collect road data,
+ the recommendation system must remain robust against corrupted or malicious inputs that could results in unsafe speed recommendations.
 \end_layout
 
 \begin_layout Itemize
 
 \series bold
-Deterministic Performance
+Deterministic Real-Time Performance
 \series default
 :
  Alongside functional safety,
- embedded automotive systems require strict guarantees on computational resource usage.
- Algorithms must exhibit Worst-Case Execution Times (WCET) to ensure they meet the real-time constraints of the vehicle's Electronic Control Units (ECUs).
+ real-time embedded automotive systems must exhibit bounded Worst-Case Execution Times (WCET) and predictable computational load to satisfy hardware constraints of automotive Electronic Control Units (ECUs).
 \end_layout
 
 \begin_layout Section
@@ -41047,9 +40623,9 @@ name "sec:Proposed-Architecture"
 
 \begin_layout Standard
 The previous section exposed a comprehensive set of industrial requirements for the deployment of intelligent speed recommendation systems in real-world conditions.
- It ranged from multi-objective optimization to strict certifiability constraints.
- While significant progress have been made for automated speed control in the context of fully autonomous driving,
- speed recommendation remains a distinct challenge as it includes the human driver in the loop.
+ These requirements spanned from multi-objective optimization to strict certifiability constraints.
+ Although substantial progress has been achieved in automated speed control for fully autonomous driving,
+ speed recommendation remains a distinct challenge due to the presence of a human in the loop.
  This section introduces the architecture proposed in this thesis to address the speed recommendation problem.
 \end_layout
 
@@ -41073,10 +40649,12 @@ nolink "false"
  a core distinction must be made between speed control and speed recommendation.
  In the context of autonomous driving,
  speed control aims at replacing the human driver,
- operating in a closed-loop where the system possesses direct authority over the vehicle's actuators such as the accelerator and brake pedals.
- Conversely,
- in speed recommendation,
- the humans retains full authority over the vehicle.
+ operating in a closed-loop where the controller directly manipulates vehicle actuators (e.g.
+ throttle,
+ brakes,
+ gear box).
+ In contrast,
+ speed recommendation preserves full driver authority over the vehicle.
  In this context,
  the human acts as a biological actuator to the system (falling into the shared controllability challenge exposed in Chapter 
 \begin_inset CommandInset ref
@@ -41091,27 +40669,19 @@ nolink "false"
 
 ).
  The recommendation system's output is not a control signal directly applied to the vehicle's low level controls,
- but is a suggested set-point that the driver may choose to refuse,
+ but is a suggested speed setpoint that the driver may choose to refuse,
  delay or accept.
 \end_layout
 
 \begin_layout Standard
 Despite its importance for road safety and energy efficiency,
  speed recommendation has been significantly less studied than speed control.
- Most research efforts have been focused on perfecting the 
-\emph on
-robot
-\emph default
- side of the problem,
- often neglecting the complex modeling of the 
-\emph on
-human
-\emph default
- side required for effective recommendation.
+ Research efforts have historically focused more extensively on automated control,
+ often overlooking the complex modeling requirements associated with human-in-the-loop systems for effective speed recommendation.
 \end_layout
 
 \begin_layout Standard
-To highlight the specific research gap of the literature about speed control and recommendation,
+To highlight the specific research gap of the literature regarding speed control and speed recommendation,
  we re-evaluate the body of literature introduced in Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -41200,9 +40770,13 @@ nolink "false"
 
 \end_inset
 
- reveals that the majority of research relies on global parametric models with no existing works,
+ reveals that the majority of research relies on 
+\series bold
+global parametric models
+\series default
+ with no existing works,
  to our knowledge,
- about using a 
+ leveraging a 
 \series bold
 continuously learning,
  local non-parametric approaches
@@ -41811,7 +41385,7 @@ name "tab:Paper-Classification-Speed-Recommendation-Learning"
 
 \begin_layout Standard
 To bridge this gap,
- we argue in favor of an architecture that leverages 
+ we propose an architecture that leverages 
 \series bold
 Model Predictive Control (MPC)
 \series default
@@ -41819,8 +41393,9 @@ Model Predictive Control (MPC)
 \series bold
 continuously learning predictive model of the driver-vehicle
 \series default
- dynamical system,
- and more specifically a CELL system based on an ensemble of local expert agents self-organizing through social rules (cf.
+ dynamical system.
+ Specifically,
+ the predictive model is a CELL model based on an ensemble of local expert agents that self-organize through social interaction rules (cf.
  Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -41892,8 +41467,8 @@ to obtain the optimal speed recommendation
 \end_inset
 
 .
- The speed recommendation set point 
-\begin_inset Formula $v_{t}$
+ The speed recommendation setpoint 
+\begin_inset Formula $v_{t}^{*}$
 \end_inset
 
  is then transmitted to the 
@@ -41962,15 +41537,23 @@ The choice of an MPC-based architecture including a CELL online learning predict
 \end_layout
 
 \begin_layout Paragraph
-Multi-Objective 
+Multi-Objective Optimization 
 \end_layout
 
 \begin_layout Standard
-The choice of the MPC framework naturally addresses the Multi-Objective requirement.
- By formulating a cost function that weights energy efficiency,
- travel time and comfort,
- the system can produce a speed recommendation that represents the optimal tradeoff for a specific driving context.
- MPC with the right solver allows for the simultaneous negotiation of conflicting goals within a classic optimization process.
+The choice of the MPC framework naturally addresses the multiple,
+ 
+\emph on
+potentially conflicting objectives
+\emph default
+.
+ By defining an appropriate cost function,
+ the system can jointly optimize:
+ energy efficiency,
+ travel time,
+ and comfort for a given driving context to produce a speed recommendation that represents the optimal tradeoff.
+ With an appropriate solver,
+ MPC allows the simultaneous handling of conflicting objectives within a conventional optimization framework.
 \end_layout
 
 \begin_layout Paragraph
@@ -41978,9 +41561,17 @@ Safety and Legal Constraints
 \end_layout
 
 \begin_layout Standard
-Safety-critical systems require hard guarantees.
+Safety-critical systems must respect hard constraints.
  Within the MPC loop,
- Safety and Legal constraints requirements are handled as hard state and input constraints evaluated over the trajectory predicted by the CELL model.
+ 
+\emph on
+Safety
+\emph default
+ and 
+\emph on
+Legal
+\emph default
+ constraints requirements are handled as hard state and input constraints evaluated over the trajectory predicted by the CELL model.
  Using appropriate solvers within MPC ensures that the recommended speed profile is inherently compliant with legal speed limits and physical safety criteria (e.g.
  curvature-based speed limits or maximum inter-vehicle distances,
  ...).
@@ -41991,7 +41582,15 @@ Certifiability and Computational Predictability
 \end_layout
 
 \begin_layout Standard
-A major challenge for the deployment of learning-based ADAS is the requirement for Worst-Case Execution Times (WCET) and bounded computational complexity (ISO 26262 
+A major challenge for the deployment of learning-based ADAS is the requirement for 
+\emph on
+Worst-Case Execution Times
+\emph default
+ (WCET) and 
+\emph on
+bounded computational complexity
+\emph default
+ (ISO 26262 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "ISO26262-1"
@@ -42017,7 +41616,7 @@ literal "false"
 \end_inset
 
 ) that are compliant with these requirements.
- This ensures that the optimization process finished within the strict real-time deadlines of embedded automotive hardware.
+ This ensures that the optimization process finishes within the strict real-time deadlines of embedded automotive hardware.
 \end_layout
 
 \begin_layout Paragraph
@@ -42025,7 +41624,7 @@ Driver Acceptance
 \end_layout
 
 \begin_layout Standard
-A core assumption of this thesis is the following:
+This thesis relies on the following core assumption:
 \end_layout
 
 \begin_layout Standard
@@ -42041,7 +41640,7 @@ begin{assumption}
 
 \begin_layout Plain Layout
 
-Driver Acceptance is intrinsically linked to how well the system's recommendations align with the driver's own behavior.
+Driver Acceptance intrinsically increases when recommendations align closely with the driver's natural behavior.
 \end_layout
 
 \begin_layout Plain Layout
@@ -42058,7 +41657,7 @@ end{assumption}
 
 \begin_layout Standard
 In the context of HRC,
- the machine should include a model of its human partner's intents to better synergize 
+ the machine should incorporate a model of its human partner's intentions to enhance collaborative synergy 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "dani2024human"
@@ -42068,20 +41667,21 @@ literal "false"
 
 .
  Given the previously defined assumption,
- we assume that if the predictive model accurately captures the specific driving style and tendencies of the driver,
- the recommendations generated will be perceived as more natural and will be more readily accepted.
+ we hypothesize that if the predictive model accurately captures the specific driving style and intentions of the driver,
+ the recommendations generated will be perceived as more natural and will be more likely to be accepted.
 \end_layout
 
 \begin_layout Standard
 Continuous online learning via the CELL instantiations allows the recommendation system to personalize the predictive model at deployment time.
  By adapting to the individual's non-stationary behavior and specific environmental reactions,
- the recommendation system minimizes the model-mismatch with the driver,
- representing a step toward a trust-based collaborative system.
+ the recommendation system minimizes the model-driver mismatch,
+ which represents a step toward a trust-based collaborative system.
 \end_layout
 
 \begin_layout Section
 Towards Personalized,
- Safe and Trustworthy Speed Recommendation
+ Safe,
+ Certifiable and Trustworthy Speed Recommendation
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Towards-Personalized-Safe-Trustworthy-Speed-Recommendation"
@@ -42092,7 +41692,7 @@ name "sec:Towards-Personalized-Safe-Trustworthy-Speed-Recommendation"
 \end_layout
 
 \begin_layout Standard
-The previous section presented the architectural choice made in this thesis to addres the speed recommendation problem.
+The previous section presented the architectural framework proposed in this thesis to address the speed recommendation problem.
  This section demonstrates how the specific theoretical and algorithmic contributions of this thesis directly address some of the industrial requirements listed in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -42112,8 +41712,10 @@ Safety through Epistemic Uncertainty Estimation and Introspection
 \end_layout
 
 \begin_layout Standard
-A major risk that can occur when deploying a learned predictive model in safety-critical systems is their Out-of-Distribution (OoD) behavior.
- Some types of learned models such as neural networks tend to be overconfident 
+A major risk associated with deploying a learned predictive model in safety-critical systems lies in its Out-of-Distribution (OoD) behavior.
+ Some types of learned models,
+ such as neural networks,
+ are known to exhibit systematic overconfidence even in unobserved regions of the state space 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "guo2017calibration"
@@ -42121,9 +41723,9 @@ literal "false"
 
 \end_inset
 
-,
- even in unknown regions of the state-space,
- leading to dangerous recommendations.
+.
+ In the context of speed recommendation,
+ such overconfidence can result in unsafe or misleading predictions.
 \end_layout
 
 \begin_layout Standard
@@ -42150,20 +41752,22 @@ nolink "false"
 \end_inset
 
 ,
- the CELL instantiations and more specifically the kCELL system mitigate this issue by leveraging the spatialization of local expert agents to improve the reliability of the learned predictive model in a MPC setting.
- Because each agent is responsible for a localized region of the input space,
- the system can estimate espistemic uncertainty based on the value of activation of the agents.
- This allows the system to 
+ the CELL instantiations,
+ and more specifically kCELL,
+ mitigate this issue by leveraging the spatial organization of local expert agents to improve the reliability of the learned predictive model within an MPC setting.
+ Given that each agent is responsible for a localized region of the input space,
+ the model can estimate espistemic uncertainty based on the value of activation of the agents.
+ This allows the model to 
 \emph on
 know when it does not know.
 \end_layout
 
 \begin_layout Standard
 From an industrial perspective,
- this introspection allows for the implementation of safety guardrails.
+ this introspective property enables the implementation of safety guardrails.
  When the recommendation system detects high epistemic uncertainty,
- it can trigger the use of a fallback strategy (e.g.
- reverting to a simple legal speed limit advisory system) instead of providing a potentially erroneous or dangerous recommendation.
+ it can automatically trigger the use of a fallback strategy (e.g.
+ reverting to a simple legal speed limit advisory system) instead of providing a potentially erroneous or unsafe recommendation.
 \end_layout
 
 \begin_layout Paragraph
@@ -42547,7 +42151,7 @@ The goal of this chapter is to evaluate the requirements for developing a speed 
 \begin_layout Enumerate
 Remainder of what is Intelligent Speed Assist (ISA),
  its history,
- the goals pursued by this type of ADAS system and finally what are the industrial requirements necessary to allow for real world deployment
+ the goals pursued by this type of ADAS system and finally what are the industrial requirements necessary to allow for real-world deployment
 \end_layout
 
 \begin_layout Enumerate
@@ -42902,7 +42506,7 @@ Human-Robot Collaboration (HRC)
 \end_layout
 
 \begin_layout Standard
-The HRC formulation allowed the speed recommendation problem to be decomposed into two sub-problems:
+The HRC formulation allowed the speed recommendation problem to be decomposed into two subproblems:
 \end_layout
 
 \begin_layout Itemize
@@ -43010,7 +42614,7 @@ The initial motivation of this thesis was to develop an Intelligent Speed Recomm
 \begin_layout Itemize
 This problem has been shown to be abstractable to a Human-Robot Collaboration (HRC) problem.
  This formulation allowed to break down the problem into two subproblems:
- a modeling problem to build a model of the human intents and an exploitation problem that would exploit this model to produce the recommendation set points.
+ a modeling problem to build a model of the human intents and an exploitation problem that would exploit this model to produce the recommendation setpoints.
 \end_layout
 
 \begin_layout Itemize
