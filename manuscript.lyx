@@ -12878,37 +12878,6 @@ nolink "false"
 .
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-- Local Expert Agents => presentation of the local expert agents inner workings with the definition of the elements of the tripartite structure of the agents in oCELL (activation,
- prediction,
- memory)
-\end_layout
-
-\begin_layout Plain Layout
-- Learning Rules => presentation of the learning rules which is concluded by the rule table
-\end_layout
-
-\begin_layout Plain Layout
-- Comparative Study => presentation of an experiment that compares oCELL with other SotA ensemble algorithms on a 2D benchmark of regression task
-\end_layout
-
-\begin_layout Plain Layout
-- Introspective Properties => presentation of various metrics that show how to exploit the spatial structures formed by agents to deduce things about the learning process and the function underlying to the data
-\end_layout
-
-\begin_layout Plain Layout
-- Discussion and Limitations => present the critical analysis of the system => explain that the introspective properties can be linked to explainability and interpretability notions in machine learning => present the limitations of the system that will then lead to kCELL system in section 3.3
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsection
 Local Expert Agents
 \begin_inset CommandInset label
@@ -21959,8 +21928,37 @@ To overcome these constraints,
  kCELL shifts toward a smoother,
  continuous representation of areas of expertise.
  Each agent in kCELL uses an activation function in the form of a Radial Basis Function (RBF) kernel.
- This defines a continuous similarity metric between input features and agents,
- drawing inspiration from RBF Networks 
+ 
+\end_layout
+
+\begin_layout Standard
+Specifically,
+ an RBF is a real-valued function whose output depends on the distance from a central point.
+ An example is the Gaussian form:
+ 
+\begin_inset Formula 
+\begin{equation}
+\phi\left(x\right)=\exp\left(-\beta\left\Vert x-c\right\Vert ^{2}\right)
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $c$
+\end_inset
+
+ is the central point and 
+\begin_inset Formula $\beta\in\mathbb{R}^{+}$
+\end_inset
+
+ determines the kernel width.
+ By defining 
+\begin_inset Formula $c$
+\end_inset
+
+ as a parameter of the agent's activation function,
+ the kernel value provides a continuous similarity metric between input features and agents,
+ drawing inspiration from the gating mechanisms of RBF Networks 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "lowe1988multivariable"
@@ -21968,7 +21966,7 @@ literal "false"
 
 \end_inset
 
- and MoE (Mixture of Experts) 
+ and Mixture-of-Experts (MoE) 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "yukselTwentyYearsMixture2012"
@@ -21976,15 +21974,16 @@ literal "false"
 
 \end_inset
 
- gating mechanisms.
- This change allows the ensemble of local expert agents to express spatial structures more finely,
+.
+ This change enables the ensemble of local expert agents to express spatial structures more finely,
  with more degrees of freedom than what is permitted with orthotopes,
- breaking the assumption of knowledge uniformity over the areas of expertise of agents that were used in oCELL.
+ and it breaks the assumption of knowledge uniformity over the areas of expertise of agents that were used in oCELL.
  
 \end_layout
 
 \begin_layout Standard
-As a matter of fact it leads to smoother aggregation of predictions in which agents contribute to predictions proportionally to their kernel-defined relevance,
+In fact,
+ it leads to smoother aggregation of predictions in which agents contribute to predictions proportionally to their kernel-defined relevance,
  i.e proportionally to their estimated expertise level.
  This brings the inference closer to the probabilistic weighting strategies used in Gaussian Processes 
 \begin_inset CommandInset citation
@@ -21998,11 +21997,12 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-In addition to that kCELL represents a step forward the complexification of the social dimension of CELL systems.
- oCELL agents cooperated primarily through global context.
+In addition to that,
+ kCELL represents a step forward the complexification of the social dimension of CELL systems.
+ As oCELL agents cooperate primarily through global context,
  kCELL introduces more direct social feedback mechanisms.
- Agent no longer act as isolated local models solely influence by the social context,
- but they receive social feedbacks depending directly on their utility in a local collective of agents.
+ Agents no longer act as isolated local models solely influenced by the social context,
+ but they receive social feedback depending directly on their utility within a local collective of agents.
  This reinforces the social processes,
  as agents are informed by their social proximity and relative expertise levels.
 \end_layout
@@ -22010,8 +22010,8 @@ In addition to that kCELL represents a step forward the complexification of the 
 \begin_layout Standard
 These improvements result in improved interpolation quality,
  more faithful data representation,
- more stable learning dynamics and a reduced hyperparameter sensitivity,
- making kCELL well-suited for use in control tasks as discussed in later chapters.
+ more stable learning dynamics and a reduced hyperparameter sensitivity.
+ Thus it makes kCELL well-suited for use in control tasks as discussed in later chapters.
 \end_layout
 
 \begin_layout Standard
@@ -22041,7 +22041,8 @@ nolink "false"
 
 \end_inset
 
- introduces the learning rules that govern the self-organizing behavior of the agents that lead to the emergence of learning from the ensemble.
+ introduces the learning rules that govern the self-organizing behavior of the agents,
+ leading to the emergence of learning from the ensemble.
  Section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -22080,129 +22081,6 @@ nolink "false"
  provides a critical analysis of kCELL and details the limitations that still subsist despite the improvements.
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-Building upon the limitations of oCELL,
- we introduce kCELL (kernel CELL),
- the second instantiation of the CELL paradigm.
- With oCELL,
- we demonstrated that a population of agents can achieve competitive performance and provide valuable introspection signals such as epistemic and aleatoric uncertainty estimates and qualitative information about local function variations.
- However,
- its rigid spatial representation ultimately limits its ability to build reliable and adaptive regions of expertise.
- This constraint becomes problematic when there is need for fast adaptation in an online setting.
-\end_layout
-
-\begin_layout Plain Layout
-kCELL addresses these issues by replacing orthotope-based spatialization with a kernel-based representation.
- Each agent has its activation function in the form of a RBF kernel that defines a smooth continuous distance between input features and agents,
- drawing inspiration from RBF Networks 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "lowe1988multivariable"
-literal "false"
-
-\end_inset
-
- and MoE (Mixture of Experts) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "yukselTwentyYearsMixture2012"
-literal "false"
-
-\end_inset
-
- gating mechanisms.
- This change allows the system to express spatial structures more finely,
- with more degrees of freedom than what is permitted with orthotopes,
- thus breaking the assumption of knowledge uniformity over the region of expertise of oCELL.
-\end_layout
-
-\begin_layout Plain Layout
-In addition to that,
- kCELL introduces a smooth aggregation rule in which agents contribute to predictions proportionally to their kernel-defined relevance,
- i.e proportionally to their estimated expertise level.
- This brings the inference closer to the probabilistic weighting strategies used in Gaussian Processes 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "seeger2004gaussian"
-literal "false"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-For those reasons kCELL improves interpolation quality,
- agents' data representations and yield more stable learning dynamics that are less dependent on brittle hyperparameters,
- which is better suited for online adaptive learning.
- kCELL is a more expressive and robust extension of the CELL paradigm that also preserves the explainability properties demonstrated with oCELL.
-\end_layout
-
-\begin_layout Plain Layout
-First,
- Section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "subsec:kCELL-Context-Agents"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- describes the internal structure of context agents in kCELL,
- including their spatialization in the feature space and their prediction mechanisms.
- Then,
- Section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "subsec:kCELL-Learning-Rules"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- introduces the learning rules that cover agent creation,
- adaptation and self-organization leading to the emergence of learning in the system.
- Section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "subsec:kCELL-Adaptation-to-Non-Stationary"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- presents a study of kCELL's capabilities in terms of adaption in a non-stationary environment leveraging the introspection tools specific to the models derived from CELL.
- Subsequently,
- section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "subsec:kCELL-Discussions-and-Limitations"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- discusses the key differences between oCELL and kCELL and details the limitations of kCELL.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsection
 Local Expert Agents
 \begin_inset CommandInset label
@@ -22215,9 +22093,8 @@ name "subsec:kCELL-Context-Agents"
 \end_layout
 
 \begin_layout Standard
-In this section,
- the tripartite structure of kCELL's local expert agents is described in detail.
- Each agent
+This section describes the tripartite structure of kCELL's local expert agents.
+ Each agent is defined as:
 \begin_inset Formula 
 \[
 \mathcal{A}_{i}=\left\{ \phi_{i},f_{i},\mathcal{M}_{i}\right\} 
@@ -22225,13 +22102,32 @@ In this section,
 
 \end_inset
 
-is a specialized local expert that represents its area of expertise through a smooth RBF kernel,
- maintains a local linear model and manages an internal state to track its performance.
+where 
+\begin_inset Formula $\phi_{i}$
+\end_inset
+
+ denotes its activation function,
+ 
+\begin_inset Formula $f_{i}$
+\end_inset
+
+ its internal model,
+ and 
+\begin_inset Formula $\mathcal{M}_{i}$
+\end_inset
+
+ its internal state.
+ The agent 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ is a specialized local expert that represents its area of expertise through a smooth RBF kernel,
+ maintains a local linear model,
+ and manages an internal state to track its performance.
 \end_layout
 
 \begin_layout Standard
-Unlike oCELL,
- where a binary activation function is used,
+Unlike oCELL which uses a binary activation function,
  the area of expertise of local expert agents in kCELL are spatialized differently as illustrated in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -22246,8 +22142,9 @@ nolink "false"
 .
  A RBF kernel is used as a continuous and smooth activation function to represent the area of expertise in feature space.
  Compared to using orthotope with hard boundaries,
- this kernel-based spatialization unlocks more degrees of freedom and contributes to making the learned global function smooth and differentiable,
- making it more optimization-friendly for use control tasks.
+ this kernel-based spatialization unlocks more degrees of freedom and makes the learned global function smooth and differentiable.
+ Thus,
+ it makes it more optimization-friendly for use control tasks.
 \end_layout
 
 \begin_layout Standard
@@ -22357,7 +22254,7 @@ name "fig:RBF-Activation-Surface"
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Side-by-side comparison of the shapes in 2D of activation surface of oCELL 
+Shapes in 2D of activation surface of oCELL 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "fig:Orthotope-Activation-Surface"
@@ -22406,12 +22303,16 @@ A local expert agent is spatialized in the input space by the mean
 \begin_inset Formula $\mu_{i}\in\mathbb{R}^{n}$
 \end_inset
 
- and covariance matrix 
+ and the covariance matrix 
 \begin_inset Formula $\Sigma_{i}\in\mathbb{R}^{n\times n}$
 \end_inset
 
  of the distribution of its training points.
- The activation function 
+ The 
+\series bold
+activation function
+\series default
+ 
 \begin_inset Formula $\phi_{i}:\mathbb{R}^{n}\mapsto\left]0,1\right]$
 \end_inset
 
@@ -22419,11 +22320,11 @@ A local expert agent is spatialized in the input space by the mean
 \begin_inset Formula $x\in\mathbb{R}^{n}$
 \end_inset
 
- is given by the RBF kernel value
+ is given by the RBF kernel value:
 \begin_inset Formula 
-\[
-\phi_{i}\left(x\right)=\exp\left(-\frac{d\left(\mathcal{A}_{i},x\right)^{2}}{2l^{2}}\right)
-\]
+\begin{equation}
+\phi_{i}\left(x\right)=\exp\left(-\frac{d_{M}\left(\mathcal{A}_{i},x\right)^{2}}{2l^{2}}\right)
+\end{equation}
 
 \end_inset
 
@@ -22446,23 +22347,61 @@ with
 .
  In kCELL this similarity metric is defined as the Mahalanobis distance such as
 \begin_inset Formula 
-\[
-d\left(\mathcal{A}_{i},x\right)=\sqrt{\left(x-\mu_{i}\right)^{\top}\Sigma_{i}^{-1}\left(x-\mu_{i}\right)}
-\]
+\begin{equation}
+d_{M}\left(\mathcal{A}_{i},x\right)=\sqrt{\left(x-\mu_{i}\right)^{\top}\Sigma_{i}^{-1}\left(x-\mu_{i}\right)}
+\end{equation}
 
 \end_inset
 
 In this context,
- the activation score can be interpreted as the likelihood that the agent has previously been trained on points similar to 
+ the activation value can be interpreted as the 
+\series bold
+likelihood that the agent has previously been trained on points similar to 
 \begin_inset Formula $x$
 \end_inset
 
+
+\series default
 ,
  reflecting its degree of knowledge.
  Contrary to oCELL,
  the knowledge uniformity hypothesis is discarded.
  Expertise is assumed to be maximized on the center of the agent's area of expertise.
- Even with this continuous representation,
+ Thus,
+ contrary to oCELL,
+ agents in kCELL are constructed based on the assumption of decreasing knowledge:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{assumption}[Decreasing Knowledge]
+\end_layout
+
+\begin_layout Plain Layout
+
+The level of expertise of an agent is assumed to decrease as the distance from its center increases.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{assumption}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Even with this continuous representation,
  some measurable mathematical quantities of oCELL can be translated to kCELL such as the notion of volume which remains relevant.
  As the area of expertise of an agent is not clearly bounded,
  its volume is tied to the volume of a confidence ellipsoid.
@@ -22480,9 +22419,9 @@ literal "false"
 
 
 \begin_inset Formula 
-\[
+\begin{equation}
 V\left(\mathcal{A}_{i}\right)\propto\sqrt{\det\left(\Sigma_{i}\right)}
-\]
+\end{equation}
 
 \end_inset
 
@@ -22492,18 +22431,22 @@ As an instantiation of the CELL formalism,
 \begin_inset Formula $\mathcal{A}_{i}$
 \end_inset
 
- maintains a local linear regressor 
+ maintains a local linear regressor as the
+\series bold
+ internal model 
+\series default
+
 \begin_inset Formula $f_{i}$
 \end_inset
 
- to predict
+ to predict:
 \begin_inset Formula 
-\[
+\begin{equation}
 \hat{y}_{i}=f_{i}\left(x\right)=\Theta_{i}\left[\begin{array}{c}
 x\\
 1
 \end{array}\right]
-\]
+\end{equation}
 
 \end_inset
 
@@ -22516,7 +22459,11 @@ where
 \end_layout
 
 \begin_layout Standard
-The internal state 
+The 
+\series bold
+internal state
+\series default
+ 
 \begin_inset Formula $\mathcal{M}_{i}$
 \end_inset
 
@@ -22524,7 +22471,11 @@ The internal state
 \begin_inset Formula $n_{\text{seen}}$
 \end_inset
 
- that have been used to update the shape of each local expert agent.
+ used to update the shape of the local expert agent 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+.
  Unlike oCELL's buffer memory,
  kCELL is designed to be lightweight by retaining as few points as possible.
  Additionally,
@@ -22536,9 +22487,9 @@ The internal state
 \begin_inset Formula $\bar{C}_{\mathcal{A}_{i}}\in\left[-1,1\right]$
 \end_inset
 
- which corresponds to an exponential moving average of the normalized social feedbacks received by the agent.
- This value tracks the agent's predictive performance relative to its peers and is used for the destruction mechanism.
- The precise feedback mechanism is detailed in Section 
+ which corresponds to an exponential moving average of the normalized social feedback received by the agent.
+ This confidence value tracks the agent's predictive performance relative to its peers and is used for the destruction mechanism.
+ The precise feedback mechanism is detailed later in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:kCELL-Learning-Rules"
@@ -22565,7 +22516,7 @@ To transform the population of local expert agents into a global model,
  the spatial gating mechanism focuses on selecting one subset of local expert agents:
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Paragraph
 
 \series bold
 Neighbor Agents
@@ -22574,8 +22525,11 @@ Neighbor Agents
 \begin_inset Formula $\mathcal{D}_{\text{neighbors}}$
 \end_inset
 
-):
- which contains agents for which 
+)
+\end_layout
+
+\begin_layout Standard
+contains agents for which 
 \begin_inset Formula $x$
 \end_inset
 
@@ -22592,7 +22546,11 @@ Neighbor Agents
 \begin_inset Formula $\xi$
 \end_inset
 
-th percentile of the chi-squared distribution with 
+
+\nospellcheck on
+th
+\nospellcheck default
+ percentile of the chi-squared distribution with 
 \begin_inset Formula $n$
 \end_inset
 
@@ -22602,6 +22560,10 @@ th percentile of the chi-squared distribution with
 \end_inset
 
  belongs to the hyperparameters of the system that needs to be set beforehand.
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -22628,9 +22590,9 @@ As stated earlier,
 -closest agents in feature space.
  The final prediction is given by 
 \begin_inset Formula 
-\[
+\begin{equation}
 \hat{y}=\sum_{i\in\mathcal{D}_{k}}w_{i}\left(x\right)f_{i}\left(x\right)
-\]
+\end{equation}
 
 \end_inset
 
@@ -22640,13 +22602,32 @@ where the normalized contribution weights
 
  are defined as
 \begin_inset Formula 
-\[
+\begin{equation}
 w_{i}\left(x\right)=\frac{\phi_{i}\left(x\right)}{\sum_{j\in\mathcal{D}_{k}}\phi_{j}\left(x\right)}
-\]
+\end{equation}
 
 \end_inset
 
 This formulation ensures that each contributing agent's influence on the final prediction is proportional to its estimated competence.
+\end_layout
+
+\begin_layout Standard
+To maintain its local expertise as new data arrives,
+ each agent 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ can perform two actions:
+ update the shape of its area of expertise through the parameters of the activation function 
+\begin_inset Formula $\phi_{i}$
+\end_inset
+
+ (Shape Update),
+ or refine its internal model 
+\begin_inset Formula $f_{i}$
+\end_inset
+
+ (Model Update).
 \end_layout
 
 \begin_layout Paragraph
@@ -22679,10 +22660,10 @@ literal "false"
 
 
 \begin_inset Formula 
-\begin{eqnarray*}
+\begin{eqnarray}
 \mu_{i\,|\,t+1} & = & \mu_{i\,|\,t}+\frac{x-\mu_{i\,|\,t}}{n_{\text{seen}}+1}\\
 \Sigma_{i\,|\,t+1} & = & \frac{1}{n_{\text{seen}}}\left(\Sigma_{i\,|\,t}+\left(x-\mu_{i\,|\,t}\right)\left(x-\mu_{i\,|\,t+1}\right)^{\top}\right)
-\end{eqnarray*}
+\end{eqnarray}
 
 \end_inset
 
@@ -22691,53 +22672,7 @@ where
 \end_inset
 
  is the number of points used by the agent to update its shape.
- This allows the agents to adapt their area of expertise incrementally without maintaining a buffer of past observations.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-The spatial parameters of the activation function of agents,
- 
-\begin_inset Formula $\mu_{i}$
-\end_inset
-
- and 
-\begin_inset Formula $\Sigma_{i}$
-\end_inset
-
- are updated incrementally using Welford's algorithm 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "welford1962note"
-literal "false"
-
-\end_inset
-
-
-\begin_inset Formula 
-\begin{eqnarray*}
-\mu_{i\,|\,t+1} & = & \mu_{i\,|\,t}+\frac{x-\mu_{i\,|\,t}}{n_{\text{seen}}+1}\\
-\Sigma_{i\,|\,t+1} & = & \frac{1}{n_{\text{seen}}}\left(\Sigma_{i\,|\,t+1}+\left(x-\mu_{i\,|\,t}\right)\left(x-\mu_{i\,|\,t+1}\right)^{\top}\right)
-\end{eqnarray*}
-
-\end_inset
-
-where 
-\begin_inset Formula $n_{\text{seen}}$
-\end_inset
-
- is the number of points used by the agent to update its shape.
- With this approach,
- the Shape Update operation is expressed purely as a mean and covariance estimation problem,
- grounded in a clear statistical meaning.
-\end_layout
-
-\end_inset
-
-
+ Thus the agents can adapt their area of expertise incrementally without maintaining a buffer of past observations.
 \end_layout
 
 \begin_layout Paragraph
@@ -22774,458 +22709,6 @@ literal "false"
  the agents provide a first-order approximation of the dynamics that converges as new data is ingested sequentially from the data stream.
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-To ensure fast and accurate updates while avoiding to maintain a memory buffer 
-\begin_inset Formula $\mathcal{B}_{i}$
-\end_inset
-
-,
- the parameter matrix 
-\begin_inset Formula $\Theta_{i}$
-\end_inset
-
- is updated using Recursive Least Squares (RLS) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "haykin2002adaptive"
-literal "false"
-
-\end_inset
-
-.
- RLS naturally handles the notion of forgetting and for a forgetting value of 
-\begin_inset Formula $1$
-\end_inset
-
- (i.e no forgetting),
- it converges rapidly to producing the same results as Ordinary Least Squares (OLS).
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-===================================================================
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-As for oCELL 
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Ref to definition of context agents in oCELL
-\end_layout
-
-\end_inset
-
-,
- the main entities of kCELL are the Context agents.
- A Context agent 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- is characterized by an activation function 
-\begin_inset Formula $\phi_{i}\left(x\right)$
-\end_inset
-
- and a prediction function 
-\begin_inset Formula $f_{i}\left(x\right)$
-\end_inset
-
- such as 
-\begin_inset Formula 
-\[
-\mathcal{A}_{i}=\left\{ \phi_{i},f_{i}\right\} 
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-However,
- unlike in oCELL,
- the Context agents of kCELL are spatialized differently.
- In oCELL,
- a binary activation (the point is inside or outside the associated orthotope) is used while in kCELL,
- a RBF kernel is used as a continuous and smooth activation function to represent the area of expertise in feature space.
-\end_layout
-
-\begin_layout Plain Layout
-First,
- the spatialization mechanism of context agents based on RBF kernels is described.
- Then the soft weighted prediction mechanism allowing for weighting based on estimated level of expertise is presented.
-\end_layout
-
-\begin_layout Subsubsection
-Kernel Spatialization
-\begin_inset CommandInset label
-LatexCommand label
-name "subsec:Kernel-Spatialization"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-In kCELL,
- contrary to using orthotopes a RBF kernel is used as the activation function to unlock more degrees of freedom to represent the areas of expertise 
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Add ref to illustration Figure
-\end_layout
-
-\end_inset
-
-.
- This activation function is smooth and differentiable,
- making the system more optimization-friendly to be used for control tasks as a dynamics model.
- Therefore,
- an agent is spatialized by the mean 
-\begin_inset Formula $\mu_{i}\in\mathbb{R}^{n}$
-\end_inset
-
- and covariance matrix 
-\begin_inset Formula $\Sigma_{i}\in\mathbb{R}^{n\times n}$
-\end_inset
-
- of the distribution of its training points.
- Since this activation function has statistical significance,
- it is easier to define the neighborhood as a confidence interval whose confidence value can be adjusted.
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Float figure
-placement document
-alignment document
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Comparison between area of expertise oCELL vs kCELL
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Definition
-The distance between a point 
-\begin_inset Formula $x\in\mathbb{R}^{n}$
-\end_inset
-
- and a Context agent 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- is defined as the mahalanobis distance:
-\begin_inset Formula 
-\[
-d\left(\mathcal{A}_{i},x\right)=D_{M}\left(\mu_{i},\Sigma_{i},x\right)=\sqrt{\left(x-\mu_{i}\right)^{\top}\Sigma_{i}^{-1}\left(x-\mu_{i}\right)}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Definition
-A Context agent 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- is considered as a neighbor of 
-\begin_inset Formula $x\in\mathbb{R}^{n}$
-\end_inset
-
- if 
-\begin_inset Formula $x$
-\end_inset
-
- is likely to belong to the training dataset of 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- such as 
-\begin_inset Formula 
-\[
-D_{M}\left(\mu_{i},\Sigma_{i},x\right)^{2}\leq\chi_{n,0.95}^{2}
-\]
-
-\end_inset
-
- where 
-\begin_inset Formula $\chi_{n,0.95}^{2}$
-\end_inset
-
- denotes the 
-\begin_inset Formula $95$
-\end_inset
-
-th percentile of the chi-squared distribution with 
-\begin_inset Formula $n$
-\end_inset
-
- degrees of freedom.
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Definition
-The activation function 
-\begin_inset Formula $\phi_{i}:\mathbb{R}^{n}\mapsto\left]0,1\right]$
-\end_inset
-
- of a Context agent 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- for a point 
-\begin_inset Formula $x\in\mathbb{R}^{n}$
-\end_inset
-
- is given by the RBF kernel value
-\begin_inset Formula 
-\[
-\phi_{i}\left(\mathcal{A}_{i},x\right)=\exp\left(-\frac{d\left(\mathcal{A}_{i},x\right)}{2l^{2}}\right)
-\]
-
-\end_inset
-
-with 
-\begin_inset Formula $l$
-\end_inset
-
- the lengthscale of the kernel.
-\end_layout
-
-\begin_layout Definition
-The activation score of a point 
-\begin_inset Formula $x$
-\end_inset
-
- for a given agent 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- can be interpreted as the likelihood that the agent has previously been trained on points similar to 
-\begin_inset Formula $x$
-\end_inset
-
- and thus reflects the agent's degree of knowledge over the corresponding region of feature space.
- We can draw a parallel between this activation function based on RBF kernel and the coverage index 
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Insert ref to coverage index in previous section
-\end_layout
-
-\end_inset
-
-,
- an explainability metric derived from oCELL which is also linked to the degree of knowledge of a point.
- In kCELL,
- this explainability property related to the knowledge of a point emerges naturally from the definition of the system.
-\end_layout
-
-\begin_layout Definition
-One of the requirements of kCELL is to be lightweight,
- meaning that as few points as possible should be retained in memory to truly represent information through local models.
- As previously stated,
- the spatialization of each agent can be fully described by a mean 
-\begin_inset Formula $\mu_{i}$
-\end_inset
-
- and a covariance matrix 
-\begin_inset Formula $\Sigma_{i}$
-\end_inset
-
- which are the parameters of the activation function 
-\begin_inset Formula $\phi_{i}$
-\end_inset
-
-.
- Each time a point is ingested by agent 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
-,
- its mean and covariance matrix are updated using the Welford's algorithm 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "welford1962note"
-literal "false"
-
-\end_inset
-
- such as 
-\begin_inset Formula 
-\begin{eqnarray*}
-\mu_{i\,|\,t+1} & = & \mu_{i\,|\,t}+\frac{x-\mu_{i\,|\,t}}{n+1}\\
-\Sigma_{i\,|\,t+1} & = & \frac{1}{n}\left(\Sigma_{i\,|\,t+1}+\left(x-\mu_{i\,|\,t}\right)\left(x-\mu_{i\,|\,t+1}\right)^{\top}\right)
-\end{eqnarray*}
-
-\end_inset
-
-where 
-\begin_inset Formula $n$
-\end_inset
-
- is the number of points ingested by the agent to update its shape.
- With this approach the shape change is expressed purely as a mean and covariance estimation problem.
-\end_layout
-
-\begin_layout Definition
-The notion of volume expressed in Section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "subsec:Context-Agents"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- (cf.
- Equation 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:orthotope-volume"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-) still carries on.
- The volume of an agent is tied to the volume of a confidence ellipsoid defined by a theshold on squared mahalanobis distance.
- Thus the volume of an agent is proportional to the square root of the determinant of the associated covariance matrix
-\begin_inset Formula 
-\[
-v\left(\mathcal{A}_{i}\right)\propto\sqrt{\det\left(\Sigma_{i}\right)}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-Soft-Weighted Prediction
-\begin_inset CommandInset label
-LatexCommand label
-name "subsubsec:Soft-Weighted-Prediction"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-In kCELL,
- we get rid of the knowledge uniformity hypothesis of agents to better represent the knowledge of the system.
- Therefore the activation function of a context agent materializes its area of expertise through a smooth RBF kernel.
- The further a point is from the agent's centroid,
- the lower its activation value.
- This is because we assume that expertise is maximized at the agent's center.
- Agents with higher activation values contribute more heavily to the final output because they are more expert than others at predicting.
-\end_layout
-
-\begin_layout Plain Layout
-Let 
-\begin_inset Formula $S_{k}=\left\{ i|\mathcal{A}_{i}\,\text{is in the \ensuremath{k}-closest to}\,x\right\} $
-\end_inset
-
- denote the index set of the 
-\begin_inset Formula $k$
-\end_inset
-
- nearest agents in feature space.
- The final prediction 
-\begin_inset Formula $f\left(x\right)\in\mathbb{R}^{m}$
-\end_inset
-
- of the system is then given by
-\begin_inset Formula 
-\[
-f\left(x\right)=\sum_{i\in S_{k}}w_{i}\left(x\right)f_{i}\left(x\right)
-\]
-
-\end_inset
-
-where the normalized contribution weights 
-\begin_inset Formula $w_{i}\left(x\right)$
-\end_inset
-
- are defined as
-\begin_inset Formula 
-\[
-w_{i}\left(x\right)=\frac{\phi_{i}\left(x\right)}{\sum_{j\in S_{k}}\phi_{j}\left(x\right)}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-This formulation ensures that each contributing agent's influence on the final prediction is proportional to its estimated competence.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsection
 Learning Rules
 \begin_inset CommandInset label
@@ -23238,11 +22721,26 @@ name "subsec:kCELL-Learning-Rules"
 \end_layout
 
 \begin_layout Standard
-The previous section detailed the tripartite structure of local expert agents in kCELL that are spatialized using continuous smooth RBF kernels.
+The previous section detailed the tripartite structure of local expert agents in kCELL (with 
+\begin_inset Formula $\phi_{i}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $f_{i}$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $\mathcal{M}_{i}$
+\end_inset
+
+) that are spatialized using continuous smooth RBF kernels.
  This section follows this line of thought,
- describing the social learning rules that govern the collextive behavior of the ensemble.
+ describing the social learning rules that govern the collective behavior of the ensemble.
  While oCELL relies on binary coverage and fixed error thresholds,
- kCELL introduces a feedback mechanism based on social relative performance and baseline benchmarking allowing the agents to 
+ kCELL introduces a feedback mechanism based on social relative performance and baseline benchmarking.
+ Thus the agents have to 
 \emph on
 cooperate
 \emph default
@@ -23255,13 +22753,13 @@ competing
 
 \begin_layout Standard
 As described in the CELL formalism,
- the self-organization of the ensemble of local expert agents in kCELL is governed by rules that determine how the population digests the sequential stream of feature-target tuples (
+ the self-organization of the ensemble of local expert agents in kCELL is governed by rules that determine how this ensemble processes the sequential stream of feature-target tuples (
 \begin_inset Formula $x_{new},y_{new}$
 \end_inset
 
 ).
  These rules translate the individual performance of agents within a specific social context into discrete actions:
- updating an agent's model,
+ updating its internal model,
  adapting its shape or managing the population through creation and destruction.
  In order to track an agent's reliability over time,
  kCELL leverages two types of feedback signals that assess the quality of an agent's contribution.
@@ -23276,25 +22774,25 @@ Ensemble Feedback (
 \end_layout
 
 \begin_layout Standard
-When multiple agents are neighbors of 
+When several agents are neighbors of 
 \begin_inset Formula $x_{new}$
 \end_inset
 
 ,
- they must cooperate locally to refine the approximate of the group.
+ they must cooperate locally to refine the group approximation.
  The ensemble feedback is defined as the fractional change in error 
 \begin_inset Formula $\Delta_{\mathcal{A}_{i}}$
 \end_inset
 
- when leaving agent 
+ when an agent 
 \begin_inset Formula $\mathcal{A}_{i}$
 \end_inset
 
- out of the global prediction process
+ is left out of the global prediction process
 \begin_inset Formula 
-\[
+\begin{equation}
 \Delta_{\mathcal{A}_{i}}=\frac{E_{-i}-E}{E}=\frac{\left|\hat{y}_{-i}-y_{new}\right|-\left|\hat{y}-y_{new}\right|}{\left|\hat{y}-y_{new}\right|}
-\]
+\end{equation}
 
 \end_inset
 
@@ -23306,13 +22804,13 @@ where
 \begin_inset Formula $E_{-i}=\left|\hat{y}_{-i}-y_{new}\right|$
 \end_inset
 
- is error calculated without 
+ is the prediction error calculated without 
 \begin_inset Formula $\mathcal{A}_{i}$
 \end_inset
 
 's proposal.
  
-\begin_inset Formula $\Delta_{\mathcal{A}_{i}}$
+\begin_inset Formula $\Delta_{\mathcal{A}_{i}}>0$
 \end_inset
 
  indicates that the agent is a 
@@ -23346,20 +22844,21 @@ When an agent is alone or no neighbors exist,
 \begin_inset Formula $\Delta_{\mathcal{A}_{i}}^{\prime}$
 \end_inset
 
- is defined in such a way as to compare to a baseline prediction 
+ is computed relative to a baseline prediction 
 \begin_inset Formula $y_{base}$
 \end_inset
 
+,
  provided by a running short-term linear predictor that is regularly fitted with Ordinary Least Squares (OLS) on a sliding window buffer 
 \begin_inset Formula $\mathcal{B}_{\text{short}}$
 \end_inset
 
- of the most recent observation of the system,
- such as
+ of the most recent data points.
+ The baseline feedback is defined as
 \begin_inset Formula 
-\[
+\begin{equation}
 \Delta_{\mathcal{A}_{i}}^{\prime}=\frac{E_{base}-E_{i}}{E_{base}}=\frac{\left|y_{base}-y_{new}\right|-\left|\hat{y}_{i}-y_{new}\right|}{\left|y_{base}-y_{new}\right|}
-\]
+\end{equation}
 
 \end_inset
 
@@ -23381,7 +22880,7 @@ where
 \end_layout
 
 \begin_layout Standard
-These feedback signals are used to update the running confidence 
+These two feedback signals are used to update the running confidence 
 \begin_inset Formula $\bar{C}_{\mathcal{A}_{i}}$
 \end_inset
 
@@ -23395,26 +22894,26 @@ These feedback signals are used to update the running confidence
 \begin_inset Formula $c_{i}\in\left[-1,1\right]$
 \end_inset
 
- is computed
+ is computed:
 \begin_inset Formula 
-\[
-c_{i}=\tanh\left(k_{\text{steep}}\times\begin{cases}
+\begin{equation}
+c_{\mathcal{A}_{i}}=\tanh\left(k_{\text{steep}}\times\begin{cases}
 \Delta_{\mathcal{A}_{i}} & \text{if}\,\,N>1\\
 \Delta_{\mathcal{A}_{i}}^{\prime} & \text{else}
 \end{cases}\right)
-\]
+\end{equation}
 
 \end_inset
 
 The running confidence is then updated from the value of 
-\begin_inset Formula $c_{i}$
+\begin_inset Formula $c_{\mathcal{A}_{i}}$
 \end_inset
 
  via an exponential moving average
 \begin_inset Formula 
-\[
+\begin{equation}
 \bar{C}_{\mathcal{A}_{i}\,|\,t+1}=\left(1-\lambda\right)\bar{C}_{\mathcal{A}_{i}\,|\,t}+\lambda c_{\mathcal{A}_{i}}
-\]
+\end{equation}
 
 \end_inset
 
@@ -23436,8 +22935,8 @@ where
 
 \begin_layout Standard
 The learning rules are triggered by conditions on the social context and the feedback signals.
- These rules allow local groups of agents to continuously improve by refining weak agents while keeping them mobile and locally adaptable,
- and specializing strong agents within their current area of expertise.
+ These rules allow local groups of agents to continuously improve by refining weaker agents (keeping them mobile and locally adaptable),
+ while making stronger agents specialize further within their current area of expertise.
  The following paragraphs detail the learning rules.
 \end_layout
 
@@ -23466,7 +22965,7 @@ When
 \end_inset
 
 .
- The social feedback 
+ The ensemble feedback 
 \begin_inset Formula $\Delta_{\mathcal{A}_{i}}$
 \end_inset
 
@@ -23504,7 +23003,7 @@ When
 ,
  the only neighbor agent cannot be compared to other experts.
  In this case,
- it is compared against a short-term linear baseline predictor.
+ it is compared to a short-term linear baseline predictor.
  If the agent outperforms the baseline (
 \begin_inset Formula $\Delta_{\mathcal{A}_{i}}^{\prime}>0$
 \end_inset
@@ -23524,8 +23023,8 @@ Shape Update
 \end_inset
 
 .
- Converselt,
- it the agent is beaten by the baseline (
+ Conversely,
+ if the agent is beaten by the baseline (
 \begin_inset Formula $\Delta_{\mathcal{A}_{i}}^{\prime}<0$
 \end_inset
 
@@ -23555,7 +23054,7 @@ When
 
 .
  In this context,
- the feedback 
+ the baseline feedback 
 \begin_inset Formula $\Delta_{\mathcal{A}_{i}}^{\prime}$
 \end_inset
 
@@ -23595,7 +23094,7 @@ Agent Creation
 \end_inset
 
 .
- To accelerate local convergence and avoid initializing with a single point,
+ To accelerate local convergence and to avoid initializing with a single point,
  the new agent is initialized from a short-term sliding window buffer 
 \begin_inset Formula $\mathcal{B}_{\text{ini}}$
 \end_inset
@@ -23613,7 +23112,12 @@ containing the
 \series bold
 Agent Creation
 \series default
- action to avoid redundant agent creation.
+ meta-action to avoid redundant agent creation.
+ An agent cannot be created until 
+\begin_inset Formula $\mathcal{B}_{\text{ini}}$
+\end_inset
+
+is full.
 \end_layout
 
 \begin_layout Paragraph
@@ -23623,7 +23127,7 @@ Uselessness
 \begin_layout Standard
 To prevent uncontrolled population growth and mitigate the proliferation of agents that do not contribute to predictive accuracy,
  a destruction mechanism based on social survival is used.
- Unliked oCELL which uses a volume-based threshold,
+ Unlike oCELL which uses a volume-based threshold,
  kCELL relies on the running confidence 
 \begin_inset Formula $\bar{C}_{\mathcal{A}_{i}}$
 \end_inset
@@ -23633,7 +23137,8 @@ To prevent uncontrolled population growth and mitigate the proliferation of agen
 \end_inset
 
 .
- If an agent consistently receives negative feedbacks by either being the weakest of a local group or by failing to beat the short-term baseline,
+ If an agent consistently receives negative feedback by either being the weakest of a local group,
+ or by failing to beat the short-term baseline,
  its confidence will gradually decrease.
  When 
 \begin_inset Formula $\bar{C}_{\mathcal{A}_{i}}$
@@ -23668,7 +23173,7 @@ nolink "false"
 
 \end_inset
 
- summarize these learning rules by mapping social contexts and conditions to the corresponding triggered action or meta-action.
+ summarizes these learning rules by mapping social contexts and conditions to the corresponding triggered action or meta-action.
 \end_layout
 
 \begin_layout Standard
@@ -23742,7 +23247,7 @@ Condition
 \begin_layout Plain Layout
 
 \series bold
-Targeted subset
+Targeted Set
 \end_layout
 
 \end_inset
@@ -24174,7 +23679,6 @@ name "tab:Learning-rules-of-kCELL"
 \end_inset
 
 .
- The far left column corresponds to the title of the paragraph in which the rules are presented.
  Each line corresponds to a given learning rule associated with a social context representing a condition on the number of local experts 
 \begin_inset Formula $N_{\text{neighbors}}$
 \end_inset
@@ -24241,7 +23745,7 @@ nolink "false"
 
 \end_inset
 
- presents a side-by-side visualization of the spatial organization of agents 
+ presents a visualization of the spatial organization of agents 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "fig:1D-Spatial-organization"
@@ -24252,7 +23756,7 @@ nolink "false"
 
 \end_inset
 
- against the result of aggregating their predictions 
+ and the resulting predictions 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "fig:1D-Resulting-prediction"
@@ -24264,30 +23768,30 @@ nolink "false"
 \end_inset
 
 .
- We can observe that the agents overlap and do not fit perfectly across their entire area of expertise;
- at the edges of agents the fit seems to have more errors and conversely on the center.
+ We can observe that the agents overlap and do not fit perfectly across their entire area of expertise.
+ At the edges of agents the error is higher than in the center.
  This is the expected behavior resulting from the assumption of non-uniformity in the knowledge within areas of expertise.
  We observe that the overall predictions approximate closely the function considering the noise added to the data.
- It demonstrates kCELL's ability to generalize effectively by interpolation.
- This highlights the usefulness of a soft-weighted aggregation function.
+ It demonstrates kCELL's ability to generalize effectively by interpolation,
+ and it highlights the usefulness of a soft-weighted aggregation function.
 \end_layout
 
 \begin_layout Standard
 Finally,
- implementation-wise,
- the behavior of learning in kCELL is parameterized by the following hyperparameters:
+ from an implementation perspective,
+ the learning behavior in kCELL is governed by the following hyperparameters:
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $\xi$
+\begin_inset Formula $\xi\in\left[0,100\right]$
 \end_inset
 
 :
- The chi-squared percentile defining a threshold for the gating mechanism to extract the subset of neighbor agents from the global population.
+ The chi-squared percentile defining a threshold for the gating mechanism to extract the set of neighbor agents from the global population.
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $k_{\text{steep}}$
+\begin_inset Formula $k_{\text{steep}}>0$
 \end_inset
 
 :
@@ -24295,7 +23799,7 @@ Finally,
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $\lambda$
+\begin_inset Formula $\lambda\in\left]0,1\right]$
 \end_inset
 
 :
@@ -24303,16 +23807,17 @@ Finally,
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $\tau_{\text{confidence}}$
+\begin_inset Formula $\tau_{\text{confidence}}\in\left[-1,1\right]$
 \end_inset
 
 :
- The survival threshold for agent destructuction.
- If an agent's confidence goes below this value it is destroyed.
+ The survival threshold for agent destruction.
+ If an agent's confidence goes below this value,
+ it is destroyed.
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $N_{\text{short}}$
+\begin_inset Formula $N_{\text{short}}\in\mathbb{N}^{+}$
 \end_inset
 
 :
@@ -24324,7 +23829,7 @@ Finally,
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $N_{\text{ini}}$
+\begin_inset Formula $N_{\text{ini}}\in\mathbb{N}^{+}$
 \end_inset
 
 :
@@ -24332,15 +23837,25 @@ Finally,
 \begin_inset Formula $\mathcal{B}_{\text{ini}}$
 \end_inset
 
- needed to be able to create a new agent.
+ needed to create a new agent.
+ With linear regressions,
+ 
+\begin_inset Formula $N_{\text{ini}}$
+\end_inset
+
+ should ideally be greater than the number of input dimensions such as 
+\begin_inset Formula $N_{\text{ini}}>d+1$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $k_{\text{social}}$
+\begin_inset Formula $k_{\text{social}}>0$
 \end_inset
 
 :
- The number of closests agents used to compute the social baseline 
+ The number of closest agents used to compute the social baseline 
 \begin_inset Formula $y_{base}$
 \end_inset
 
@@ -24449,7 +23964,7 @@ name "fig:1D-Resulting-prediction"
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Visualization of local cooperation of agents in predicting a noisy sinus function.
+Local cooperation of agents in predicting a noisy sinus function.
  
 \begin_inset CommandInset ref
 LatexCommand eqref
@@ -24461,7 +23976,7 @@ nolink "false"
 
 \end_inset
 
- presents the spatial organization of agents where is colored segment represents the mapping of an individual agent between feature space and output space.
+ presents the spatial organization of agents where each colored segment represents the mapping of one agent between feature space and output space.
  
 \begin_inset CommandInset ref
 LatexCommand eqref
@@ -24487,576 +24002,6 @@ name "fig:1D-Visualization-of-local-coop"
 \end_inset
 
 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-To visualize the result of a learning and local cooperation of agents,
- we use a 1-dimensional example.
- We generate a small synthetic dataset from the function 
-\begin_inset Formula $f\left(x\right)=\sin\left(x\right)+\epsilon\,\mathcal{N}\left(0,1\right)$
-\end_inset
-
- with 
-\begin_inset Formula $\epsilon\in\mathbb{R}$
-\end_inset
-
- the noise scaling factor.
- We simulate online learning by sequentially feeding the agent one 
-\begin_inset Formula $x_{new},y_{new}$
-\end_inset
-
- tuple at a time.
- Each point is only seen once during learning as this is an important property of an effective and rapid online learning algorithm especially useful in real time dynamics modeling.
- Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:1D-Visualization-of-local-coop"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- presents a side-by-side visualization of the spatial organization of agents 
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:1D-Spatial-organization"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- against the result of aggregating their predictions 
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:1D-Resulting-prediction"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-.
- We can observe that the agents overlap and do not fit perfectly across their entire area of expertise;
- at the edges of agents the fit seems to have more errors and conversely on the center.
- This is the expected behavior resulting from the assumption of non-uniformity in the knowledge within areas of expertise.
- Finally,
- we observe that the overall predictions approximate closely the function considering the noise added to the data.
- It demonstrates kCELL's ability to generalize effectively by interpolation.
- This highlights the usefulness of a weighted aggregation function as presented in 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "subsubsec:Soft-Weighted-Prediction"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Paragraph
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-Parsimony (Social Survival Competition)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-=================================================
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-As in oCELL,
- learning rules are designed around a set of actions and conditions that triggers those actions to digest 
-\begin_inset Formula $x_{new},y_{new}$
-\end_inset
-
- that are fed to the system sequentially as a data stream.
- In context agent learning systems,
- the set of actions consists of the actions that can be performed individually by agents such as updating their model or shape;
- and more meta-level actions such as destroying or creating new agents.
- These actions are triggered by conditions that generally depend on two factors:
- the number of current neighbors and a feedback value calculated from the proposals of selected agents.
-\end_layout
-
-\begin_layout Plain Layout
-When there are 
-\begin_inset Formula $N>1$
-\end_inset
-
- agents that are neighbors of 
-\begin_inset Formula $x_{new}$
-\end_inset
-
-,
- all of those agents are theoretically considered as experts to predict for 
-\begin_inset Formula $x_{new}$
-\end_inset
-
-.
- As the final prediction of the system 
-\begin_inset Formula $f\left(x\right)=\hat{y}$
-\end_inset
-
- is computed from the proposals of all those agents,
- the agents need to cooperate together locally to improve the local knowledge.
- For this purpose,
- we define 
-\begin_inset Formula $\Delta_{\mathcal{A}_{i}}$
-\end_inset
-
-,
- the fractional change in error when leaving agent 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- out of the prediction process,
-\begin_inset Formula 
-\[
-\Delta_{\mathcal{A}_{i}}=\frac{E_{-i}-E}{E}=\frac{\left|\hat{y}_{-i}-y_{new}\right|-\left|\hat{y}-y_{new}\right|}{\left|\hat{y}-y_{new}\right|}
-\]
-
-\end_inset
-
-where 
-\begin_inset Formula $E$
-\end_inset
-
- is the prediction error,
- 
-\begin_inset Formula $E_{-i}=\left|\hat{y}_{-i}-y_{new}\right|$
-\end_inset
-
- is the prediction error without considering the proposition of prediction of agent 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-So,
- if 
-\begin_inset Formula $\Delta_{\mathcal{A}_{i}}>0$
-\end_inset
-
- then it means that removing agent 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- from the prediction group had a negative impact on the prediction error,
- meaning that agent 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- has a positive contribution to reducing the error locally and conversely for 
-\begin_inset Formula $\Delta_{\mathcal{A}_{i}}<0$
-\end_inset
-
-.
- This value indicates for a given point,
- which agents are strong and which are weak in predicting for 
-\begin_inset Formula $x_{new}$
-\end_inset
-
-.
- We can therefore consider that weak agents need to improve their local model,
- while strong agents are already good and need to strengthen their local anchoring at the given point.
- This update rule allows for the continuous improvement of the group locally by improving the weakest agents while keeping them mobile,
- thus allowing them to position themselves elsewhere if needed.
-\end_layout
-
-\begin_layout Plain Layout
-When there is only one agent (
-\begin_inset Formula $N=1$
-\end_inset
-
-) that is neighbor to 
-\begin_inset Formula $x_{new}$
-\end_inset
-
-,
- it can't be updatd according to the same rules.
- Indeed,
- its contribution to the error cannot be compared to the ones of other neighors (as if 
-\begin_inset Formula $N>1$
-\end_inset
-
-).
- Therefore,
- we define 
-\begin_inset Formula $\Delta_{\mathcal{A}_{i}}^{\prime}$
-\end_inset
-
-,
- the relative error reduction compared to a baseline prediction given by a running short term linear predictor
-\begin_inset Formula 
-\[
-\Delta_{\mathcal{A}_{i}}^{\prime}=\frac{E_{base}-E_{i}}{E_{base}}=\frac{\left|y_{base}-y_{new}\right|-\left|\hat{y}_{i}-y_{new}\right|}{\left|y_{base}-y_{new}\right|}
-\]
-
-\end_inset
-
-where 
-\begin_inset Formula $E_{base}$
-\end_inset
-
- is the prediction error of the short term linear predictor,
- 
-\begin_inset Formula $E_{i}=\left|\hat{y}_{i}-y_{new}\right|$
-\end_inset
-
- is the prediction error of agent 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-So,
- if 
-\begin_inset Formula $\Delta_{\mathcal{A}_{i}}^{\prime}>0$
-\end_inset
-
- then it means that 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- outperforms the short term linear predictor locally around 
-\begin_inset Formula $x_{new}$
-\end_inset
-
-,
- giving indications that agent 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- might be useful locally and conversely for 
-\begin_inset Formula $\Delta_{\mathcal{A}_{i}}^{\prime}<0$
-\end_inset
-
-.
- This value allows to estimate how expert the agent is relative to the short-term baseline.
- We can therefore consider that if the only neighbor agent is beaten by the baseline,
- then it probably shouldn't be a neighbor to this point.
- It should skip interacting this 
-\begin_inset Formula $x_{new}$
-\end_inset
-
- and 
-\begin_inset Formula $y_{new}$
-\end_inset
-
-,
- waiting to reposition itself by ingesting new points,
- to be destroyed,
- or for another agent to become a neighbor in that area so they can improve together.
- Conversely,
- if it is better than the baseline,
- then it is a local expert whom should stay in that area since it represents the only local source of knowledge.
- So,
- it should improve its local model and strengthen its local anchoring around 
-\begin_inset Formula $x_{new}$
-\end_inset
-
-.
- This update rule allows single neighbors to specialize locally even when alone in an area.
-\end_layout
-
-\begin_layout Plain Layout
-Finally if no agent is considered a neighbor (
-\begin_inset Formula $N=0$
-\end_inset
-
-),
- 
-\begin_inset Formula $\Delta_{\mathcal{A}_{i}}^{\prime}$
-\end_inset
-
- is computed since as in the case 
-\begin_inset Formula $N=1$
-\end_inset
-
-,
- there is no neighbor to compare to.
- Thus,
- if 
-\begin_inset Formula $\Delta_{\mathcal{A}_{i}}^{\prime}>0$
-\end_inset
-
-,
- it means that the neared agent is more relevant than the short term linear predictor.
- Therefore,
- it seems that this agent should encompass the point and become its neighbor by improving its model and extending its shape towards 
-\begin_inset Formula $x_{new}$
-\end_inset
-
-.
- On the other hand,
- if 
-\begin_inset Formula $\Delta_{\mathcal{A}_{i}}^{\prime}<0$
-\end_inset
-
-,
- it means that even the nearest agent is not relevant for prediction and therefore the system probably has no knowledge of 
-\begin_inset Formula $x_{new}$
-\end_inset
-
- and should add it to its knowledge base by covering the space around it by creating a new agent.
- To avoid initializing the new agent with only one point (as in oCELL) and accelerate local convergence,
- it is initialized from a short term buffer containing last points seen by the system.
-\end_layout
-
-\begin_layout Plain Layout
-Since agents are created,
- a destruction mechanism is needed.
- An,
- agent might position poorly in the feature space or choose to ingest the wrong points making its model no longer representative of the covered area.
- Decision errors happen almost all the time when working in an online setting because it is impossible to know what the future points will look like.
- It can only be guessed from local relationships between successive points.
- If no destruction mechanism is introduced to mitigate the proliferation of agents,
- the number of agents will grow indefinitely and performances will be hurt by bad agents,
- preventing local specialization in the system and ultimately dragging down the predictive accuracy.
-\end_layout
-
-\begin_layout Plain Layout
-Therefore,
- we define instantaneous normalized confidence 
-\begin_inset Formula $c_{\mathcal{A}_{i}}\in\left[-1,1\right]$
-\end_inset
-
- of an agent as the various feedbacks received by the agent
-\begin_inset Formula 
-\[
-c_{i}=\tanh\left(k\times\begin{cases}
-\Delta_{\mathcal{A}_{i}} & \text{if}\,N>1\\
-\Delta_{\mathcal{A}_{i}}^{\prime} & \text{else}
-\end{cases}\right)
-\]
-
-\end_inset
-
-where 
-\begin_inset Formula $k$
-\end_inset
-
- is the steepness of the 
-\begin_inset Formula $\tanh$
-\end_inset
-
- function.
-\end_layout
-
-\begin_layout Plain Layout
-Then,
- we define 
-\begin_inset Formula $\bar{C}_{\mathcal{A}_{i}}\in\left[-1,1\right]$
-\end_inset
-
-,
- the running confidence of agent 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- as the exponental moving average of successive instantaneous confidence values (i.e feedback values) received by the agent
-\begin_inset Formula 
-\[
-\bar{C}_{\mathcal{A}_{i}\,|\,t+1}=\left(1-\lambda\right)\bar{C}_{\mathcal{A}_{i}\,|\,t}+\lambda c_{\mathcal{A}_{i}}
-\]
-
-\end_inset
-
-where 
-\begin_inset Formula $\lambda$
-\end_inset
-
- the smoothing factor.
-\end_layout
-
-\begin_layout Plain Layout
-The confidence value 
-\begin_inset Formula $\bar{C}_{\mathcal{A}_{i}}$
-\end_inset
-
- is calculated for each agent 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- and updated each time 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
-is selected as a neighbor to 
-\begin_inset Formula $x_{new}$
-\end_inset
-
-.
- It allows to track its performance over the course of successive updates.
- When 
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\nospellcheck off
-\bar no
-\strikeout off
-\xout off
-\uuline off
-\uwave off
-\noun off
-\color none
-
-\begin_inset Formula $\bar{C}_{\mathcal{A}_{i}}>0$
-\end_inset
-
-,
- it means that,
- on average,
- 
-\begin_inset Formula $\mathcal{A}_{i}$
-\end_inset
-
- is categorized as strong compared to other neighbors or the short-term baseline predictor and conversely if 
-\begin_inset Formula $\bar{C}_{\mathcal{A}_{i}}<0$
-\end_inset
-
-.
- Confidence this allows us to distinguish between agents that strengthen the system and those that degrade it.
- We deduce that an agent whose trust falls below a certain threshold 
-\begin_inset Formula $\tau_{\text{confidence}}$
-\end_inset
-
- should be destroyed to allow the emergence of new and more efficient local structures.
-\end_layout
-
-\begin_layout Plain Layout
-Finally,
- Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:Learning-rules-of-kCELL"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- presents a summary of the learning rules that describe the behavior of context agents in kCELL.
-\end_layout
-
-\begin_layout Plain Layout
-To visualize the result of a learning and local cooperation of agents,
- we use a 1-dimensional example.
- We generate a small synthetic dataset from the function 
-\begin_inset Formula $f\left(x\right)=\sin\left(x\right)+\epsilon\,\mathcal{N}\left(0,1\right)$
-\end_inset
-
- with 
-\begin_inset Formula $\epsilon\in\mathbb{R}$
-\end_inset
-
- the noise scaling factor.
- We simulate online learning by sequentially feeding the agent one 
-\begin_inset Formula $x_{new},y_{new}$
-\end_inset
-
- tuple at a time.
- Each point is only seen once during learning as this is an important property of an effective and rapid online learning algorithm especially useful in real time dynamics modeling.
- Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:1D-Visualization-of-local-coop"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- presents a side-by-side visualization of the spatial organization of agents 
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:1D-Spatial-organization"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- against the result of aggregating their predictions 
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:1D-Resulting-prediction"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-.
- We can observe that the agents overlap and do not fit perfectly across their entire area of expertise;
- at the edges of agents the fit seems to have more errors and conversely on the center.
- This is the expected behavior resulting from the assumption of non-uniformity in the knowledge within areas of expertise.
- Finally,
- we observe that the overall predictions approximate closely the function considering the noise added to the data.
- It demonstrates kCELL's ability to generalize effectively by interpolation.
- This highlights the usefulness of a weighted aggregation function as presented in 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "subsubsec:Soft-Weighted-Prediction"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-.
 \end_layout
 
 \end_inset
@@ -25115,7 +24060,7 @@ name "def:Inverse-dynamics-modeling"
 \end_layout
 
 \begin_layout Standard
-The task involves mapping a 21-dimensional input space (comprising 7 joint positions,
+The task consists in mapping a 21-dimensional input space (comprising 7 joint positions,
  7 velocities and 7 accelerations) to the corresponding joint torques of a seven degrees-of-freedom anthropomorphic robot arm (illustrated in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -25157,7 +24102,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Illustration of the SARCOS 7 degrees of freedom robot arm as presented in 
+SARCOS 7 degrees-of-freedom robot arm as presented in 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "vijayakumar2002statistical"
@@ -25186,25 +24131,24 @@ name "fig:robot-arm"
 \end_layout
 
 \begin_layout Standard
-kCELL is compared against several standard online learning algorithms:
+kCELL is compared to several standard online learning algorithms:
 \end_layout
 
 \begin_layout Itemize
 
 \series bold
-Adaptive Hoeffding Trees
+k-Nearest Neighbors (kNN)
 \series default
 :
- An online decision tree variant.
-\end_layout
+ a lazy local learning algorithm 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "yu2002kernel"
+literal "false"
 
-\begin_layout Itemize
+\end_inset
 
-\series bold
-Mondrian Forest
-\series default
-:
- A highly efficient adaptation of forest tree ensembles for online learning.
+.
 \end_layout
 
 \begin_layout Itemize
@@ -25227,10 +24171,35 @@ literal "false"
 \begin_layout Itemize
 
 \series bold
-k-Nearest Neighbors (kNN)
+Adaptive Hoeffding Trees
 \series default
 :
- a lazy local learning algorithm.
+ An online decision tree variant 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "domingos2000mining"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Mondrian Forest
+\series default
+:
+ A highly efficient adaptation of forest tree ensembles for online learning 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lakshminarayanan2014mondrian"
+literal "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Itemize
@@ -25239,13 +24208,22 @@ k-Nearest Neighbors (kNN)
 Locally Weighted Projection Regression (LWPR)
 \series default
 :
- The most direct competitor of kCELL as it uses a similar local linear model spatialization but employs different learning logic.
+ The most direct competitor of kCELL as it uses a similar local linear model spatialization but employs different learning logic 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "vijayakumar2000locally"
+literal "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
-For implementation of Adpative Hoeffding Trees,
+To implement Adaptive Hoeffding Trees,
  Mondrian Forest,
- Linear Regression with Adam optimizer and kNN th python library RiverML is used 
+ Linear Regression with Adam optimizer and kNN,
+ the python library RiverML is used 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "montiel2021river"
@@ -25259,13 +24237,17 @@ literal "false"
  Performing an exhaustive hyperparameter optimization on the whole dataset is impracticable because it is too computationally heavy.
  For this reason,
  hyperparameter optimization was conducted via grid search on the first 5000 steps of the stream to minimize the Area Under the Curve (AUC) of the prequential error.
- The prequential error corresponds to the error measured for a new point of the data stream before learning on it.
+ The 
+\emph on
+prequential error
+\emph default
+ corresponds to the error measured for a new point of the data stream before learning on it.
 \end_layout
 
 \begin_layout Standard
 The performance of the models is evaluated through adaptation speed,
  measured by prequential error,
- and asynptotic convergence measured by the Root Mean Squared Error (RMSE) and Mean Absolute Error (MAE) on the fixed test set.
+ and accuracy measured by the Root Mean Squared Error (RMSE) and Mean Absolute Error (MAE) on the fixed test set.
 \end_layout
 
 \begin_layout Standard
@@ -25308,7 +24290,7 @@ Prequential Error AUC
 \begin_inset Text
 
 \begin_layout Plain Layout
-Test MAE
+Test RMSE
 \end_layout
 
 \end_inset
@@ -25317,7 +24299,7 @@ Test MAE
 \begin_inset Text
 
 \begin_layout Plain Layout
-Test RMSE
+Test MAE
 \end_layout
 
 \end_inset
@@ -25346,7 +24328,7 @@ kNN
 \begin_inset Text
 
 \begin_layout Plain Layout
-5.59
+7.42
 \end_layout
 
 \end_inset
@@ -25355,7 +24337,7 @@ kNN
 \begin_inset Text
 
 \begin_layout Plain Layout
-7.42
+5.59
 \end_layout
 
 \end_inset
@@ -25384,7 +24366,7 @@ Linear Regression (Adam)
 \begin_inset Text
 
 \begin_layout Plain Layout
-4.46
+5.62
 \end_layout
 
 \end_inset
@@ -25393,7 +24375,7 @@ Linear Regression (Adam)
 \begin_inset Text
 
 \begin_layout Plain Layout
-5.62
+4.46
 \end_layout
 
 \end_inset
@@ -25422,7 +24404,7 @@ Adaptive Hoeffding Tree
 \begin_inset Text
 
 \begin_layout Plain Layout
-6.45
+8.44
 \end_layout
 
 \end_inset
@@ -25431,7 +24413,7 @@ Adaptive Hoeffding Tree
 \begin_inset Text
 
 \begin_layout Plain Layout
-8.44
+6.45
 \end_layout
 
 \end_inset
@@ -25462,7 +24444,7 @@ Mondrian Forest
 \begin_inset Text
 
 \begin_layout Plain Layout
-1.86
+2.64
 \end_layout
 
 \end_inset
@@ -25471,7 +24453,7 @@ Mondrian Forest
 \begin_inset Text
 
 \begin_layout Plain Layout
-2.64
+1.86
 \end_layout
 
 \end_inset
@@ -25500,7 +24482,7 @@ LWPR
 \begin_inset Text
 
 \begin_layout Plain Layout
-2.77
+3.73
 \end_layout
 
 \end_inset
@@ -25509,7 +24491,7 @@ LWPR
 \begin_inset Text
 
 \begin_layout Plain Layout
-3.73
+2.77
 \end_layout
 
 \end_inset
@@ -25542,7 +24524,7 @@ kCELL (ours)
 \begin_layout Plain Layout
 
 \series bold
-0.91
+1.94
 \end_layout
 
 \end_inset
@@ -25553,7 +24535,7 @@ kCELL (ours)
 \begin_layout Plain Layout
 
 \series bold
-1.94
+0.91
 \end_layout
 
 \end_inset
@@ -25571,8 +24553,8 @@ kCELL (ours)
 
 \begin_layout Plain Layout
 Summary table of the final results of the SARCOS comparative experiment.
- The reported values are the final values obtained after seeing the entirety of the dataset after a single pass.
- Values in bold correspond to the best value among the different considered models.
+ The reported values are the final values obtained after a single pass through the entire dataset.
+ Values in bold correspond to the best value among the different algorithms.
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:kCELL-Stationary-Results"
@@ -25644,15 +24626,18 @@ nolink "false"
  LWPR and Linear Regression throughout the entire duration of the experiment.
  This tendency is reflected in the final AUC of 1.72 for kCELL which is significantly higher than the top-performing Mondrian Forest (0.70).
  This systematic gap in prequential performance seems to highlight a difficulty to extrapolate.
- This behavior might be lined to the kCELL's implementation of the prediction mechanism in unexplored regions.
+ This behavior might be linked to the kCELL's implementation of the prediction mechanism in unexplored regions.
  As the inputs are 21-dimensional,
  it is highly frequent that a new input 
 \begin_inset Formula $x_{new}$
 \end_inset
 
- yields a very low activation score for all agents as the mahalanobis distance used in the activation function of agents is increasingly stretched as the number of dimensions increases.
+ yields a very low activation score for all agents.
+ Indeed,
+ the Mahalanobis distance used in the activation function of agents is increasingly stretched as the number of dimensions increases.
  To maintain numerical stability in implementation and avoid dividing by 0 when normalizing the aggregation weights for the global prediction,
- the individual activation scores are clipped to a minimal value leading all closest agents to have the same weight in prediction despite being really far from each other and from 
+ the individual activation scores are clipped to a minimal value.
+ It leads all closest agents to have the same weight in prediction despite being really far from each other and from 
 \begin_inset Formula $x_{new}$
 \end_inset
 
@@ -25720,7 +24705,7 @@ name "fig:Evolution-of-Prequential-kCELL"
 \end_layout
 
 \begin_layout Paragraph
-Asymptotic Accuracy
+Test Set Accuracy Analysis
 \end_layout
 
 \begin_layout Standard
@@ -25746,9 +24731,9 @@ nolink "false"
 
 \end_inset
 
- respectively display the evolution of the RMSE and MAE on test set throughout learning.
+ respectively display the evolution of the RMSE and MAE on the test set throughout learning.
  It can be noted that in the initial 20000 steps,
- kCELL has a higher test RMSE and MAE than all other algorithms.
+ kCELL has a higher RMSE and MAE than all other algorithms.
  However,
  the RMSE and MAE decrease consistently as more data is processed.
  kCELL's error curve crosses the others at approximately 25000 steps for MAE and 35000 steps for RMSE.
@@ -25770,8 +24755,9 @@ nolink "false"
 \begin_layout Standard
 While kCELL exhibits a higher prequential error during the learning phase,
  its final performance on the test set is superior to the other algorithms.
- The steady decrease in error indicates that the ensemble of local expert agents is effectively organizing into a meaninful representation of the inverse dynamics as the agent population tend to stabilize.
- The fact that kCELL achieves a lower MAE than the other algorithms earlier than it does for RMSE suggests that,
+ The steady decrease of the error indicates that the ensemble of local expert agents is effectively organizing into a meaningful representation of the inverse dynamics as the agent population tend to stabilize.
+ kCELL achieves a lower MAE than the other algorithms earlier than it does for RMSE.
+ It suggests that,
  while kCELL is highly accurate on average,
  its performance is affected by occasional large errors,
  to which RMSE is more sensitive.
@@ -25858,7 +24844,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Evolution of test MAE throughout learning.
+Evolution of test MAE during learning.
  
 \emph on
 y
@@ -25893,7 +24879,7 @@ Correlation of Activation to Errors
 
 \begin_layout Standard
 To investigate the reliability of the local expert agents,
- the relationship between the activation scores 
+ the relationship between the activation values 
 \begin_inset Formula $\phi_{i}\left(x\right)$
 \end_inset
 
@@ -25921,19 +24907,27 @@ The analysis reveals a strong negative Spearman correlation of
 \begin_inset Formula $p<0.001$
 \end_inset
 
-) meaning that the more the activation is low,
+) meaning that the lower the activation,
  the higher the error.
  Indeed,
  lower activation values,
  particularly those below 0.2,
  correspond to significantly higher errors.
  As the activation value increases toward 1.0,
- the errors plateay and reach their minimum.
- These results validate the rejection of the uniform knowledge hypothesis of agents' areas of expertise operated with kCELL compared to oCELL.
- The activation score represents the agent's level of expertise for a given input.
+ the errors stabilize and reach their minimum.
+ These results support the rejection of the 
+\emph on
+uniform knowledge
+\emph default
+ assumption (as in oCELL) in favor of the 
+\emph on
+decreasing knowledge
+\emph default
+ assumption (as in kCELL).
+ The activation value represents the agent's level of expertise for a given input.
  This correlation confirms that the model is aware of its own local limitations through the smooth areas of expertise of local expert agents.
  This could provide an explanation for the previous observation regarding the differences between the behaviors of the MAE and RMSE curves.
- The larger errors produced by kCELL may be due to predictions in sparsely covered regions of the input space.
+ The larger errors produced by kCELL may be due to predictions in uncoverd regions of the input space.
 \end_layout
 
 \begin_layout Standard
@@ -25960,7 +24954,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Illustration of the relationship between the activation score 
+Relationship between the activation score 
 \begin_inset Formula $\phi_{i}\left(x\right)$
 \end_inset
 
@@ -25973,8 +24967,8 @@ y
 \emph on
 x
 \emph default
--axis corresponds to the activation score of the closest agent.
- A spearman correlation between error values and activations equals to -0.68 is found with a p-value 
+-axis corresponds to the activation value of the closest agent.
+ A Spearman correlation between error and activation equals to -0.68 is found with a p-value 
 \begin_inset Formula $p<0.001$
 \end_inset
 
@@ -26017,11 +25011,11 @@ nolink "false"
 \end_inset
 
  tracks the number of agents in the ensemble throughout the learning process compared to a theoretical maximum.
- The theoretical maximum is computed from the 
+ The theoretical maximum is computed from the minimum number of points 
 \begin_inset Formula $N_{\text{ini}}$
 \end_inset
 
- corresponding to the minimum number of points needed for the system to be able to create an agent.
+ needed for the system to be able to create an agent.
  In kCELL,
  an agent can be created,
  at most,
@@ -26044,8 +25038,8 @@ The curve representing the number of agents remains strictly below the theoretic
 \end_layout
 
 \begin_layout Standard
-This behavior demonstrates that kCELL is not indiscriminately creating new models.
- Instead the system successfully evaluates its current knowledge map through the areas of expertise of agents,
+This behavior demonstrates that kCELL is not systematically creating new models.
+ Instead the model successfully evaluates its current knowledge map through the areas of expertise of agents,
  triggering the 
 \series bold
 Incompetence
@@ -26120,20 +25114,22 @@ Synthesis of the Results
 \begin_layout Standard
 The results of this experiment validate the core of the design choices of kCELL for stationary,
  high-dimensional online modeling.
- The initial prequential error analysis shows a slower adaptation phase than Mondrian Forest or LWPR,
- which can be explained by the difficulty of building meaningful high-dimensional spatialization when mahalanobis distance is stretched.
+ The initial prequential error analysis shows a slower adaptation phase than Mondrian Forest or LWPR.
+ It can be explained by the difficulty of building meaningful high-dimensional spatialization when Mahalanobis distance is stretched.
  However,
  in the long run,
  kCELL exhibits superior modeling performance.
  By achieving the lowest final MAE and RMSE,
- kCELL demonstrates that an ensemble of local experts agents coordinated through social learning rules can converge to a more accurate representation of complex robot dynamics than conventional statistical local learning or forest-based methods.
+ kCELL demonstrates that an ensemble of local expert agents coordinated through social learning rules can converge to a more accurate representation of complex robot dynamics than conventional statistical local learning or forest-based methods.
 \end_layout
 
 \begin_layout Standard
 Furthermore,
  a strong negative correlation between activation scores and errors on predictions has been found.
  It turns the activation function of agents into a reliable metric for introspection in the model.
- This ability to quantify epistemic uncertainty on the fly is a useful property for control with learned models as it will be explored more in details in Chapter 
+ This ability to quantify epistemic uncertainty on the fly is a useful property for control with learned models.
+ It provides the necessary signals to determine when a prediction can be trusted and when the system is operating in an uncovered region of the input space.
+ This ability will be explored in more detail in Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "chap:Solving-Control-Tasks"
@@ -26145,7 +25141,7 @@ nolink "false"
 \end_inset
 
 .
- It provides the necessary signals to determine when a prediction can be trusted and when the system is operating in an uncovered region of the input space.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -26158,334 +25154,6 @@ However,
  In this section,
  the online stationary modeling capabilities of kCELL have been established.
  The following section explores how the ensemble of local expert agents reacts within a non-stationary environment.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Itemize
-In this section an experiment is conducted to demonstrate the capabilities of kCELL in terms of online learning in a stationary environment.
-\end_layout
-
-\begin_layout Itemize
-Experimental set up
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Dataset SARCOS:
- The data relates to an inverse dynamics problem for a seven degrees-of-freedom SARCOS anthropomorphic robot arm.
- The task is to map from a 21-dimensional input space (7 joint positions,
- 7 joint velocities,
- 7 joint accelerations) to the corresponding 7 joint torques.
- Following previous work we present results for just one of the seven mappings,
- from the 21 input variables to the first of the seven torques.
- There are 44,484 training examples and 4,449 test examples.
- The first 21 columns are the input variables,
- and the 22nd column is used as the target variable.
- We thank Sethu Vijayakumar for providing the data.
- These data had previously been used in the papers 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "vijayakumar2000locally,vijayakumar2002statistical,vijayakumar2005incremental"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-No scaling
-\end_layout
-
-\begin_layout Itemize
-Compared algorithms:
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Adaptive Hoeffding Trees 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "lakshminarayanan2014mondrian"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Mondrian Forest
-\end_layout
-
-\begin_layout Itemize
-Linear Regression (with Adam Optimizer)
-\end_layout
-
-\begin_layout Itemize
-kNN
-\end_layout
-
-\begin_layout Itemize
-LWPR => similar system to kCELL in terms of used elements => similar spatialization of models and prediction methods but not same learning algorithm
-\end_layout
-
-\begin_layout Itemize
-kCELL
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-use of RiverML Python Library 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "montiel2021river"
-literal "false"
-
-\end_inset
-
- for running kNN / Linear Regression / Adaptive Hoeffding Trees / Mondrian Forest
-\end_layout
-
-\begin_layout Itemize
-use of the original implementation (C bindings in python) of 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "vijayakumar2000locally"
-literal "false"
-
-\end_inset
-
- for LWPR available on github (https://github.com/ipab-slmc/lwpr)
-\end_layout
-
-\begin_layout Itemize
-A single pass is done one the data => one point at a time is fed to the models.
-\end_layout
-
-\begin_layout Itemize
-RMSE and MAE are measured on the test set regularly during learning + prequential error is measured at each step => define prequential error:
- error computed on a point of the stream before learning on it => + final Area Under Curve is measured with prequential error curve
-\end_layout
-
-\begin_layout Itemize
-For all learning algorithms used 1 model per output except for kCELL that runs 1 model which predicts all outputs together at one time => why we did that ?
- => because in riverml no choice and in LWPR implementation idem => for kCELL the model runs much quicker with 1 model for all outputs,
- our implementation lacks optimization for now
-\end_layout
-
-\begin_layout Itemize
-As hyperparameter optimization is too computationally heavy for all the dataset it has been conducted on the first 5k steps of the dataset with the objective of minimizing the AUC of prequential error => grid search on a selected set of parameters
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Comparative Experiment Results
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Plot of the prequential errors smoothed with a window size of 2000 steps
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Final AUC reported => kCELL is worse than Linear Regression,
- Mondrian Forest (ensemble algo) and LWPR (local linear reg) in terms of prequential error
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-kNN:
- 2.10
-\end_layout
-
-\begin_layout Itemize
-Linear Regression:
- 1.07
-\end_layout
-
-\begin_layout Itemize
-Adaptive Hoeffding Tree:
- 2.9
-\end_layout
-
-\begin_layout Itemize
-Mondrian Forest:
- 0.70
-\end_layout
-
-\begin_layout Itemize
-LWPR:
- 1.04
-\end_layout
-
-\begin_layout Itemize
-kCELL:
- 1.72
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-kCELL's curve is above mondrian and LWPR for most of the experiment 
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Plot of RMSE test set over the course of the learning => kCELL starts worse than all the others for 
-\begin_inset Formula $\approx20k$
-\end_inset
-
- steps and then error decreases and kCELL becomes better than all the others at around 
-\begin_inset Formula $\approx35k$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-Plot of MAE test set over the course of the learning => same behavior than for RMSE but faster decrease and kCELL becomes better than all other approaches earlier at 
-\begin_inset Formula $\approx25k$
-\end_inset
-
- steps 
-\end_layout
-
-\begin_layout Itemize
-Final RMSE reported
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-kNN:
- 7.42
-\end_layout
-
-\begin_layout Itemize
-Linear Regression:
- 5.62
-\end_layout
-
-\begin_layout Itemize
-Adaptive Hoeffindg Tree:
- 8.44
-\end_layout
-
-\begin_layout Itemize
-Mondrian Forest:
- 2.64
-\end_layout
-
-\begin_layout Itemize
-LWPR:
- 3.73
-\end_layout
-
-\begin_layout Itemize
-kCELL:
- 1.94
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Final MAE reported
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-kNN:
- 5.59
-\end_layout
-
-\begin_layout Itemize
-Linear Regression:
- 4.46
-\end_layout
-
-\begin_layout Itemize
-Adaptive Hoeffindg Tree:
- 6.45
-\end_layout
-
-\begin_layout Itemize
-Mondrian Forest:
- 1.86
-\end_layout
-
-\begin_layout Itemize
-LWPR:
- 2.77
-\end_layout
-
-\begin_layout Itemize
-kCELL:
- 0.91
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-The worse prequential error of kCELL could be explained by the prediction mechanism that have a hard time extrapolating => we added a clipping mechanism when all activation scores are very low for numerical stability (avoid dividing by 0 when normalizing weights in prediction aggregation) => so when no expert,
- all closest are used to predict => could cause large errors
-\end_layout
-
-\begin_layout Itemize
-Moreover we observe that kCELL starts to be better than the baselines Mondrian and LWPR faster for MAE than for RMSE.
- RMSE is more sensitive to outliers than MAE suggesting that kCELL makes larger errors when it fails but is better in average => not a problem as kCELL is able to estimate epistemic uncertainty and to know when it does not know.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-kCELL specific Experiment Results
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Plot of the number of agents over time
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Curve of the number of agents is striclty under the curve representing the theoretical maximum number of agents that can be created if the system creates an agent everytime it can => show that the system is not just creating dumbly new agents and that it is able to select when it is the right time to create an agent => kCELL is aware of its knowledge map limitations through the spatialization of agents and create agents only when useful
-\end_layout
-
-\begin_layout Itemize
-Furthermore,
- the two curves seem to gradually get far away from each other showing a decrease in the agent growth over time => convergence of the population of agents that indicates a controlled growth in the number of agents => efficiency of the confidence based agent destruction mechanism
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Plots error on test set against activation of agents (spearman corr = -0.68,
- pvalue=0.0)
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Lower activation values (before 0.2) correspond to higher errors + errors plateau between 0.2 and 1.0 + spearman correlation -0.68 => meaning that activations are effectively correlated negatively to errors => this validates the smooth level of expertise mechanism => the more the input is close to the center of agent,
- the more the prediction will be accurate
-\end_layout
-
-\end_deeper
-\end_deeper
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Experiment on SARCOS + D4RL + KUKA to test raw performances with river-ml algorithms
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Subsection
@@ -42183,18 +40851,19 @@ More In-Depth Personalization
 \end_layout
 
 \begin_layout Standard
-Finally,
- the core assumption made in the context of this thesis about driver acceptance need for refinement.
- While modeling the driver-vehicle dynamical system as a whole is a step forward efficient speed recommendation systems,
- a driver's behavior is deeply influenced by internal states such as fatigue,
- stress or distraction.
+This thesis relied on the assumption that driver acceptance increases when the recommended speed profiles align with the driver's behavior.
+ While modeling the driver-vehicle dynamical system as a whole is a meaningful step towards efficient speed recommendation,
+ human driving behavior is strongly influenced by hidden variables such as fatigue,
+ stress,
+ cognitive distraction,
+ or emotional load.
 \end_layout
 
 \begin_layout Standard
-To achieve a higher level of trust and acceptance,
- future iterations of the proposed speed recommendation architecture should incorporate physiological or behavioral indicators of the driver's state.
- By knowing if a driver is angry or tired,
- the predictive model is no longer subject to uncertainty induced by hidden variables.
+Future improvements should incorporate physiological or behavioral markers that reflect the driver's internal state.
+ A predictive model enriched with such information could greatly reduce uncertainty.
+ This would enable more personalized,
+ context-sensitive recommendations and ultimately foster greater trust and acceptance.
 \end_layout
 
 \begin_layout Chapter
