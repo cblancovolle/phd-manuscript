@@ -667,7 +667,7 @@ On the other hand,
 
 \begin_layout Standard
 Finally,
- we provide engineering insights on the application of this theis contributions in the industrial use case of speed recommendation,
+ we provide engineering insights on the application of this thesis contributions in the industrial use case of speed recommendation,
  discussing the required future research directions toward real-world deployment.
 \end_layout
 
@@ -720,7 +720,7 @@ nolink "false"
 \end_inset
 
  introduces the industrial and regulatory context of this thesis which originates from industrial requirements from AUMOVIO.
- It establishes the scientific abstraction process from a speed recommendation task to the more generalist challenge of adaptive control for gpCELLnary systems with unknown dynamics.
+ It establishes the scientific abstraction process from a speed recommendation task to the more generalist challenge of adaptive control for non-stationary systems with unknown dynamics.
 \end_layout
 
 \begin_layout Itemize
@@ -1290,7 +1290,7 @@ name "sec:Background-and-Motivation"
 \end_layout
 
 \begin_layout Standard
-Excesses and mismanagement of speed on the roads have been proven to be positively correlated to the occurence of accidents with injuries and fatalities 
+Excesses and mismanagement of speed on the roads have been proven to be positively correlated to the occurrence of accidents with injuries and fatalities 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "hauerSpeedSafety2009,elvikSpeedRoadSafety2005"
@@ -1349,7 +1349,7 @@ delay
 refuse
 \emph default
  a recommended speed setpoint,
- the effectivenes of such recommendation systems is largely determined by the underlying system architecture and the way it interacts with a human driver,
+ the effectiveness of such recommendation systems is largely determined by the underlying system architecture and the way it interacts with a human driver,
  which has an uncertain behavior.
 \end_layout
 
@@ -1581,7 +1581,7 @@ literal "false"
 \end_inset
 
  to maximize energy efficiency.
- Others rely on passive infrastructure-based solutions ranging from physical speed enforcements via road bumps 
+ Others rely on passive infrastructure-based solutions ranging from physical speed enforcement via road bumps 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "salauVehicleSpeedControl2004"
@@ -1719,7 +1719,7 @@ literal "false"
 \end_inset
 
  to solve the optimization problems.
- These methods offer rigorous safety and stability guarantees as they rely on pre-defined physical models coupled with control theory.
+ These methods offer rigorous safety and stability guarantees as they rely on predefined physical models coupled with control theory.
  However,
  the main limitation exposed for open-loops systems remains:
  the human driver is excluded from the control loop,
@@ -2583,7 +2583,7 @@ nolink "false"
 
 .
  The controller can perceive the states of the system and act on it through actuators.
- The sets representing the possible states (respectively actions) are reffered to as the state space 
+ The sets representing the possible states (respectively actions) are referred to as the state space 
 \begin_inset Formula $\mathcal{S}$
 \end_inset
 
@@ -4222,7 +4222,7 @@ Moreover,
  For example,
  this may be due to model mismatch,
  disturbances or state estimation errors.
- Such infeasibility must be handled explicitely at deployment time,
+ Such infeasibility must be handled explicitly at deployment time,
  either through constraint relaxation,
  solving a feasibility problem beforehand or leveraging fallback strategies 
 \begin_inset CommandInset citation
@@ -4288,7 +4288,7 @@ name "subsec:Physics-to-Learning"
 \end_layout
 
 \begin_layout Standard
-The effectiveness of Model Prective Control (MPC) described in the previous section is contingent upon the fidelity of the internal predictive model 
+The effectiveness of Model Predictive Control (MPC) described in the previous section is contingent upon the fidelity of the internal predictive model 
 \begin_inset Formula $f$
 \end_inset
 
@@ -6460,7 +6460,7 @@ soft
 Model
 \emph default
  identifies the nature of the predictive model,
- constrasting between analytical models derived from first-principles and data-driver learning-based models.
+ contrasting between analytical models derived from first-principles and data-driver learning-based models.
  
 \emph on
 Non-Stationarity Handling
@@ -6515,7 +6515,7 @@ nolink "false"
 
 \begin_layout Standard
 Having answered the question of which control architecture is the most promising,
- the question of which model could fulfill all the critera has to be addressed.
+ the question of which model could fulfill all the criteria has to be addressed.
  Consequently,
  Section 
 \begin_inset CommandInset ref
@@ -7747,12 +7747,12 @@ literal "false"
 This shift from Batch to Online Learning introduces several new challenges.
  First,
  the traditional sequential pipeline comprising data collection,
- pre-processing,
+ preprocessing,
  training and testing is replaced by an interleaved architecture where these phases occur simultaneously without clear temporal order.
  This makes basic operations,
  such as feature normalization,
  non-trivial due to unknown global statistics.
- In this case the model needs to maintain incremental estimates that evolve alonside the data 
+ In this case the model needs to maintain incremental estimates that evolve alongside the data 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "gomes2019machine"
@@ -8317,7 +8317,7 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-To summarize on the limitations mentionned above,
+To summarize on the limitations mentioned above,
  
 \series bold
 global learning models are not able to cope efficiently with non-stationarity
@@ -8346,7 +8346,7 @@ As shown in the previous section,
  global learning models are unable to cope efficiently with non-stationarity.
  This motivates the exploration of local learning methods because they provide an 
 \series bold
-architecural solution to the stability-plasticity dilemma
+architectural solution to the stability-plasticity dilemma
 \series default
 .
  
@@ -8525,7 +8525,7 @@ literal "false"
  However,
  in RBF Networks,
  the centers of localized RBFs need to be fixed beforehand,
- and the initial location of these intial centers plays a crucial role in the model's performance.
+ and the initial location of these initial centers plays a crucial role in the model's performance.
  This is a major drawback for online learning as the training data distribution is not known in advance.
  Attempts have been conducted to alleviate this issue by designing methods in which neurons can be dynamically added or pruned to match the non-stationarity of a data stream 
 \begin_inset CommandInset citation
@@ -8658,7 +8658,7 @@ The structural common points between various local learning systems (e.g.
 In this thesis,
  an alternative path is explored to mitigate the aforementioned limitations by shifting the focus from purely statistical optimization to multi-agent social self-organization.
  This approach adopts a bottom-up design philosophy,
- introducing a clear distintion in terms of learning procedure compared to approaches like LWPR.
+ introducing a clear distinction in terms of learning procedure compared to approaches like LWPR.
  The system is described at the lowest level,
  by social rules governing the interactions between local experts.
  Rather than following a global objective function,
@@ -8939,7 +8939,7 @@ By shifting from global,
  static approximators to a bottom-up self-organization of autonomous local experts,
  the system should gain the structural adaptability required to learn in a non-stationary environment.
  This multi-agent perspective transforms the learning problem into a self-regulating social process,
- ensuring that the model's variety can evolve alonside the complexity of the task without suffering catastrophic interferences between old and new knowledge that are typical of global architectures.
+ ensuring that the model's variety can evolve alongside the complexity of the task without suffering catastrophic interferences between old and new knowledge that are typical of global architectures.
  
 \end_layout
 
@@ -9219,7 +9219,7 @@ nolink "false"
 
 \end_inset
 
- constrasts the requirements of safety-critical HRC with the capabilities of the reviewed literature to explicitely define the research niche and technical contributions of this thesis.
+ contrasts the requirements of safety-critical HRC with the capabilities of the reviewed literature to explicitly define the research niche and technical contributions of this thesis.
 \end_layout
 
 \begin_layout Standard
@@ -10466,7 +10466,7 @@ nolink "false"
 \end_inset
 
  describes kCELL,
- a more robust and expressive instantation of CELL.
+ a more robust and expressive instantiation of CELL.
  It provides a comparative experiment on a stationary modeling task and demonstrates the non-stationary adaptation capabilities of the system on a non-stationary modeling task.
  Finally,
  Section 
@@ -10563,7 +10563,7 @@ name "subsec:From-SACL-to-Coupled-Learning-and-Control"
 \end_layout
 
 \begin_layout Standard
-The inspiration for the CELL formalism lies in the Self-Adaptive Context Lerning (SACL) paradigm 
+The inspiration for the CELL formalism lies in the Self-Adaptive Context Learning (SACL) paradigm 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "boesSelfAdaptiveContextLearning2015"
@@ -10745,7 +10745,7 @@ Based on the feedback provided by the Exploitation Mechanism,
  The SACL architecture enables dynamic cooperative self-organization through the detection and management of Non-Cooperative Situations (NCS).
  NCS are situations of functional inadequacy regarding agent cooperation,
  that may occur during the self-organization process when agents deviate from their nominal cooperative behavior due to perception failures or erroneous decisions.
- The adaptation mechanisms defined to resolve or anticipate these NCS constitue the learning rules governing the collective behavior of 
+ The adaptation mechanisms defined to resolve or anticipate these NCS constitute the learning rules governing the collective behavior of 
 \emph on
 Context
 \emph default
@@ -10783,7 +10783,7 @@ Myopic Behavior
 Domain-Specific Knowledge
 \series default
 :
- SACL heavily relies on domain-specific knowledge ot design the feedback functions.
+ SACL heavily relies on domain-specific knowledge to design the feedback functions.
  These functions are used to determine if an agent's Appreciation is erroneous or inexact.
  This limits the generalizability of the approach.
 \end_layout
@@ -15240,7 +15240,7 @@ name "subsec:Comparative-Study"
 \end_layout
 
 \begin_layout Standard
-The previous sections layed the theoretical blueprint of oCELL,
+The previous sections laid the theoretical blueprint of oCELL,
  detailing how an ensemble of local expert agents can self-organize through social rules to approximate complex dynamics from data.
  However,
  the effectiveness of the emergent learning behavior of oCELL must be validated.
@@ -20232,7 +20232,7 @@ If
  the region has been underexplored,
  indicating high epistemic uncertainty.
  The latter may indicate either gaps in the training data specific to that area of space,
- or training that did not proceed as expected for various reasons (strong non-linearities in the function to approximate,
+ or training that did not proceed as expected for various reasons (strong nonlinearities in the function to approximate,
  presence of noise,
  discontinuity,
  etc...).
@@ -33452,7 +33452,7 @@ nolink "false"
 \end_layout
 
 \begin_layout Standard
-To explicitely link predictive performance to task performance,
+To explicitly link predictive performance to task performance,
  Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -41583,7 +41583,7 @@ Abstraction of Speed Recommendation into HRC
 :
  We proposed a new perspective on speed recommendation by abstracting it into a HRC problem.
  This acknowledge the necessity of fully incorporating the human in the loop,
- making it essential to explicitely model the human behavior.
+ making it essential to explicitly model the human behavior.
 \end_layout
 
 \begin_layout Itemize
