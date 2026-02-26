@@ -1862,7 +1862,7 @@ literal "false"
  These approaches represent significant steps toward driver consideration into closed-loop systems.
  However,
  they still remain limited by their offline nature.
- Most of these HitL systems are built upon static databases or pre-trained driver profiles that fail to account for the variability of human driving behaviors and for the non-stationarity of those behaviors that evolve over time.
+ Most of these HitL systems are built upon static databases or pretrained driver profiles that fail to account for the variability of human driving behaviors and for the non-stationarity of those behaviors that evolve over time.
  In reality,
  a driver's response is not a fixed parameter but a non-stationary process influenced by physiological states,
  environmental context and long-term behavioral adaptation.
@@ -25961,7 +25961,7 @@ Performance
 \begin_inset Formula $i=j$
 \end_inset
 
-)
+);
 \end_layout
 
 \begin_layout Itemize
@@ -25978,7 +25978,7 @@ of previously encountered dynamics (i.e.
 \begin_inset Formula $i>j$
 \end_inset
 
-)
+).
 \end_layout
 
 \begin_layout Standard
@@ -26331,7 +26331,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename assets/images/experiments/dynamic_change_comparison/mae_comparison_testsets_invertedpendulum.png
+	filename assets/images/experiments/dynamic_change_comparison/mae_comparison_testsets_invertedpendulum_refined.png
 	lyxscale 30
 	width 90col%
 
@@ -26432,7 +26432,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename assets/images/experiments/dynamic_change_comparison/mae_comparison_testsets_hopper.png
+	filename assets/images/experiments/dynamic_change_comparison/mae_comparison_testsets_hopper_refined.png
 	lyxscale 30
 	width 90col%
 
@@ -27904,104 +27904,6 @@ The projection reveals a clear geometric separation between the train datasets
  This confirms that the observed knowledge retention effect arises from the agents specializing to specific,
  non-overlapping dynamics profiles.
  This effect is amplified by the high-dimensional geometry of the state-space of the Hopper environment that stretches Mahalanobis distances.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-In the higher-dimensional Hopper environment,
- agent persistence can be explained by two non-exclusive mechanisms.
- First,
- it is possible that agents trained under earlier gravity settings retain partial competence in overlapping regions of the state-action space.
- Those agents are then incrementally adapted as new data arrives leading to multi-regime reuse.
- In this case the growth of agents can be explained mainly by the modeling complexity introduced by the change in dynamics.
- Second,
- high-dimensional effects may reduce the sensitivity of the Mahalanobis distance,
- yielding sparse activation of older agents that prevents both their meaningful adaption and confidence degradation.
- In this case,
- those agents can be considered as frozen because they are too tightly tied to previously visited regions that do not overlap with newly discovered ones after dynamic changes.
-\end_layout
-
-\begin_layout Plain Layout
-To disambiguate whether agent persistence in the Hopper environment arises from adaptive reuse or from limited cross-regime activation,
- we analyze the activation patterns of the final agent population obtained after full training.
- Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Heatmap-of-activations-hopper"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- presents a heatmap of agent activations for all training samples,
- where columns correspond to agents sorted by age (from oldest to youngest) and rows correspond to training data points (in order) aggregated into bins.
- 
-\end_layout
-
-\begin_layout Plain Layout
-The resulting heatmap exhibits distinct block patterns,
- with older agents primarily activated for samples from the earliest dataset and progressively younger agents ddominating activation for later datasets.
- We can also observe that the shape of the number of agents curve (presented in Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Visualization-of-nb-agents-hopper"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-) appears in the heatmap drawn by points where agents are the most active.
- This organization further indicates that agents remain selectively active for the dynamics under which they were trained and created rather than becoming inactive or obsolete.
-\end_layout
-
-\begin_layout Plain Layout
-Complementary,
- we provide a two-dimensional UMAP 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "mcinnes2018umap"
-literal "false"
-
-\end_inset
-
- projection of the training data in Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:UMAP-of-training-hopper"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-,
- with samples colored according to their corresponding gravity regime.
- The projection reveals a clear separation between training datasets,
- suggesting that changes in dynamics induce distinct regions in the state-action space.
- This structural separation provides a plausible geometric explanation for the coexistence of multiple generations of agents.
- Because data from different dynamics regimes occupy largely disjoint regions,
- agents specialized to earlier dynamics remain relevant for their corresponding subspaces without interfering with those created for later regimes.
-\end_layout
-
-\begin_layout Plain Layout
-These analyses support the claim that agent retention in the Hopper environment is primarily driven by regime-specific specialization in a high-dimensional space,
- rather than by passive survival due to insufficient confidence updates that would prevent the destruction process.
- While Mahalanobis distance may lose discriminative power in higher dimensional spaces,
- the observed seperation of state-action distributions enables kCELL to maintain multiple local experts corresponding to different dynamics.
- This results in stable prediction performance across successive dynamics changes.
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -39157,7 +39059,7 @@ name "chap:Industrial-use-Case"
 \end_layout
 
 \begin_layout Standard
-This thesis was rooted in a specific industrial challenge:
+This thesis has been rooted in a specific industrial challenge:
  the development of speed recommendation strategies to reduce road fatalities and environmental impact by advising drivers of an optimal speed profile they should follow.
  As established in Chapter 
 \begin_inset CommandInset ref
@@ -39173,8 +39075,16 @@ nolink "false"
 ,
  the speed recommendation problem can be abstracted as a Human-Robot Collaboration (HRC) problem.
  This shift in perspective allows the speed recommendation problem to be decomposed into two subproblems:
- the accurate prediction of the vehicle state when driven by a human and subject to external perturbations,
- and the safe exploitation of this predictive model to provide speed recommendations.
+ 
+\series bold
+predicting the vehicle state 
+\series default
+when it is driven by a human while subject to external perturbations,
+ and safely 
+\series bold
+exploiting this predictive model
+\series default
+ to provide speed recommendations.
  The relationship between HRC and Speed Recommendation is illustrated in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -39294,14 +39204,15 @@ nolink "false"
 
 .
  Having laid out these theoretical and algorithmic foundations,
- this chapter returns to the initial motivation of this thesis work:
+ this chapter returns to the initial motivation of this thesis:
  speed recommendation.
 \end_layout
 
 \begin_layout Standard
-The goal of this chapter is to provide an industrial perspective on the requirements for safe and efficient intelligent speed recommendation systems and how the works of this thesis on HRC contributed to this progress.
+The goal of this chapter is to provide an industrial perspective on the requirements for safe and efficient intelligent speed recommendation systems,
+ and to discuss how the works of this thesis on HRC contributed to this progress.
  While the preceding chapters highlighted the potential of the online learning algorithms derived from CELL,
- real-world automotive application requires addressing a broader set of requirements,
+ real-world automotive applications require addressing a broader set of requirements,
  ranging from multi-objective optimization to certifiability (i.e.
  driving function homologation).
  We argue that the intrinsic properties of the CELL instantiations,
@@ -39332,9 +39243,9 @@ nolink "false"
 \end_inset
 
  identifies the industrial requirements for intelligent speed recommendation,
- moving from basic systems that inform the driver about the current speed limit toward systems that pursue multiple objectives,
- balancing safety constraints,
- efficiency and driver acceptance.
+ moving from basic systems that inform the driver about the current speed limit,
+ toward systems that pursue multiple objectives such as balancing safety constraints,
+ energy efficiency and driver acceptance.
  Then,
  Section 
 \begin_inset CommandInset ref
@@ -39348,7 +39259,7 @@ nolink "false"
 \end_inset
 
  presents the proposed architecture and explains the rationale for combining MPC with online-learning models,
- hightlighting why this integration offers an effective technical solution for bridging the gap between speed control and speed recommendation.
+ highlighting why this integration offers an effective technical solution for bridging the gap between speed control and speed recommendation.
  Subsequently,
  Section 
 \begin_inset CommandInset ref
@@ -39411,12 +39322,11 @@ literal "false"
 \end_inset
 
 .
- Such an approach was purely informative,
- ensuring that the driver remained aware of the current legal speed limits.
+ Such an approach is purely informative and ensures that the driver remains aware of the current legal speed limits.
 \end_layout
 
 \begin_layout Standard
-As ISA becomes manatory due to EU regulations 
+As ISA becomes mandatory due to EU regulations 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "etsc2017isa,etsc2018isa,eu2019regulation,eu2021delegated"
@@ -39453,7 +39363,7 @@ Energy Efficiency
 \series default
 :
  Minimizing fuel consumption in internal combustion and hybrid vehicles,
- and minimizing eletrical energy use in electric vehicles,
+ and minimizing electrical energy use in electric vehicles,
  through regenerative braking and optimal electric motor torque setpoints.
 \end_layout
 
@@ -39505,7 +39415,7 @@ Safety
  Accounting for dynamic elements of the driving context to prevent unsafe operating conditions.
  Examples include ensuring adequate safety margins in curves,
  respecting inter-vehicle distances,
- and adapting to degraded road friction conditions to mitigate the risks of aquaplanning or loss of control.
+ and adapting to degraded road friction conditions to mitigate the risks of aquaplaning or loss of control.
 \end_layout
 
 \begin_layout Paragraph
@@ -39549,8 +39459,20 @@ Overridability
  As the driver maintains full authority on his vehicle,
  the speed is recommended and not enforced.
  This differentiate the speed recommendation problem from the speed control problem in autonomous driving.
- The driver should be able to refuse,
- delay or accept the recommended speed at any time.
+ The driver should be able to 
+\emph on
+refuse
+\emph default
+,
+ 
+\emph on
+delay
+\emph default
+ or 
+\emph on
+accept
+\emph default
+ the recommended speed at any time.
 \end_layout
 
 \begin_layout Itemize
@@ -39591,7 +39513,7 @@ Contextual Diversity
  Drivers and vehicles operate in highly different conditions (e.g.
  urban vs rural,
  varying weather conditions,
- traffic congestions).
+ traffic congestion).
  While many driving scenarios occur regularly,
  others are rare but safety-critical,
  requiring the system to maintain consistent performance even in low-frequency edge cases.
@@ -39699,7 +39621,15 @@ Scenario-Based Validation
 \series default
 :
  Deployment requires comprehensive evidence gathered through simulations,
- Hardware-in-the-Loop (HIL) testing and real-world track trials to validate performance against United Nations (UN) regulations (e.g.
+ Hardware-in-the-Loop (HIL) testing (ISO/TS 22133 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ISO22133-2026"
+literal "false"
+
+\end_inset
+
+) and real-world track trials to validate performance against United Nations (UN) regulations (e.g.
  UN R171 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -39755,7 +39685,7 @@ The previous section exposed a comprehensive set of industrial requirements for 
  These requirements spanned from multi-objective optimization to strict certifiability constraints.
  Although substantial progress has been achieved in automated speed control for fully autonomous driving,
  speed recommendation remains a distinct challenge due to the presence of a human in the loop.
- This section introduces the architecture proposed in this thesis to address the speed recommendation problem.
+ This section presents the architecture proposed in this thesis to address the speed recommendation problem.
 \end_layout
 
 \begin_layout Paragraph
@@ -39798,8 +39728,20 @@ nolink "false"
 
 ).
  The recommendation system's output is not a control signal directly applied to the vehicle's low level controls,
- but is a suggested speed setpoint that the driver may choose to refuse,
- delay or accept.
+ but is a suggested speed setpoint that the driver may choose to 
+\emph on
+refuse
+\emph default
+,
+ 
+\emph on
+delay
+\emph default
+ or 
+\emph on
+accept
+\emph default
+.
 \end_layout
 
 \begin_layout Standard
@@ -39810,7 +39752,7 @@ Despite its importance for road safety and energy efficiency,
 \end_layout
 
 \begin_layout Standard
-To highlight the specific research gap of the literature regarding speed control and speed recommendation,
+To highlight the specific research gaps of the literature regarding speed control and speed recommendation,
  we re-evaluate the body of literature introduced in Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -39834,7 +39776,11 @@ nolink "false"
 \end_inset
 
 .
- This classification allows us to visualize the current state of the art regarding control and recommendation strategies (in Table 
+ This classification allows us to visualize the current state of the art regarding 
+\series bold
+control and recommendation
+\series default
+ strategies (in Table 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:Paper-Classification-Speed-Recommendation-Strategies"
@@ -39846,7 +39792,11 @@ nolink "false"
 \end_inset
 
 ),
- and predictive modeling through learning approaches (in Table 
+ and 
+\series bold
+predictive modeling
+\series default
+ through learning approaches (in Table 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:Paper-Classification-Speed-Recommendation-Learning"
@@ -39869,8 +39819,8 @@ nolink "false"
 
 \end_inset
 
- does not include any online learning method as the ones presented in this thesis,
- that are learning continuously a model of the environment.
+ does not include any online learning method like those presented in this thesis (i.e.
+ continuously learning continuously a dynamics model).
 \end_layout
 
 \begin_layout Standard
@@ -40662,7 +40612,7 @@ name "fig:Proposed-Speed-Recommendation-Architecture"
 \end_layout
 
 \begin_layout Standard
-The choice of an MPC-based architecture including a CELL online learning predictive model is motivated by its ability to address the industrial requirements identified in the previous section within a unified mathematical framework.
+The choice of an MPC architecture including a CELL online learning predictive model is motivated by its ability to address the industrial requirements identified in the previous section within a unified mathematical framework.
 \end_layout
 
 \begin_layout Paragraph
@@ -40802,9 +40752,13 @@ literal "false"
 
 \begin_layout Standard
 Continuous online learning via the CELL instantiations allows the recommendation system to personalize the predictive model at deployment time.
- By adapting to the individual's non-stationary behavior and specific environmental reactions,
+ By adapting to the driver's non-stationary behavior and specific environmental reactions,
  the recommendation system minimizes the model-driver mismatch,
- which represents a step toward a trust-based collaborative system.
+ which represents a step toward a 
+\series bold
+trust-based collaborative system
+\series default
+.
 \end_layout
 
 \begin_layout Section
@@ -41010,7 +40964,11 @@ nolink "false"
 \end_layout
 
 \begin_layout Standard
-The CELL-based models like kCELL mitigate this issue through Parameter Isolation.
+The CELL-based models like kCELL mitigate this issue through 
+\series bold
+Parameter Isolation
+\series default
+.
  Because learning is local,
  updates to an agent specialized in 
 \begin_inset Quotes eld
@@ -41120,9 +41078,9 @@ Trust through Transparency and Interpretability
 
 \begin_layout Standard
 Finally,
- the industrial requirement for Driver Acceptance is addressed through the inherent transparency of CELL-based models like kCELL,
+ the industrial requirement for Driver Acceptance is addressed through the inherent transparency of CELL models like kCELL,
  especially when local experts employ white-box models as internal models (e.g.
- linear reressions).
+ linear regressions).
  As discussed in Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -41156,7 +41114,6 @@ determine the driving context under which each local expert was trained,
 \begin_layout Itemize
 inspect feature contributions when white-box internal models are used (e.g.
  linear regressions),
- and
 \end_layout
 
 \begin_layout Itemize
@@ -41175,7 +41132,7 @@ This level of transparency supports both technical auditability (e.g.
  during reviews requested by a certification authority) and user trust,
  as the system's reasoning can be made explicit when required.
  In the context of speed recommendation,
- such transparency and interpretability are essential for building a trustworthy collaborative relationship between the driver and the speed recommender system.
+ such transparency and interpretability are essential for building a trustworthy collaborative relationship between the driver and the speed recommendation system.
 \end_layout
 
 \begin_layout Section
@@ -41195,7 +41152,8 @@ In the previous sections,
  Nevertheless,
  although the proposed approach satisfies several criteria,
  several challenges remain before our proposed solution can be considered ready for full industrial deployment.
- This section exposes the remaining limitations and outlines future research directions necessary to bridge the gap between the current algorithmic foundations of our approach and a mature,
+ This section exposes the remaining limitations and outlines future research directions necessary to bridge the gap between the current algorithmic foundations of our approach,
+ and a mature,
  market-ready ADAS system.
 \end_layout
 
@@ -41204,13 +41162,14 @@ The Simulation and Validation Gap
 \end_layout
 
 \begin_layout Standard
-A primary requisite for certifiability is the existence of high-fidelity simulation environments for both pre-training and validation of speed recommendation strategies.
+A key requirement for certifiability is the existence of high-fidelity simulation environments for both pre-training and validation of speed recommendation strategies.
 \end_layout
 
 \begin_layout Standard
 While CELL systems are tailored for online adaptation,
  industrial deployment requires a cold-start initialization that provides acceptable performance from the moment the system is activated for the first time.
- This necessitates a pre-trained default model capable of functioning before being able to adapt to the driver.
+ This necessitates a pretrained default model capable of functioning before being able to adapt to the driver.
+ Developing such a pretrained model depends on the availability of realistic simulation tools capable of reproducing the diverse conditions encountered by real drivers.
 \end_layout
 
 \begin_layout Standard
@@ -41244,8 +41203,8 @@ nolink "false"
 
 \end_inset
 
- that kCELL is locally linearizable and can be successfully integrated into QP-based optimization loops,
- the current safety guarantees remain mainly empirical.
+ that kCELL is locally linearizable and can be successfully integrated into Quadratic Programming (QP) optimization loops,
+ the current reliability improvement remain mainly empirical.
 \end_layout
 
 \begin_layout Standard
@@ -41290,7 +41249,7 @@ Handling More Diverse Data Sources
 \end_layout
 
 \begin_layout Standard
-The current instantiations of CELL currently face technical limitations regarding the type of inputs they can handle.
+The instantiations of CELL that have been developed in this thesis currently face technical limitations regarding the type of inputs they can handle.
  Real-world driving contexts involve a mix of continuous features (e.g speed,
  distance) and categorical features (e.g weather types,
  road signs,
@@ -41312,7 +41271,7 @@ More In-Depth Personalization
 \end_layout
 
 \begin_layout Standard
-This thesis relied on the assumption that driver acceptance increases when the recommended speed profiles align with the driver's behavior.
+This thesis has relied on the assumption that driver acceptance increases when the recommended speed profiles align with the driver's behavior.
  While modeling the driver-vehicle dynamical system as a whole is a meaningful step towards efficient speed recommendation,
  human driving behavior is strongly influenced by hidden variables such as fatigue,
  stress,
