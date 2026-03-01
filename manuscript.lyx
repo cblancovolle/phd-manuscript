@@ -10203,7 +10203,7 @@ Curse of dimensionality in local spatialization for high-dimensional inputs.
 
 \begin_layout Plain Layout
 \align left
-Enables local experts to operate in reduced-dimensionality manifolds,
+Enables local experts to operate in reduced-dimensionality nonlinear,
  mitigating the volume explosion.
 \end_layout
 
@@ -15457,7 +15457,11 @@ nolink "false"
 \end_inset
 
 .
- These configurations correspond to the parameter sets exposed by the interfaces of the scikit-learn 
+ These configurations correspond to the parameter sets exposed by the interfaces of the 
+\emph on
+scikit-learn
+\emph default
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "pedregosaScikitlearnMachineLearning2012"
@@ -15466,7 +15470,11 @@ literal "false"
 \end_inset
 
 ,
- xgboost 
+ 
+\emph on
+xgboost
+\emph default
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "chenXGBoostScalableTree2016"
@@ -15474,7 +15482,11 @@ literal "false"
 
 \end_inset
 
- and lightgbm 
+ and 
+\emph on
+lightgbm
+\emph default
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "keLightGBMHighlyEfficient2017"
@@ -22098,6 +22110,13 @@ end{assumption}
 \end_inset
 
 
+\begin_inset CommandInset label
+LatexCommand label
+name "assumption:Decreasing-Knowledge-Assumption"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -23932,7 +23951,11 @@ literal "false"
 To implement Adaptive Hoeffding Trees,
  Mondrian Forest,
  Linear Regression with Adam optimizer and kNN,
- the python library RiverML is used 
+ the python library 
+\emph on
+RiverML
+\emph default
+ is used 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "montiel2021river"
@@ -25309,7 +25332,11 @@ literal "false"
 
 \end_inset
 
- (with the stable-baselines3 library implementation 
+ (with the 
+\emph on
+stablebaselines3
+\emph default
+ library implementation 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "stable-baselines3"
@@ -28502,9 +28529,9 @@ For implementing CELL instantiations,
  this corresponds to the orthotope encompassing the agent's confidence interval,
  i.e the ellipsoid defined by 
 \begin_inset Formula 
-\[
+\begin{equation}
 d_{M}\left(x,\mathcal{A}_{i}\right)^{2}<\chi_{d,\frac{\xi}{100}}^{2}
-\]
+\end{equation}
 
 \end_inset
 
@@ -28949,9 +28976,9 @@ nolink "false"
 
  exposes a heatmap of the relative execution time difference in percentage computed as
 \begin_inset Formula 
-\[
+\begin{equation}
 \Delta_{t}=\frac{\Delta_{\text{GPU}}-\Delta_{\text{R-tree}}}{\Delta_{\text{R-tree}}}\times100
-\]
+\end{equation}
 
 \end_inset
 
@@ -29463,9 +29490,9 @@ where
 
  are the normalized weights such as 
 \begin_inset Formula 
-\[
+\begin{equation}
 \sum_{i}w_{i}\left(x\right)=1
-\]
+\end{equation}
 
 \end_inset
 
@@ -29540,9 +29567,9 @@ In MPC,
  is the action to apply.
  Assuming agents have affine internal models 
 \begin_inset Formula 
-\[
+\begin{equation}
 f_{i}\left(x_{t}\right)=A_{i}s_{t}+B_{i}u_{t}+c_{i}
-\]
+\end{equation}
 
 \end_inset
 
@@ -29555,7 +29582,7 @@ f_{i}\left(x_{t}\right)=A_{i}s_{t}+B_{i}u_{t}+c_{i}
 \begin_inset Formula 
 \begin{eqnarray}
 \frac{\partial f}{\partial x}\left(x\right)=A\left(x_{t}\right)s+B\left(x_{t}\right)u+c\left(x_{t}\right) & = & \sum_{i}w_{i}\left(x_{t}\right)f_{i}\left(x_{t}\right)\\
- & = & \sum_{i}w_{i}\left(x_{t}\right)\left(A_{i}s_{t}+B_{i}u_{t}+c_{i}\right)\\
+ & = & \sum_{i}w_{i}\left(x_{t}\right)\left(A_{i}s_{t}+B_{i}u_{t}+c_{i}\right)\nonumber \\
  & = & \underbrace{\sum_{i}w_{i}\left(x_{t}\right)A_{i}}_{A\left(x_{t}\right)}s_{t}+\underbrace{\sum_{i}w_{i}\left(x_{t}\right)B_{i}}_{B\left(x_{t}\right)}u_{t}+\underbrace{\sum_{i}w_{i}\left(x_{t}\right)c_{i}}_{c\left(x_{t}\right)}\label{eq:kcell-local-linear-model}
 \end{eqnarray}
 
@@ -29574,12 +29601,12 @@ The use of Sequential Quadratic Programming (SQP) is discussed as being an optim
  SQP is a local optimization method designed for solving nonlinear constrained optimization problems.
  The optimization problem to solve is a nonlinear program formulated as:
 \begin_inset Formula 
-\begin{align*}
-\min_{u_{0:T-1}}\,\,\, & J\left(s_{0:T},u_{0:T-1}\right)\\
-\text{s.t.\,\,\, } & s_{t+1}=f\left(s_{t},u_{t}\right)\\
- & h\left(s_{t},u_{t}\right)\leq0\\
- & g\left(s_{t},u_{t}\right)=0
-\end{align*}
+\begin{align}
+\min_{u_{0:T-1}}\,\,\, & J\left(s_{0:T},u_{0:T-1}\right)\label{eq:cost-function-J}\\
+\text{s.t.\,\,\, } & s_{t+1}=f\left(s_{t},u_{t}\right)\nonumber \\
+ & h\left(s_{t},u_{t}\right)\leq0\nonumber \\
+ & g\left(s_{t},u_{t}\right)=0\nonumber 
+\end{align}
 
 \end_inset
 
@@ -29608,12 +29635,12 @@ where
 At each iteration,
  the original nonlinear program is approximated by a Quadratic Program (QP) in which the objective is quadratic and the dynamics and constraints are linearized around a reference trajectory
 \begin_inset Formula 
-\begin{align*}
+\begin{align}
 \min_{u_{0:T-1}}\,\,\, & \sum_{t=0}^{T-1}\left(s_{t}^{\top}Q_{t}s_{t}+q_{t}^{\top}s_{t}+u_{t}^{\top}R_{t}u_{t}+r_{t}^{\top}u_{t}\right)\\
-\text{s.t.\,\,\, } & s_{t+1}=A_{t}s_{t}+B_{t}u_{t}+c_{t}\\
- & h_{\text{lin}}\left(s_{t},u_{t}\right)\leq0\\
- & g_{\text{lin}}\left(s_{t},u_{t}\right)=0
-\end{align*}
+\text{s.t.\,\,\, } & s_{t+1}=A_{t}s_{t}+B_{t}u_{t}+c_{t}\nonumber \\
+ & h_{\text{lin}}\left(s_{t},u_{t}\right)\leq0\nonumber \\
+ & g_{\text{lin}}\left(s_{t},u_{t}\right)=0\nonumber 
+\end{align}
 
 \end_inset
 
@@ -29725,9 +29752,9 @@ nolink "false"
 ,
  the local affine model is defined as:
 \begin_inset Formula 
-\[
+\begin{equation}
 s_{t+1}\approx\underbrace{A\left(x_{t}\right)}_{A_{t}}s_{t}+\underbrace{B\left(x_{t}\right)}_{B_{t}}u_{t}+\underbrace{c\left(x_{t}\right)}_{c_{t}}
-\]
+\end{equation}
 
 \end_inset
 
@@ -29772,8 +29799,8 @@ The previous section described the ways of integrating kCELL into real-time MPC,
  differentiability and local linearization.
  However,
  the performance of any model-based controller is bounded by the quality of the learned dynamics.
- In contexts where no prior knowledge about the system's dynamics is available,
- the controller must balance the minimization of the task cost with the necessity of collecting informative data in unknown or poorly modeled regions of the stat-action space.
+ When no prior knowledge of the system dynamics is available,
+ the controller must balance minimizing the task cost with gathering informative data in unknown or poorly modeled regions of the state-action space.
  This section addresses the second challenge identified in the introduction of this chapter:
  the
 \series bold
@@ -29783,7 +29810,7 @@ The previous section described the ways of integrating kCELL into real-time MPC,
 \end_layout
 
 \begin_layout Standard
-Conventional exploration methods typically depend on heuristic noise processes (e.g Ornstein-Uhlenbeck noise 
+Conventional exploration methods rely either on heuristic noise processes (e.g Ornstein-Uhlenbeck noise 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "uhlenbeck1930theory"
@@ -29791,7 +29818,7 @@ literal "false"
 
 \end_inset
 
-) or on uncertainty-based mechanisms derived from auxiliary models,
+) or on uncertainty-driven mechanisms derived from auxiliary models,
  such as Bayesian posterior variances in Gaussian Processes 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -29820,13 +29847,15 @@ literal "false"
 
 .
  While effective in many situations,
- these approaches quantify uncertainty through probabilistic inference or learned proxies that are determined by model design choices.
- In contrast,
- kCELL exposes uncertainty as a structural and geometric property emerging from its ensemble of self-organizing local expert agents.
+ these approaches quantify uncertainty through probabilistic inference or learned proxies that are shaped by predefined model architectures and learning schemes.
+ 
 \end_layout
 
 \begin_layout Standard
-kCELL's spatialized agent-based architecture provides two distinct introspection signals that can be directly embedded into the MPC objective function to drive exploration:
+In contrast,
+ kCELL exposes uncertainty as a structural and geometric property emerging from its ensemble of self-organizing local expert agents.
+ kCELL's spatialized agent-based architecture provides two distinct introspection metrics.
+ These 2 metrics can be directly embedded into the MPC objective function to drive exploration:
  
 \series bold
 distance-based expertise
@@ -29839,36 +29868,39 @@ local model disagreement
 \end_layout
 
 \begin_layout Standard
-Distance-based expertise quantifies how far a state-action pair lies from regions that are sufficiently covered by agents,
- providing a geometrical grounded measure of feature space epistemic uncertainty.
- Local model disagreement captures variability in the predicted dynamics across neighboring agents,
- yielding a local estimate of predictive uncertainty.
- Because kCELL operates in an online learning regime,
- these introspection quantities evolve through constant interaction with the environment and can be evaluated at every MPC iteration without retraining,
- posterior computations,
- or auxiliary optimization procedures.
+
+\series bold
+Distance-based expertise
+\series default
+ quantifies how far a state-action pair lies from regions that are sufficiently covered by agents,
+ providing a geometrically grounded measure of epistemic uncertainty in feature space.
+ 
+\series bold
+Local model disagreement
+\series default
+ captures variability in the predicted dynamics among neighboring agents,
+ providing a local estimate of predictive uncertainty.
+ 
 \end_layout
 
 \begin_layout Standard
-Exploration can therefore be formulated as a deterministic,
+Because kCELL operates in an online learning regime,
+ these introspection metrics evolve through constant interaction with the environment and can be evaluated at every MPC iteration.
+ Exploration can therefore be formulated as a deterministic,
  introspection-based regularization of the control objective,
  leading to an augmented cost function:
 \begin_inset Formula 
-\[
+\begin{equation}
 J\left(s_{t},u_{t}\right)=\alpha J_{\text{task}}\left(s_{t},u_{t}\right)+\lambda J_{\text{explore}}\left(s_{t},u_{t}\right)
-\]
+\end{equation}
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
 where 
 \begin_inset Formula $J_{\text{task}}$
 \end_inset
 
- is the task-related cost function,
+ denotes the task-related cost function,
  
 \begin_inset Formula $J_{\text{explore}}$
 \end_inset
@@ -29877,7 +29909,8 @@ where
 \begin_inset Formula $\alpha\in\mathbb{R},\,\lambda\in\mathbb{R}$
 \end_inset
 
- are the weights used to trade-off exploitation and exploration.
+ are weighting factors that trade off exploitation and exploration.
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -29893,24 +29926,25 @@ name "subsec:Distance-based-Competence"
 
 \begin_layout Standard
 Unlike opaque black-box models,
- kCELL provides an explicit measure of its degree of knowledge about specific regions of the state-action space through the spatial distribution of local expert agents.
+ kCELL provides an explicit measure of its degree of knowledge across specific regions of the state-action space through the spatial distribution of local expert agents.
  To encourage exploration,
- the model must acquire data that lie outside the currently covered regions.
+ the model should aim to acquire data lying outside the currently covered regions.
  The degree of knowledge can be quantified by evaluating the Mahalanobis distance between a state-action pair and the closest agents.
 \end_layout
 
 \begin_layout Standard
-The objective is to deliberately drive the state-action trajectories away from the currently covered regions of the input space to collect informative samples in poorly modeled areas.
+The objective is to deliberately drive the encountered state-action trajectories away from the currently covered regions of the input space in order to collect informative samples in poorly modeled areas.
  To achieve this,
- we introduce a distance-based penalty term 
+ we introduce a distance-based penalty 
 \begin_inset Formula $p_{\text{dist}}\left(x_{t}\right)$
 \end_inset
 
- that augments the MPC cost function by promoting exploration of unknown regions such as
+ that augments the MPC cost function by promoting exploration of unknown regions,
+ defined as
 \begin_inset Formula 
 \begin{eqnarray}
 p_{\text{dist}}\left(x_{t}\right) & = & -\sum_{i\in\mathcal{D}_{\text{closest}}}w_{i}\left(x_{t}\right)\left(\left(x_{t}-\mu_{i}\right)^{\top}\Sigma_{i}^{-1}\left(x_{t}-\mu_{i}\right)\right)\\
- & = & -\sum_{i\in\mathcal{D}_{\text{closest}}}w_{i}\left(x_{t}\right)d\left(\mathcal{A}_{i},x_{t}\right)^{2}
+ & = & -\sum_{i\in\mathcal{D}_{\text{closest}}}w_{i}\left(x_{t}\right)d_{M}\left(\mathcal{A}_{i},x_{t}\right)^{2}
 \end{eqnarray}
 
 \end_inset
@@ -29924,7 +29958,7 @@ where
 \begin_inset Formula $\mathcal{D}_{\text{closest}}$
 \end_inset
 
-is the set of the 
+ denotes the set of the 
 \begin_inset Formula $k$
 \end_inset
 
@@ -29938,16 +29972,25 @@ is the set of the
 \end_inset
 
  are the parameters of their activation function,
- 
-\begin_inset Formula $w_{i}\left(x_{t}\right)=\frac{\phi_{i}\left(x_{t}\right)}{\sum_{j}\phi_{j}\left(x_{t}\right)}$
+ and 
+\begin_inset Formula $w_{i}\left(x_{t}\right)$
 \end_inset
 
- are the normalized weights obtained from the activation value of each agent.
+ are the normalized weights obtained from the activation value of each agent,
+ computed as
+\begin_inset Formula 
+\[
+w_{i}\left(x_{t}\right)=\frac{\phi_{i}\left(x_{t}\right)}{\sum_{j}\phi_{j}\left(x_{t}\right)}
+\]
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
 Because the penalty is negative,
- minimizing the augmented MPC objective encourages trajectories that maximize the distance to the currently well-covered regions.
+ minimizing the augmented MPC cost function promotes trajectories that maximize the distance to the currently well-covered regions.
  In this context,
  
 \begin_inset Formula $p_{\text{dist}}\ll0$
@@ -29957,7 +30000,7 @@ Because the penalty is negative,
 \begin_inset Formula $x_{t}$
 \end_inset
 
- is currently not represented in the training data.
+ is not represented in the training data.
  Conversely,
  
 \begin_inset Formula $p_{\text{dist}}\approx0$
@@ -29982,14 +30025,22 @@ name "subsec:Local-Disagreement"
 \end_layout
 
 \begin_layout Standard
-In regions where multiple agents are close in state-action space,
+In well-covered regions,
+ where multiple agents are close in state-action space,
  the variance between their individual predictions serves as a proxy for local predictive inconsistency.
- High disagreement suggests that the local dynamics are either stochastic,
- noisy or that the model has not yet converged to a stable local representation.
+ High variance,
+ referred to as 
+\series bold
+high disagreement
+\series default
+,
+ suggests that the local dynamics are either stochastic or noisy,
+ or that the model has not yet converged to a stable local representation.
 \end_layout
 
 \begin_layout Standard
-The objective is to drive the state-action trajectories towards regions exhibiting high predictive disagreement to force the model to discover new areas or to converge in already known region of feature space.
+The objective is to drive state-action trajectories towards regions of high predictive disagreement,
+ to force the model to either discover new areas or converge within already known regions of the feature space.
  This mechanism is functionally analogous to uncertainty-driven exploration strategies proposed in 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -29998,7 +30049,8 @@ literal "false"
 
 \end_inset
 
- but remains fully intrinsic to the kCELL architecture as it is driven by the social dynamics of the ensemble of local expert agents.
+ but remains fully intrinsic to the kCELL architecture,
+ as it emerges from the social dynamics of the ensemble of local expert agents.
 \end_layout
 
 \begin_layout Standard
@@ -30043,17 +30095,28 @@ is the set of the
 
 ,
  and 
-\begin_inset Formula $w_{i}\left(x_{t}\right)=\frac{\phi_{i}\left(x_{t}\right)}{\sum_{j}\phi_{j}\left(x_{t}\right)}$
+\begin_inset Formula $w_{i}\left(x_{t}\right)$
 \end_inset
 
- are the normalized weights obtained from the activation value of each agent.
- By minimizing this negative term,
- the optimizer seeks out state-actions where the local 
+ are the normalized weights obtained from the activation value of each agent,
+ computed as
+\begin_inset Formula 
+\[
+w_{i}\left(x_{t}\right)=\frac{\phi_{i}\left(x_{t}\right)}{\sum_{j}\phi_{j}\left(x_{t}\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Minimizing this negative term makes the optimizer seek state-actions where the 
 \emph on
 social consensus
 \emph default
- among expert agents is low,
- thereby prioritizing data collection where the model is most uncertain.
+ among local expert agents is low.
+ It thereby prioritizes data collection where the model is the most uncertain.
 \end_layout
 
 \begin_layout Subsection
@@ -30068,7 +30131,8 @@ name "subsec:Exploration-Comparative-Study"
 \end_layout
 
 \begin_layout Standard
-The previous sections defined two introspection-driven signals that could guide exploration of a MPC controller including a kCELL predictive model in an unknown environment:
+The previous sections defined two introspection-driven metrics that could guide exploration of a MPC controller including a kCELL predictive model in an unknown environment.
+ These two metrics are:
  
 \series bold
 distance-based expertise
@@ -30078,8 +30142,8 @@ distance-based expertise
 local disagreement
 \series default
 .
- This section moves from the mathematical formulation to empirical validation by evaluating the effectiveness of these strategies in an online learning setup.
- The objective is to assess whether embedding these introspection signals into the MPC cost function leads to improved coverage of the feature space compared to uninformed or purely exploitative strategies.
+ This section moves from the mathematical formulation to empirical validation by evaluating these strategies in an online learning setup.
+ The objective is to assess whether embedding these introspection metrics into the MPC cost function leads to improved coverage of the feature space compared to uninformed or purely exploitative strategies.
 \end_layout
 
 \begin_layout Paragraph
@@ -30099,7 +30163,11 @@ literal "false"
 
 \end_inset
 
- provided by the gymnasium library 
+ provided by the 
+\emph on
+gymnasium
+\emph default
+ library 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "towers2024gymnasium"
@@ -30108,9 +30176,10 @@ literal "false"
 \end_inset
 
 .
- This benchmark is sleected because it exhibits nonlinear dynamics and presents a non-trivial exploration challenge.
+ This benchmark is selected because it exhibits nonlinear dynamics and presents a non-trivial exploration challenge.
  The task involves controlling a pendulum,
- initially starting at its stable downward equilibrium and applying joint torques to swing it up and maintain it in the unstable upright position.
+ initially starting from its stable downward equilibrium,
+ and applying joint torques to swing it up until it reaches and maintains the unstable upright position.
 \end_layout
 
 \begin_layout Standard
@@ -30127,18 +30196,28 @@ The state space
 \end_inset
 
 .
- For visualization purposes,
+ 
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+For visualization purposes,
  states can be mapped to the 
 \begin_inset Formula $\theta,\dot{\theta}$
 \end_inset
 
  plane.
+\end_layout
+
+\end_inset
+
  The action space 
 \begin_inset Formula $\mathcal{U}$
 \end_inset
 
  is composed of the joint torque applied to the pendulum.
- The pendulum is initialized at the bottom equilibrium (
+ As mentionned above,
+ the pendulum is initialized at the bottom stable equilibrium (
 \begin_inset Formula $\theta=\pi$
 \end_inset
 
@@ -30147,21 +30226,20 @@ The state space
 \end_inset
 
 ) at the start of each episode.
- No initial state randomization is applied,
- ensuring that high-energy states (near the upright position) are harder to reach.
+ No initial state randomization is applied.
+ It ensures that high-energy states (near the upright position) are harder to reach.
  This setup increases the difficulty of exhaustive exploration for uninformed exploration strategies.
 \end_layout
 
 \begin_layout Standard
-The controller interacts with the environment for a total fo 5000 timesteps,
+The controller interacts with the environment for a total of 5000 timesteps,
  divided into 10 episodes of 500 steps.
- During interaction,
- a kCELL model is learned online from the stream of transitions 
+ A kCELL model is learned online from the stream of transitions 
 \begin_inset Formula $\left\{ s_{t},u_{t},s_{t+1}\right\} $
 \end_inset
 
  to model the system dynamics.
- Trajectory optimization is performed using the 
+ The kCELL predictive model is embedded in a MPC controller where the state-action trajectory optimization is performed using the 
 \series bold
 Cross-Entropy Method
 \series default
@@ -30170,14 +30248,15 @@ Cross-Entropy Method
 (CEM)
 \series default
 .
- A population-based optimizer is selected because of its inherent stochasticity which introduces variability in the candidate action sequences.
- This variability is critical during the early stages of kCELL learning,
- as it prevent the initialization of new agents with near-zero variance,
- which could pollute the learning by being directly overspecialized.
+ A population-based optimizer is selected because its inherent stochasticity introduces variability in the candidate action sequences.
+ This variability is critical during the early stages of kCELL learning.
+ Indeed,
+ it prevents the initialization of new agents with near-zero variance,
+ which could pollute learning by making them directly overspecialized.
 \end_layout
 
 \begin_layout Standard
-To propertly evaluate the impact of kCELL's introspection on exploration,
+To properly evaluate the impact of kCELL's introspection on exploration,
  four different exploration strategies are compared.
 \end_layout
 
@@ -30187,10 +30266,11 @@ To propertly evaluate the impact of kCELL's introspection on exploration,
 Distance-based Exploration
 \series default
 :
- A strategy where the cost function only includes the distance-based penalty such as 
+ In this strategy,
+ the cost function only includes the distance-based penalty:
 \begin_inset Formula 
 \begin{equation}
-J\left(s_{t:t+T},u_{t:t+T-1}\right)=p_{\text{dist}}
+J\left(s_{t:t+T},u_{t:t+T-1}\right)=\sum_{k=t}^{t+T-1}p_{\text{dist}}\left(s_{k},u_{k}\right)
 \end{equation}
 
 \end_inset
@@ -30204,15 +30284,18 @@ This incentivizes the controller to maximize the distance between the future sta
 Disagreement-based Exploration
 \series default
 :
- A strategy where the cost function only includes the local model disagreement penalty such as 
+ In this strategy,
+ the cost function only includes the local model disagreement penalty:
 \begin_inset Formula 
 \begin{equation}
-J\left(s_{t:t+T},u_{t:t+T-1}\right)=p_{\text{disagree}}
+J\left(s_{t:t+T},u_{t:t+T-1}\right)=\sum_{k=t}^{t+T-1}p_{\text{disagree}}\left(s_{k},u_{k}\right)
 \end{equation}
 
 \end_inset
 
-This incentivizes the controller to explore regions of the state-action space where the social consensus among local expert agents is low.
+This incentivizes the controller to explore regions of the state-action space where the social consensus among local expert agents is low,
+ i.e.
+ where the disagreement between local experts is high.
 \end_layout
 
 \begin_layout Itemize
@@ -30221,12 +30304,14 @@ This incentivizes the controller to explore regions of the state-action space wh
 Pure Exploitation
 \series default
 :
- A baseline strategy where only the unregularized original task cost 
+ In this baseline strategy,
+ only the original task cost 
 \begin_inset Formula $J_{\text{task}}$
 \end_inset
 
-is minimized.
- The task cost function over the entire receding horizon of length 
+is minimized (no regularization is applied).
+ The task cost function,
+ defined over the entire receding horizon of length 
 \begin_inset Formula $T$
 \end_inset
 
@@ -30266,7 +30351,7 @@ where
 \begin_inset Formula $R\in\mathbb{R}^{1\times1}$
 \end_inset
 
- are weight matrices determining the influence of the state and action over the total cost.
+ are weighting matrices determining the influence of the states and actions on the total cost.
  Comparing this baseline strategy with the 
 \series bold
 Distance-based
@@ -30275,7 +30360,7 @@ Distance-based
 \series bold
 Disagreement-based
 \series default
- strategies should reveal the real contribution of using the presented regularization methods.
+ strategies should reveal the real contribution of using the proposed regularization methods.
 \end_layout
 
 \begin_layout Itemize
@@ -30284,183 +30369,18 @@ Disagreement-based
 Uniform Random Exploration
 \series default
 :
- A baseline strategy where control actions are sampled uniformly at random.
- It represents purely uninformed exploration strategies that do not necessitate prior parameter tuning (like it is the case for exploration strategies based Ornstein-Ulhenbeck noise process).
+ In this baseline strategy,
+ control actions are sampled uniformly at random.
+ It represents a purely uninformed exploration strategy that does not require prior parameter tuning (like it is the case for exploration strategies based Ornstein-Ulhenbeck noise process).
 \end_layout
 
 \begin_layout Standard
-All strategies that involve a continuously learning predictive model share an identical kCELL architecture and hyperparameter set.
- All exploration strategies are evaluated on the same total interaction budget.
+All strategies that involve a continuously learning predictive model share the same kCELL architecture and hyperparameter set.
+ These four exploration strategies are evaluated on the same total interaction budget.
  This way,
- we ensure that observed differences most probably arise from the exploration strategy.
- To account for the stochasticity induced by using a CEM optimizer and random exploration,
+ we ensure that any observed differences most likely arise from the exploration strategy itself.
+ To account for the stochasticity induced by the CEM optimizer and random exploration,
  all results are averaged over 5 independent seeds.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-This section evaluates the effectiveness of the proposed introspection-driven exploration strategies based on distance-based expertise and local model disagreement.
- The objective is to assess whether embedding these signals into the MPC objective leads to improved coverage of feature space in an online learning setup,
- compared to random uninform or purely exploitative exploration strategies.
-\end_layout
-
-\begin_layout Subsubsection
-Experimental Setup
-\end_layout
-
-\begin_layout Plain Layout
-This experiment is conducted on the classical Pendulum control task 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "brockman2016openai"
-literal "false"
-
-\end_inset
-
- available in the 
-\emph on
-gymnasium
-\emph default
- reinforcement learning library 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "towers2024gymnasium"
-literal "false"
-
-\end_inset
-
-,
- which exhibits nonlinear dynamics and presents a nontrivial exploration challenge.
- States are composed of the 
-\begin_inset Formula $x,y$
-\end_inset
-
- 2D-coordinates of the tip of the pendulum and of 
-\begin_inset Formula $\dot{\theta}$
-\end_inset
-
- the angular velocity.
- For convenience reasons,
- in subsequent figures,
- states are also represented by 
-\begin_inset Formula $\theta$
-\end_inset
-
-,
- the angle and 
-\begin_inset Formula $\dot{\theta}$
-\end_inset
-
- to allow for 2D representations.
- The pendulum is initialized at the bottom equilibrium with zero angular velocity (
-\begin_inset Formula $\left\{ \theta=\pi,\,\dot{\theta}=0\right\} $
-\end_inset
-
-) at the beginning of each episode.
- No initial state randomization is applied.
- This way,
- high energy states are harder to reach,
- making the exploration harder for uninformed random strategies.
- The cost function to minimize to solve the task is the following
-\begin_inset Formula 
-\begin{equation}
-\min_{u_{0:T}}\sum_{t=0}^{T}\left(\left(s_{t}-s_{\text{ref}}\right)^{\top}Q\left(s_{t}-s_{\text{ref}}\right)+u_{t}^{\top}Ru_{t}\right)+\left(\left(s_{T+1}-s_{\text{ref}}\right)^{\top}Q\left(s_{T+1}-s_{\text{ref}}\right)\right)
-\end{equation}
-
-\end_inset
-
-with 
-\begin_inset Formula $Q\in\mathbb{R}^{3\times3}$
-\end_inset
-
-,
- 
-\begin_inset Formula $R\in\mathbb{R}^{1\times1}$
-\end_inset
-
- and 
-\begin_inset Formula $s_{\text{ref}}$
-\end_inset
-
- the target state to reach for the pendulum which usually is the top neutral position.
-\end_layout
-
-\begin_layout Plain Layout
-The agent interacts with the environment for a total of 5000 timesteps,
- divided into episodes of 500 steps.
- During interaction,
- a kCELL model is learned online from streaming data to predict the next state.
-\end_layout
-
-\begin_layout Plain Layout
-Trajectory optimization is performed using the Cross-Entropy Method (CEM) because this approach is stochastic.
- Using a population-based optimizer naturally introduces variability in candidate action sequecnes.
- This stochasticity is important in the early learning phase of kCELL,
- as it avoids situations where newly created agents would be initialized with near-zero action variance,
- which can greatly hurt local model learning.
-\end_layout
-
-\begin_layout Plain Layout
-Four exploration strategies are evaluated:
-\end_layout
-
-\begin_layout Enumerate
-Distance intrinsic exploration,
- where the cost function to minimize is the distance-based expertise penalty introduced in Section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "subsec:Distance-based-Competence"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Enumerate
-Disagreement intrinsic exploration,
- where the cost function to minimize is the disagreement-based penalty introduced in Section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "subsec:Local-Disagreement"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Enumerate
-Pure exploitation,
- where only the original task cost is minimized without any exploration regularization.
-\end_layout
-
-\begin_layout Enumerate
-Uniform random exploration,
- where actions are sampled uniformly at random within admissible bounds.
-\end_layout
-
-\begin_layout Plain Layout
-For all exploration strategies,
- the same kCELL architecture,
- with same hyperparameters and interaction budget is learned.
- The metrics measured in subsequent sections are averaged over 5 seeds to eliminate part of the stochastic bias induced by using stochastic optimizer and random exploration strategies.
- All strategies share identical model architecture,
- hyperparameters and interaction budget ensuring that observed differences arise solely from the exploration strategy.
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Paragraph
@@ -30468,7 +30388,7 @@ Quantitative State-Space Coverage
 \end_layout
 
 \begin_layout Standard
-To quantify the state exploration performance,
+To measure the state exploration efficiency,
  the continuous state space 
 \begin_inset Formula $\mathcal{S}$
 \end_inset
@@ -30477,8 +30397,7 @@ To quantify the state exploration performance,
  Each visited state is mapped to its corresponding bin,
  which is then marked as visited.
  State-space coverage is then defined as the ratio of visited bins over the total number of bins.
- The final coverage ratios (averaged over 5 seeds),
- are reported in Table 
+ The final coverage ratios (averaged over 5 seeds) are reported in Table 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:Space-Coverage"
@@ -30685,7 +30604,7 @@ name "tab:Space-Coverage"
 
 
 \begin_inset Note Note
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Float table
@@ -30891,12 +30810,12 @@ This table shows that both introspection-driven strategies (distance-based exper
 \series bold
 significantly higher state-space coverage
 \series default
- than the uninformed random uniform strategy under the same interaction budget:
- 
-\begin_inset Formula $\approx20\%$
+ than the uninformed random uniform strategy under the same interaction budget,
+ with an increase of approximately 
+\begin_inset Formula $20\%$
 \end_inset
 
- higher ratio for introspection-based strategies.
+ in coverage ratio.
  Conversely,
  the pure exploitation strategy,
  where the controller optimizes only the task cost without any exploration regularization,
@@ -30905,8 +30824,8 @@ significantly higher state-space coverage
  without prior knowledge of the dynamics,
  exploitation (i.e optimizing the task objective) alone is insufficient to drive the system toward diverse and informative regions of the state-space.
  Furthermore,
- The distance-based and disagreement-based strategies achieve comparable final coverage levels,
- indicating that both introspection signals are effective for guiding exploration beyond the regions initially supported by the data.
+ the distance-based and disagreement-based strategies achieve comparable final coverage levels,
+ indicating that both introspection metrics are effective for guiding exploration beyond the regions initially supported by the data.
 \end_layout
 
 \begin_layout Paragraph
@@ -30931,12 +30850,12 @@ nolink "false"
 \end_layout
 
 \begin_layout Standard
-Both introspection-driven strategies show comparable growth in coverage over time.
+The two proposed introspection-driven strategies show comparable growth in coverage over time.
  Minor differences in variability across seeds are observed but the mean coverage remains similar,
  suggesting that both strategies effectively promote exploration.
  Any apparent differences should be interpreted cautiously as they may not be statistically significant.
  Overall,
- these results confirm that embedding introspection signals directly into the MPC objective yields an exploration advantage over uninformed stochastic action sampling.
+ these results confirm that embedding introspection metrics directly into the MPC objective yields an exploration advantage over uninformed stochastic action sampling.
 \end_layout
 
 \begin_layout Standard
@@ -30950,7 +30869,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename assets/images/experiments/exploration/coverage_evolution_5k.png
+	filename assets/images/experiments/exploration/coverage_evolution.pdf
 	lyxscale 30
 	width 60col%
 
@@ -30963,7 +30882,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Evolution of the measured state space coverage ratio during exploration phase.
+Evolution of the state space coverage ratio during exploration phase.
  
 \emph on
 x
@@ -30981,7 +30900,8 @@ solid
 \emph on
 shaded
 \emph default
- area corresponds to the 95% confidence interval (
+ area corresponds to the 95% confidence interval (i.e.
+ mean
 \begin_inset Formula $\pm2\sigma$
 \end_inset
 
@@ -31021,7 +30941,7 @@ nolink "false"
 
 \end_inset
 
- presents heatmaps of visited states in the (
+ presents heatmaps of the visited states in the (
 \begin_inset Formula $\theta,\,\dot{\theta}$
 \end_inset
 
@@ -31031,12 +30951,13 @@ nolink "false"
 \begin_inset Formula $\dot{\theta}\approx0$
 \end_inset
 
-) and angles that are close to the starting configuration (
+) and angles close to the starting configuration (
 \begin_inset Formula $\theta\approx\pi$
 \end_inset
 
-) are visited more frequently,
- reflecting the energy barrier associated with reaching high energy states that necessitate more control efforts to be reached (e.g.
+) are visited more frequently.
+ This reflects the energy barrier associated with reaching higher energy states.
+ These states require more control effort to be reached (e.g.
  the top states corresponding to near-upright pendulum configurations (
 \begin_inset Formula $\theta\approx0$
 \end_inset
@@ -31064,17 +30985,19 @@ achieve substantially broader coverage
 \end_layout
 
 \begin_layout Standard
-These observations emphasize the limitations of uninformed random exploration in such dynamical system,
- demonstrating that introspection-driven cost formulations guide the controller toward informative regions that are otherwise difficult to reach
+These observations emphasize the limitations of uninformed random exploration in such a dynamical system,
+ demonstrating that introspection-driven cost formulations guide the controller toward informative regions that are otherwise difficult to reach.
 \end_layout
 
 \begin_layout Standard
-These observations highlight the limitations of uninformed random exploration in such dynamical systems and demonstrate that introspection-driven costs allow the controller to deliberately seek out to reach informative regions of that are otherwise difficult to reach due to an energy barrier.
+To sum up,
+ these observations highlight the limitations of uninformed random exploration in such dynamical systems.
+ They also demonstrate that introspection-driven costs allow the controller to deliberately seek out to reach informative regions that are otherwise difficult to reach due to an energy barrier.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
-placement H
+placement p
 alignment document
 wide false
 sideways false
@@ -31083,9 +31006,9 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename assets/images/experiments/exploration/coverage_heatmap_2x2_notitle_5k.png
+	filename assets/images/experiments/exploration/mean_coverage_heatmap.pdf
 	lyxscale 30
-	width 100col%
+	width 70col%
 
 \end_inset
 
@@ -31096,8 +31019,13 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Obtained space coverage for the exploration strategies considered.
+Space coverage for the four exploration strategies.
  
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+
 \emph on
 Top-left
 \emph default
@@ -31117,18 +31045,38 @@ Bottom-left
 Bottom-right
 \emph default
  corresponds to Full Exploitation strategy.
- The more yellow,
+\end_layout
+
+\end_inset
+
+ The more 
+\emph on
+yellow
+\emph default
+,
  the more the cell has been visited across the different seeds,
- conversely for blue colored cells.
+ conversely for 
+\emph on
+blue
+\emph default
+ colored cells.
  
 \emph on
 y
 \emph default
--axis corresponds to the angle and 
+-axis corresponds to the angle 
+\begin_inset Formula $\theta$
+\end_inset
+
+ and 
 \emph on
 x
 \emph default
--axis corresponds to angular velocity.
+-axis corresponds to angular velocity 
+\begin_inset Formula $\dot{\theta}$
+\end_inset
+
+.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:Obtained-space-coverage"
@@ -31200,7 +31148,7 @@ nolink "false"
 \end_layout
 
 \begin_layout Standard
-For the distance-based and disagreement-based strategises,
+For the distance-based and disagreement-based strategies,
  agent activations cover the entire circular manifold corresponding to the pendulum's reachable positions (cf.
  Figure 
 \begin_inset CommandInset ref
@@ -31214,7 +31162,8 @@ nolink "false"
 \end_inset
 
 ),
- indicating that even high-energy and rarely visited states are locally modeled by dedicated agents.
+ where yellow regions indicate higher activation values of the closest agents.
+ This suggests that even high-energy and rarely visited states are locally modeled by dedicated agents.
  In contrast,
  with the random uniform and pure exploitation strategies,
  agent activations are concentrated in the lower-energy regions of the state-space.
@@ -31222,9 +31171,10 @@ nolink "false"
 
 \begin_layout Standard
 A broader diversity in agent sizes can be observed for the introspection-driven strategies.
- This is most likely due to kCELL agent creation mechanism,
- which creates agents from a minimum number of samples to ensure that local models are quickly reliable.
- In high-velocity regimes or during abrupt torque changes such as strong braking events,
+ This is most likely due to kCELL agent creation mechanism.
+ This mechanism creates agents from a minimum number of samples to ensure that local models are quickly reliable.
+ In high-velocity regimes or during abrupt torque changes,
+ such as strong braking events,
  state transitions are more widely distributed,
  leading to larger initial covariance estimates.
  These larger agents are not pathological artifacts but instead reflect a specific experience of data (here corresponding to regions of high local variability).
@@ -31250,18 +31200,18 @@ nolink "false"
 
 ),
  some agents appear elongated along one dimension especially for the Distance-based strategy.
- Analysis of their covariance matrices reveals that these agents correspond to sharp directional changes in the dynamics,
+ An analysis of their covariance matrices reveals that these agents correspond to sharp directional changes in the dynamics,
  typically induced by large control inputs applied against the direction of motion.
  As such,
  agent geometry seems to provide an interpretable signature of local dynamical regimes encountered during exploration.
- More of this kind of agents can be observed for the Distance-based strategy.
+ More agents of this type can be observed for the Distance-based strategy.
  This could be due to a more agressive exploration strategy that prioritizes more extreme action variations.
  These activation patterns demonstrate that kCELL does not only covered the state space uniformly but organized local models in a manner that reflects the underlying geometry and variability of the dynamics encountered during exploration.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
-placement H
+placement tbp
 alignment document
 wide false
 sideways false
@@ -31279,7 +31229,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename assets/images/experiments/exploration/activation_patterns_xy_notitle_5k.png
+	filename assets/images/experiments/exploration/agent_activation_xy_heatmap.pdf
 	lyxscale 30
 	width 50col%
 
@@ -31319,7 +31269,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename assets/images/experiments/exploration/activation_patterns_angle_angular_velocity_5k_notitle.png
+	filename assets/images/experiments/exploration/agent_activation_heatmap.pdf
 	lyxscale 30
 	width 50col%
 
@@ -31361,27 +31311,12 @@ name "fig:Activation Patterns"
 
 \end_inset
 
- Visualization of the activation patterns of agents for all considered strategies.
- Starting from the top,
- 
-\begin_inset Formula $1^{st}$
-\end_inset
-
- plot corresponds to the Disagreement strategy;
- 
-\begin_inset Formula $2^{nd}$
-\end_inset
-
- plot corresponds to the Distance strategy,
- 
-\begin_inset Formula $3^{rd}$
-\end_inset
-
- plot corresponds to the Random Uniform Strategy and finally 
-\begin_inset Formula $4^{th}$
-\end_inset
-
- plot corresponds to the Full Exploitation strategy.
+ Activation patterns of agents for the four considered strategies.
+ From top to bottom,
+ (1) Disagreement strategy,
+ (2) Distance strategy,
+ (3) Random Uniform Strategy,
+ and (4) Full Exploitation strategy.
  
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -31393,7 +31328,7 @@ nolink "false"
 
 \end_inset
 
- shows the activation patterns of agents projected in the space of 2D coordinates of the tip of the pendulum (
+ shows the activation patterns projected onto the 2D coordinates of the pendulum tip (
 \begin_inset Formula $x=\cos\left(\theta\right)$
 \end_inset
 
@@ -31413,11 +31348,19 @@ nolink "false"
 
 \end_inset
 
- shows the activation patterns of agents projected in the space of Angle (
+ shows the activation patterns projected onto the space of the pendulum angle 
+\begin_inset Formula $\theta$
+\end_inset
+
+ (
 \emph on
 y
 \emph default
--axis) and Angular Velocity (
+-axis) and angular velocity 
+\begin_inset Formula $\dot{\theta}$
+\end_inset
+
+ (
 \emph on
 x
 \emph default
@@ -31450,9 +31393,21 @@ nolink "false"
 
 \end_inset
 
- shows the evolutions of the number of agents during exploration.
+ shows the evolution of the number of agents during exploration.
  Both introspection-driven strategies lead to a substantially larger number of agents than the random uniform and pure exploration baselines.
- This increase is positively correlated with the observed improvement in state-space coverage.
+ This increase is positively correlated with the observed improvement in state-space coverage (cf.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Evolution-of-the-coverage"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
 \end_layout
 
 \begin_layout Standard
@@ -31462,7 +31417,7 @@ While both introspection-driven strategies generate more agents overall,
 higher variability
 \series default
  in agent population across 5 seeds.
- This is consistent with the fact that disagreement among local agent is more sensitivite than raw distance to local modeling inconsistencies.
+ This is consistent with the fact that disagreement among local agents is more sensitive than raw distance to local modeling inconsistencies.
  Thus,
  it could lead the disagreement-based controller to 
 \series bold
@@ -31470,8 +31425,8 @@ explore less aggressively
 \series default
  by revisiting badly modeled regions of the state-action space.
  The more the space is covered,
- the more the local models can conflict locally and drive exploration to them for consolidation,
- which could explain the variance difference between the two introspection-driven strategies.
+ the more the local models can conflict locally and drive exploration to them for consolidation.
+ It could explain the variance difference between the two introspection-driven strategies.
 \end_layout
 
 \begin_layout Standard
@@ -31485,9 +31440,9 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename assets/images/experiments/exploration/nb_agents_evolution_5k.png
+	filename assets/images/experiments/exploration/nb_agent_evolution.pdf
 	lyxscale 50
-	width 60col%
+	width 70col%
 
 \end_inset
 
@@ -31522,7 +31477,7 @@ solid
 \emph on
 shaded
 \emph default
- area corresponds to the 95% confidence interval (
+ area corresponds to the 95% confidence interval (mean
 \begin_inset Formula $\pm2\sigma$
 \end_inset
 
@@ -31549,7 +31504,11 @@ To assess whether introspection-driven exploration strategies translate into bet
  For each exploration strategy,
  the learned model is evaluated on an exhaustive test dataset crafted specifically to cover a large portion of the state-action space.
  Model performance is quantified using the Root Mean Squared Error (RMSE) between predicted and ground-truth next states.
- Figure 
+ 
+\end_layout
+
+\begin_layout Standard
+Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:RMSE-after-exploration"
@@ -31560,14 +31519,10 @@ nolink "false"
 
 \end_inset
 
-,
- presents a bar plot that reports the average RMSE across 5 seeds for the four exploration strategies.
-\end_layout
-
-\begin_layout Standard
-Both introspection-driven strategies achieve 
+ presents a bar plot reporting the average RMSE across 5 seeds.
+ We can notice that both introspection-driven strategies achieve 
 \series bold
-substantially lower prediction error
+substantially lower prediction errors
 \series default
  than the random uniform and pure exploitation baselines.
  In contrast,
@@ -31584,8 +31539,8 @@ These results indicate that introspection-driven exploration
 improves the sample efficiency of online model learning
 \series default
  of a kCELL model within a MPC.
- While the two introspection signals lead to slightly different exploration dynamics,
- they results in comparable models in terms of predictive quality under the same interaction budget.
+ While the two introspection metrics lead to slightly different exploration dynamics,
+ they result in comparable models in terms of predictive quality for the same interaction budget.
  This suggests that the differences observed in state-space coverage are not leading to significant differences in model accuracy under the considered interaction budget and evaluation protocol.
 \end_layout
 
@@ -31600,9 +31555,9 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename assets/images/experiments/exploration/RMSE_bar_no_title_5k.png
+	filename assets/images/experiments/exploration/test_prediction_mae.pdf
 	lyxscale 40
-	width 60col%
+	width 70col%
 
 \end_inset
 
@@ -31651,7 +31606,11 @@ Although distance-based and disagreement-based strategies yield comparable cover
  Those variations are subtle and may reflect stochastic effects of the optimizer rather than systematic differences.
  To investigate the general behavior of the controller under introspection-driven exploration objectives,
  the distribution of actions taken during exploration is analyzed.
- Figure 
+ 
+\end_layout
+
+\begin_layout Standard
+Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Actions-KDE-after-exploration"
@@ -31662,17 +31621,14 @@ nolink "false"
 
 \end_inset
 
- presents kernel density estimates of the applied control inputs.
-\end_layout
-
-\begin_layout Standard
-The resulting 
+ presents Kernel Density Estimates (KDE) of the applied control inputs.
+ We can notice that the resulting 
 \series bold
 action distributions are very similar
 \series default
  for both introspection-driven strategies.
- Three dominant modes can be observed centered around saturated control actions (-2,
- 2) and near-zero actions.
+ Three dominant modes centered around saturated control actions (-2,
+ 2) and near-zero actions can be observed.
  This multimodal structure contrasts with the random uniform baseline.
  It indicates that both introspection-driven strategies induce structured non-uniform action profiles.
  The presence of repeated extreme actions suggests that introspection-driven objectives actively encourage saturated actions in order to reach higher energy states rather than relying on diffuse stochastic perturbations.
@@ -31696,9 +31652,9 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename assets/images/experiments/exploration/actions_KDE_5k.png
+	filename assets/images/experiments/exploration/action_density.pdf
 	lyxscale 30
-	width 60col%
+	width 70col%
 
 \end_inset
 
@@ -31715,16 +31671,18 @@ name "fig:Actions-KDE-after-exploration"
 
 \end_inset
 
-KDE density over actions taken during exploration for each considered exploration strategy.
- 
+Kernel Density Estimates (KDE) of the actions taken during exploration for each considered exploration strategy.
+ The 
 \emph on
 y
 \emph default
--axis is the KDE density and 
+-axis corresponds to the KDE values and the 
 \emph on
 x
 \emph default
--axis ticks corresponds to the actions (in pendulum it corresponds to the applied torque).
+-axis ticks correspond to the actions.
+ In the pendulum case,
+ actions correspond to the applied torque value.
 \end_layout
 
 \end_inset
@@ -31752,8 +31710,9 @@ The experimental results presented in this section demonstrate that introspectio
 Coverage metrics and spatial visualizations show that both introspection-driven strategies lead to a better coverage than random uniform exploration and pure exploitation strategies.
  Introspection-driven strategies are able to overcome the energy barrier induced by the pendulum environment.
  High energy configurations are repeatedly visited despite being hard to reach for uninformed strategies.
- These results confirm that efficient exploration cannot be achieved through randomly uniform actions alone,
- but instead requires additional motivations like model knowledge or uncertainty.
+ These results confirm that efficient exploration cannot be achieved through randomly uniform actions alone.
+ Instead,
+ it requires additional motivations like model knowledge or uncertainty.
 \end_layout
 
 \begin_layout Standard
@@ -31765,7 +31724,7 @@ The analysis of global action distributions confirms that both introspection-dri
 \begin_layout Standard
 At the local scale,
  activation patterns and population dynamics provide insights into the underlying mechanisms of introspection-driven exploration strategies.
- Increased agent creation correlates strongly with improved coverage.
+ Increased agent creation strongly correlates with improved coverage.
  This indicates that exploration emerges from the interaction between the introspection objective and kCELL's agent creation process.
  Furthermore,
  agent geometry and size variability reflect local properties of the explored dynamics.
@@ -31783,28 +31742,15 @@ At the local scale,
 
 \begin_layout Standard
 Finally,
- the observed improvements in predictive accuracy confirm that introspection-driven exploration translates into concrete benefits for online model learning.
+ the observed improvements in predictive accuracy confirm that introspection-driven exploration has concrete benefits for online model learning.
  Under a fixed interaction budget,
  introspection-driven exploration strategies lead to more accurate learned dynamics.
  
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-It reinforces the link between exploration strategy an model quality and downstream control performance.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 Overall,
- kCELL's architecture allows to extract introspection signals that can be leveraged successfully to build efficient uncertainty-aware exploration mechanisms without prior knowledge about the dynamics of the environment.
+ kCELL's architecture allows to extract introspection metrics that can be leveraged successfully to build efficient uncertainty-aware exploration mechanisms without prior knowledge about the dynamics of the environment.
  Those mechanisms do not rely on external stochastic processes or auxiliary uncertainty models.
 \end_layout
 
@@ -31814,7 +31760,7 @@ Limitations
 
 \begin_layout Standard
 While the results demonstrate the effectiveness of introspection-driven exploration with kCELL,
- several limitations still stand and should be acknowledged.
+ several limitations still stand.
 \end_layout
 
 \begin_layout Standard
@@ -31835,7 +31781,9 @@ nolink "false"
  using Gaussian-based spatialization in kCELL introduces its own set of constraints.
  Agents are spatialized using RBF kernels parameterized by the mean and covariance estimated from the local data distribution.
  As a result,
- agent creation requires a minimum diversity level to avoid ill-conditioned covariance estimates.
+ agent creation requires a minimum variability level to avoid ill-conditioned covariance estimates.
+ Typically,
+ it implies not having zero variance on one dimension of the local data manifold.
  
 \end_layout
 
@@ -31854,7 +31802,7 @@ nolink "false"
 
 \end_inset
 
- through some agents that appear elongated (especially for distance-based strategy) due to too spread out actions.
+ where some agents appear elongated (especially with the distance-based strategy) due actions being too spread out.
  These agents still represent valid local experiences but such behavior may pose challenges when extending the approach to more complex control environments.
 \end_layout
 
@@ -31876,7 +31824,7 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-This experiment was restricted to a low-dimensional control problem (3 state dimensions and 1 action dimension).
+This experiment has been restricted to a low-dimensional control problem (3 state dimensions and 1 action dimension).
  The pendulum environment captures nontrivial exploration challenges such as energy barriers.
  However,
  scalability to higher-dimensional systems remains an open question for kCELL.
@@ -31889,14 +31837,14 @@ This experiment was restricted to a low-dimensional control problem (3 state dim
 Finally,
  this study considers distance-based expertise and local disagreement as independent exploration objectives.
  A combined approach was not explored,
- primarily because these introspection signals operate on very different scales and have distinct geometrical interpretations.
+ mainly because these introspection metrics operate on very different scales and have distinct geometrical interpretations.
  Investigating combinations or adaptive weighting schemes between distance-based and disagreement-based costs could reveal complementary effects and lead to more exhaustive exploration strategies.
 \end_layout
 
 \begin_layout Standard
 Beyond exploration,
- introspection signals extracted from kCELL naturally lead to the design of conservative control strategies under learned dynamics.
- While the studied exploration strategies exploit these signals to deliberately seek poorly modeled regions,
+ introspection metrics extracted from kCELL naturally lead to the design of conservative control strategies under learned dynamics.
+ While the studied exploration strategies exploit these metrics to deliberately seek poorly modeled regions,
  the same quantities can be repurposed during exploitation to bias the controller toward states where the model is locally reliable.
  In this case,
  introspection cost no longer act as penalty but as a confidence-aware bonus that encourages trajectories to remain close to existing agents,
@@ -31930,10 +31878,16 @@ literal "false"
 \end_layout
 
 \begin_layout Definition
-Compounding errors refer to the accumulation and amplification of small inaccuracies in sequential predictions,
+
+\series bold
+Compounding errors
+\series default
+ refer to the accumulation and amplification of small inaccuracies in sequential predictions,
  especially over extended time horizons.
  The process starts with minor inaccuracies in initial predictions within a receding horizon framework like MPC.
- These errors propagate multiplicatively as each next prediction uses the imprecise output of the prior one as input such that
+ These errors propagate multiplicatively,
+ as each subsequent prediction uses the imprecise output of the previous one as input,
+ such as:
 \begin_inset Formula 
 \[
 \hat{s}_{t+1}=\hat{f}\left(\hat{s}_{t}+\epsilon_{t},a_{t+1}\right)
@@ -31963,13 +31917,14 @@ where
 \end_inset
 
 ,
- 
+ and 
 \begin_inset Formula $\hat{f}$
 \end_inset
 
  is the global prediction function of the approximate model.
  Over iterations,
- errors compound as 
+ errors accumulate and compound:
+ 
 \begin_inset Formula 
 \[
 \epsilon_{t+T}\approx\prod_{i=1}^{T}\left(1+\delta_{i}\right)\epsilon_{t}
@@ -31982,7 +31937,8 @@ where
 \end_inset
 
  is the local amplification factor of errors.
- This can lead to divergent states with 
+ This can lead to divergent states,
+ with 
 \begin_inset Formula $\hat{s}_{t+T}\gg s_{t+T}$
 \end_inset
 
@@ -31994,8 +31950,10 @@ where
 \end_layout
 
 \begin_layout Standard
-Compounding errors are linked to the notion of epistemic uncertainty as they arise when the model lacks knowledge about the underlying true dynamics in specific regions of the state-action space.
- To mitigate this isseu,
+Compounding errors are linked to the notion of epistemic uncertainty.
+ Indeed,
+ they arise when the model lacks knowledge about the underlying true dynamics in specific regions of the state-action space.
+ To mitigate this issue,
  in 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -32005,7 +31963,7 @@ literal "false"
 \end_inset
 
 ,
- the authors discuss using Gaussian Processes (GPs) 
+ the authors discuss the use of Gaussian Processes (GP) 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "williams1995gaussian"
@@ -32025,74 +31983,18 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-Exploration strategies relying on kCELL intrinsic multiagent structure have shown successful to drive exploration in an unknown environment,
- leading to better predictive learned dynamic models than when exploring with uninformed random strategies.
-\end_layout
-
-\begin_layout Plain Layout
-To achieve safe control with learned models,
- i.e reliability of controllers,
- the problem of compounding errors and uncertainty in the model predictions needs to be addressed at exploitation time 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Brunke2022May"
-literal "false"
-
-\end_inset
-
-.
- With inexact dynamic models,
- small errors on the first horizon steps leads to massive errors over time.
- Compounding errors are deeply linked to epistemic uncertainty (lack of knowledge about the underlying true dynamics).
- In 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Brunke2022May"
-literal "false"
-
-\end_inset
-
-,
- the authors discuss using Gaussian Processes (GPs) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "williams1995gaussian"
-literal "false"
-
-\end_inset
-
- or Bayesian Neural Networks 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "blundell2015weight"
-literal "false"
-
-\end_inset
-
- to quantify the prediction uncertainty and take it into account in optimization to obtain safe conservative control policies.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-kCELL's spatialized agent-based architecture provides valuable introspection signals that can serve as proxies for epistemic uncertainty.
- These introspection signals can be directly incorporated into the MPC objective to regularize the behavior of the resulting policy by keeping the explored states (at optimization time) into known regions of the state-action space,
- avoiding wandering into unknown states that would induce large compounding errors.
- This section focuses specifically on distance-based expertise introspection signals that quantify how far a state-action lies from regions that are sufficiently covered by agents.
+kCELL's spatialized agent-based architecture provides valuable introspection metrics that can serve as proxies for epistemic uncertainty.
+ These introspection metrics can be directly incorporated into the MPC cost function to regularize the behavior of the resulting policy.
+ This regularization encourages the explored states (during optimization) to remain within known regions of the state-action space,
+ thereby preventing the controller from wandering into unknown states that could induce large compounding errors.
+ This section focuses specifically on distance-based expertise introspection metrics that quantify how far a state-action lies from regions that are sufficiently covered by agents.
  It provides a geometrically grounded measure of epistemic uncertainty.
 \end_layout
 
 \begin_layout Standard
 To bias the policy toward a more conservative knowledge-aware behavior,
- an introspection-driven regularization of the control objective is defined,
- leading to the following augmented cost function
+ an introspection-driven regularization of the control objective is defined.
+ The augmented cost function is defined as follows:
 \begin_inset Formula 
 \[
 J\left(s_{t},u_{t}\right)=\alpha J_{\text{task}}\left(s_{t},u_{t}\right)+\lambda J_{\text{conservative}}\left(s_{t},u_{t}\right)
@@ -32115,48 +32017,7 @@ where
 
  the adjustment weights to trade-off task exploitation and conservatism.
  In this context we define a conservative policy,
- as a policy that is biased toward minimizing epistemic uncertainty.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Mention the fact that in results,
- we observe that getting closer to the knowledge base of the model = less compounding errors => solid argument in favor of the local expertise hypothesis.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Define reliability
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-We use regularization to increase the confidence we can have in the model at optimization time => this is required for safety / reliability of the controller (cf.
- paper Safe Control Review) => we advance toward safety
-\end_layout
-
-\end_inset
-
-
+ as a policy that is biased in order to minimize epistemic uncertainty.
 \end_layout
 
 \begin_layout Subsection
@@ -32181,7 +32042,7 @@ Unlike opaque black-box models,
 \end_inset
 
  can be quantified by the Mahalanobis distance to the nearest local experts.
- In kCELL agents are local experts on the function to approximate and the closer an input is to the center of an agent,
+ kCELL agents are local experts on the function to approximate and the closer an input is to the center of an agent,
  the most probable the prediction will be accurate (as shown in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -32195,7 +32056,7 @@ nolink "false"
 
 ).
  Therefore,
- the objective of guiding the optimized trajetories close to the known regions of the state-action space can be achieved by guiding the trajectories close to the center of agents.
+ the objective of guiding the optimized trajectories toward the known regions of the state-action space consists of keeping them close to the center of agents.
 \end_layout
 
 \begin_layout Standard
@@ -32205,7 +32066,7 @@ To achieve this,
 \end_inset
 
  is introduced.
- It augments the MPC cost function by promoting conservative behaviors and is defined such as
+ It augments the MPC cost function by promoting conservative behaviors and is defined as:
 \begin_inset Formula 
 \begin{eqnarray}
 q_{\text{dist}}\left(x_{t}\right) & = & \sum_{i\in D_{\text{closest}}}w_{i}\left(x_{t}\right)\left(\left(x_{t}-\mu_{i}\right)^{\top}\Sigma_{i}^{-1}\left(x_{t}-\mu_{i}\right)\right)\\
@@ -32237,15 +32098,20 @@ is the set of the
 \end_inset
 
  are the parameters of their activation function,
- 
-\begin_inset Formula $w_{i}\left(x_{t}\right)=\frac{\phi_{i}\left(x_{t}\right)}{\sum_{j}\phi_{j}\left(x_{t}\right)}$
+ and 
+\begin_inset Formula $w_{i}\left(x_{t}\right)$
 \end_inset
 
- are the weights depending on the activation of each agent on 
-\begin_inset Formula $x_{t}$
+ are the normalized weights obtained from the activation value of each agent,
+ computed as
+\begin_inset Formula 
+\[
+w_{i}\left(x_{t}\right)=\frac{\phi_{i}\left(x_{t}\right)}{\sum_{j}\phi_{j}\left(x_{t}\right)}
+\]
+
 \end_inset
 
-.
+
 \end_layout
 
 \begin_layout Standard
@@ -32271,7 +32137,7 @@ nolink "false"
 
  is positive.
  Consequently,
- minimizing the augmented MPC objective encourages trajectories that are close to the currently well-covered regions.
+ minimizing the augmented MPC objective encourages trajectories that remain close to the currently well-covered regions.
  In this context,
  
 \begin_inset Formula $q_{\text{dist}}\gg0$
@@ -32292,7 +32158,7 @@ nolink "false"
 \end_inset
 
  is close to a known region of the state-action space and is therefore likely to have been encountered during training.
- As the expression of 
+ As 
 \begin_inset Formula $q_{\text{dist}}$
 \end_inset
 
@@ -32314,11 +32180,24 @@ Comparative Study
 
 \begin_layout Standard
 The previous section introduced a distance-based conservative regularization mechanism,
- derived from a kCELL predictive model,
- designed to bias the optimization process in a MPC controller toward known state-actions.
- This sections studies the impact of this regularization mechanism on the reliability of the optimization process through a low-dimensional case study.
- the goal is to assess whether incorporating this regularization term into the MPC objective yields trajectories on which the local expert agents in the kCELL predictive model have more expertise,
- less compounding errors and if there is a tradeoff between conservativeness and task resolution performance.
+ derived from a kCELL predictive model.
+ This mechanism is designed to bias the optimization process in a MPC controller toward known state-actions.
+ This section studies the impact of this regularization mechanism on the reliability of the optimization process through a low-dimensional case study.
+ The goal is to assess whether incorporating this regularization term into the MPC cost function yields trajectories on which the local expert agents in the kCELL predictive model exhibit 
+\series bold
+more expertise
+\series default
+ (i.e.
+ higher activation values),
+ 
+\series bold
+fewer compounding errors
+\series default
+ and a possible 
+\series bold
+tradeoff between conservatism and task resolution performance
+\series default
+.
 \end_layout
 
 \begin_layout Paragraph
@@ -32359,35 +32238,36 @@ nolink "false"
 \begin_inset Formula $\dot{\theta}$
 \end_inset
 
-.
+ of the pendulum.
 \end_layout
 
 \begin_layout Standard
-Unlike the exploration study conducted previously,
- where the model was learned while being used for exploring the environment,
+In the previous exploration study,
+ the model was learned while being used for exploring the environment.
+ In contrast,
  this experiment uses a frozen kCELL dynamics model to ensure that the obtained results are caused by the introduced conservative regularization mechanism and not by continuous model adaptation.
- The model is intially trained through a dedicated interaction budget of 30000 steps using an informed stochastic exploration policy based on Ornstein-Uhlenbeck (OU) noise.
+ The model is initially trained through a dedicated interaction budget of 30000 steps using an informed stochastic exploration policy based on Ornstein-Uhlenbeck (OU) noise.
  This ensures that the kCELL predictive model has acquired a solid knowledge base before the evaluation phase.
 \end_layout
 
 \begin_layout Standard
-for this task,
+For this task,
  the ensemble of local expert agent of the kCELL model is spatialized only in the state space 
 \begin_inset Formula $\mathcal{S}$
 \end_inset
 
- (not including actions).
+ (without including actions).
  This design choice is motivated by empirical observations on the pendulum task.
  Indeed,
- spatializing agents jointly over state and action dimensions leads to slower stabilization of agent population,
- whereas state-only spatialization resulted in faster convergence of local models and more stable agent coverage.
+ spatializing agents jointly over state and action dimensions leads to slower stabilization of agent population during learning,
+ whereas state-only spatialization results in faster convergence of local models and more stable agent coverage.
  Given the low-dimensional action space and the smooth dynamics,
  state-based spatialization provides a favorable tradeoff between model predictive accuracy and sample efficiency.
  
 \end_layout
 
 \begin_layout Standard
-In contrast to the population-based CEM used for exploration,
+In contrast to the population-based CEM optimizer used for exploration,
  trajectory optimization is performed here using Sequential Quadratic Programming (SQP) with the OSQP conic solver 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -32403,7 +32283,11 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-The effectiveness of distance-based conservatism is evaluated by varying the regularization weight 
+The efficiency of distance-based conservatism is evaluated by 
+\series bold
+varying the regularization coefficient
+\series default
+ 
 \begin_inset Formula $\lambda\geq0$
 \end_inset
 
@@ -32449,12 +32333,14 @@ Baseline Exploitation
 \end_inset
 
 ):
- A strategy where only the unregularized task cost 
+ In this strategy,
+ only the unregularized task cost 
 \begin_inset Formula $J_{\text{task}}$
 \end_inset
 
  is minimized.
- This strategy represents a standard greedy controller that trusts the learned model implicitly assuming it possesses perfect knowledge of the dynamics.
+ This strategy represents a standard greedy controller that trusts the learned model implicitly,
+ assuming it has perfect knowledge of the dynamics.
 \end_layout
 
 \begin_layout Itemize
@@ -32467,7 +32353,8 @@ Conservative Exploitation
 \end_inset
 
 ):
- Strategies where the distance-based regularization term 
+ In these strategies,
+ the distance-based regularization term 
 \begin_inset Formula $q_{\text{dist}}$
 \end_inset
 
@@ -32476,16 +32363,17 @@ Conservative Exploitation
 \end_inset
 
 .
- This incentivizes the optimizer to find trajectories that remain close to the centers of existing local expert agents in the kCELL model,
- thereby 
+ This incentivizes the optimizer to find trajectories that remain close to the centers of existing local expert agents in the kCELL model.
+ Therefore,
+ the optimizer 
 \emph on
-staying close to what the model knows
+stays close to what the model knows
 \emph default
 .
 \end_layout
 
 \begin_layout Standard
-To evaluate the robustness and reliability of the controller indepently of specific initial conditions,
+To evaluate the robustness and reliability of the controller independently of specific initial conditions,
  performance is assessed across an exhaustive grid of initial states sampled throughout the (
 \begin_inset Formula $\theta$
 \end_inset
@@ -32497,8 +32385,9 @@ To evaluate the robustness and reliability of the controller indepently of speci
 ) space.
  For each initial state,
  the MPC outputs an action sequence using the frozen kCELL model coupled with the SQP optimizer.
- The resulting predicted trajectory is compared against the ground-truth trajectory produced by the true environment dynamics.
- This way the compounding errors effects can be measured as the divergence between the model's prediction and the ground truth over the receding horizon.
+ The resulting predicted trajectory is compared to the ground-truth trajectory produced by the true environment dynamics.
+ This way,
+ the compounding errors effects can be measured as the divergence between the model's prediction and the ground truth over the receding horizon.
  The considered strategies share identical MPC horizon length,
  cost matrices (
 \begin_inset Formula $Q$
@@ -32514,7 +32403,7 @@ To evaluate the robustness and reliability of the controller indepently of speci
 
 ,
  solver parameters and physical constraints bounding the states and actions.
- By comparing the baseline against various values of 
+ By comparing the baseline to various values of 
 \begin_inset Formula $\lambda$
 \end_inset
 
@@ -32522,168 +32411,13 @@ To evaluate the robustness and reliability of the controller indepently of speci
  the goal is to characterize the safety-performance trade-off induced by the regularization mechanism.
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-This section evaluates the effectiveness of the proposed introspection-driven regularization term based on distance to agents in a learned kCELL system through a low-dimensional experiment.
- The objective is to assess whether embedding this regularization term into the MPC objective yields better known trajectories,
- less compounding errors and if there is a tradeoff between conservativeness and task resolution performance.
-\end_layout
-
 \begin_layout Subsubsection
-Experimental Setup
-\end_layout
-
-\begin_layout Plain Layout
-This experiment evaluates the impact of introspection-driven conservative regularization on the reliability of trajectory optimization using a kCELL learned dynamics model within a MPC scheme.
- The objective is to assess whether considering the spatialization of agents of a kCELL model during optimization reduces extrapolation errors and improves robustness of long-horizon predictions.
-\end_layout
-
-\begin_layout Plain Layout
-The experiment is conducted on the classical Pendulum control task available in gymnasium reinforcement learning library 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "towers2024gymnasium"
-literal "false"
-
-\end_inset
-
- which exhibits nonlinear dynamics.
- States are composed of the 
-\begin_inset Formula $x,\,y$
-\end_inset
-
- 2D-coordinates of the tip of the pendulum and of 
-\begin_inset Formula $\dot{\theta}$
-\end_inset
-
- the angular velocity.
-\end_layout
-
-\begin_layout Plain Layout
-A kCELL model is learned online from streaming interaction data.
- The population of linear agent predictors is spatialized in the state space (not including actions).
- This design choice is motivated by empirical observations on the pendulum task.
- Indeed,
- spatializing agents jointly over state and action dimensions leads to slower stabilization of agent population,
- whereas state-only spatialization resulted in faster convergence of local models and more stable agent coverage.
- Given the low-dimensional action space and the smooth dynamics,
- state-based spatialization provides a favorable tradeoff between model predictive accuracy and sample efficiency.
-\end_layout
-
-\begin_layout Plain Layout
-To ensure a sufficient coverage of the state space,
- an informed finetuned stochastic exploration policy based on Ornstein-Uhlenbeck (OU) noise is used to interact with the simulation environment to collect learning data.
- This exploration phase to build a kCELL model is conducted for a fixed interaction budget of 30k steps.
- The learned dynamics model is frozen and used subsequently for evaluation.
- No further learning occurs during evaluation,
- ensuring that observed effects are attributable to the optimization strategy rather than continued model adaptation.
-\end_layout
-
-\begin_layout Plain Layout
-Control actions are obtained using a MPC scheme.
- Action sequences are optimized over a finite horizon using the learned kCELL dynamics.
- Trajectory optimization is performed using SQP with OSQP conic solver to solve the local Quadratic Programs at each iteration.
- Using SQP,
- a gradient-based optimizer,
- allows to isolate the effect of the proposed regularization without introducing stochastic variability which is inherent to population-based optimization methods.
-\end_layout
-
-\begin_layout Plain Layout
-The baseline optimization objective,
- i.e the cost function to minimize to solve the task is the following
-\begin_inset Formula 
-\begin{equation}
-\min_{u_{0:T}}\sum_{t=0}^{T}\left(\left(s_{t}-s_{\text{ref}}\right)^{\top}Q\left(s_{t}-s_{\text{ref}}\right)+u_{t}^{\top}Ru_{t}\right)+\left(\left(s_{T+1}-s_{\text{ref}}\right)^{\top}Q\left(s_{T+1}-s_{\text{ref}}\right)\right)
-\end{equation}
-
-\end_inset
-
-with 
-\begin_inset Formula $Q\in\mathbb{R}^{3\times3}$
-\end_inset
-
-,
- 
-\begin_inset Formula $R\in\mathbb{R}^{1\times1}$
-\end_inset
-
- and 
-\begin_inset Formula $s_{\text{ref}}$
-\end_inset
-
- the target state to reach for the pendulum which usually is the top neutral position.
-\end_layout
-
-\begin_layout Plain Layout
-To this objective,
- an additional conservative regularization term 
-\begin_inset Formula $q_{\text{dist}}$
-\end_inset
-
- is introduced (cf.
- Section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "subsec:Distance-based-Conservatism"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-).
- This regularization term is weighted by a coefficient 
-\begin_inset Formula $\lambda\geq0$
-\end_inset
-
-,
- penalizing predicted trajectories that run accross low coverage regions of the state space,
- envouraging solutions that remain within areas well covered by the agent.
- The goal is to stay close to what the model knows.
-\end_layout
-
-\begin_layout Plain Layout
-The evaluation is conducted for multiple values of 
-\begin_inset Formula $\lambda$
-\end_inset
-
-.
- We refer to the unregularized case 
-\begin_inset Formula $\lambda=0$
-\end_inset
-
- as the baseline.
- To evaluate robustness and reliability independently of exploration stochasticity,
- control performance is assessed from an exhaustive set of initial states sampled over a grid in the state space.
- For each initial state,
- the predictions produced by kCELL with the found solution are compared against the ground-truth trajectory.
- This allows direct measurement of prediction error against the true dynamics,
- also allowing to assess the compounding effects on a given horizon.
- All evaluations are performed using identical MPC horizons (
-\begin_inset Formula $T=20$
-\end_inset
-
-),
- cost function,
- solver parameters and constraints across regularization settings.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-Validation of Regularization Behavior
+Validation of the Regularization Behavior
 \end_layout
 
 \begin_layout Standard
 To validate the behavior of the regularization term,
- the mean agent activation along the optimized state trajectories is measured.
+ the mean activation of the closest agents along the optimized state trajectories is measured.
  Activation of agents serves as a proxy for epistemic uncertainty.
  Figure 
 \begin_inset CommandInset ref
@@ -32696,7 +32430,7 @@ nolink "false"
 
 \end_inset
 
- presents boxplots of the mean agent activation for each considered values of 
+ presents boxplots of the mean activation of agents for each considered value of the regularization coefficient 
 \begin_inset Formula $\lambda$
 \end_inset
 
@@ -32709,8 +32443,8 @@ As
 \end_inset
 
  increases,
- a clear increase in mean agent activation can be observed,
- indicating that the optimizer progressively favors trajectories that remain closer to the centers of kCELL agents.
+ a clear increase in mean activation can be observed.
+ This increase indicates that the optimizer progressively favors trajectories that remain closer to the centers of kCELL agents.
  This behavior is consistent with the expected behavior of the regularization term 
 \begin_inset Formula $q_{\text{dist}}$
 \end_inset
@@ -32720,7 +32454,7 @@ As
 \end_layout
 
 \begin_layout Standard
-In addition to that,
+In addition,
  increasing 
 \begin_inset Formula $\lambda$
 \end_inset
@@ -32733,7 +32467,12 @@ In addition to that,
 
 \begin_layout Standard
 These results validate the behavior of the introspection-driven regularization mechanism.
- The regularizer acts as intended by increasing the proximity of optimized trajectories to kCELL agent centers and reduces variability in observed model expertise across initial conditions.
+ The regularizer acts as intended:
+ it 
+\series bold
+increases the proximity of optimized trajectories to kCELL agent centers
+\series default
+ and reduces variability in observed model expertise across initial conditions.
 \end_layout
 
 \begin_layout Standard
@@ -32749,7 +32488,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/experiments/conservative/boxplot_mean_activation_vs_reg_coeff.png
 	lyxscale 30
-	width 60col%
+	width 70col%
 
 \end_inset
 
@@ -32766,7 +32505,7 @@ name "fig:Boxplot-Mean-Activation"
 
 \end_inset
 
- Boxplots of the mean activation over optimized trajectories for various values of regularization coefficient 
+ Boxplots of the mean activation across the states of the optimized trajectories for various values of regularization coefficient 
 \begin_inset Formula $\lambda$
 \end_inset
 
@@ -32779,7 +32518,7 @@ y
 \emph on
 x
 \emph default
--axis corresponsd to values of 
+-axis corresponds to values of 
 \begin_inset Formula $\lambda$
 \end_inset
 
@@ -32802,7 +32541,12 @@ Impact on Prediction Accuracy
 \end_layout
 
 \begin_layout Standard
-Figure 
+Let us now study the impact of the regularization coefficient 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ on the prediction accuracy.
+ Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Boxplot-Pred-Error"
@@ -32813,7 +32557,7 @@ nolink "false"
 
 \end_inset
 
- presents boxplots of the Mean Absolute Error (MAE) over trajectories for various values of regularization coefficient 
+ presents boxplots of the Mean Absolute Error (MAE) across the states of the optimized trajectories for various values of the regularization coefficient 
 \begin_inset Formula $\lambda$
 \end_inset
 
@@ -32822,38 +32566,44 @@ nolink "false"
 \begin_inset Formula $\lambda$
 \end_inset
 
-,
- along each optimized rollout,
- the predicted state transitions produced by kCELL are compared against ground-truth trajectories.
- Prediction errors is computed and averaged over the receding horizon.
+ considered in each optimized trajectory,
+ the predicted state transitions produced by kCELL are compared to ground-truth trajectories.
+ Prediction errors are computed and averaged over the receding horizon.
 \end_layout
 
 \begin_layout Standard
 As the regularization coefficient increases,
- a downward shift of the error distributions can be observed.
- Higher values of 
+ a downward shift in the error distributions can be observed.
+ The higher the values of 
 \begin_inset Formula $\lambda$
 \end_inset
 
- correspond to lower median and mean prediction errors,
- indicating that trajectories optimized under strong regularization are predicted more accurately on average by the learned model.
- This behavior is consistent with the core assumption of kCELL that stipulates that regions of high agent activation correspond to areas where local linear models provide the most reliable approximations of the true dynamics.
+,
+ the lower the median and mean prediction errors.
+ This indicates that trajectories optimized under strong regularization are predicted more accurately on average by the learned model.
+ This behavior is consistent with the core assumption of kCELL.
+ Recall that this assumption stipulates that regions of high agent activation correspond to areas where local linear models provide the most reliable approximations of the true dynamics.
 \end_layout
 
 \begin_layout Standard
-This reduction in prediction error does not arise from any modification of the learned kCELL model itself which remains fixed during evaluation.
+This reduction of the prediction error does not arise from any modification of the learned kCELL model itself which remains fixed during evaluation.
  Instead,
  it is a direct consequence of the optimizer preferentially selecting trajectories that remain within regions of the state space that are well supported by training data.
  Thus,
- the regularization acts as a mechanism for smarter model usage rather than model improvement.
+ the regularization acts as a mechanism for 
+\series bold
+smarter model usage
+\series default
+ rather than model improvement.
 \end_layout
 
 \begin_layout Standard
-In addition to that,
- the downward shift in MAE distributions for increasing values of 
+In addition,
+ the downward shift in MAE distributions when the values of 
 \begin_inset Formula $\lambda$
 \end_inset
 
+ increase,
  is accompanied with a decrease in the spread of the error distributions.
  This indicates that large prediction errors become progressively less frequent as regularization strength increases.
  This suggests that distance-based regularization not only improves average prediction accuracy but also reduces the occurence of extreme prediction failures.
@@ -32868,7 +32618,8 @@ Overall,
  This information can be effectively exploited during trajectory optimization.
  By encouraging trajectories to remain within regions of high agent coverage,
  the proposed regularization yields more accurate and more consistent predictions.
- This way it improves the reliability of model-based control with a kCELL predictive model.
+ This way,
+ it improves the reliability of model-based control with a kCELL predictive model.
 \end_layout
 
 \begin_layout Standard
@@ -32884,7 +32635,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/experiments/conservative/boxplot_mean_absolute_error.png
 	lyxscale 30
-	width 60col%
+	width 70col%
 
 \end_inset
 
@@ -32937,8 +32688,9 @@ Impact on Compounding Errors
 \end_layout
 
 \begin_layout Standard
-One of the main limitations of using learned dynamics models in model-based control is their susceptibility to error compounding effects over long prediction horizons.
- Even small local inaccuracies can compound across successive rollout steps rapidly degrading the prediction quality and optimization results in the process 
+We have seen that the use of learned dynamics models in model-based control is limited by error compounding effects over long prediction horizons.
+ Even small local inaccuracies can compound across successive rollout steps,
+ and rapidly degrade the prediction quality and optimization results in the process 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Brunke2022May"
@@ -32966,10 +32718,18 @@ nolink "false"
 \end_layout
 
 \begin_layout Standard
-In the absence of regularization,
- for the baseline (the darkest blue line in the plot),
- the prediction error increases rapidly with the horizon length,
- reflecting the compounding effects of model errors over the receding horizon.
+In the absence of regularization (
+\begin_inset Formula $\lambda=0$
+\end_inset
+
+),
+ for the baseline (the 
+\emph on
+darkest blue
+\emph default
+ line in the plot),
+ the prediction error increases rapidly with the horizon length.
+ This increase reflects the compounding effects of model errors over the receding horizon.
  As 
 \begin_inset Formula $\lambda$
 \end_inset
@@ -32977,7 +32737,11 @@ In the absence of regularization,
  values increase,
  the rate at which prediction error grows is substantially reduced.
  Stronger regularization leads to consistently lower prediction errors especially for more distant horizon steps.
- This confirms that the primary benefit of the proposed regularization lies in mitigating compounding errors rather than solely improving one-step prediction accuracy.
+ This confirms that the main benefit of the proposed regularization lies in 
+\series bold
+mitigating compounding errors
+\series default
+ rather than solely improving one-step prediction accuracy.
 \end_layout
 
 \begin_layout Standard
@@ -32988,8 +32752,8 @@ improves the reliability of long-horizon predictions in MPC
 \series default
 .
  By maintaining the trajectory within highly covered regions,
- the error propagation is dampened,
- preventing the exponential divergence typically observed in the unregularized case over the receding horizon.
+ the error propagation is reduced.
+ It prevents the exponential divergence typically observed in the unregularized case over the receding horizon.
  It reduces the myopic behavior induced by error-prone rollouts and enhances the practical usability of kCELL for more reliable control policies.
 \end_layout
 
@@ -33006,7 +32770,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/experiments/conservative/mean_prediction_error_per_horizon_step.png
 	lyxscale 30
-	width 60col%
+	width 70col%
 
 \end_inset
 
@@ -33037,16 +32801,16 @@ y
 x
 \emph default
 -axis corresponds to the horizon steps.
- Each colored curve corresponds to a given value of 
+ Each colored curve corresponds to a value of 
 \begin_inset Formula $\lambda$
 \end_inset
 
 .
- The 
+ The unregularized baseline case corresponds to the 
 \begin_inset Formula $\lambda=0$
 \end_inset
 
- curve corresponds to the unregularized baseline case.
+ curve.
 \end_layout
 
 \end_inset
@@ -33060,7 +32824,7 @@ x
 \end_layout
 
 \begin_layout Subsubsection
-Cost-Accuracy Tradeoff
+Tradeoff between Cost & Accuracy
 \end_layout
 
 \begin_layout Standard
@@ -33081,7 +32845,7 @@ nolink "false"
 \begin_inset Formula $J_{\text{task}}$
 \end_inset
 
-) over trajectories for various values of 
+) across trajectories for various values of 
 \begin_inset Formula $\lambda$
 \end_inset
 
@@ -33096,88 +32860,12 @@ nolink "false"
 \end_inset
 
 ).
- This indicates that the controller increasingly sacrifices task optimality in order to remain within regions of the state space that are well supported by the learned kCELL model.
- In addition to that,
- the spread of the cost distributions decreases with stronger regularization.
- This suggests that conservative behavior leads to more uniform,
+ This indicates that the controller increasingly sacrifices task optimality in order to stay within regions of the state space that are well supported by the learned kCELL model.
+ In addition,
+ we can notice that the spread of the cost distributions decreases with stronger regularization.
+ This suggests that the conservative behavior leads to more uniform,
  less optimal,
  performances across initial conditions.
-\end_layout
-
-\begin_layout Standard
-Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Mean-Cum-Cost-vs-Horizon-Steps"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- shows the evolution of the mean cumulative cost over the horizon for various values of 
-\begin_inset Formula $\lambda$
-\end_inset
-
-.
- Higher regularization coefficiens 
-\begin_inset Formula $\lambda$
-\end_inset
-
- resulted in higher accumulated costs compared to the unregularized baseline.
- This effect is more pronounced for longer horizons.
- It indicates that conservative trajectory selection restricts the optimizer's ability to exploit agressive control strategies that rely extensively on extrapolation in predictions.
-\end_layout
-
-\begin_layout Standard
-To explicitly link predictive performance to task performance,
- Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Pareto-Error-vs-Cost"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- presents a scatter plot of the mean absolute error over the cumulative cost for various values of 
-\begin_inset Formula $\lambda$
-\end_inset
-
-.
- By interpolating a cubic polynomial on those points,
- a nonlinear relationship can be observed.
- Indeed,
- trajectories associated with lower prediction errors tend to induce higher costs.
- The interpolated curve exhibits a steep initial decrease in cost as prediction error increases,
- followed by a more gradual regime.
-\end_layout
-
-\begin_layout Standard
-Overall,
- for this specific control task,
- these results reveal an explicit reliability-performance tradeoff induced by the regularization term.
- Stronger regularization improves prediction accuracy and reduces error accumulation at the expense of control optimality.
- The shape of the tradeoff shown in Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Pareto-Error-vs-Cost"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- suggests that it is possible to find intermediate values of the regularization coefficient 
-\begin_inset Formula $\lambda$
-\end_inset
-
- that yields substantial gains in predictive accuracy for a limited increase in cost.
- Further works on different control tasks should be carried on to find a practical tuning mechanism for the conservative coefficient.
 \end_layout
 
 \begin_layout Standard
@@ -33193,7 +32881,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/experiments/conservative/boxplot_cost.png
 	lyxscale 30
-	width 60col%
+	width 70col%
 
 \end_inset
 
@@ -33219,7 +32907,7 @@ Boxplots of the cumulative costs over optimized trajectories for various values 
 \emph on
 y
 \emph default
--axis corresponds to the cumulated cost over optimized trajectories and 
+-axis corresponds to the accumulated cost over optimized trajectories and 
 \emph on
 x
 \emph default
@@ -33242,6 +32930,32 @@ x
 \end_layout
 
 \begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Mean-Cum-Cost-vs-Horizon-Steps"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ shows the evolution of the mean cumulative cost over the horizon for various values of 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+ Having higher regularization coefficient 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ resulted in having higher accumulated costs compared to the unregularized baseline.
+ This effect is more pronounced for longer horizons.
+ It indicates that conservative trajectory selection restricts the optimizer's ability to exploit aggressive control strategies that rely extensively on extrapolation in predictions.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 placement document
 alignment document
@@ -33254,7 +32968,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/experiments/conservative/cost_diff_per_horizon_step.png
 	lyxscale 30
-	width 60col%
+	width 70col%
 
 \end_inset
 
@@ -33290,11 +33004,11 @@ x
 \end_inset
 
 .
- The 
+ The unregularized baseline case corresponds to the 
 \begin_inset Formula $\lambda=0$
 \end_inset
 
- curve corresponds to the unregularized baseline case.
+ curve.
 \end_layout
 
 \end_inset
@@ -33305,6 +33019,59 @@ x
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+To explicitly link predictive performance to task performance,
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Pareto-Error-vs-Cost"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ presents a scatter plot of the mean absolute error over the cumulative cost for various values of 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+ A nonlinear relationship can be observed if we interpolate a cubic polynomial on those points.
+ Indeed,
+ trajectories associated with lower prediction errors tend to induce higher costs.
+ The interpolated curve exhibits a steep initial decrease in cost as the prediction error increases,
+ followed by a more gradual decrease.
+\end_layout
+
+\begin_layout Standard
+Overall,
+ for this specific control task,
+ these results reveal an 
+\series bold
+explicit tradeoff between cost and accuracy
+\series default
+ induced by the regularization term.
+ Stronger regularization improves prediction accuracy but reduces error accumulation at the expense of control optimality.
+ The shape of the tradeoff shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Pareto-Error-vs-Cost"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ suggests that it is possible to find intermediate values of the regularization coefficient 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ that yields substantial gains in predictive accuracy with a limited increase in cost.
+ Further works on different control tasks should be carried on to find a practical tuning mechanism for the conservative coefficient.
 \end_layout
 
 \begin_layout Standard
@@ -33320,7 +33087,7 @@ status open
 \begin_inset Graphics
 	filename assets/images/experiments/conservative/pareto_cost_vs_error.png
 	lyxscale 30
-	width 60col%
+	width 70col%
 
 \end_inset
 
@@ -33337,7 +33104,7 @@ name "fig:Pareto-Error-vs-Cost"
 
 \end_inset
 
-Visualization of cumulative cost against mean absolute error.
+Cumulative cost against mean absolute error.
  
 \emph on
 y
@@ -33375,16 +33142,32 @@ The experimental results presented in this section demonstrate that the spatial 
 \end_layout
 
 \begin_layout Standard
-The results show that this regularization mechanism facilitates smarter model usage rather than model improvement.
- The observed reduction in MAE and the attenuation of compounding errors without any modification of the frozen kCELL model.
- This indicates that kCELL introspective properties can be leveraged to inform an optimizer to distinguish between high-confidence interpolations and risky extrapolations.
+The results show that this regularization mechanism facilitates 
+\series bold
+smarter model usage rather than model improvement
+\series default
+.
+ The observed reduction in MAE and the attenuation of compounding errors without any modification of the frozen kCELL model indicate that kCELL introspective properties can be leveraged to inform an optimizer to distinguish between high-confidence interpolations and risky extrapolations.
+ This makes the controller more reliable.
 \end_layout
 
 \begin_layout Standard
 Furthermore,
- these results provide empirical support for the local expertise assumption at the core of kCELL algorithm.
- A correlation between activation of agents and reduced prediction error can be observed throught the effects of the regularization mechanism.
- This supports the results obtained in Section 
+ these results provide empirical support for the Decreasing Knowledge assumption at the core of kCELL algorithm (cf.
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "assumption:Decreasing-Knowledge-Assumption"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+ A correlation between agent activation and reduced prediction error can be observed through the effects of the regularization mechanism.
+ This observation is consistent with the results presented in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:kCELL-Online-Stationary-Modeling"
@@ -33395,8 +33178,8 @@ nolink "false"
 
 \end_inset
 
- and reinforces the assumption that local linear models are more and more reliable close to their center.
- The regularization mechanism transforms this assumption into a control-relevant advantage.
+ and further reinforces the assumption that local linear models become increasingly reliable near their center.
+ The regularization mechanism thus transforms this assumption into a control-relevant advantage.
 \end_layout
 
 \begin_layout Standard
@@ -33407,7 +33190,11 @@ However,
 \end_inset
 
  increases,
- the controller increasingly prioritizes known states over minimizing the task cost.
+ the controller 
+\series bold
+increasingly prioritizes known states over minimizing the task cost
+\series default
+.
  The nonlinear nature of the Pareto frontier illustrated in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -33420,9 +33207,9 @@ nolink "false"
 \end_inset
 
  seems promising,
- as it suggests that substantial gains in predictive reliability could be achieved for relatively minor increase in cumulative cost.
- The regularization acts as a soft feasibility constraint on the validity of the model,
- considering that unknown regions are somewhat unfeasible or dangerous.
+ as it suggests that substantial gains in predictive reliability could be achieved for a relatively minor increase in cumulative cost.
+ The regularization mechanism acts as a soft feasibility constraint on the validity of the model,
+ considering that unknown regions are either unfeasible or dangerous.
  This is similar to trust-region methods in nonlinear optimization 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -33448,17 +33235,17 @@ Although the distance-based measure correlates strongly with accuracy,
  it remains a heuristic proxy for epistemic uncertainty rather than a calibrated probability.
  Consequently,
  this approach should be viewed as a risk-reduction mechanism rather than a formal safety guarantee.
- The effectiveness of the regularization is fundamentally dependent on the quality of the local expert agent distribution.
+ The efficiency of the regularization is fundamentally dependent on the quality of the local expert agent distribution.
 \end_layout
 
 \begin_layout Standard
-This case study leveraged a low-dimensional system (the Pendulum) where Mahalanobis distances remain numerically meaningful.
+This case study has leveraged a low-dimensional system (the Pendulum) where Mahalanobis distances remain numerically meaningful.
  In higher-dimensional state-action spaces,
  agent coverage naturally becomes sparser.
  The distance to the nearest agent may become less informative due to the curse of dimensionality.
- The effectiveness of this regularization in more complex high-dimensional systems remains a subject for further investigation.
- In addition to that,
- the effect of the sparsity of the population of agents on the conservative regularization behavior has not beed studied.
+ The efficiency of this regularization in more complex high-dimensional systems remains a subject for further investigation.
+ In addition,
+ the effect of the sparsity of the population of agents on the conservative regularization behavior has not been studied.
  Training multiple models with varying agent densities would be necessary to better characterize how coverage quality impacts the reliability gains.
 \end_layout
 
@@ -33475,187 +33262,7 @@ The decision to spatialize agents solely in the state space was a task-specific 
 Finally,
  the proposed approach discourages extrapolation into unknown regions but does not provide rigorous barrier certificates or Lyapunov stability guarantees required for safety-critical certification.
  Given the transparency of the inner workings of kCELL models,
- this could represents a promising research area for future works.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-The results show that this regularization method leads to trajectories that remain closer to agent centers,
- reduced prediction errors and attenuated error compounding over horizon steps.
- These effects are observed without modifying the learned kCELL model.
- The improvement arises solely from how the model is exploited by the optimizer,
- rather than from improved accuracy that would be obtained by continuous learning.
- The proposed regularization mechanism does not attempt to make the model more accurate.
- Instead,
- it exploits epistemic awareness to make the better off of it.
-\end_layout
-
-\begin_layout Plain Layout
-Moreover,
- these results provide empirical support for the local expertise hypothesis that represents the core of kCELL.
- A correlation between activation of agents and reduced prediction error can be observed.
- It validates the assumption that local linear models are more and more reliable the closest the features are to their center.
- The regularization mechanism transforms this hypothesis into a control-relevant advanatage.
-\end_layout
-
-\begin_layout Plain Layout
-By increasing the regularization coefficient,
- the reduction in the growth rate of prediction error across the horizon steps improves largely the longer the horizon.
- In this case,
- it seems that the main effect of this introspection-based regularization approach lies in mitigatin erorr compounding effects.
- The regularization term prevents the optimizer from relying too much on aggressive extrapolated trajectories.
- This way,
- the controller looks to avoid MPC instabilities that arise from inaccurate predictions and misguided optimization.
- The pendulum environment is forgiving,
- because due to inertia,
- an unregularized MPC controller can recover from mistakes.
- However,
- in more complex control environments with less smooth dynamics this might not be the case and a regularization strategy could prove useful.
-\end_layout
-
-\begin_layout Plain Layout
-At the same time,
- theresults show a tradeoff between predictive accuracy and task performance in term of cumulated costs.
- Increasing conservatism leads to higher cumulative costs and lower predictive error.
- This behavior is expected and results directly from enforcing knowledge-aware regularization to the controller.
- The regularization acts as a soft feasibility constraint on the validity of the model,
- considering that unknown regions are somewhat unfeasible or dangerous.
- This is similar to trust-region methods in nonlinear optimization 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "conn2000trust,schulman2015trust"
-literal "false"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Plain Layout
-Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Pareto-Error-vs-Cost"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
- showed that this tradeoff seems nonlinear.
- Reductions in prediction error can be obtained for relatively small increases in cost,
- suggesting that intermediate regularization strengths may offer a practical compromise between safety and performance.
- This observation is relevant for real-world applications where safety is required.
- In these cases,
- slight suboptimality is acceptable in exchange for improve reliability and reduced risk of catastrophic failure.
-\end_layout
-
-\begin_layout Plain Layout
-Overall,
- this study shows that kCELL's interpretability properties can be embedded into optimization pipelines.
- The proposed regularization mechanism consistures a principle way to translate structural transparency into conservative control behavior.
- This approach is a little step further towards reliable (i.e safe) model-based control based on learned dynamics models.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Paragraph
-Limitations
-\end_layout
-
-\begin_layout Plain Layout
-The comparative study that we conducted as well as the proposed introspection-based regularization mechanism exhibit some limitations that should be acknowledged.
-\end_layout
-
-\begin_layout Plain Layout
-In the presented experiments,
- proximity to agent centers correlates well with prediction accuracy.
- However,
- the distance-based expertise measure used in this study is only a proxy for epistemic uncertainty.
- It is not a calibrated uncertainty estimate.
- As such,
- this regularization approach should be interpreted as a heuristic for risk reduction rather than a formal safety guarantee.
- Its effectiveness deeply depends on the structure and distribution of agents.
- No guarantees can be provided at the moment if the agent coverage is insufficient or poorly aligned with the true dynamics of the system.
-\end_layout
-
-\begin_layout Plain Layout
-The experiment has been conducted on a low-dimensional dynamical system (the pendulum) with smooth dynamics.
- As pointed out in Section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "subsec:kCELL-Discussions-and-Limitations"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-,
- in low dimensional case,
- Mahalanobis distances (that are used for regularization) are not too distorted and remain meaningful.
- In higher dimensional cases the agent coverage might become more sparse.
- The impact of dimensionality on the effectiveness of the proposed regularization has not been studied in this chapter and remains an important limitation.
- This regularization approach might require additional mechanisms to remain effective.
-\end_layout
-
-\begin_layout Plain Layout
-We made the choice of spatializing agents only in the state space for convenience reasons to stabilize faster the agent population at learning time.
- This choice limits expressiveness of agents regarding actions.
- While this design choice is appropriate for the pendulum control task,
- it may not generalize to other dynamical systems.
- In such cases,
- regularization in joint state-action space could be required.
-\end_layout
-
-\begin_layout Plain Layout
-Another limitation relates to the density and sparsity of agent population.
- The conducted experiment rely on a single learned kCELL model trained with a fixed exploration budget.
- The effect of the sparsity of agent population on the conservative regularization behavior has not beed studied.
- Training multiple models with varying agent densities would be necessary to better characterize how coverage quality impacts the reliability gains.
-\end_layout
-
-\begin_layout Plain Layout
-In this work we show that it might be possible to find a value for the regularization coefficient 
-\begin_inset Formula $\lambda$
-\end_inset
-
- that could represent a satisfying tradeoff between performance loss and increased predictive accuracy.
- However,
- we do not provide a principled way to tune the 
-\begin_inset Formula $\lambda$
-\end_inset
-
- regularization coefficient.
- It must be done manually depending on the task nature and on the scale of task cost.
- Further investigations across different control environments are needed to extract practical insights and rules to chose the value of 
-\begin_inset Formula $\lambda$
-\end_inset
-
- depending on the problem characteristics as well as performance and predictive accuracy requirements.
-\end_layout
-
-\begin_layout Plain Layout
-Finally,
- the proposed approach improves the reliability of the controller but does not ensure safety.
- The regularization reduces the likelihood of failure due to prediction errors by discouraging extrapolation but it does not prevent it entirely.
-\end_layout
-
-\end_inset
-
-
+ this could represent a promising research area for future work.
 \end_layout
 
 \begin_layout Section
@@ -33670,8 +33277,8 @@ name "sec:Synthesis-and-Conclusion-Control"
 \end_layout
 
 \begin_layout Standard
-This chapter explored the practical integration of a kCELL predictive model into a model-based controller through the MPC framework.
- It bridged the gap between the theoretical foundations layed out with the CELL formalism in Chapter 
+This chapter has explored the practical integration of a kCELL predictive model into a model-based controller through the MPC framework.
+ It has bridged the gap between the theoretical foundations laid out with the CELL formalism in Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "chap:Context-Ensemble-Local"
@@ -33684,7 +33291,7 @@ nolink "false"
 
  and the concrete challenges of control where no prior knowledge of the dynamics is available.
  By leveraging the emerging structure of the ensemble of local expert agents of kCELL,
- we demonstrated how this type of learning model could use its own internal state to improve the both data collection (
+ we demonstrated how this type of learning model can use its own internal state to improve both data collection (
 \series bold
 exploration
 \series default
@@ -33707,8 +33314,8 @@ nolink "false"
 
 \end_inset
 
- addressed the exploration challenge in unknown environments.
- Two introspection-driven signals derived from a continuously learning kCELL model have been introduced:
+ has addressed the exploration challenge in unknown environments.
+ Two introspection metrics derived from a continuously learning kCELL model have been introduced:
  
 \series bold
 distance-based expertise
@@ -33718,12 +33325,12 @@ distance-based expertise
 model disagreement
 \series default
 .
- The experimental results on the Pendulum task showed that incorporating these signals into the MPC cost allowed the agent to systematically discover complex dynamics that uninformed random strategies fail to reach.
+ The experimental results obtained on the Pendulum task have shown that incorporating these signals into the MPC cost allows the controller to systematically discover complex dynamics that uninformed random strategies fail to reach.
  This confirms that kCELL's social multi-agent structure provides a reliable mechanism for autonomous unsupervised data acquisition.
 \end_layout
 
 \begin_layout Standard
-Then Section 
+Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Conservative-MPC"
@@ -33734,25 +33341,25 @@ nolink "false"
 
 \end_inset
 
- tackled the reliability challenge of learned models during exploitation.
- The distance-based expertise signal have been repurposed into a conservative regularization term used to mitigate the compounding error effect,
- which represents a major challenge in model-based control with learned dynamics.
+ has tackled the reliability challenge of learned models during exploitation.
+ The distance-based expertise signal has been repurposed as a conservative regularization term used to mitigate the error compounding effect.
+ It represents a major challenge in model-based control with learned dynamics.
  By biasing the optimizer within MPC,
  toward existing kCELL agents,
- we demonstrated a significant reduction in perception errors between the ground truth and the predictive model.
- This contribution highlights the ability of kCELL to provide a meaninful proxy for epistemic uncertainty (derived from the spatial organization of local expert agents) that can be integrated into a gradient-based optimization loop (e.g.
+ we have demonstrated a significant reduction in perception errors between the ground truth and the predictive model.
+ This contribution highlights the ability of kCELL to provide a meaningful proxy for epistemic uncertainty (derived from the spatial organization of local expert agents) that can be integrated into a gradient-based optimization loop (e.g.
  with SQP).
 \end_layout
 
 \begin_layout Standard
 Overall,
- the findings of this chapter support the continuous local expertise assumption at the core of kCELL's design.
- We showed that the spatial organization of kCELL agents represents a functional asset that contributes to a 
+ the conclusions of this chapter support the continuous local expertise assumption at the core of kCELL's design.
+ We have shown that the spatial organization of kCELL agents represents a functional asset that contributes to a 
 \emph on
 smarter model usage
 \emph default
 .
- The identified trade-off between task performance and predictive reliability provides a promising lead toward designing safer controllers.
+ The identified trade-off between task performance and predictive reliability provides a promising lead for designing safer controllers.
 \end_layout
 
 \begin_layout Standard
@@ -33761,9 +33368,9 @@ Despite these interesting and promising results,
  Indeed,
  due to the way the agents are spatialized in kCELL,
  it suffers from the curse of dimensionality,
- hurting its scaling capabilities in higher dimensional input spaces because distances are stretching and the notion of neighborhood becomes meaninless.
+ hurting its scaling capabilities in higher dimensional input spaces because distances are stretching and the notion of neighborhood becomes meaningless.
  This represents a crucial research direction for learning systems based on an ensemble of local learning agents governed by social rules.
- We suggest that future works on this matter should draw inspiration from how LWPR handles an increasing number of input dimension through Partial Least Squares (PLS) 
+ We suggest that future works should draw inspiration from how LWPR handles an increasing number of input dimension through Partial Least Squares (PLS) 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "vijayakumar2000locally"
@@ -33772,6 +33379,7 @@ literal "false"
 \end_inset
 
 .
+ PLS is a method that projects the data onto a lower-dimensional latent subspace capturing the directions of greatest covariance between inputs and outputs.
 \end_layout
 
 \begin_layout Standard
@@ -33779,7 +33387,7 @@ Moreover,
  despite its ability to quantify epistemic uncertainty,
  kCELL lacks predictive uncertainty estimation.
  In safe control with Gaussian Processes (GP) for example,
- predictive uncertainty can be leveraged in th optimization process to robustify control by taking into account the propagation of uncertainties along trajectories.
+ predictive uncertainty can be leveraged in the optimization process to robustify control by taking into account the propagation of uncertainties along predicted trajectories.
  To this end,
  Chapter 
 \begin_inset CommandInset ref
@@ -36125,7 +35733,11 @@ nolink "false"
 
 \begin_layout Standard
 For gpCELL,
- the local GP models are implemented using the GPX implementation of the Surrogate Modeling Toolbox library 
+ the local GP models are implemented using the GPX implementation of the 
+\emph on
+Surrogate Modeling Toolbox
+\emph default
+ library 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "saves2024smt"
