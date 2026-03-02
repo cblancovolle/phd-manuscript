@@ -39515,7 +39515,7 @@ Future improvements should incorporate physiological or behavioral markers that 
  context-sensitive recommendations and ultimately foster greater trust and acceptance.
 \end_layout
 
-\begin_layout Chapter
+\begin_layout Chapter*
 Conclusion and Future Works
 \begin_inset CommandInset label
 LatexCommand label
@@ -39539,7 +39539,7 @@ Optimal Control
 .
  This work was initially motivated by the industrial challenge of developing Intelligent Speed Recommendation systems capable of providing context-aware advices to drivers to improve safety and fuel consumption.
  By treating the driver and the vehicle as a unified,
- non-stationary dynamical syste,
+ non-stationary dynamical system,
  this problem was scientifically abstracted into a 
 \series bold
 Human-Robot Collaboration (HRC)
