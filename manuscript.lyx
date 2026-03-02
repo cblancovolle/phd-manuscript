@@ -12432,7 +12432,7 @@ name "tab:Conceptual-Learning-Rules"
 \end_inset
 
 .
- Each line corresponds to a learning rule associated with:
+ Each line corresponds to a learning rule defined by:
  1) a 
 \emph on
 Social Context
@@ -14643,7 +14643,8 @@ status open
 
 \begin_layout Plain Layout
 Learning rules of oCELL.
- Each line corresponds to a given learning rule associated with 1) a 
+ Each line corresponds to a given learning rule defined by:
+ 1) a 
 \emph on
 Social Context
 \emph default
@@ -23398,7 +23399,8 @@ name "tab:Learning-rules-of-kCELL"
 \end_inset
 
 .
- Each line corresponds to a given learning rule associated with a social context representing a condition on the number of local experts 
+ Each line corresponds to a given learning rule defined by:
+ 1) a social context representing a condition on the number of local experts 
 \begin_inset Formula $N_{\text{neighbors}}$
 \end_inset
 
@@ -23407,7 +23409,7 @@ name "tab:Learning-rules-of-kCELL"
 \end_inset
 
 ;
- with a condition on one of the two types of feedback 
+ 2) a condition on one of the two types of feedback 
 \begin_inset Formula $\Delta_{\mathcal{A}_{i}}$
 \end_inset
 
@@ -23420,12 +23422,12 @@ and
 \end_inset
 
 ;
- with a target subset of agents that will be affected by the rule (e.g Closest the subset of agents containing only the agent which is closest to 
+ 3) a target subset of agents that will be affected by the rule (e.g Closest the subset of agents containing only the agent which is closest to 
 \begin_inset Formula $x_{new}$
 \end_inset
 
 );
- with actions or meta-actions to perform on the agents of the targeted subset.
+ and 4) the actions or meta-actions to perform on the agents of the targeted subset.
 \end_layout
 
 \end_inset
@@ -33636,34 +33638,6 @@ Heterogeneous Agent Design
  gpCELL represents a step towards the design of learning systems that take advantage of a heterogeneous ensemble of local expert agents.
 \end_layout
 
-\begin_layout Standard
-
-\series bold
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-
-\series bold
-Framework for Online GPs
-\series default
-:
- leveraging the CELL principles,
- gpCELL provides a scalable method for learning Gaussian Processes from a stream of data.
- By distribution the computational load across the population of local expert agents,
- the algorithm avoids the 
-\begin_inset Formula $O\left(n^{3}\right)$
-\end_inset
-
- bottleneck of global GPs,
- replacing it with a horizontally scaling architecture.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Section
 Gaussian Process Regression
 \begin_inset CommandInset label
@@ -34167,7 +34141,7 @@ literal "false"
 .
  The aggregation function used to build the global prediction of the ensemble of GP-based local expert agents must take this phenomenon into consideration to avoid taking into account the proposition of an unreliable agent that would pollute the final prediction.
  To ensure reliability of predictions,
- gpCELL use of 
+ gpCELL use a 
 \series bold
 winner-take-all strategy
 \series default
@@ -34243,7 +34217,7 @@ When a new point
 \begin_inset Formula $\left(x_{new},y_{new}\right)$
 \end_inset
 
- is ingested,
+ is processed,
  the agent must decide if or how this information should be included to its internal model.
  This is treated as a local model selection problem.
  The agent evaluates several possible configurations:
@@ -34915,7 +34889,7 @@ In gpCELL the reliability of an agent
 \end_inset
 
 ,
- that is derived from the weighted contributions of other experts who are close within the ensemble.
+ that is derived from the weighted contributions of other experts which are close within the ensemble.
 \end_layout
 
 \begin_layout Paragraph
@@ -34989,8 +34963,7 @@ Neighbor Feedback
 
 \end_inset
 
-In this context,
- the baseline prediction represents the opinion of an ensemble of local experts.
+
 \end_layout
 
 \begin_layout Itemize
@@ -35037,7 +35010,7 @@ The relative performance of agent
 \begin_inset Formula $\mathcal{A}_{i}$
 \end_inset
 
- is evaluated as the fractional difference in error:
+ is evaluated as the fractional reduction in error:
 \begin_inset Formula 
 \begin{equation}
 \Delta_{\mathcal{A}_{i}}=\frac{\left|y_{base}-y_{new}\right|-\left|\hat{y}-y_{new}\right|}{\left|y_{base}-y_{new}\right|}
@@ -35046,6 +35019,10 @@ The relative performance of agent
 \end_inset
 
 where 
+\begin_inset Formula $y_{new}$
+\end_inset
+
+ is the ground truth and 
 \begin_inset Formula $\hat{y}$
 \end_inset
 
@@ -35061,23 +35038,20 @@ where
 
 \end_inset
 
-If 
+
 \begin_inset Formula $\Delta_{\mathcal{A}_{i}}>0$
 \end_inset
 
-,
- it indicates that the agent is more accurate than the broader social consensus.
- Thus,
- it is a a strong expert that should be rewarded.
- Conversely,
- if 
+ indicates the agent 
+\begin_inset Formula $\mathcal{A}_{i}$
+\end_inset
+
+ is a strong expert that improves the collective prediction,
+ while 
 \begin_inset Formula $\Delta_{\mathcal{A}_{i}}<0$
 \end_inset
 
-,
- it suggests that the agent's internal model is not relevant compared to the collective knowledge.
- Thus,
- it is a weak expert that should be penalized.
+ identifies a weak expert whose internal model diverges from the social consensus.
 \end_layout
 
 \begin_layout Standard
@@ -35099,12 +35073,12 @@ c_{i}=\tanh\left(k_{\text{steepness}}\Delta_{\mathcal{A}_{i}}\right)
 \end_inset
 
 where 
-\begin_inset Formula $k$
+\begin_inset Formula $k_{\text{steepness}}$
 \end_inset
 
  is a hyperparameter representing the steepness of the normalization curve.
  This ensures that extremely large relative errors do not cause catastrophic drops in confidence.
- The running confidence is then update as an exponential moving average of the instantaneous confidence values:
+ The running confidence is then updated as an exponential moving average of the instantaneous confidence values:
 \begin_inset Formula 
 \begin{equation}
 \bar{C}_{\mathcal{A}_{i}|t+1}=\left(1-\lambda\right)\bar{C}_{\mathcal{A}_{i}|t}+\lambda c_{i}
@@ -35122,10 +35096,7 @@ where
 
 \begin_layout Standard
 The learning rules in gpCELL translate the social context and the result of the AIC model selection into discrete actions and meta-actions.
- As mentioned previously,
- to maintain a predictable computational complexity when multiple agents are neighbors for an input,
- only the closest agent is considered to be updated and only a subset of possible internal configurations are evaluated in the model selection process.
- The learning rules are detailed in the subsequent paragraphs.
+ The learning rules are detailed in the following paragraphs.
 \end_layout
 
 \begin_layout Paragraph
@@ -35254,7 +35225,7 @@ columnwidth}{!}{
 <features tabularvalignment="middle">
 <column alignment="center" valignment="middle">
 <column alignment="center" valignment="middle" width="20col%">
-<column alignment="center" valignment="middle" width="30col%">
+<column alignment="center" valignment="middle" width="40col%">
 <column alignment="center" valignment="middle" width="20col%">
 <column alignment="center" valignment="middle" width="20col%">
 <row>
@@ -35559,7 +35530,8 @@ status open
 
 \begin_layout Plain Layout
 Learning rules of gpCELL.
- Each line corresponds to a given learning rule associated with a social context representing a condition on the number 
+ Each line corresponds to a specific learning rule defined by:
+ 1) a social context expressed as a condition on the number 
 \begin_inset Formula $N_{\text{neighbors}}$
 \end_inset
 
@@ -35568,15 +35540,15 @@ Learning rules of gpCELL.
 \end_inset
 
 ;
- with a condition on the outcome of the model selection process (nominal,
+ 2) a condition on the outcome of the model selection process (nominal,
  substitution,
  augmentation) or on the running confidence 
 \begin_inset Formula $\bar{C}_{\mathcal{A}_{i}}$
 \end_inset
 
 ;
- with a target set of agents that will be affected by the rule;
- with actions or meta-actions to perform on the agents of the targeted set.
+ 3) a target set of agents that will be affected by the rule;
+ and 4) the actions or meta-actions to perform on the agents of the targeted set.
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:gpCELL-Learning-Rules"
@@ -35599,12 +35571,13 @@ name "tab:gpCELL-Learning-Rules"
 \begin_layout Standard
 Finally,
  implementation-wise,
- the learning behavior of gpCELL is governed by a set of hyperparameters that balance local modeling accuracy with global computational efficiency.
+ the learning behavior of gpCELL is governed by a set of hyperparameters that balance local modeling accuracy and global computational efficiency.
  Some of the hyperparameters of gpCELL are shared with kCELL but new ones are introduced to manage the AIC model selection process of the local GPs.
+ Below are the descriptions of these hyperparameters:
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $\xi$
+\begin_inset Formula $\xi\in\left[0,100\right]$
 \end_inset
 
 :
@@ -35612,16 +35585,16 @@ Finally,
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $l$
+\begin_inset Formula $l>0$
 \end_inset
 
 :
- the lengthscale of the RBF kernel used for agent activation,
- defining the ssmoothness of the spatialization.
+ the lengthscale of the RBF kernel used for agent activation.
+ It defines the smoothness of the spatialization.
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $k_{\text{steep}}$
+\begin_inset Formula $k_{\text{steepness}}>0$
 \end_inset
 
 :
@@ -35641,7 +35614,7 @@ Finally,
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $\lambda$
+\begin_inset Formula $\lambda\in\left]0,1\right]$
 \end_inset
 
 :
@@ -35653,11 +35626,11 @@ Finally,
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $\tau_{\text{confidence}}$
+\begin_inset Formula $\tau_{\text{confidence}}\in\left[-1,1\right]$
 \end_inset
 
 :
- The survival threshold for agent destruction.
+ The threshold for agent destruction.
  Agents whose confidence falls below this value are pruned from the ensemble.
 \end_layout
 
@@ -35675,7 +35648,7 @@ Finally,
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $N_{ini}$
+\begin_inset Formula $N_{ini}\in\mathbb{R}^{+}$
 \end_inset
 
 :
@@ -35683,7 +35656,7 @@ Finally,
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $k_{\text{social}}$
+\begin_inset Formula $k_{\text{social}}>0$
 \end_inset
 
 :
@@ -35691,71 +35664,11 @@ Finally,
 \begin_inset Formula $y_{base}$
 \end_inset
 
- when an agent has no neighbors (
+ when an agent has no neighbor (
 \begin_inset Formula $N_{\text{neighbors}}=1$
 \end_inset
 
 ).
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Itemize
-Confidence 
-\begin_inset Formula $\bar{C}_{\mathcal{A}_{i}}$
-\end_inset
-
- => same as kCELL but for the case where 
-\begin_inset Formula $n_{\text{neighbors}}=1$
-\end_inset
-
- the baseline is computed from the weighted average of the predictions of the k closest agents excluding the closest;
- and for the case where 
-\begin_inset Formula $n_{\text{neighbors}}>1$
-\end_inset
-
-,
- the baseline is computed from the weighted average of the predictions of the neighbors
-\end_layout
-
-\begin_layout Itemize
-Learning rules:
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Destroy when confidence gets under threshold
-\end_layout
-
-\begin_layout Itemize
-Create if 
-\begin_inset Formula $n_{\text{neighbors}}=0$
-\end_inset
-
- and closest agent does not ingest the point (chose the nominal case)
-\end_layout
-
-\begin_layout Itemize
-if 
-\begin_inset Formula $n_{\text{neighbors}}\geq1$
-\end_inset
-
- then try to update the closest agent ([HEURISTIC] we only try to update closest agent and not all neighbors to keep the complexity predictable)
-\end_layout
-
-\end_deeper
-\begin_layout Plain Layout
-While kCELL relied on a short-term linear baseline predictor to evaluate the relevancy of isolated agents,
- gpCELL leverages a social consensus mechanism to prune the useless agents.
- In gpCELL,
- the collective knowledge of the close agents is used as a benchmark
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Section
@@ -35770,11 +35683,12 @@ name "sec:Online-Stationary-Modeling-gpCELL"
 \end_layout
 
 \begin_layout Standard
-The previous sections detailed the tripartite structure and learning rules of gpCELL.
- This section provides an empirical validation of the learning capabilities of this algorithm by comparing it to baseline algorithms on an online stationary modeling task.
- Using a high-dimensional robotic dataset,
- we demonstrate that despite the specific adaptation challenges introduced by using GPs as internal models,
- it offers a competitive predictive accuracy with kCELL and provides a seemingly reliable predictive uncertainty quantification.
+The previous sections have detailed the tripartite structure and learning rules of gpCELL.
+ This section presents an empirical validation of the learning capabilities of this algorithm by comparing it with baseline algorithms on an online stationary modeling task.
+ For this purpose,
+ a high-dimensional robotic dataset is used.
+ We demonstrate that despite the adaptation challenges introduced by using GPs as internal models,
+ gpCELL offers a competitive predictive accuracy with kCELL and provides a seemingly reliable predictive uncertainty quantification.
 \end_layout
 
 \begin_layout Paragraph
@@ -35782,7 +35696,7 @@ Experimental Setup
 \end_layout
 
 \begin_layout Standard
-To ensure direct comparison with the results presented in Chapter 
+To ensure a direct comparison with the results presented in Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "chap:Context-Ensemble-Local"
@@ -35804,7 +35718,11 @@ literal "false"
 \end_inset
 
 .
- Inverse dynamics modeling involves constructing a model that maps a dynamical system's motion to the internal forces or agents (cf.
+ We remind that 
+\series bold
+inverse dynamics modeling
+\series default
+ involves constructing a model that maps a dynamical system's motion to the internal forces or agents required to produce that motion (cf.
  definition 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -35816,7 +35734,7 @@ nolink "false"
 
 \end_inset
 
-) required to produce that motion.
+).
  For the SARCOS dataset,
  the task involves mapping a 
 \series bold
@@ -35831,7 +35749,19 @@ input space
 \series bold
 7-dimensional output space
 \series default
-) of a seven degrees-of-freedom anthropomorphic robot arm.
+) of a seven degrees-of-freedom anthropomorphic robot arm (cf.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:robot-arm"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ for an illustration).
 \end_layout
 
 \begin_layout Standard
@@ -35842,9 +35772,9 @@ The dataset contains 44484 training and 4449 test points.
 
 ) is presented to the models one at a time.
  No feature scaling is applied to the data,
- assuming the global statistics are unknown beforehand.
- The subsidiary goal behind this choice is to test the model's robustness to raw sensor inputs.
- gpCELL is compared against the same baseline algorithms as done for the kCELL comparative study in Chapter 
+ assuming that the global statistics are unknown beforehand.
+ The goal behind this choice is to test the model's robustness to raw sensor inputs.
+ gpCELL is compared with the same baseline algorithms as in the kCELL comparative study presented in Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "chap:Context-Ensemble-Local"
@@ -35873,7 +35803,10 @@ literal "false"
 \end_inset
 
 .
- Due to the computational complexity of GP updates,
+ However,
+ due to the computational complexity of GP updates,
+ gpCELL runs significantly slower than kCELL.
+ Thus,
  the grid-search hyperparameter optimization procedure used in Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -35885,7 +35818,7 @@ nolink "false"
 
 \end_inset
 
- was not feasible in reasonable time.
+ was not feasible within a reasonable time.
  Instead,
  gpCELL uses the same parameters as kCELL for the spatialization of agents (e.g.
  lengthscale 
@@ -35897,13 +35830,13 @@ nolink "false"
 \begin_inset Formula $\xi$
 \end_inset
 
-),
- while GP-specific parameters (RBF kernel,
+).
+ The GP-specific parameters (RBF kernel,
  constant prior mean and complexity weight in AIC 
 \begin_inset Formula $\alpha=0.2$
 \end_inset
 
-) were manually tuned.
+) are manually tuned.
  To maintain a predictable computational complexity suitable for learning from a data stream,
  two heuristics are applied in the gpCELL implementation:
 \end_layout
@@ -35915,33 +35848,36 @@ Influence-Based Selection
 \series default
 :
  During the AIC model selection phase,
- only the less influential point of the memory 
-\begin_inset Formula $j^{*}$
-\end_inset
-
- (i.e with the minimum diagonal entry in the inverse covariance matrix 
+ only the less influential point of the memory is considered for substitution.
+ The least influential point corresponds to the minimum diagonal entry in the inverse covariance matrix 
 \begin_inset Formula $K^{-1}$
 \end_inset
 
-) is considered for substitution.
+.
 \end_layout
 
 \begin_layout Enumerate
 
 \series bold
-Locality Heuristic
+Single Agent Updates
 \series default
 :
  Only the closest agent to the input 
 \begin_inset Formula $x_{new}$
 \end_inset
 
- (among neighbors) is targeted for a model shape or shape update.
+ (among neighbors) is updated.
 \end_layout
 
 \begin_layout Standard
-The performance of the models is evaluated through adaptation speed measured by the AUC of prequential error,
- and asymptotic convergence measured by the final Root Mean Squared Error (RMSE) and Mean Absolute Error (MAE) on the test set.
+The predictive accuracy of the models is evaluated through adaptation speed,
+ measured by the Area Under the Curve (AUC) of the prequential error (i.e.
+ error computed on a feature-target pair 
+\begin_inset Formula $x_{new},y_{new}$
+\end_inset
+
+ before learning on it),
+ as well as the final Root Mean Squared Error (RMSE) and Mean Absolute Error (MAE) on the test set.
  The final results are presented in Table 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -35954,6 +35890,8 @@ nolink "false"
 \end_inset
 
 .
+ Then,
+ the uncertainty quantification capabilities of gpCELL and its agent population growth are analyzed.
 \end_layout
 
 \begin_layout Standard
@@ -36285,7 +36223,7 @@ Prequential Error Analysis
 \end_layout
 
 \begin_layout Standard
-As shown both in Table 
+In addition to Table 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:gpCELL-Stationary-Results"
@@ -36296,7 +36234,8 @@ nolink "false"
 
 \end_inset
 
- and Figure 
+,
+ Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Evolution-of-Prequential-gpCELL"
@@ -36307,9 +36246,9 @@ nolink "false"
 
 \end_inset
 
- (illustrates the evolution of the prequential error during learning),
- gpCELL exhibits a higher prequential error than kCELL,
- Mondrian Forests and LWPR throughout the majority of the experiment.
+ illustrates the evolution of the prequential error during learning.
+ We can notice that gpCELL exhibits a higher prequential error than kCELL,
+ Mondrian Forests and LWPR.
  This gap in immediate adaptation capability could be explained by the behavior of GPs in unexplored regions.
  As the kernel covariance decays with distance,
  GP predictions revert to the constant prior mean.
@@ -36350,7 +36289,7 @@ y
 \emph on
 x
 \emph default
--axis corresponds to the number of traning steps.
+-axis corresponds to the number of training steps.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:Evolution-of-Prequential-gpCELL"
@@ -36397,7 +36336,13 @@ nolink "false"
 
 \end_inset
 
- display the evolution of RMSE and MAE on the fixed test set.
+ show the evolution of RMSE and MAE on the fixed test set.
+ For RMSE,
+ gpCELL becomes more accurate than the baselines LWPR and Mondrian Forest around 42000 steps but remains 
+\series bold
+slightly behind kCELL
+\series default
+.
  For MAE,
  gpCELL shows a slower initial decrease in error than kCELL but achieves the 
 \series bold
@@ -36405,20 +36350,15 @@ lowest final MAE
 \series default
  among all algorithms,
  crossing the kCELL curve at approximately 35000 steps.
- For RMSE,
- gpCELL becomes more accurate than the baselines LWPR and Mondrian Forest around 42000 steps but remains 
-\series bold
-slightly behind kCELL
-\series default
-.
- This difference in the results obtained for RMSE and MAE could be due to the fact that RMSE is more sensitive to outliers.
- gpCELL being better than baselines in MAE suggests a more accurate nonlinear fit on average,
- while the slightly different RMSE hierarchy (kCELL being better than gpCELL) indicates that the model is still prone to 
+ This difference in the results obtained for RMSE and MAE can be explained by the fact that RMSE is more sensitive to outliers.
+ gpCELL being better than baselines in MAE suggests a more accurate nonlinear fit on average.
+ On the other hand,
+ the slightly different RMSE hierarchy (kCELL being better than gpCELL) indicates that the model is still prone to 
 \series bold
 occasional large errors
 \series default
-,
- likely when test points fall into poorly covered regions of the inputs space where the local GPs revert to the constant mean prior.
+.
+ It corresponds for example to test points that fall into poorly covered regions of the input space where the local GPs revert to the constant mean prior.
 \end_layout
 
 \begin_layout Standard
@@ -36532,18 +36472,18 @@ Uncertainty Quantification Analysis
 \end_layout
 
 \begin_layout Standard
-One of the main advantage brought by the usage of GPs in gpCELL is the ability to provide 
+One of the main advantage of the use of GPs in gpCELL is the ability to provide 
 \series bold
 predictive variance measurement
 \series default
-,
- which is complementary with the epistemic uncertainty estimation induced by the spatialization of local expert agents.
- Despite the guarantees of GPs to obtain a well-calibrated uncertainty quantification,
- the calibration of predictive uncertainty in the predictions of the ensemble of local expert agents in gpCELL is not mathematically guaranteed,
- and thus should be verified experimentally.
+.
+ This is complementary with the epistemic uncertainty estimation derived from the spatialization of local expert agents.
+ Despite the ability of GPs to provide a well-calibrated uncertainty estimates,
+ the calibration of predictive uncertainty in the ensemble of local expert agents in gpCELL is not mathematically guaranteed,
+ and should be verified experimentally.
  To this end,
  the Prediction Interval Coverage Probability (PICP) is measured on the test set.
- It represents the proportion of true observations that fall inside the predicted 95% confidence interval.
+ PICP represents the proportion of true observations that fall inside the predicted 95% confidence interval.
  As shown in Table 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -36557,12 +36497,12 @@ nolink "false"
 
 ,
  the PICP exceeds 0.95 for every output dimension.
- This demonstrates that gpCELL provides 
+ This result demonstrates that gpCELL provides 
 \series bold
 well-calibrated intervals
 \series default
-,
- meaning that the true torque values fall within hte predicted 95% confidence range with high reliability.
+.
+ It means that the true torque values fall within the predicted 95% confidence range with high reliability.
 \end_layout
 
 \begin_layout Standard
@@ -36749,7 +36689,8 @@ PICP (
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Table presenting the Prediction Interval Coverage Probability (PICP) measuring the proportion of true observations that fall inside a gpCELL's predicted interval on the test dataset for each output dimension (named joint for compliance with the SARCOS terminology).
+Prediction Interval Coverage Probability (PICP).
+ PICP measures the proportion of true observations that fall inside a gpCELL's predicted interval on the test dataset for each output dimension (named joint for compliance with the SARCOS terminology).
  Here the 95% (
 \begin_inset Formula $2\sigma$
 \end_inset
@@ -36776,8 +36717,8 @@ name "tab:gpCELL-PICP"
 \end_layout
 
 \begin_layout Standard
-In addition to that,
- the informativeness of the uncertainty signals is evaluated through Spearman correlation 
+In addition,
+ the informativeness of the uncertainty metrics is evaluated through Spearman correlation 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "spearman1961proof"
@@ -36792,7 +36733,7 @@ literal "false"
 
 \series bold
 Predictive Variance vs.
- Error
+ Prediction Error
 \series default
 :
  The correlation between the predictive variance of the global prediction of gpCELL and the prediction error is computed.
@@ -36801,7 +36742,7 @@ Predictive Variance vs.
 \end_inset
 
 ) is observed.
- As shown in Figure 
+ Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:gpCELL-Predictive-Variance-Error-Correlation"
@@ -36812,18 +36753,17 @@ nolink "false"
 
 \end_inset
 
-,
- prediction errors increase sharply with predictive variance.
+ shows that prediction errors increase sharply with predictive variance.
 \end_layout
 
 \begin_layout Itemize
 
 \series bold
-Activation vs.
- Error
+Activation Value vs.
+ Prediction Error
 \series default
 :
- The correlation between the activation of the closest agent and the prediction error is computed.
+ The correlation between the activation value of the closest agent and the prediction error is computed.
  The obtained correlation is -0.28 (with 
 \begin_inset Formula $p<0.001$
 \end_inset
@@ -36886,7 +36826,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Illustration of the relationship between the predicted variance and the prediction errors on the test set.
+Relationship between the predicted variance and the prediction errors on the test set.
  
 \emph on
 y
@@ -36901,7 +36841,7 @@ x
 \end_inset
 
 ,
- suggesting a significant positive correlation.
+ suggesting a statistically significant positive correlation.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:gpCELL-Predictive-Variance-Error-Correlation"
@@ -36945,7 +36885,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Illustration of the relationship between the activation score 
+Relationship between the activation value 
 \begin_inset Formula $\phi_{i}\left(x\right)\in\left]0,1\right]$
 \end_inset
 
@@ -36959,12 +36899,12 @@ y
 x
 \emph default
 -axis corresponds to the activation values.
- A spearman correlation equals to -0.28 is found with a p-value 
+ A Spearman correlation equals to -0.28 is found with a p-value 
 \begin_inset Formula $p<0.001$
 \end_inset
 
 ,
- suggesting a weak negative correlation.
+ suggesting a statistically significant weak negative correlation.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:gpCELL-Activation-Error-Correlation"
@@ -36985,7 +36925,7 @@ name "fig:gpCELL-Activation-Error-Correlation"
 \end_layout
 
 \begin_layout Paragraph
-Agent Population
+Agent Population Analysis
 \end_layout
 
 \begin_layout Standard
@@ -37000,15 +36940,16 @@ nolink "false"
 
 \end_inset
 
- displays the evolution of the number of agent during the training phase for kCELL and gpCELL.
- Both algorithms create less agents than the theoretical maximum which corresponds to creating a new agent every 
+ shows the evolution of the number of agents during the training phase for kCELL and gpCELL.
+ Both algorithms create fewer agents than the theoretical maximum which corresponds to creating a new agent every 
 \begin_inset Formula $N_{ini}$
 \end_inset
 
  steps.
  Before conducting this experiment,
- we hypothesized that the nonlinear modeling capabilities of local GPs would allow for a more parsimonious representation (fewer agents covering more complex local manifolds).
- However,
+ we have hypothesized that the nonlinear modeling capabilities of local GPs would enable for more parsimonious representation:
+ fewer agents covering more complex local manifolds.
+ Unexpectedly,
  the results indicate that 
 \series bold
 gpCELL creates more agents than kCELL
@@ -37020,12 +36961,12 @@ gpCELL creates more agents than kCELL
 86% of the total encountered points
 \series default
  in agent memories.
- This confirms that while the substitution / augmentation logic is discarding 14% of the data,
- the system remains 
+ This confirms that even if the substitution/augmentation logic is discarding 14% of the data.
+ This confirms that gpCELL remains 
 \series bold
 relatively memory-intensive
 \series default
-.
+ compared to kCELL.
 \end_layout
 
 \begin_layout Standard
@@ -37100,8 +37041,9 @@ Synthesis
 \end_layout
 
 \begin_layout Standard
-The results of this comparative study validate empirically the gpCELL algorithm learning capabilities.
- Validating the integration of another type of learning model for the design of a CELL learning algorithm.
+The results of this comparative study validate empirically the learning capabilities of the gpCELL algorithm.
+ Consequently,
+ the integration of another type of learning model for the design of a CELL learning algorithm is also validated.
 \end_layout
 
 \begin_layout Standard
@@ -37111,12 +37053,14 @@ The key takeaways from this experiment can be summarized as follows:
 \begin_layout Itemize
 
 \series bold
-nonlinear Representations
+Nonlinear Representations
 \series default
 :
- gpCELL results in more accurate representation of the underlying function (lowest final MAE).
+ gpCELL provides a more accurate representation of the underlying function (lowest final MAE).
  However,
- this comes at the cost of a slower adpatation and higher errors on OoD inputs.
+ this comes at the cost of slower adaptation,
+ higher errors on OoD inputs,
+ and higher memory cost.
 \end_layout
 
 \begin_layout Itemize
@@ -37126,7 +37070,7 @@ Uncertainty
 \series default
 :
  gpCELL provides a well-calibrated predictive variance (95% PICP) which quantifies the reliability of predictions.
- It provides a complementary measure of uncertainty that lies in the output space instead of the input space,
+ This variance offers a complementary measure of uncertainty that lies in the output space instead of the input space,
  as is the case for epistemic uncertainty estimation through the spatial organization of local expert agents.
 \end_layout
 
@@ -37136,14 +37080,15 @@ Uncertainty
 Population Overgrowth
 \series default
 :
- Contrary to what was intended,
- the transition to nonlinear internal models did not naturally lead to a more parsimonious population.
- Because gpCELL created more agents than kCELL despite using the same spatialization hyperparameters suggests that the current learning rules under the hyperparameters used leads to an overgrowth of agents compared to their individual modeling capabilities.
+ Contrary to what was expected,
+ the transition to nonlinear internal models did not naturally lead to a more parsimonious population,
+ because gpCELL created more agents than kCELL despite the use of the same spatialization hyperparameters.
+ This suggests that the current learning rules under the chosen hyperparameters lead to an overproduction of agents compared to their individual modeling capabilities.
 \end_layout
 
 \begin_layout Standard
-While gpCELL is more computationally demanding and memory intensive than kCELL,
- the reliability of uncertainty quantification introduced by the use of local GPs makes it a promising candidate for safe control tasks.
+While gpCELL is more computationally and memory intensive than kCELL,
+ the reliability of uncertainty quantification introduced by the local GPs makes it a promising candidate for safe control tasks.
 \end_layout
 
 \begin_layout Section
@@ -37158,7 +37103,7 @@ name "sec:Conclusions-and-Limitations-gpCELL"
 \end_layout
 
 \begin_layout Standard
-This chapter detailed early exploratory works regarding the development and validation of gpCELL,
+This chapter has detailed early exploratory works regarding the development and validation of gpCELL,
  a new instantiation of the CELL formalism designed to incorporate nonlinear,
  non-parametric modeling into local expert agents through GPs.
  Section 
@@ -37172,7 +37117,7 @@ nolink "false"
 
 \end_inset
 
- gave an overview of what is Gaussian Process Regression and how Gaussian Processes are used in Machine Learning.
+ has given an overview of what is Gaussian Process Regression and how Gaussian Processes are used in Machine Learning.
  Then,
  Section 
 \begin_inset CommandInset ref
@@ -37185,8 +37130,9 @@ nolink "false"
 
 \end_inset
 
- provided a formal definition of the tripartite structure of local expert agents following the CELL formalism.
- It introduced model selection mechanism based on the Akaike Information Criterion (AIC) which allows local expert agents to autonomously manage the complexity of their internal model depending on the local data manifold lying in their area of expertise.
+ has provided a formal definition of the tripartite structure of local expert agents following the CELL formalism.
+ It has introduced model selection mechanism based on the Akaike Information Criterion (AIC).
+ AIC allows local expert agents to autonomously manage the complexity of their internal model depending on the local data manifold lying in their area of expertise.
  Section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -37198,7 +37144,7 @@ nolink "false"
 
 \end_inset
 
- presented the social learning rules.
+ has presented the social learning rules.
  Finally,
  Section 
 \begin_inset CommandInset ref
@@ -37212,11 +37158,12 @@ nolink "false"
 \end_inset
 
  presented the results of a comparative study conducted on the SARCOS benchmark dataset.
- The results demonstrated that gpCELL could achieve superior or competitive performance with other baseline algorithms such as kCELL whilc providing well-calibred uncertainty estimation on predictions.
+ The results have demonstrated that gpCELL could achieve superior or competitive performance with other baseline algorithms such as kCELL,
+ while providing well-calibred predictive uncertainty estimates.
 \end_layout
 
 \begin_layout Standard
-The development and evaluation of gPCELL yields valuable insights:
+The development and evaluation of gpCELL yields valuable insights:
 \end_layout
 
 \begin_layout Itemize
@@ -37225,9 +37172,9 @@ The development and evaluation of gPCELL yields valuable insights:
 Online GPs
 \series default
 :
- By distribution the computational load across an ensemble of local expert agents,
+ By distributing the computational load across an ensemble of local expert agents,
  gpCELL bypasses the 
-\begin_inset Formula $O\left(N^{3}\right)$
+\begin_inset Formula $O\left(n^{3}\right)$
 \end_inset
 
  bottleneck of global GPs with a horizontally scaling architecture suitable for data streams.
@@ -37239,14 +37186,23 @@ Online GPs
 Uncertainty Quantification
 \series default
 :
- The integration of GPs as the internal model of local expert agents provides a more rigorous estimation of predictive variance in the output space which complements the epistemic uncertainty estimation derived from the spatial organization of agents.
+ The integration of GPs as the internal model of local expert agents provides a more rigorous estimation of predictive variance in the 
+\emph on
+output space
+\emph default
+.
+ It complements the epistemic uncertainty estimation derived from the spatial organization of agents in the 
+\emph on
+input space
+\emph default
+.
  
 \end_layout
 
 \begin_layout Itemize
 
 \series bold
-Local nonlinearity
+Local Nonlinearity
 \series default
 :
  The experimental results show that gpCELL achieves the lowest final MAE among the compared baselines.
@@ -37255,7 +37211,7 @@ Local nonlinearity
 
 \begin_layout Standard
 Despite these strengths,
- the current version of gpCELL reveals several limitations that indicate avenues for future research.
+ the current version of gpCELL reveals several limitations that highlight promising directions for future research.
 \end_layout
 
 \begin_layout Paragraph
@@ -37269,8 +37225,17 @@ Contrary to what we intended,
  This could be linked to the weakness of the kernel spatialization approach in higher-dimensional input spaces.
  Indeed,
  when the number of input dimensions grows,
- the Mahalanobis distance progressively loses its informativeness which can lead to over-fragmentation of the input space where each local expert agent is far from all others.
- Future works should investigate dimensionality reduction or the use of more complex data distribution estimators like Kernel Density Estimation (KDE) for the spatial gating mechanism.
+ the Mahalanobis distance progressively loses its informativeness.
+ This can lead to an over-fragmentation of the input space where each local expert agent is far from all others.
+ Future works should investigate the 
+\emph on
+dimensionality reduction
+\emph default
+ or the use of 
+\emph on
+more complex data distribution estimators
+\emph default
+ like Kernel Density Estimation (KDE) for the spatial gating mechanism.
 \end_layout
 
 \begin_layout Paragraph
@@ -37292,8 +37257,9 @@ Social Mechanisms
 
 \begin_layout Standard
 Unlike in kCELL,
- gpCELL only uses social feedbacks to install a competition for survival between agents through the update of individual confidence from social consensus estimation.
- It lacks incorporating more social mechanisms into the agent update logic.
+ gpCELL only uses social feedbacks to destroy agents through updates of individual confidence based on social consensus estimation.
+ This is analogous to a competition for survival among agents.
+ gpCELL currently lacks the incorporation of additional social mechanisms into the agent update logic.
  More advanced rules could be considered for gpCELL to make agents interact and share knowledge more actively.
 \end_layout
 
@@ -37302,80 +37268,12 @@ Better Baseline Comparison
 \end_layout
 
 \begin_layout Standard
-In this chapter,
- gpCELL consists in an algorithm that adapts GPs for online learning through the CELL formalism.
+gpCELL is an algorithm that adapts GPs for online learning through the CELL formalism.
  However,
- its performance have not been compared to established approximation methods like Sparse Gaussian Processes (SGPs).
- A broader study on computational and memory efficiency compared to classical GP adaptations would be interesting to consider to situate more clearly gpCELL in the state-of-the-art for GP learning.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Itemize
-gpCELL provides a way to learn GPs online based on the CELL formalism
-\end_layout
-
-\begin_layout Itemize
-Agent overgrowth of gpCELL compared to kCELL could be explained by spatialization layer that do not handle complex data manifolds in input space => more advanced spatialization techniques could be envisaged to handle higher dimensional spaces and more complex local manifolds (instead of using RBF kernel) => future works on dimensionality reduction or usage of more complex data distribution estimation techniques like KDE.
- 
-\end_layout
-
-\begin_layout Itemize
-Currently,
- predictive variance offered by GPs provides a more principled way of quantizing epistemic uncertainty => we have one measure in the input space directly and one measure in the output space.
-\end_layout
-
-\begin_layout Itemize
-Memory efficiency needs to be studied => gpCELL better than a classic GP because instead of storing one big cov matrix it stores a lot of small ones => however,
- 86% of the dataset have been retained => A hyperopt study could be interesting to measure the impact of the AIC model selection process with different 
-\begin_inset Formula $\alpha$
-\end_inset
-
- to evaluate the tradeoff between number of retained points and efficiency (if there is one)
-\end_layout
-
-\begin_layout Itemize
-Need more studies to study the growth in the number of agents => for now it seems that there is an overgrowth in the number of agents
-\end_layout
-
-\begin_layout Itemize
-Need more studies on the calibration of the global model => can uncertainty be trusted ?
-\end_layout
-
-\begin_layout Itemize
-Need comparison with classic GPs or a minima SGPs 
-\end_layout
-
-\begin_layout Itemize
-Computational efficiency of the algo better than classical GPs for large datasets,
- however still needs improvement because currently we cannot use this approach to its maximum potential due to computational limitations (cf heuristics that we use for implemntation)
-\end_layout
-
-\begin_layout Itemize
-Memory efficiency not on point for now => competitive performances but need for better memory efficiency => work on that
-\end_layout
-
-\begin_layout Itemize
-The chosen heuristics (for implementation) used to make the algo run in reasonable time could have biased the results.
-\end_layout
-
-\begin_layout Itemize
-Maybe the prediction method by selecting the most confident agent could be extended to the neighbors => could be studied
-\end_layout
-
-\begin_layout Itemize
-Social mechanisms could be leveraged to make agents interact more with each other
-\end_layout
-
-\begin_layout Itemize
-Hyperopt of the kernel parameters can give variable results because some solvers (for hyperopt) use randomness
-\end_layout
-
-\end_inset
-
-
+ its efficiency has not been compared to established approximation methods such as Sparse Gaussian Processes (SGPs).
+ A broader study on computational and memory efficiency,
+ compared with classical GP adaptations,
+ would help to situate gpCELL more clearly within the state of the art in GP learning.
 \end_layout
 
 \begin_layout Chapter
