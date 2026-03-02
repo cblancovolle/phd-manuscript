@@ -34957,9 +34957,9 @@ Neighbor Feedback
  such as:
  
 \begin_inset Formula 
-\[
+\begin{equation}
 \mathcal{D}_{\text{social}}=\mathcal{D}_{\text{neighbors}}\backslash\left\{ \mathcal{A}_{i}\right\} 
-\]
+\end{equation}
 
 \end_inset
 
@@ -34992,9 +34992,9 @@ Closest Feedback
 ,
  excluding itself such as :
 \begin_inset Formula 
-\[
+\begin{equation}
 \mathcal{D}_{\text{social}}=\mathcal{D}_{k\text{-closest}}\backslash\left\{ \mathcal{A}_{i}\right\} 
-\]
+\end{equation}
 
 \end_inset
 
@@ -37438,8 +37438,10 @@ nolink "false"
 \end_layout
 
 \begin_layout Standard
-The goal of this chapter is to provide an industrial perspective on the requirements for safe and efficient intelligent speed recommendation systems,
- and to discuss how the works of this thesis on HRC contributed to this progress.
+The goal of this chapter is not to introduce further technical contributions,
+ but rather to provide an industrial perspective on the requirements for safe and efficient intelligent speed recommendation systems.
+ It serves as a positioning chapter,
+ discussing how the works of this thesis on HRC participated in a broader reflection on the progress of the field.
  While the preceding chapters highlighted the potential of the online learning algorithms derived from CELL,
  real-world automotive applications require addressing a broader set of requirements,
  ranging from multi-objective optimization to certifiability (i.e.
@@ -39537,10 +39539,11 @@ Machine Learning
 Optimal Control
 \series default
 .
- This work was initially motivated by the industrial challenge of developing Intelligent Speed Recommendation systems capable of providing context-aware advices to drivers to improve safety and fuel consumption.
+ This work was initially motivated by the industrial challenge of developing Intelligent Speed Recommendation systems capable of providing context-aware recommendations to drivers,
+ with the goal of improving safety and fuel consumption.
  By treating the driver and the vehicle as a unified,
  non-stationary dynamical system,
- this problem was scientifically abstracted into a 
+ we have abstracted this problem into a 
 \series bold
 Human-Robot Collaboration (HRC)
 \series default
@@ -39548,7 +39551,7 @@ Human-Robot Collaboration (HRC)
 \end_layout
 
 \begin_layout Standard
-The HRC formulation allowed the speed recommendation problem to be decomposed into two subproblems:
+This HRC formulation allows the speed recommendation problem to be decomposed into two subproblems:
 \end_layout
 
 \begin_layout Itemize
@@ -39556,7 +39559,8 @@ A
 \series bold
 modeling
 \series default
- problem focused on learning a predictive model of the uncertain and non-stationary behavior of the human driver
+ problem,
+ which focuses on learning a predictive model of the uncertain and non-stationary behavior of the human driver
 \end_layout
 
 \begin_layout Itemize
@@ -39564,28 +39568,28 @@ An
 \series bold
 exploitation
 \series default
- problem focused on using this predictive model to generate safe and efficient speed recommendation profiles.
+ problem,
+ which focuses on using this predictive model to generate safe and efficient speed recommendation profiles.
 \end_layout
 
 \begin_layout Standard
 To address the specific challenges of HRC,
- an architecture based on online learning through an ensemble of local expert agents,
- integrated within a Model Predictive Control (MPC) loop,
- is proposed.
+ we have proposed an architecture based on online learning through an ensemble of local expert agents,
+ integrated within a Model Predictive Control (MPC) loop.
 \end_layout
 
 \begin_layout Standard
 To this end,
- the Context Ensemble Local Learning (CELL) formalism is proposed.
+ we have developed the Context Ensemble Local Learning (CELL) formalism.
  CELL provides a theoretical ground for designing learning algorithms where local expert agents self-organize through social rules to maintain a spatialized representation of knowledge.
  Throughout this thesis,
- several instantiations of this formalism have been proposed and evaluated,
+ we have proposed and evaluated several instantiations of this formalism,
  revealing useful emerging introspective properties.
 \end_layout
 
 \begin_layout Standard
 The feasibility of integrating these online learning models into real-time control loops was investigated through case studies on a low-dimensional control task.
- These experiments demonstrated that the introspection properties emerging from the self-organizing ensemble of local expert agents can be leveraged to guide exploration and improve the reliability of control by avoiding regions of high epistemic uncertainty.
+ These experiments have demonstrated that the introspection properties emerging from the self-organizing ensemble of local expert agents 1) can be leveraged to guide exploration and 2) improve the reliability of control by avoiding regions of high epistemic uncertainty.
 \end_layout
 
 \begin_layout Standard
@@ -39601,8 +39605,7 @@ nolink "false"
 
 \end_inset
 
- provides a general conclusion on the reasearch work that have been conducted,
- chapter by chapter.
+ provides a general conclusion on the research work that have been conducted chapter by chapter.
  Section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -39628,64 +39631,7 @@ nolink "false"
 \end_inset
 
  highlights several research avenues and future works perspectives,
- buiding upon the works of this thesis.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Itemize
-This thesis lies at the intersection of two research domains:
- 
-\series bold
-Machine Learning
-\series default
- and 
-\series bold
-Optimal Control
-\series default
-.
- 
-\end_layout
-
-\begin_layout Itemize
-The initial motivation of this thesis was to develop an Intelligent Speed Recommendation system that would take into account a complete driving context to advise the driver.
-\end_layout
-
-\begin_layout Itemize
-This problem has been shown to be abstractable to a Human-Robot Collaboration (HRC) problem.
- This formulation allowed to break down the problem into two subproblems:
- a modeling problem to build a model of the human intents and an exploitation problem that would exploit this model to produce the recommendation setpoints.
-\end_layout
-
-\begin_layout Itemize
-After reviewing the literature,
- an architecture is proposed.
- It is based on Online Learning through an ensemble of local expert agents to build a predictive model that is exploited into a MPC control loop.
-\end_layout
-
-\begin_layout Itemize
-The CELL formalism is proposed to frame the design of Online Learning models that are based on an ensemble of local expert agents that self organize through social rules.
-\end_layout
-
-\begin_layout Itemize
-Several instantiations of the CELL formalism have been proposed.
-\end_layout
-
-\begin_layout Itemize
-The feasibility of the integration of this kind of system into real-time control loops have been studied through case studies on a low dimensinoal control task,
- and it has been demonstrated that the introspective properties emerging from the ensemble of local expert agents could be used to improve the reliability of control with a learned model.
-\end_layout
-
-\begin_layout Plain Layout
-This Chapter first presents a general conclusion for the works of this thesis,
- then it exposes the contributions that have been presented and finally it introduce new research avenues and perpectives for future reasearch works that could build on the works done for this thesis.
-\end_layout
-
-\end_inset
-
-
+ building upon the works of this thesis.
 \end_layout
 
 \begin_layout Section
@@ -39720,7 +39666,7 @@ nolink "false"
 
 \end_inset
 
- began defining the industrial context and motivation of this research work related to the development of Intelligent Speed Recommendation.
+ has introduced the industrial context and motivation of this research work related to the development of Intelligent Speed Recommendation.
  A distinction has been made between 
 \series bold
 speed control
@@ -39737,22 +39683,42 @@ speed recommendation
  
 \series default
 As this distinction emphasizes on handling the human in the loop,
- it led to the abstraction of the speed recommendation problem into a Human-Robot Collaboration (HRC) problem.
+ it has led to the abstraction of the speed recommendation problem into a Human-Robot Collaboration (HRC) problem.
 \end_layout
 
 \begin_layout Standard
-This chapter argued that for such system to be effective,
+This chapter argues that for such system to be effective,
  it must possess two essential capabilities:
- the ability to continuously learn and adpat to the non-stationary,
+ 
+\end_layout
+
+\begin_layout Itemize
+the ability to continuously 
+\series bold
+learn and adapt
+\series default
+ to the non-stationary,
  uncertain,
  intent of the driver;
- and the ability to exploir that model reliably within a control framework.
- This allowed to identify two primary research axes:
+ 
+\end_layout
+
+\begin_layout Itemize
+and the ability to 
+\series bold
+reliably exploit that model
+\series default
+ within a control framework.
+ 
+\end_layout
+
+\begin_layout Standard
+This allowed to identify two primary research axes:
  
 \series bold
 online learning of non-stationary dynamics
 \series default
- an 
+ and 
 \series bold
 reliability in learning-based control
 \series default
@@ -39775,31 +39741,33 @@ nolink "false"
 
 \end_inset
 
- allowed to position this thesis work within the state of the art.
+ positions this thesis work within the state of the art.
  By analyzing the challenges of optimal control with learned models,
- 
+ we have identified 
 \series bold
 Model Predictive Control (MPC)
 \series default
- have been identified as the most suitable framework for HRC due to its theoretical ability to handle constraints and integrate a continuously updating predictive model.
- Regarding the machine learning research axis,
- 
+ as the most suitable framework for HRC.
+ Indeed,
+ MPC offers a theoretical framework to handle constraints and integrate a continuously updating predictive model.
+ By analyzing the machine learning research axis,
+ we have identified 
 \series bold
 Catastrophic Forgetting
 \series default
- has been identified as a major challenge for online adaptation.
+ as a major challenge for online adaptation.
  
 \end_layout
 
 \begin_layout Standard
-
+We have deemed
 \series bold
-Local learning algorithms
+ Local learning algorithms
 \series default
- have been deemed promising to address this challenge.
+ promising to tackle this challenge.
  These learning methods isolate parameters through spatial decomposition of the learning problem,
  offering a structural solution to the Catastrophic Forgetting problem.
- This led to the exploration of a specific research niche:
+ This has led to the exploration of a specific research niche:
  
 \series bold
 self-organizing multi-agent systems for local learning
@@ -39808,12 +39776,12 @@ self-organizing multi-agent systems for local learning
 \end_layout
 
 \begin_layout Paragraph
-The CELL formalism and its Instantiations
+The CELL Formalism and its Instantiations
 \end_layout
 
 \begin_layout Standard
 To address the online learning problem,
- the Context Ensemble Local Learning (CELL) formalism has been introduced in Chapter 
+ we have introduced the Context Ensemble Local Learning (CELL) formalism in Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "chap:Context-Ensemble-Local"
@@ -39833,36 +39801,70 @@ framework for designing online learning algorithms
 \series bold
 social process
 \series default
- where local expert agents self-organize to represent the the data manifold.
+ where local expert agents self-organize to approximate a function.
 \end_layout
 
 \begin_layout Standard
-A first instantiation have been proposed:
+We have proposed a first instantiation:
  
 \series bold
 oCELL
 \series default
 .
- It uses a spatialization of local expert agents based on orthotopes.
- It allowed to demonstrate competitive performance with state of the art learning algorithms on a simple 2D benchmark.
+ oCELL uses a spatialization of local expert agents based on orthotopes and has demonstrated competitive performance with state of the art learning algorithms on a simple 2D benchmark.
  The development and empirical validation of oCELL,
- also allowed to identify emerging introspective properties that can be derived from the result of the spatial organization of local expert agents,
- and that can be linked to the traditional notions of explainability and interpretability in machine learning.
+ has also allowed to identify emerging introspective properties.
+ These properties can be derived from the result of the spatial organization of local expert agents,
+ and they can be linked to the traditional notions of explainability and interpretability in machine learning.
+ However,
+ oCELL revealed some limitations,
+ such as 
+\emph on
+hard-to-tune hyperparameters
+\emph default
+,
+ the weakness of the 
+\emph on
+uniform knowledge assumption
+\emph default
+ and the 
+\emph on
+inefficiency of orthotopes
+\emph default
+ in representing complex local manifolds.
 \end_layout
 
 \begin_layout Standard
 In response to the limitations of oCELL,
- a new instantiation of CELL have been developed:
+ we have developed a new instantiation of CELL:
  
 \series bold
 kCELL
 \series default
 .
- Instead of using orthotopes for the spatialization of agents it uses a smooth,
+ Instead of using orthotopes for the spatialization of agents,
+ kCELL uses a smooth,
  continuous approach based on kernels.
- It also introduced more sophisticated social rules that allowed to make the system less dependent on some hard-to-tune hyperparameters.
- It proved capable of adapting to non-stationary environments while maintaining a transparent spatialization of knowledge and being able to compete with state-of-the-art online learning algorithms in terms of performance on a inverse modeling task.
- The goal behind the developed of kCELL was to build upon oCELL to build a learning algorithm more suited for being integrated into MPC.
+ It also introduces more sophisticated social rules to reduce the dependence on some hard-to-tune hyperparameters.
+ It proved capable of 
+\end_layout
+
+\begin_layout Itemize
+adapting to non-stationary environments,
+\end_layout
+
+\begin_layout Itemize
+simultaneously maintaining a transparent spatialization of knowledge,
+ and
+\end_layout
+
+\begin_layout Itemize
+competing with state-of-the-art online learning algorithms in terms of accuracy on a inverse modeling task.
+ 
+\end_layout
+
+\begin_layout Standard
+The goal behind the development of kCELL was to build upon oCELL to build a learning algorithm better suited for being integrated into MPC.
 \end_layout
 
 \begin_layout Paragraph
@@ -39883,23 +39885,31 @@ nolink "false"
 \end_inset
 
  addresses the exploitation problem.
- It has been demonstrated that kCELL could be implemented efficiently for real-time applications using GPU acceleration and geospatial indexing.
- The core contribution of this chapter was showing that the 
+ We have demonstrated that kCELL could be implemented efficiently for real-time applications using GPU acceleration and geospatial indexing.
+ Moreover,
+ we have showed that the 
 \series bold
 introspective properties
 \series default
- of the kCELL ensemble of local expert agents could be leveraged to improve the learning of the predictive model within a control loop by guiding 
+ of the kCELL ensemble of local expert agents can be leveraged to improve 
+\end_layout
+
+\begin_layout Itemize
+the learning of the predictive model within a control loop by guiding 
 \series bold
 exploration
 \series default
  toward unknown but relevant regions;
- and to improve the reliability of the resulting model by safeguarding the 
+ and 
+\end_layout
+
+\begin_layout Itemize
+the reliability of the resulting model by safeguarding 
 \series bold
 exploitation
 \series default
 ,
  discouraging the MPC optimizer from selecting Out-of-Distribution (OoD) trajectories that lie in unknown regions.
- 
 \end_layout
 
 \begin_layout Paragraph
@@ -39937,14 +39947,15 @@ returned to the modeling layer
 \series bold
 modularity
 \series default
- of the CELL systems regarding the model class of internal models of local expert agents.
+ of the CELL systems regarding the model class used by local expert agents.
  Thus,
- gpCELL has been introduced where local expert agents use 
+ we have introduced gpCELL,
+ in which local expert agents use 
 \series bold
 Gaussian Processes (GP) as internal models
 \series default
 .
- This allowed the ensemble of local expert agents to behave like an 
+ This allows the ensemble of local expert agents to behave like an 
 \series bold
 heterogeneous ensemble
 \series default
@@ -39955,7 +39966,7 @@ adapt their complexity
 \series default
  to the local data manifold.
  Through empirical validation,
- gpCELL provided well-calibrated predictive variance interval on predictions while maintaining the computational advantages of the local learning approach over traditional GP in an online learning task.
+ we have shown that gpCELL provides well-calibrated predictive variance intervals on its predictions while maintaining the computational advantages of the local learning approach over traditional GP in an online learning task.
  These confidence intervals can prove essential for safety-critical control using learned models.
 \end_layout
 
@@ -39976,182 +39987,13 @@ nolink "false"
 
 \end_inset
 
- closed by linking the scientific contributions of this thesis back to the original industrial requirements,
- evaluating how the proposed architecture,
+ links the scientific contributions of this thesis back to the original industrial requirements.
+ It evaluates how the proposed architecture,
  from the CELL formalism to the introspective MPC loop,
- addressed the specific challenges of driver acceptance,
+ addresses the specific challenges of driver acceptance,
  safety and energy efficiency.
- This synthesis allowed to identify the remaining gaps between our current research and a production-ready ssystem,
- setting the stage for future works.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Itemize
-Chapter 1
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Definition of the Industrial Context and the Speed Recommendation Problem (which is distinct from the speed control problem and comprises its own set of challenges)
-\end_layout
-
-\begin_layout Itemize
-Shows that the Speed Recommendation problem can be abstracted into a Human-Collaboration Problem 
-\end_layout
-
-\begin_layout Itemize
-Argue for the need of a continuously learning model of human behavior capable of estimating uncertainty and adapt to non-stationarity;
- and for the need of exploiting this learning model reliably to provide efficient recommendations and synergize better with the human by understanding and adapting to his intent.
-\end_layout
-
-\begin_layout Itemize
-Derived the research questions that are used to build the review of literature presented in Chapter 2.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Online Learning of Non-Stationary Dynamics:
- How can a learning architecture continuously model nonlinear,
- non-stationary dynamics from an online stream of data while avoiding catastrophic forgetting?
-\end_layout
-
-\begin_layout Itemize
-Reliability in Learning-Based Control:
- How can a learning-based controller adapt continuously to non-stationary dynamics while maintaining reliability and safety ?
-\end_layout
-
-\end_deeper
-\end_deeper
-\begin_layout Itemize
-Chapter 2
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-First provides a review about Optimal Control with Learned models => learned models introduce specific challenges => The literature reveiw allowed to determine the most adapted control framework for the requirements of HRC,
- i.e compatible with online learning and able to provide some safety guarantees => it resulted in chosing the MPC framework with an online learning predictive model of the dynamics
-\end_layout
-
-\begin_layout Itemize
-Then,
- provides a review about Online Learning and the associated challenges => deduced that,
- local learning models could structurally mitigate some issues of online learning like catastrophic forgetting through parameter isolation => we chose to explore a specific research niche => local learning with self-organizing multi-agent systems (learning with an ensemble of local expert agents)
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Chapter 3
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Goal was to tackle the Online Learning research axis of the thesis.
-\end_layout
-
-\begin_layout Itemize
-Introduction of CELL formalism which is a framework for designing learning systems based on an ensemble of local expert agents governed by social rules.
-\end_layout
-
-\begin_layout Itemize
-oCELL,
- the first instantiation of CELL,
- is introduced => orthotope spatialization of agents => allowed to demonstrate the learning capabilities of this kind of system and its properties => benchmark on 2D regression task to compare to other sota algorithsm showed that it obtained competitites performances => + desmontrated that several emerging introspective properties derived from the spatial organization of agents,
- could be linked to the traditional notion of explainability and interpretability in machine learning.
-\end_layout
-
-\begin_layout Itemize
-kCELL,
- the second instantiation of CELL,
- is introduced => kernel based spatialization and more advanced social interactions => goal was to address several limitations of oCELL while keeping introspective properties,
- and to provide a more usable learning model for integration in MPC => its learning capabilities were evaluated on an online stationary modeling task and compared to a set of baseline algorithms;
- it obtained competitive performances => and it has been evaluated on a non-stationary learning task that demonstrated its capabilities of adpatation in a non-stationary environment;
- an introspective analysis demonstrating the transparency of the system have also been performed on this experiment.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Chapter 4
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Goal was to tackle the Optimal Control with continuously Learning model axis of the thesis
-\end_layout
-
-\begin_layout Itemize
-Showed how to build efficient real-time implementation of kCELL leveraging GPU parallelization or geospatial indexing => also showed how kCELL could be integrated with a gradien-based solver within an MPC control loop
-\end_layout
-
-\begin_layout Itemize
-Then tackle Exploration Exploitation problems => Exploration is needed to gather high quality data to build a good model (avoid garbage in garbage out) => Exploitation is needed to make the nbest out of the mdoel to control a dynamical system
-\end_layout
-
-\begin_layout Itemize
-For Exploration,
- showed that emerging introspective properties derived from the spatial organization of agents could be leveraged to build efficient exploration strategies (better than uninformed random strategy)
-\end_layout
-
-\begin_layout Itemize
-For Exploitation,
- showed that emerging introspective properties derived from the spatial organization of agents could be leveraged to guide the optimizer into avoiding exploring OoD trajectories,
- keeping the optimization process close to what the model know,
- resulting in higher reliability of the model's predictions
-\end_layout
-
-\begin_layout Itemize
-Introspective Properties of kCELL can be used to improve the reliability of the control process within MPC
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Chapter 5
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Come back to the modeling part;
- need for more robust uncertainty quantification for use in robust control (need for uncertainty on predictions);
- and the modular aspect of CELL was not explored as all the instantiations introduced worked with linear regressions.
-\end_layout
-
-\begin_layout Itemize
-Introduced gpCELL,
- the third instantiation of CELL,
- in which local expert agents haev GP as internal model
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Agents are able to adapt their own complexity to the local manifold dynamically through a model selection process => this way it gets closer to a system where agents are heterogeneous
-\end_layout
-
-\begin_layout Itemize
-GPs allow to estimate predictive variance => particularly suited for that
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Evaluation of gpCELL on online stationary modeling with baseline algorithms and kCELL => gpCELL provides competitive performances and well calibrated predictive uncertainty 
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Chapter 6
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Link the contributions of the thesis to the concrete industrial requirements behind speed recommendation;
- highlighting what steps were taken to tackle which challenegs and which challenges remain and what could be the future works building from the proposed solution.
-\end_layout
-
-\end_deeper
-\end_inset
-
-
+ This synthesis allows to identify the remaining gaps between our current research and a production-ready system,
+ paving the way for future works.
 \end_layout
 
 \begin_layout Section
