@@ -24867,7 +24867,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename assets/images/experiments/kCELL_online_stationary/smoothed_prequential error_symbols.png
+	filename assets/images/experiments/kCELL_online_stationary/smoothed_prequential_error.pdf
 	lyxscale 30
 	width 70col%
 
@@ -24984,7 +24984,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename assets/images/experiments/kCELL_online_stationary/RMSE_on_test_symbols.png
+	filename assets/images/experiments/kCELL_online_stationary/RMSE_on_test.pdf
 	lyxscale 30
 	width 70col%
 
@@ -25041,7 +25041,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename assets/images/experiments/kCELL_online_stationary/MAE_on_test_symbols.png
+	filename assets/images/experiments/kCELL_online_stationary/MAE_on_test.pdf
 	lyxscale 30
 	width 70col%
 
@@ -25151,7 +25151,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename assets/images/experiments/kCELL_online_stationary/test_error_vs_activation.png
+	filename assets/images/experiments/kCELL_online_stationary/test_error_vs_activation.pdf
 	lyxscale 30
 	width 70col%
 
@@ -37786,6 +37786,22 @@ Speed Recommendation from an Industrial Perspective
 \begin_inset CommandInset label
 LatexCommand label
 name "chap:Industrial-use-Case"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+chaptermark{Industrial Perspective}
+\end_layout
 
 \end_inset
 
