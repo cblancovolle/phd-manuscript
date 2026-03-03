@@ -12737,12 +12737,20 @@ Previously we described the CELL formalism which establishes the operational log
  to the internal model classes and to the social feedback used.
  Consequently,
  to transform this theoretical framework into a functional algorithm,
- one must defined the concrete form of the activation function 
+ one must define the concrete form of the activation function 
 \begin_inset Formula $\phi_{i}$
 \end_inset
 
  and the specific set of social rules governing the population.
- 
+ The works presented in this section were published in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "blanco2024explicabilite,blanco2024explainability"
+literal "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -12801,8 +12809,8 @@ literal "false"
 
 .
  It prioritizes computational efficiency and geometric interpretability providing a baseline for evaluating the emergent modeling capabilities of the CELL framework in low dimensional input spaces.
- oCELL serves as a primary mean for demonstrating how emergent introspective properties of this ensemble of local expert agents provide useful insights about the learning process.
- This introspective properties are shown to be related to the traditional notions of explainability and interpretability in machine learning.
+ oCELL serves as a primary means for demonstrating how emergent introspective properties of this ensemble of local expert agents provide useful insights about the learning process.
+ These introspective properties are shown to be related to the traditional notions of explainability and interpretability in machine learning.
 \end_layout
 
 \begin_layout Standard
@@ -12885,6 +12893,7 @@ nolink "false"
 \end_inset
 
 .
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -14733,30 +14742,6 @@ DontPrintSemicolon
 
 \backslash
 SetArgSty{textnormal}
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-KwIn{Error tolerance thresholds $
-\backslash
-tau_{
-\backslash
-text{good}},
-\backslash
-tau_{
-\backslash
-text{bad}}$,
- the volume variation coefficient $
-\backslash
-alpha$ (for shape updates),
- the initial dimensions of a newly created agent $R$ (for creation),
- the volume threshold $
-\backslash
-tau_
-\backslash
-text{vol}$ (for destruction)}
 \end_layout
 
 \begin_layout Plain Layout
@@ -23483,13 +23468,6 @@ SetArgSty{textnormal}
 
 
 \backslash
-KwIn{}
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
 For{each $(x_{new},
  y_{new})$ in the data stream}{
 \end_layout
@@ -26497,9 +26475,10 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename assets/images/experiments/dynamic_change_comparison/mae_comparison_testsets_invertedpendulum_refined.png
+	filename assets/images/experiments/dynamic_change_comparison/test_mae_invertedpendulum_annotated.png
 	lyxscale 30
-	width 90col%
+	width 80col%
+	BoundingBox 0bp 0bp 1347bp 1585bp
 
 \end_inset
 
@@ -26598,9 +26577,9 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename assets/images/experiments/dynamic_change_comparison/mae_comparison_testsets_hopper_refined.png
+	filename assets/images/experiments/dynamic_change_comparison/test_mae_hopper_annotated.png
 	lyxscale 30
-	width 90col%
+	width 80col%
 
 \end_inset
 
@@ -26836,7 +26815,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename assets/images/experiments/dynamic_change_comparison/nb_agents_colored_zones_no_title_invertedpendulum.png
+	filename assets/images/experiments/dynamic_change_comparison/nb_agents_invertedpendulum.pdf
 	lyxscale 30
 	width 50col%
 
@@ -26874,7 +26853,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename assets/images/experiments/dynamic_change_comparison/nb_agents_colored_zones_no_title_hopper.png
+	filename assets/images/experiments/dynamic_change_comparison/nb_agents_hopper.pdf
 	lyxscale 30
 	width 50col%
 
@@ -27037,7 +27016,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename assets/images/experiments/dynamic_change_comparison/age_of_agents_w500_no_title_colored_inverted_pendulum.png
+	filename assets/images/experiments/dynamic_change_comparison/age_invertedpendulum.pdf
 	lyxscale 30
 	width 50col%
 
@@ -27075,7 +27054,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename assets/images/experiments/dynamic_change_comparison/age_of_agents_w500_no_title_colored_hopper.png
+	filename assets/images/experiments/dynamic_change_comparison/age_hopper.pdf
 	lyxscale 30
 	width 50col%
 
@@ -27300,7 +27279,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename assets/images/experiments/dynamic_change_comparison/max_activation_smooth_w500_colored_inverted_pendulum.png
+	filename assets/images/experiments/dynamic_change_comparison/activation_invertedpendulum.pdf
 	lyxscale 30
 	width 50col%
 
@@ -27578,7 +27557,19 @@ The heatmap reveals a clear block-diagonal structure which provides strong evide
 \series bold
 Spatial Separation
 \series default
- mechanism.
+ mechanism (see Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Heatmap-of-activations-hopper-1"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ in the Appendix for a comparison with Inverted Pendulum,
+ where no block-diagonal structure can be observed).
  Agents remain highly activated for data points belonging to the specific dataset on which they were originally created and trained.
  Indeed,
  there are very few cross-dataset activations:
@@ -27617,7 +27608,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename assets/images/experiments/dynamic_change_comparison/agents_activation_heatmap_no_title_w300_enriched.png
+	filename assets/images/experiments/dynamic_change_comparison/activation_heatmap_hopper_annotated.png
 	lyxscale 30
 	width 80col%
 
@@ -27725,7 +27716,19 @@ The projection reveals a clear geometric separation between the train datasets
 \begin_inset Formula $\mathcal{D}_{i}^{\text{train}}$
 \end_inset
 
-.
+ (see Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:UMAP-of-training-invertedpendulum"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ in the Appendix for a comparison with Inverted Pendulum,
+ in which the UMAP projection shows no separation).
  Each change in dynamics induces the system to explore a distinct,
  non-overlapping region of the state-action space.
  This structural separation provides a geometric explanation for the coexistence of multiple subpopulations of agents:
@@ -27748,8 +27751,8 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename assets/images/experiments/dynamic_change_comparison/train_umap_without_agents.png
-	lyxscale 30
+	filename assets/images/experiments/dynamic_change_comparison/umap_hopper.pdf
+	lyxscale 50
 	width 70col%
 
 \end_inset
@@ -27758,7 +27761,11 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Visualization of UMAP projection of Training data where each point is colored depending on the training dataset it comes from (
+UMAP projection of 
+\begin_inset Formula $\mathcal{D}_{1}^{\text{train}},\mathcal{D}_{2}^{\text{train}},\mathcal{D}_{3}^{\text{train}}$
+\end_inset
+
+for Hopper where each point is colored depending on the training dataset it comes from (
 \emph on
 blue
 \emph default
@@ -41035,7 +41042,7 @@ Final Thoughts
 \end_layout
 
 \begin_layout Standard
-The staggering success of Deep Learning is undeniably tied to the tremendous progress in hardware accelerated computing,
+The staggering success of Deep Learning is undeniably tied to the tremendous progress in hardware-accelerated computing,
  which has unlocked the full potential of large-scale gradient descent.
  However,
  while neural networks are very powerful under the right conditions,
@@ -41043,18 +41050,18 @@ The staggering success of Deep Learning is undeniably tied to the tremendous pro
  and perhaps erroneously,
  treated as a panacea for all learning problems.
  As explored throughout this thesis,
- the back box nature of deep neural networks and their inherent struggle with Catastrophic Forgetting present significant hurdles for Online Learning and safety-critical use cases.
+ the black-box nature of deep neural networks and their inherent struggle with catastrophic forgetting present significant hurdles for online learning and safety-critical use cases.
 \end_layout
 
 \begin_layout Standard
 In this research,
  we have focused on a multi-agent approach to learning that may,
- at first glance appear unconventional or even vintage in the era of Deep Learning.
+ at first glance,
+ appear unconventional or even vintage in the era of Deep Learning.
  By opting for a self-organizing ensemble of local experts rather than a monolithic neural architecture,
  we have returned to principles of structural modularity and transparency.
- We remain convinced that revisiting older paradigms through the lens of modern computing is not a step backward,
- but a necessary detour.
- These approaches offer distinct advantages in domains that still eludes the reach of standard neural networks,
+ We remain convinced that revisiting older paradigms through the lens of modern computing is not a step backward but a necessary detour.
+ These approaches offer distinct advantages in domains that still elude the reach of standard neural networks,
  specifically the real-time,
  online adaptation to non-stationary dynamics.
 \end_layout
@@ -41082,6 +41089,168 @@ encoding "default"
 \begin_inset CommandInset nomencl_print
 LatexCommand printnomenclature
 set_width "auto"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter*
+Appendix
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{figure}{0}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+renewcommand{
+\backslash
+thefigure}{A.
+\backslash
+arabic{figure}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/dynamic_change_comparison/umap_invertedpendulum.pdf
+	lyxscale 50
+	width 70col%
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+UMAP projection of 
+\begin_inset Formula $\mathcal{D}_{1}^{\text{train}},\mathcal{D}_{2}^{\text{train}},\mathcal{D}_{3}^{\text{train}}$
+\end_inset
+
+ for Inverted Pendulum where each point is colored depending on the training dataset it comes from (
+\emph on
+blue
+\emph default
+ 
+\begin_inset Formula $\rightarrow\mathcal{D}_{1}^{\text{train}}$
+\end_inset
+
+,
+ 
+\emph on
+yellow 
+\emph default
+
+\begin_inset Formula $\rightarrow\mathcal{D}_{2}^{\text{train}}$
+\end_inset
+
+,
+ 
+\emph on
+pink 
+\emph default
+
+\begin_inset Formula $\rightarrow\mathcal{D}_{3}^{\text{train}}$
+\end_inset
+
+)
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:UMAP-of-training-invertedpendulum"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/images/experiments/dynamic_change_comparison/activation_heatmap_invertedpendulum_annotated.png
+	lyxscale 30
+	width 80col%
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Heatmap of the final agents activation values on the whole sequence of training data for the Inverted Pendulum.
+ The 
+\emph on
+x
+\emph default
+-axis represents individual agents sorted by age (oldest to youngest),
+ and the y-axis represents the chronological sequence of training data (
+\begin_inset Formula $\mathcal{D}_{1}^{\text{train}}\rightarrow\mathcal{D}_{2}^{\text{train}}\rightarrow\mathcal{D}_{3}^{\text{train}}$
+\end_inset
+
+) aggregated into bins of 300 samples.
+ The dotted horizontal red lines corresponds to changes in dynamics (
+\begin_inset Formula $\mathcal{D}_{i}^{\text{train}}\rightarrow\mathcal{D}_{i+1}^{\text{train}}$
+\end_inset
+
+).
+ The colors corresponds to activation values of agents over each aggregated training data bins with yellow meaning high activation and blue meaning low activation.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Heatmap-of-activations-hopper-1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
