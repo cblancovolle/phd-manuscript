@@ -33,6 +33,31 @@
 \def\nompreamble{\addcontentsline{toc}{chapter}{\nomname}\markboth{\nomname}{\nomname}}
 \AtBeginDocument{\def\nomname{Glossary}}
 \raggedbottom
+
+
+\usepackage[ED=MITT-STICIA, Ets=UT]{tlsflyleaf}
+
+% PAGE DE GARDE
+\title{Adaptive Control through Socially Emergent Learning of an Ensemble of Local Expert Agents}
+\author{Clément BLANCO VOLLE}
+\defencedate{(JJ/MM/AAAA)}
+\lab{Institut de Recherche en Informatique de Toulouse - IRIT)}
+%\cotutelle{Institut de cotutelle}
+
+%% Directeur(s) de thèse
+\nboss{3}                                    % Nombre de directeur(s) de thèse
+\makesomeone{boss}{2}{Stéphanie COMBETTES}{}{}  % Sera affiché en second
+\makesomeone{boss}{1}{Nicolas VERSTAEVEL}{}{} % Sera affiché en premier
+\makesomeone{boss}{3}{Michel POVLOVITSCH SEIXAS}{}{} 
+%% Referee
+\nreferee{2}
+\makesomeone{referee}{1}{Jean-Paul JAMONT}{}{}
+\makesomeone{referee}{2}{Flavien BALBO}{}{}
+%% Jury
+\njudge{3}
+\makesomeone{judge}{1}{Premier MEMBRE}{Professeur d'Université}{Président du Jury}
+\makesomeone{judge}{2}{Second MEMBRE}{Astronome Adjoint}{Membre du Jury}
+\makesomeone{judge}{3}{Troisième MEMBRE}{Chargé de Recherche}{Membre du Jury}
 \end_preamble
 \use_default_options true
 \begin_modules
@@ -137,11 +162,41 @@ algorithm2e
 
 \begin_body
 
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+makeflyleaf
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
 \begin_layout Title
 Adaptive Control through Socially Emergent Learning of an Ensemble of Local Expert Agents
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
+\align center
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
 \align center
 \begin_inset Note Note
 status open
@@ -155,7 +210,7 @@ Adaptive Control via Bottom-Up Local Online Learning
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Note Note
 status open
 
@@ -168,7 +223,7 @@ Socially Structured Local Online Learning
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
 \begin_inset Note Note
 status open
@@ -182,7 +237,7 @@ Adaptive Control though Social Ensemble of Local Expert Models
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Note Note
 status open
 
@@ -195,7 +250,7 @@ Adaptive Control with Social Mixture of Local Expert Agents
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Note Note
 status open
 
@@ -208,7 +263,7 @@ Adaptive Control through Socially Emergent Learning of an Ensemble of Local Expe
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Note Note
 status open
 
@@ -221,7 +276,7 @@ Contrôle Adaptatif par Apprentissage Social Emergent d'un Ensemble d'Agents Exp
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Note Note
 status open
 
@@ -258,6 +313,11 @@ status open
 
 \backslash
 end{beamerframe}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -39439,11 +39499,26 @@ trust-based collaborative system
 
 \begin_layout Section
 Towards Personalized,
- Safe,
- Certifiable and Trustworthy Speed Recommendation
+ Safe and Trustworthy Speed Recommendation
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Towards-Personalized-Safe-Trustworthy-Speed-Recommendation"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+sectionmark{Towards Personalized and Safe Speed Recommendation}
+\end_layout
 
 \end_inset
 
@@ -41102,6 +41177,20 @@ Appendix
 \begin_layout Standard
 \begin_inset ERT
 status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+stepcounter{chapter}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+markboth{}{}
+\end_layout
 
 \begin_layout Plain Layout
 
